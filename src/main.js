@@ -72,7 +72,7 @@ async function loadAnnouncementsData() {
             <span class="badge ${badgeClass}">${escapeHtml(item.category || 'お知らせ')}</span>
             ${item.importance === 'high' ? '<span class="badge badge-high">重要</span>' : ''}
           </div>
-          <span class="announce-date">${escapeHtml(item.date)}</span>
+          <span class="announce-date" style="font-size:0.8rem; color:var(--text-muted);">${escapeHtml(item.date)}</span>
         </div>
         <h3 class="announce-title">${escapeHtml(item.title)}</h3>
         <div class="announce-body">${escapeHtml(item.content)}</div>
@@ -81,61 +81,81 @@ async function loadAnnouncementsData() {
   }).join('');
 }
 
-// 2. お祭り演舞会場 ＆ アクセス案内
+// 2. にっぽんど真ん中祭り（どまつり）演舞タイムスケジュール ＆ アクセス案内
 async function loadVenuesData() {
   const container = document.getElementById('venues-list');
   if (!container) return;
 
   const venues = await fetchVenues();
   if (!venues || venues.length === 0) {
-    container.innerHTML = '<div class="card" style="text-align:center; color: var(--text-muted);">演舞会場情報はありません。</div>';
+    container.innerHTML = '<div class="card" style="text-align:center; color: var(--text-muted);">演舞スケジュールデータはありません。</div>';
     return;
   }
 
   container.innerHTML = venues.map(v => {
     const isFestival = v.type === 'festival';
+    
+    // タイムスケジュールタイムラインHtmlの生成
+    let timelineHtml = '';
+    if (v.scheduleTimeline && v.scheduleTimeline.length > 0) {
+      const items = v.scheduleTimeline.map(item => `
+        <div style="display:flex; gap:14px; align-items:flex-start; margin-bottom:10px; position:relative;">
+          <div style="background:var(--gold-gradient); color:#ffffff; font-weight:700; font-size:0.8rem; padding:3px 8px; border-radius:4px; min-width:64px; text-align:center; flex-shrink:0;">
+            ${escapeHtml(item.time)}
+          </div>
+          <div style="font-size:0.9rem; font-weight:500; color:var(--text-main); padding-top:2px;">
+            ${escapeHtml(item.event)}
+          </div>
+        </div>
+      `).join('');
+
+      timelineHtml = `
+        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:var(--radius-sm); padding:16px; margin:14px 0 16px;">
+          <div style="font-weight:700; font-size:0.95rem; color:var(--text-main); margin-bottom:12px; display:flex; align-items:center; gap:6px;">
+            <span>⏱️</span> にっぽんど真ん中祭り 当日タイムスケジュール
+          </div>
+          ${items}
+        </div>
+      `;
+    }
+
     return `
       <div class="card" style="${isFestival ? 'border-left: 5px solid var(--gold-primary);' : ''}">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <span class="badge ${isFestival ? 'badge-medium' : 'badge-normal'}">
-            ${isFestival ? '🎪 お祭り本番演舞' : '🏢 練習会場'}
+            ${isFestival ? '🎪 にっぽんど真ん中祭り 本番' : '🏢 練習会場'}
           </span>
           ${v.eventDate ? `<span style="font-weight:700; font-size:0.85rem; color:var(--text-main);">${escapeHtml(v.eventDate)}</span>` : ''}
         </div>
 
-        <div class="venue-title">
+        <div class="venue-title" style="font-size:1.2rem; color:var(--text-main); margin-bottom:12px;">
           ${escapeHtml(v.name)}
         </div>
 
-        ${v.performanceTime ? `
-          <div class="venue-info-item">
-            <div class="venue-info-label" style="color:var(--gold-dark); font-weight:700;">⏱️ 演舞本番時間</div>
-            <div style="font-weight:700; font-size:0.95rem;">${escapeHtml(v.performanceTime)}</div>
-          </div>
-        ` : ''}
-
         ${v.meetingTime ? `
-          <div class="venue-info-item">
-            <div class="venue-info-label">📍 集合時間・場所</div>
-            <div style="font-weight:700;">${escapeHtml(v.meetingTime)}</div>
+          <div style="background:#f0fdf4; border:1px solid #86efac; padding:10px 14px; border-radius:var(--radius-sm); margin-bottom:12px;">
+            <div style="font-size:0.82rem; font-weight:700; color:#16a34a;">📍 集合時間 ＆ 集合場所</div>
+            <div style="font-weight:700; font-size:0.95rem; color:#0f172a;">${escapeHtml(v.meetingTime)}</div>
           </div>
         ` : ''}
 
         ${v.costume ? `
-          <div class="venue-info-item">
-            <div class="venue-info-label">👘 衣装・持ち物</div>
-            <div>${escapeHtml(v.costume)}</div>
+          <div style="margin-bottom:10px;">
+            <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">👘 衣装 ＆ 持ち物指示:</span>
+            <div style="font-weight:500; font-size:0.9rem; color:var(--text-main);">${escapeHtml(v.costume)}</div>
           </div>
         ` : ''}
 
-        <div class="venue-info-item">
-          <div class="venue-info-label">🚉 最寄り駅・アクセス</div>
-          <div>${escapeHtml(v.access)}</div>
+        ${timelineHtml}
+
+        <div style="margin-bottom:10px;">
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">🚉 会場最寄り駅・アクセス:</span>
+          <div style="font-weight:500; font-size:0.9rem; color:var(--text-main);">${escapeHtml(v.access)}</div>
         </div>
 
         ${v.directions ? `
-          <div class="venue-info-item">
-            <div class="venue-info-label">🚶 駅からの徒歩ルート・目印</div>
+          <div style="margin-bottom:10px;">
+            <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">🚶 駅から集合場所への徒歩ルート:</span>
             <div class="venue-directions">${escapeHtml(v.directions)}</div>
           </div>
         ` : ''}
@@ -147,8 +167,8 @@ async function loadVenuesData() {
         ` : ''}
 
         ${v.mapUrl ? `
-          <a href="${escapeHtml(v.mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="margin-top: 14px;">
-            <span>🗺️</span> Googleマップで会場ナビを開く
+          <a href="${escapeHtml(v.mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="margin-top: 16px;">
+            <span>🗺️</span> 会場のGoogleマップナビを開く
           </a>
         ` : ''}
       </div>

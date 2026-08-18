@@ -51,17 +51,17 @@ export async function fetchAnnouncements() {
     {
       id: '1',
       date: '2026-08-18 10:00',
-      category: '重要・演舞',
-      title: '秋のよさこいお祭り演舞スケジュール決定について',
-      content: '皆様お疲れ様です！9月のお祭り演舞スケジュールが決定いたしました。演舞会場タブより本番演舞時間・集合時間・会場アクセスをご確認ください。',
+      category: '重要・どまつり演舞',
+      title: 'にっぽんど真ん中祭り 演舞タイムスケジュール決定',
+      content: '皆様お疲れ様です！「にっぽんど真ん中祭り（どまつり）」の本番演舞タイムスケジュールが決定いたしました。演舞ナビタブより各ステージの出演時間・集合時間・衣装をご確認ください。',
       importance: 'high'
     },
     {
       id: '2',
       date: '2026-08-15 15:30',
       category: '衣装・備品',
-      title: '新衣装のサイズ申請フォーム回答のお願い',
-      content: '新衣装の採寸・サイズ申請フォームを設置しました。フォームタブより8月25日(火)までに回答をお願いします！',
+      title: 'どまつり演舞衣装・鳴子チェックのお願い',
+      content: 'どまつり本番に向けて、新衣装および鳴子・演舞小道具の確認をお願いします。不備がある場合はフォームタブより申請をお願いします！',
       importance: 'medium'
     }
   ];
@@ -90,7 +90,7 @@ export async function createAnnouncement(category, title, content, importance) {
   return { success: true, message: 'お知らせを投稿しました（ローカル保存）' };
 }
 
-// 2. お祭り演舞会場 ＆ アクセス案内 API
+// 2. にっぽんど真ん中祭り（どまつり）演舞タイムスケジュール API
 export async function fetchVenues() {
   if (isFirebaseAvailable && db) {
     try {
@@ -105,46 +105,44 @@ export async function fetchVenues() {
 
   return [
     {
-      id: 'v_festival_1',
+      id: 'v_domatsuri_main',
       type: 'festival',
-      name: '🎪 〇〇秋よさこい祭り メイン演舞ステージ',
-      eventDate: '2026年9月15日(月・祝)',
-      performanceTime: '1st: 14:00〜 / 2nd: 16:30〜 (本演舞)',
-      meetingTime: '12:30 集合 (楽屋テント前)',
-      costume: '秋本番衣装（赤×黒ハンテン、鳴子必携）',
-      access: '〇〇駅 東口 徒歩3分（駅前大通り特設会場）',
-      address: '東京都〇〇区駅前大通り1-1',
-      mapUrl: 'https://maps.google.com/?q=〇〇駅',
-      directions: '1. 東口改札を出て正面の歩行者天国通りへ進みます。\n2. 大型モニター前がチーム「凛」集合テントです。',
-      notice: '着替え用テントは12:00より利用可能。貴重品は個人管理でお願いします。'
+      name: '🎪 にっぽんど真ん中祭り 久屋大通公園 メインステージ',
+      eventDate: '2026年8月29日(土)・30日(日)',
+      meetingTime: '11:30 集合 (久屋大通公園 チーム「凛」楽屋テント前)',
+      costume: '正装衣装（赤×金ハンテン・白袴・鳴子必携）',
+      access: '地下鉄名城線「矢場町駅」徒歩1分 / 「栄駅」徒歩3分',
+      address: '愛知県名古屋市中区栄3-65 久屋大通公園会場',
+      mapUrl: 'https://maps.google.com/?q=久屋大通公園',
+      directions: '1. 矢場町駅 6番出口を出て久屋大通公園中央エリアへ。\n2. メインステージ裏手「チーム「凛」特設テント」へ集合。',
+      notice: '本番30分前に袖集合。熱中症対策（水分・塩分タブレット）を徹底してください。',
+      scheduleTimeline: [
+        { time: '11:30', event: '楽屋テント集合・衣装＆メイク最終チェック' },
+        { time: '12:15', event: '公式ウォーミングアップエリアへ移動' },
+        { time: '13:00', event: '🔥 1st 演舞（久屋大通公園 メインステージ）' },
+        { time: '14:30', event: 'パレード会場へ移動・移動車手配' },
+        { time: '15:45', event: '🔥 2nd 演舞（大須観音 パレード会場）' },
+        { time: '17:30', event: '🔥 3rd 演舞（栄交差点 特設ステージ演舞）' },
+        { time: '19:00', event: '総踊り ＆ 全演舞終了・集合写真撮影' }
+      ]
     },
     {
-      id: 'v_festival_2',
+      id: 'v_domatsuri_osu',
       type: 'festival',
-      name: '🎪 市民夏祭り パレード演舞会場',
-      eventDate: '2026年8月24日(日)',
-      performanceTime: 'パレード流し演舞: 15:00〜16:00',
-      meetingTime: '14:00 集合 (パレードスタート地点前)',
-      costume: '夏Tシャツ＋帯（黒パンツ・スニーカー）',
-      access: '〇〇中央駅 南口 徒歩5分',
-      address: '東京都〇〇区南町2-3-4',
-      mapUrl: 'https://maps.google.com/?q=〇〇中央駅',
-      directions: '1. 南口バスロータリーを抜け、商店街を直進。\n2. 信号角のローソン前がスタート地点です。',
-      notice: '水分補給（スポーツドリンク等）を必ずご持参ください。'
-    },
-    {
-      id: 'v_practice_1',
-      type: 'practice',
-      name: '🏢 市民体育館 アリーナ（メイン練習場）',
-      eventDate: '毎週土曜日 13:00〜17:00',
-      performanceTime: '全体練習・フォーメーション確認',
-      meetingTime: '12:45 集合',
-      costume: '練習着・室内シューズ',
-      access: '〇〇駅 南口 徒歩8分',
-      address: '東京都〇〇区中央1-2-3',
-      mapUrl: 'https://maps.google.com/?q=市民体育館',
-      directions: '1. 南口改札を出て右折し、商店街を直進します。\n2. 2つ目の信号（ファミリーマート）を左折。\n3. 100mほど進んだ右側の大きな建物です。',
-      notice: '室内履き必携。入館時は受付で「ダンスチーム凛」とお伝えください。'
+      name: '🎪 にっぽんど真ん中祭り 大須観音 パレード会場',
+      eventDate: '2026年8月30日(日)',
+      meetingTime: '15:15 集合 (パレードスタート地点Aブロック)',
+      costume: '正装衣装（帯締め・オリジナル扇子持参）',
+      access: '地下鉄鶴舞線・名城線「上前津駅」8番出口 徒歩3分',
+      address: '愛知県名古屋市中区大須2-21-47',
+      mapUrl: 'https://maps.google.com/?q=大須観音',
+      directions: '1. 上前津駅 8番出口から大須商店街へ直進。\n2. パレード先頭看板「凛」横に整列。',
+      notice: '沿道観客との距離が近いため、隊列フォーラムの幅に注意してください。',
+      scheduleTimeline: [
+        { time: '15:15', event: 'パレードスタート地点整列' },
+        { time: '15:45', event: '🔥 流しパレード演舞スタート' },
+        { time: '16:30', event: 'パレード演舞終了・メイン会場へ帰還' }
+      ]
     }
   ];
 }
@@ -166,30 +164,15 @@ export async function fetchForms() {
   const defaultForms = [
     {
       id: 'f1',
-      title: '9月15日(祝) 秋よさこい祭り 演舞参加可否フォーム',
-      description: '9/15(祝) 〇〇秋よさこい祭りへの演舞参加可否を8/25までにご回答ください。',
+      title: 'にっぽんど真ん中祭り（どまつり） 演舞参加可否回答フォーム',
+      description: 'にっぽんど真ん中祭り（どまつり）本番演舞への参加可否をご回答ください。',
       deadline: '2026-08-25 23:59',
       status: 'open',
       fields: [
         { id: 'name', label: 'お名前（ダンサー名/本名）', type: 'text', helpText: '本名またはチーム内ニックネームを入力してください', required: true },
-        { id: 'attendance', label: '演舞参加区分', type: 'radio', options: ['全演舞参加可能', '1stのみ参加', '2ndのみ参加', 'サポートスタッフ参加', '不参加'], required: true },
-        { id: 'car', label: '移動手段・配車（複数選択可）', type: 'checkbox', options: ['電車・徒歩', '自家用車（同乗OK）', '配車希望'], required: false },
+        { id: 'attendance', label: 'どまつり演舞参加区分', type: 'radio', options: ['両日（8/29・30）参加可能', '8/29(土)のみ参加', '8/30(日)のみ参加', 'サポートスタッフ参加', '不参加'], required: true },
+        { id: 'car', label: '移動・宿泊手配（複数選択可）', type: 'checkbox', options: ['チームバス利用', '現地集合（自家用車・電車）', 'チーム手配ホテル宿泊希望'], required: false },
         { id: 'comment', label: '連絡事項・備考メモ', type: 'textarea', required: false }
-      ]
-    },
-    {
-      id: 'f2',
-      title: '秋演舞 新衣装サイズ＆道具申請フォーム',
-      description: '秋演舞用衣装の制作に伴うサイズ申請およびアンケートです。',
-      deadline: '2026-08-25 23:59',
-      status: 'open',
-      fields: [
-        { id: 'name', label: 'お名前', type: 'text', required: true },
-        { id: 'height', label: '身長 (cm)', type: 'number', helpText: '衣装丈の参考にします', required: true },
-        { id: 'size', label: '普段のTシャツサイズ', type: 'select', options: ['S', 'M', 'L', 'XL'], required: true },
-        { id: 'prop_needed', label: '追加道具の希望（複数選択可）', type: 'checkbox', options: ['鳴子1セット', '扇子1本', '演舞用ハチマキ'], required: false },
-        { id: 'satisfaction', label: '新衣装デザインの満足度', type: 'scale', min: 1, max: 5, minLabel: '不満', maxLabel: '非常に満足', required: true },
-        { id: 'note', label: '補足事項・連絡欄', type: 'textarea', required: false }
       ]
     }
   ];
@@ -320,9 +303,5 @@ export async function fetchAllFormResponses(formId) {
   return local;
 }
 
-export async function fetchBoardPosts() {
-  return [];
-}
-export async function saveBoardPost() {
-  return { success: true, message: 'OK' };
-}
+export async function fetchBoardPosts() { return []; }
+export async function saveBoardPost() { return { success: true, message: 'OK' }; }
