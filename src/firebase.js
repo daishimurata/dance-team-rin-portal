@@ -32,9 +32,7 @@ try {
   console.warn('Firebase connection warning (fallback mode):', e);
 }
 
-// ----------------------------------------------------
-// 1. お知らせ (Announcements) API
-// ----------------------------------------------------
+// 1. お知らせ
 export async function fetchAnnouncements() {
   if (isFirebaseAvailable && db) {
     try {
@@ -53,9 +51,9 @@ export async function fetchAnnouncements() {
     {
       id: '1',
       date: '2026-08-18 10:00',
-      category: '重要',
-      title: '秋公演に向けた練習スケジュールの変更について',
-      content: '皆様お疲れ様です！秋公演に向けた今後の練習日・会場が一部変更となりましたので、お知らせタブおよび道案内タブよりご確認ください。',
+      category: '重要・演舞',
+      title: '秋のよさこいお祭り演舞スケジュール決定について',
+      content: '皆様お疲れ様です！9月のお祭り演舞スケジュールが決定いたしました。演舞会場タブより本番演舞時間・集合時間・会場アクセスをご確認ください。',
       importance: 'high'
     },
     {
@@ -92,9 +90,7 @@ export async function createAnnouncement(category, title, content, importance) {
   return { success: true, message: 'お知らせを投稿しました（ローカル保存）' };
 }
 
-// ----------------------------------------------------
-// 2. 会場案内 (Venues) API
-// ----------------------------------------------------
+// 2. お祭り演舞会場 ＆ アクセス案内 API
 export async function fetchVenues() {
   if (isFirebaseAvailable && db) {
     try {
@@ -109,29 +105,51 @@ export async function fetchVenues() {
 
   return [
     {
-      id: 'v1',
-      name: '市民体育館 アリーナ（メイン練習場）',
+      id: 'v_festival_1',
+      type: 'festival',
+      name: '🎪 〇〇秋よさこい祭り メイン演舞ステージ',
+      eventDate: '2026年9月15日(月・祝)',
+      performanceTime: '1st: 14:00〜 / 2nd: 16:30〜 (本演舞)',
+      meetingTime: '12:30 集合 (楽屋テント前)',
+      costume: '秋本番衣装（赤×黒ハンテン、鳴子必携）',
+      access: '〇〇駅 東口 徒歩3分（駅前大通り特設会場）',
+      address: '東京都〇〇区駅前大通り1-1',
+      mapUrl: 'https://maps.google.com/?q=〇〇駅',
+      directions: '1. 東口改札を出て正面の歩行者天国通りへ進みます。\n2. 大型モニター前がチーム「凛」集合テントです。',
+      notice: '着替え用テントは12:00より利用可能。貴重品は個人管理でお願いします。'
+    },
+    {
+      id: 'v_festival_2',
+      type: 'festival',
+      name: '🎪 市民夏祭り パレード演舞会場',
+      eventDate: '2026年8月24日(日)',
+      performanceTime: 'パレード流し演舞: 15:00〜16:00',
+      meetingTime: '14:00 集合 (パレードスタート地点前)',
+      costume: '夏Tシャツ＋帯（黒パンツ・スニーカー）',
+      access: '〇〇中央駅 南口 徒歩5分',
+      address: '東京都〇〇区南町2-3-4',
+      mapUrl: 'https://maps.google.com/?q=〇〇中央駅',
+      directions: '1. 南口バスロータリーを抜け、商店街を直進。\n2. 信号角のローソン前がスタート地点です。',
+      notice: '水分補給（スポーツドリンク等）を必ずご持参ください。'
+    },
+    {
+      id: 'v_practice_1',
+      type: 'practice',
+      name: '🏢 市民体育館 アリーナ（メイン練習場）',
+      eventDate: '毎週土曜日 13:00〜17:00',
+      performanceTime: '全体練習・フォーメーション確認',
+      meetingTime: '12:45 集合',
+      costume: '練習着・室内シューズ',
       access: '〇〇駅 南口 徒歩8分',
       address: '東京都〇〇区中央1-2-3',
       mapUrl: 'https://maps.google.com/?q=市民体育館',
       directions: '1. 南口改札を出て右折し、商店街を直進します。\n2. 2つ目の信号（ファミリーマート）を左折。\n3. 100mほど進んだ右側の大きな建物です。',
-      notice: '室内履き（シューズ）必携。入館時にチーム名「凛」でお入りください。'
-    },
-    {
-      id: 'v2',
-      name: '〇〇コミュニティセンター 多目的ホール',
-      access: '〇〇駅 北口 徒歩5分',
-      address: '東京都〇〇区北町4-5-6',
-      mapUrl: 'https://maps.google.com/?q=コミュニティセンター',
-      directions: '1. 北口を出てバスロータリー前を通過。\n2. 郵便局の角を右に曲がり、すぐ左手です。',
-      notice: '鏡付きスタジオ。音が響きやすいため、近隣配慮をお願いします。'
+      notice: '室内履き必携。入館時は受付で「ダンスチーム凛」とお伝えください。'
     }
   ];
 }
 
-// ----------------------------------------------------
-// 3. フォーム定義 ＆ Google Forms 互換拡張 API
-// ----------------------------------------------------
+// 3. フォーム定義
 export async function fetchForms() {
   if (isFirebaseAvailable && db) {
     try {
@@ -148,22 +166,21 @@ export async function fetchForms() {
   const defaultForms = [
     {
       id: 'f1',
-      title: '8月24日(日) 全体練習 出欠確認',
-      description: '8/24(日) 13:00〜17:00 市民体育館での全体練習の参加可否をご回答ください。',
-      deadline: '2026-08-22 23:59',
+      title: '9月15日(祝) 秋よさこい祭り 演舞参加可否フォーム',
+      description: '9/15(祝) 〇〇秋よさこい祭りへの演舞参加可否を8/25までにご回答ください。',
+      deadline: '2026-08-25 23:59',
       status: 'open',
       fields: [
         { id: 'name', label: 'お名前（ダンサー名/本名）', type: 'text', helpText: '本名またはチーム内ニックネームを入力してください', required: true },
-        { id: 'attendance', label: '出欠区分', type: 'radio', options: ['参加', '遅刻参加', '早退', '欠席'], required: true },
-        { id: 'car', label: '移動手段・配車可能か（複数選択可）', type: 'checkbox', options: ['徒歩・電車', '車（同乗可能）', '送迎希望'], required: false },
-        { id: 'time', label: '遅刻・早退の予定時間（該当者のみ）', type: 'text', required: false },
-        { id: 'comment', label: '連絡事項・連絡メモ', type: 'textarea', required: false }
+        { id: 'attendance', label: '演舞参加区分', type: 'radio', options: ['全演舞参加可能', '1stのみ参加', '2ndのみ参加', 'サポートスタッフ参加', '不参加'], required: true },
+        { id: 'car', label: '移動手段・配車（複数選択可）', type: 'checkbox', options: ['電車・徒歩', '自家用車（同乗OK）', '配車希望'], required: false },
+        { id: 'comment', label: '連絡事項・備考メモ', type: 'textarea', required: false }
       ]
     },
     {
       id: 'f2',
-      title: '秋公演 衣装サイズ＆備品申請フォーム',
-      description: '秋公演用衣装の制作に伴うサイズ申請およびアンケートです。',
+      title: '秋演舞 新衣装サイズ＆道具申請フォーム',
+      description: '秋演舞用衣装の制作に伴うサイズ申請およびアンケートです。',
       deadline: '2026-08-25 23:59',
       status: 'open',
       fields: [
@@ -179,7 +196,6 @@ export async function fetchForms() {
   return [...local, ...defaultForms];
 }
 
-// フォームの新規発行 (管理者用)
 export async function createNewForm(title, description, deadline, fields) {
   const formId = 'f_' + Date.now();
   const formObj = {
@@ -207,7 +223,6 @@ export async function createNewForm(title, description, deadline, fields) {
   return { success: true, message: '新しいフォームを発行しました！（ローカル保存完了）' };
 }
 
-// フォーム受付ステータス（受付中/受付停止）の変更 (管理者用)
 export async function updateFormStatus(formId, newStatus) {
   if (isFirebaseAvailable && db) {
     try {
@@ -232,9 +247,7 @@ export async function updateFormStatus(formId, newStatus) {
   return { success: true, message: '受付ステータスを変更しました（ローカル更新）' };
 }
 
-// ----------------------------------------------------
-// 4. 回答データの保存 ＆ 集計 API
-// ----------------------------------------------------
+// 4. 回答送信 ＆ 集計
 export async function sendFormResponse(formId, formTitle, respondentName, answers) {
   const payload = {
     formId,
@@ -307,61 +320,9 @@ export async function fetchAllFormResponses(formId) {
   return local;
 }
 
-// ----------------------------------------------------
-// 5. メンバー掲示板 (Board) API
-// ----------------------------------------------------
 export async function fetchBoardPosts() {
-  if (isFirebaseAvailable && db) {
-    try {
-      const q = query(collection(db, 'board_posts'), orderBy('createdAt', 'desc'));
-      const snapshot = await getDocs(q);
-      if (!snapshot.empty) {
-        return snapshot.docs.map(doc => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            author: data.author || '匿名',
-            message: data.message || '',
-            date: data.createdAt ? new Date(data.createdAt.seconds * 1000).toLocaleString('ja-JP') : '直近'
-          };
-        });
-      }
-    } catch (err) {
-      console.warn('Firestore fetch error, reading local board:', err);
-    }
-  }
-
-  const localPosts = JSON.parse(localStorage.getItem('rin_board_posts') || '[]');
-  const defaultPosts = [
-    { id: 'b1', date: '2026-08-18 12:30', author: 'あやか', message: '皆様、秋公演に向けて練習頑張りましょう！道案内ページの市民体育館の場所が分かりやすくて助かりました✨' },
-    { id: 'b2', date: '2026-08-17 20:15', author: 'たくみ', message: '8/24の練習、少し遅刻参加になりますがよろしくお願いします！' }
-  ];
-
-  return [...localPosts, ...defaultPosts];
+  return [];
 }
-
-export async function saveBoardPost(author, message) {
-  if (isFirebaseAvailable && db) {
-    try {
-      await addDoc(collection(db, 'board_posts'), {
-        author,
-        message,
-        createdAt: serverTimestamp()
-      });
-      return { success: true, message: '掲示板に投稿しました！' };
-    } catch (err) {
-      console.warn('Firestore write error, local board fallback:', err);
-    }
-  }
-
-  const localPosts = JSON.parse(localStorage.getItem('rin_board_posts') || '[]');
-  const newPost = {
-    id: 'local_' + Date.now(),
-    author,
-    message,
-    date: new Date().toLocaleString('ja-JP')
-  };
-  localPosts.unshift(newPost);
-  localStorage.setItem('rin_board_posts', JSON.stringify(localPosts));
-  return { success: true, message: '掲示板に投稿しました！' };
+export async function saveBoardPost() {
+  return { success: true, message: 'OK' };
 }

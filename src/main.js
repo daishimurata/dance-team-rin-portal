@@ -14,14 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
   loadAnnouncementsData();
   loadVenuesData();
   loadFormsData();
-  loadDomatsuriData();
 
   document.getElementById('dynamic-form')?.addEventListener('submit', handleFormSubmit);
   document.getElementById('btn-back-forms')?.addEventListener('click', closeFormArea);
   document.getElementById('btn-search-my-response')?.addEventListener('click', handleSearchMyResponse);
 });
 
-// PC(サイドバー) ＆ スマホ(ボトムナビ) の双方向SaaSナビ連動
 function setupNavigation() {
   const allNavBtns = document.querySelectorAll('.nav-item, .sidebar-btn');
   
@@ -83,53 +81,79 @@ async function loadAnnouncementsData() {
   }).join('');
 }
 
-// 2. 会場案内
+// 2. お祭り演舞会場 ＆ アクセス案内
 async function loadVenuesData() {
   const container = document.getElementById('venues-list');
   if (!container) return;
 
   const venues = await fetchVenues();
   if (!venues || venues.length === 0) {
-    container.innerHTML = '<div class="card" style="text-align:center; color: var(--text-muted);">会場情報はありません。</div>';
+    container.innerHTML = '<div class="card" style="text-align:center; color: var(--text-muted);">演舞会場情報はありません。</div>';
     return;
   }
 
-  container.innerHTML = venues.map(v => `
-    <div class="card">
-      <div class="venue-title">
-        <span>📍</span> ${escapeHtml(v.name)}
-      </div>
+  container.innerHTML = venues.map(v => {
+    const isFestival = v.type === 'festival';
+    return `
+      <div class="card" style="${isFestival ? 'border-left: 5px solid var(--gold-primary);' : ''}">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span class="badge ${isFestival ? 'badge-medium' : 'badge-normal'}">
+            ${isFestival ? '🎪 お祭り本番演舞' : '🏢 練習会場'}
+          </span>
+          ${v.eventDate ? `<span style="font-weight:700; font-size:0.85rem; color:var(--text-main);">${escapeHtml(v.eventDate)}</span>` : ''}
+        </div>
 
-      <div class="venue-info-item">
-        <div class="venue-info-label">最寄り駅・アクセス</div>
-        <div>${escapeHtml(v.access)}</div>
-      </div>
+        <div class="venue-title">
+          ${escapeHtml(v.name)}
+        </div>
 
-      <div class="venue-info-item">
-        <div class="venue-info-label">住所</div>
-        <div>${escapeHtml(v.address)}</div>
-      </div>
+        ${v.performanceTime ? `
+          <div class="venue-info-item">
+            <div class="venue-info-label" style="color:var(--gold-dark); font-weight:700;">⏱️ 演舞本番時間</div>
+            <div style="font-weight:700; font-size:0.95rem;">${escapeHtml(v.performanceTime)}</div>
+          </div>
+        ` : ''}
 
-      ${v.directions ? `
+        ${v.meetingTime ? `
+          <div class="venue-info-item">
+            <div class="venue-info-label">📍 集合時間・場所</div>
+            <div style="font-weight:700;">${escapeHtml(v.meetingTime)}</div>
+          </div>
+        ` : ''}
+
+        ${v.costume ? `
+          <div class="venue-info-item">
+            <div class="venue-info-label">👘 衣装・持ち物</div>
+            <div>${escapeHtml(v.costume)}</div>
+          </div>
+        ` : ''}
+
         <div class="venue-info-item">
-          <div class="venue-info-label">駅からの道案内</div>
-          <div class="venue-directions">${escapeHtml(v.directions)}</div>
+          <div class="venue-info-label">🚉 最寄り駅・アクセス</div>
+          <div>${escapeHtml(v.access)}</div>
         </div>
-      ` : ''}
 
-      ${v.notice ? `
-        <div class="venue-notice">
-          ⚠️ <strong>利用注意事項:</strong> ${escapeHtml(v.notice)}
-        </div>
-      ` : ''}
+        ${v.directions ? `
+          <div class="venue-info-item">
+            <div class="venue-info-label">🚶 駅からの徒歩ルート・目印</div>
+            <div class="venue-directions">${escapeHtml(v.directions)}</div>
+          </div>
+        ` : ''}
 
-      ${v.mapUrl ? `
-        <a href="${escapeHtml(v.mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="margin-top: 14px;">
-          <span>🗺️</span> Googleマップでナビを開く
-        </a>
-      ` : ''}
-    </div>
-  `).join('');
+        ${v.notice ? `
+          <div style="background:#fefce8; border:1px dashed #fef08a; padding:10px 12px; border-radius:var(--radius-sm); font-size:0.85rem; color:#856404; margin-top:10px;">
+            ⚠️ <strong>注意事項:</strong> ${escapeHtml(v.notice)}
+          </div>
+        ` : ''}
+
+        ${v.mapUrl ? `
+          <a href="${escapeHtml(v.mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="margin-top: 14px;">
+            <span>🗺️</span> Googleマップで会場ナビを開く
+          </a>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
 }
 
 // 3. フォーム一覧ロード
@@ -155,7 +179,7 @@ async function loadFormsData() {
           </span>
           <span style="font-size:0.8rem; color:var(--text-muted);">締切: ${escapeHtml(f.deadline)}</span>
         </div>
-        <h3 class="announce-title" style="color:var(--gold-light);">${escapeHtml(f.title)}</h3>
+        <h3 class="announce-title">${escapeHtml(f.title)}</h3>
         <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">${escapeHtml(f.description)}</p>
         
         ${isOpen ? `
@@ -202,7 +226,7 @@ function openForm(formId) {
 
   const fieldsContainer = document.getElementById('form-fields-container');
   fieldsContainer.innerHTML = form.fields.map(field => {
-    const reqMark = field.required ? '<span class="required" style="color:var(--gold-primary);">*</span>' : '';
+    const reqMark = field.required ? '<span class="required" style="color:#dc2626;">*</span>' : '';
     const helpHtml = field.helpText ? `<div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:6px;">${escapeHtml(field.helpText)}</div>` : '';
     
     if (field.type === 'radio' && field.options) {
@@ -243,7 +267,7 @@ function openForm(formId) {
         scaleBtns += `
           <label style="display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer;">
             <input type="radio" name="${field.id}" value="${i}" ${field.required && i === min ? 'required' : ''} style="width:18px; height:18px; accent-color:var(--gold-primary);">
-            <span style="font-size:0.85rem; font-weight:700; color:var(--gold-light);">${i}</span>
+            <span style="font-size:0.85rem; font-weight:700;">${i}</span>
           </label>
         `;
       }
@@ -251,7 +275,7 @@ function openForm(formId) {
         <div class="form-group">
           <label class="form-label">${escapeHtml(field.label)}${reqMark}</label>
           ${helpHtml}
-          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(9,12,16,0.6); padding:12px 16px; border-radius:var(--radius-sm); border:1px solid var(--border-color); margin-top:6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px 16px; border-radius:var(--radius-sm); border:1px solid #cbd5e1; margin-top:6px;">
             <span style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(field.minLabel || '低い')}</span>
             <div style="display:flex; gap:16px;">${scaleBtns}</div>
             <span style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(field.maxLabel || '高い')}</span>
@@ -343,8 +367,8 @@ async function handleFormSubmit(e) {
     const area = document.getElementById('form-render-area');
     area.innerHTML = `
       <div style="text-align:center; padding:30px 10px;">
-        <div style="font-size:48px; margin-bottom:12px; filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));">✨</div>
-        <h3 style="font-family: var(--font-family-mincho); font-size:1.35rem; font-weight:700; color:var(--gold-light); margin-bottom:8px;">ご回答ありがとうございました！</h3>
+        <div style="font-size:48px; margin-bottom:12px;">✨</div>
+        <h3 style="font-family: var(--font-family-mincho); font-size:1.35rem; font-weight:700; color:var(--text-main); margin-bottom:8px;">ご回答ありがとうございました！</h3>
         <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:24px;">「${escapeHtml(formTitle)}」への送信が正常に完了いたしました。</p>
         <button class="btn btn-gold" onclick="location.reload()">
           フォーム一覧へ戻る
@@ -378,8 +402,8 @@ async function handleSearchMyResponse() {
   }
 
   resultsDiv.innerHTML = myResponses.map(r => `
-    <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:6px; margin-top:8px; font-size:0.85rem; border-left:3px solid var(--gold-primary);">
-      <div style="font-weight:700; color:var(--gold-light);">${escapeHtml(r.formTitle)}</div>
+    <div style="background:#ffffff; border:1px solid #cbd5e1; padding:10px; border-radius:6px; margin-top:8px; font-size:0.85rem; border-left:4px solid var(--gold-primary);">
+      <div style="font-weight:700; color:var(--text-main);">${escapeHtml(r.formTitle)}</div>
       <div style="font-size:0.75rem; color:var(--text-muted);">回答日時: ${escapeHtml(r.timestamp || r.createdAt)}</div>
       <div style="margin-top:6px;">
         ${Object.entries(r.answers).map(([k, v]) => `<div><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</div>`).join('')}
@@ -396,155 +420,4 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
-}
-
-// ----------------------------------------------------
-// 4. どまつりタイムスケジュール ＆ ポーチ規定チェックリスト
-// ----------------------------------------------------
-function loadDomatsuriData() {
-  const scheduleContainer = document.getElementById('domatsuri-schedule-container');
-  const checklistContainer = document.getElementById('domatsuri-checklist-container');
-  if (!scheduleContainer || !checklistContainer) return;
-
-  const domatsuriSchedule = [
-    {
-      dayTitle: '1日目：8月28日（金）前夜祭',
-      assembly: '集合 15:00 @ 白川公園',
-      items: [
-        { time: '15:00', type: '集合', name: '白川公園 集合', detail: '点呼・隊列調整・ストレッチ', code: '-' },
-        { time: '17:50', type: '演舞', name: '[1] 前夜祭 演舞（久屋メイン）', detail: '徒歩移動（白川公園→久屋大通公園）。※出場目安時刻', code: '1016' },
-        { time: '18:59', type: '演舞', name: '[3] ぐるめぱーく会場（キャンパスバトル）', detail: 'エンゼル広場（久屋公園内徒歩移動）。※出場目安時刻', code: '1077' }
-      ]
-    },
-    {
-      dayTitle: '2日目：8月29日（土）本祭 1日目',
-      assembly: '集合 08:00 @ 白川公園',
-      items: [
-        { time: '08:00', type: '集合', name: '白川公園 集合', detail: '朝の点呼・隊列確認', code: '-' },
-        { time: '09:48', type: '電車', name: '矢場町駅 → 名古屋城駅', detail: '地下鉄名城線（右回り） 09:48発→09:55着（運賃200円）/ 7番出口徒歩10分', code: '-' },
-        { time: '10:42', type: '演舞', name: '[9] 名古屋城会場', detail: '名古屋城特設ステージ演舞', code: '1759' },
-        { time: '11:08', type: '電車', name: '名古屋城駅 → 久屋大通駅', detail: '地下鉄名城線（左回り） 11:08発→11:11着（運賃210円）', code: '-' },
-        { time: '11:42', type: '演舞', name: '[4] テレビ塔パレード会場', detail: 'パレード通常演舞', code: '1398' },
-        { time: '12:08', type: '電車', name: '栄駅 → 上前津駅', detail: '地下鉄名城線（左回り） 12:08発→12:12着（運賃210円）/ 上前津から徒歩8分', code: '-' },
-        { time: '12:42', type: '演舞', name: '[10] 大須観音会場', detail: '大須観音境内ステージ演舞', code: '1844' },
-        { time: '13:38', type: '電車', name: '大須観音駅 → 名古屋駅', detail: '鶴舞線＋東山線（伏見乗換） 13:38発→伏見乗換→13:49名古屋着（運賃210円）', code: '-' },
-        { time: '14:42', type: '演舞', name: '[8] 名古屋駅前JRタワーズガーデン会場', detail: '名駅タワー前ガーデンステージ演舞', code: '1719' },
-        { time: '15:45', type: '電車', name: '名古屋駅 → 栄駅', detail: '地下鉄東山線 15:45発→15:50栄着（運賃210円）※桜通線久屋大通着も可', code: '-' },
-        { time: '16:42', type: '審査演舞', name: '[4] テレビ塔パレード会場（審査演舞）', detail: '🔥 審査グループ ④ 重点勝負演舞！', code: '1448', isShinsa: true },
-        { time: '19:30', type: '演舞', name: '[1] ファイナルシード決定戦', detail: '久屋メインステージ（久屋公園内徒歩移動）', code: '1282' }
-      ]
-    },
-    {
-      dayTitle: '3日目：8月30日（日）本祭 2日目',
-      assembly: '集合 09:30 @ オアシス21',
-      items: [
-        { time: '09:30', type: '集合', name: 'オアシス21 集合', detail: '点呼・最終確認・演舞準備', code: '-' },
-        { time: '10:54', type: '演舞', name: '[6] オアシス21会場', detail: '銀河の広場ステージ演舞', code: '2353' },
-        { time: '12:50', type: '演舞', name: '[1] 久屋メイン（通常演舞）', detail: 'オアシス21より徒歩移動（徒歩約4分）', code: '2009' },
-        { time: '13:33', type: '電車', name: '栄駅 → 金山駅 → 道徳駅', detail: '地下鉄名城線＋名鉄常滑線（金山乗換） 栄13:33→金山13:47発(名鉄普通)→13:53道徳着［地下鉄210円+名鉄190円］', code: '-' },
-        { time: '14:48', type: '演舞', name: '[11] どえりゃ〜どうとくパレード会場', detail: '道徳商店街パレード演舞（道徳駅から徒歩4分）', code: '2652' },
-        { time: '15:15', type: '電車', name: '道徳駅 → 金山駅 → 栄駅', detail: '名鉄常滑線＋地下鉄名城線（金山乗換） 道徳15:15(名鉄普通)→金山15:28発(名城線)→15:36栄着［名鉄190円+地下鉄210円］', code: '-' },
-        { time: '16:54', type: '演舞', name: '[4] テレビ塔パレード会場', detail: '最終演舞ステージ！', code: '2252' }
-      ]
-    }
-  ];
-
-  scheduleContainer.innerHTML = domatsuriSchedule.map(day => {
-    const rowsHtml = day.items.map(item => {
-      let badgeClass = 'badge-normal';
-      if (item.type === '審査演舞') badgeClass = 'badge-shinsa';
-      else if (item.type === '集合') badgeClass = 'badge-syugo';
-      else if (item.type === '電車') badgeClass = 'badge-densha';
-      else if (item.type === '演舞') badgeClass = 'badge-high';
-
-      return `
-        <tr class="${item.isShinsa ? 'shinsa-row' : ''}">
-          <td style="font-weight:700; white-space:nowrap;">${escapeHtml(item.time)}</td>
-          <td><span class="badge ${badgeClass}">${escapeHtml(item.type)}</span></td>
-          <td style="font-weight:700;">${escapeHtml(item.name)}</td>
-          <td style="font-size:0.84rem; color:var(--text-muted);">${escapeHtml(item.detail)}</td>
-          <td style="font-family:monospace; font-weight:700; text-align:center;">${escapeHtml(item.code)}</td>
-        </tr>
-      `;
-    }).join('');
-
-    return `
-      <div class="domatsuri-day-card">
-        <div class="domatsuri-day-header">
-          <div class="domatsuri-day-title">
-            <span>📅</span> ${escapeHtml(day.dayTitle)}
-          </div>
-          <span class="badge badge-syugo">${escapeHtml(day.assembly)}</span>
-        </div>
-        <div class="domatsuri-table-wrapper">
-          <table class="domatsuri-table">
-            <thead>
-              <tr>
-                <th style="width:70px;">時刻</th>
-                <th style="width:80px; text-align:center;">区分</th>
-                <th>内容・会場</th>
-                <th>移動・詳細備考</th>
-                <th style="width:85px; text-align:center;">問合番号</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rowsHtml}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  // 持ち物チェックリストの初期化・ローカルストレージ連携
-  const checklistItems = [
-    { id: 'pouch', label: 'B6透明 / 半透明ポーチ（マチ無し）' },
-    { id: 'name_tag', label: 'ポーチ外側のチーム名「ダンスチーム凛」・氏名表記' },
-    { id: 'wallet', label: 'お財布・現金' },
-    { id: 'ticket', label: 'ドニチカ切符（土日620円） / 交通系ICカード' },
-    { id: 'phone', label: '携帯電話（スマートフォ全充電）' },
-    { id: 'meds', label: '常備薬・メイク直し用品・保険証（写）' }
-  ];
-
-  const savedState = JSON.parse(localStorage.getItem('rin_domatsuri_checklist') || '{}');
-
-  checklistContainer.innerHTML = `
-    <div class="card" style="border-color: var(--gold-primary);">
-      <h3 style="font-family: var(--font-family-mincho); font-size: 1.15rem; font-weight: 700; color: var(--gold-light); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-        <span>🎒</span> 演舞時ポーチ規定 ＆ 持参品チェックリスト
-      </h3>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
-        演舞エリアへ持ち込める荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」</strong>限定です。持参するものをタップして準備状況をチェックできます。
-      </p>
-      <div id="checklist-items-wrapper">
-        ${checklistItems.map(item => {
-          const isChecked = !!savedState[item.id];
-          return `
-            <label class="domatsuri-checklist-item ${isChecked ? 'checked' : ''}" data-id="${item.id}">
-              <input type="checkbox" ${isChecked ? 'checked' : ''}>
-              <span>${escapeHtml(item.label)}</span>
-            </label>
-          `;
-        }).join('')}
-      </div>
-    </div>
-  `;
-
-  document.querySelectorAll('.domatsuri-checklist-item').forEach(el => {
-    el.addEventListener('click', (e) => {
-      const checkbox = el.querySelector('input[type="checkbox"]');
-      if (e.target !== checkbox) {
-        checkbox.checked = !checkbox.checked;
-      }
-      const id = el.getAttribute('data-id');
-      if (checkbox.checked) {
-        el.classList.add('checked');
-        savedState[id] = true;
-      } else {
-        el.classList.remove('checked');
-        delete savedState[id];
-      }
-      localStorage.setItem('rin_domatsuri_checklist', JSON.stringify(savedState));
-    });
-  });
 }
