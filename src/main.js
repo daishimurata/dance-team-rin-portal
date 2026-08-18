@@ -20,9 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-search-my-response')?.addEventListener('click', handleSearchMyResponse);
 });
 
-// PC ＆ スマホのスタイリッシュSaaSナビ連動設定 (3メニュー構成)
+// PC(サイドバー) ＆ スマホ(ボトムナビ) の双方向SaaSナビ連動
 function setupNavigation() {
-  const allNavBtns = document.querySelectorAll('.nav-item, .desktop-nav-btn');
+  const allNavBtns = document.querySelectorAll('.nav-item, .sidebar-btn');
   
   allNavBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -131,7 +131,7 @@ async function loadVenuesData() {
   `).join('');
 }
 
-// 3. フォーム一覧ロード ＆ 動的入力
+// 3. フォーム一覧ロード
 async function loadFormsData() {
   const container = document.getElementById('forms-list');
   if (!container) return;
@@ -356,7 +356,6 @@ async function handleFormSubmit(e) {
   }
 }
 
-// 自分の過去回答確認
 async function handleSearchMyResponse() {
   const nameInput = document.getElementById('my-name-input');
   const resultsDiv = document.getElementById('my-response-results');

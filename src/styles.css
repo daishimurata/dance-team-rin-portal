@@ -1,42 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@700&display=swap');
 
 :root {
-  /* メイン配色: 漆黒(Urushi Black) ＆ ディープネイビー */
-  --bg-main: #090c10;
-  --bg-card: rgba(18, 22, 31, 0.88);
-  --bg-card-hover: rgba(28, 34, 46, 0.95);
-  --border-color: rgba(212, 175, 55, 0.22);
-  
-  /* 凛とした金色（シャンパンゴールド〜金箔グラデーション） */
+  /* メイン配色: 漆黒 ＆ SaaSダークネイビー */
+  --bg-main: #0b0e14;
+  --bg-sidebar: #11151c;
+  --bg-card: rgba(18, 24, 34, 0.92);
+  --bg-card-hover: rgba(26, 34, 48, 0.98);
+  --border-color: rgba(212, 175, 55, 0.2);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+
+  /* 金色グラデーション ＆ 発光 */
   --gold-primary: #d4af37;
   --gold-light: #f5e4a1;
   --gold-dark: #aa7c11;
-  --gold-gradient: linear-gradient(135deg, #f5e4a1 0%, #d4af37 50%, #b8860b 100%);
-  --gold-gradient-soft: linear-gradient(135deg, rgba(245, 228, 161, 0.15) 0%, rgba(212, 175, 55, 0.08) 100%);
-  --gold-glow: 0 4px 20px rgba(212, 175, 55, 0.35);
+  --gold-gradient: linear-gradient(135deg, #f7e7a9 0%, #d4af37 50%, #b8860b 100%);
+  --gold-gradient-soft: linear-gradient(135deg, rgba(247, 231, 169, 0.12) 0%, rgba(212, 175, 55, 0.05) 100%);
+  --gold-glow: 0 4px 20px rgba(212, 175, 55, 0.3);
 
-  /* 和モダン朱赤 (Shu-Red) */
+  /* 朱赤アクセント */
   --primary-red: #c0262d;
   --primary-red-gradient: linear-gradient(135deg, #e63946 0%, #b01c24 100%);
 
   /* 文字カラー */
-  --text-main: #f0f6fc;
-  --text-muted: #919bb0;
-  --text-gold: #f3e5ab;
+  --text-main: #f0f4f8;
+  --text-muted: #8c97ab;
+  --text-gold: #f5e4a1;
   --text-highlight: #ffffff;
 
   /* シャドウ ＆ 角丸 */
-  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.45);
   --shadow-gold: 0 0 15px rgba(212, 175, 55, 0.2);
   --radius-lg: 16px;
   --radius-md: 12px;
   --radius-sm: 8px;
 
-  /* タイポグラフィ */
+  /* フォント */
   --font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-family-mincho: 'Shippori Mincho', serif;
 
-  /* 和柄幾何学SVGパターン (麻の葉風幾何学模様) */
+  /* 和柄幾何学SVGパターン */
   --wagara-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M20 0 L40 20 L20 40 L0 20 Z M20 0 L20 40 M0 20 L40 20' fill='none' stroke='rgba(212,175,55,0.06)' stroke-width='1'/%3E%3C/svg%3E");
 }
 
@@ -52,43 +54,57 @@ body {
   background-color: var(--bg-main);
   color: var(--text-main);
   line-height: 1.65;
-  padding-bottom: 100px;
   min-height: 100vh;
   background-image: 
     var(--wagara-pattern),
-    radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 85% 85%, rgba(192, 38, 45, 0.1) 0%, transparent 45%);
+    radial-gradient(circle at 10% 10%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(192, 38, 45, 0.08) 0%, transparent 40%);
   background-attachment: fixed;
 }
 
 /* ====================================================
-   スタイリッシュSaaS風 ヘッダー ＆ PCナビゲーション
+   国産SaaSレイアウト構造（サイドバー ＋ メインエリア）
    ==================================================== */
-.app-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: rgba(9, 12, 16, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-color);
-  padding: 12px 24px;
+.app-layout {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  min-height: 100vh;
 }
 
-.brand-logo {
+/* PC用 SaaSサイドバーナビゲーション (SmartHR / Notionスタイル) */
+.sidebar {
+  width: 260px;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 899px) {
+  .sidebar {
+    display: none; /* スマホ・タブレットではボトムナビへ移行 */
+  }
+}
+
+.sidebar-header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  text-decoration: none;
+  gap: 12px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 20px;
 }
 
 .brand-icon {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   background: var(--gold-gradient);
   display: flex;
@@ -96,73 +112,60 @@ body {
   justify-content: center;
   font-family: var(--font-family-mincho);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 20px;
   color: #000;
   box-shadow: var(--gold-glow);
-  position: relative;
-  overflow: hidden;
-}
-
-.brand-icon::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--wagara-pattern);
-  opacity: 0.25;
+  flex-shrink: 0;
 }
 
 .brand-title {
   font-family: var(--font-family-mincho);
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
   background: var(--gold-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
-}
-
-.brand-subtitle {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  font-weight: 500;
   letter-spacing: 0.5px;
 }
 
-/* PC / タブレット用 SaaSトップナビゲーションバー */
-.desktop-nav {
-  display: none;
-  gap: 8px;
-  align-items: center;
+.brand-subtitle {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
-@media (min-width: 768px) {
-  .desktop-nav {
-    display: flex;
-  }
+/* サイドバーメニューリスト */
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
 }
 
-.desktop-nav-btn {
-  display: inline-flex;
+.sidebar-btn {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 20px;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
   background: transparent;
   border: 1px solid transparent;
   color: var(--text-muted);
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
 }
 
-.desktop-nav-btn:hover {
+.sidebar-btn:hover {
   color: var(--gold-light);
-  border-color: rgba(212, 175, 55, 0.3);
-  background: rgba(212, 175, 55, 0.05);
+  background: rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.2);
 }
 
-.desktop-nav-btn.active {
+.sidebar-btn.active {
   background: var(--gold-gradient-soft);
   border-color: var(--gold-primary);
   color: var(--gold-light);
@@ -170,17 +173,65 @@ body {
   box-shadow: var(--shadow-gold);
 }
 
-/* ====================================================
-   メインコンテナ ＆ ヒーローバナー
-   ==================================================== */
-.container {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 24px 16px;
+.sidebar-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
+/* メインコンテンツ表示エリア */
+.main-wrapper {
+  flex: 1;
+  margin-left: 260px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+@media (max-width: 899px) {
+  .main-wrapper {
+    margin-left: 0;
+    padding-bottom: 80px;
+  }
+}
+
+/* 上部SaaSヘッダーバー */
+.saas-topbar {
+  background: rgba(11, 14, 20, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+.mobile-header-logo {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 899px) {
+  .mobile-header-logo {
+    display: flex;
+  }
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 20px;
+  width: 100%;
+}
+
+/* ヒーローバナー */
 .hero-banner {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(192, 38, 45, 0.1) 100%), var(--wagara-pattern);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(192, 38, 45, 0.08) 100%), var(--wagara-pattern);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 24px;
@@ -188,20 +239,6 @@ body {
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(8px);
-}
-
-.hero-banner::after {
-  content: '凛';
-  position: absolute;
-  right: -10px;
-  bottom: -30px;
-  font-family: var(--font-family-mincho);
-  font-size: 130px;
-  font-weight: 900;
-  color: rgba(212, 175, 55, 0.05);
-  pointer-events: none;
-  line-height: 1;
 }
 
 .hero-title {
@@ -210,7 +247,6 @@ body {
   font-weight: 700;
   color: var(--gold-light);
   margin-bottom: 6px;
-  letter-spacing: 0.5px;
 }
 
 .hero-desc {
@@ -218,18 +254,15 @@ body {
   color: var(--text-muted);
 }
 
-/* ====================================================
-   カード ＆ コンポーネント (SaaS UI)
-   ==================================================== */
+/* カードコンポーネント (SaaSスタイル) */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 20px;
-  margin-bottom: 18px;
+  padding: 22px;
+  margin-bottom: 20px;
   box-shadow: var(--shadow-soft);
   transition: all 0.25s ease;
-  position: relative;
 }
 
 .card:hover {
@@ -281,9 +314,7 @@ body {
   border: 1px solid rgba(42, 157, 143, 0.5);
 }
 
-/* ====================================================
-   ボタン (スタイリッシュSaaSゴールド仕様)
-   ==================================================== */
+/* ボタン */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -302,17 +333,13 @@ body {
 
 .btn-gold {
   background: var(--gold-gradient);
-  color: #0a0c10;
+  color: #0b0e14;
   box-shadow: var(--gold-glow);
 }
 
 .btn-gold:hover {
   filter: brightness(1.1);
   transform: translateY(-1px);
-}
-
-.btn-gold:active {
-  transform: translateY(0);
 }
 
 .btn-primary {
@@ -322,9 +349,9 @@ body {
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   color: var(--text-main);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-subtle);
 }
 
 .btn-secondary:hover {
@@ -354,7 +381,7 @@ body {
   color: var(--text-main);
   font-size: 0.95rem;
   font-family: inherit;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {
@@ -385,16 +412,14 @@ body {
   height: 18px;
 }
 
-/* ====================================================
-   スマホ用 フローティング・ボトムナビゲーション (和モダンSaaS)
-   ==================================================== */
+/* スマホ用 フローティング底面ナビゲーション */
 .bottom-nav {
   position: fixed;
   bottom: 12px;
   left: 12px;
   right: 12px;
   z-index: 1000;
-  background: rgba(18, 22, 31, 0.92);
+  background: rgba(17, 21, 28, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
@@ -407,7 +432,7 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), var(--shadow-gold);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .bottom-nav {
     display: none;
   }
@@ -425,7 +450,7 @@ body {
   font-weight: 500;
   gap: 4px;
   cursor: pointer;
-  width: 25%;
+  width: 33.3%;
   padding: 6px 0;
   border-radius: 20px;
   transition: all 0.25s ease;
@@ -449,7 +474,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* お知らせ・掲示板スタイル */
 .announce-header {
   display: flex;
   justify-content: space-between;
@@ -497,7 +521,7 @@ body {
   left: 50%;
   transform: translateX(-50%) translateY(-20px);
   opacity: 0;
-  background: rgba(18, 22, 31, 0.96);
+  background: rgba(18, 24, 34, 0.96);
   border: 1px solid var(--gold-primary);
   color: var(--gold-light);
   padding: 12px 28px;

@@ -8,125 +8,143 @@
 </head>
 <body>
 
-  <!-- ヘッダー (PC用SaaSメニューを含む) -->
-  <header class="app-header">
-    <a href="#" class="brand-logo">
-      <div class="brand-icon">凛</div>
-      <div>
-        <div class="brand-title">ダンスチーム「凛」</div>
-        <div class="brand-subtitle">メンバーサポートポータル</div>
-      </div>
-    </a>
+  <div class="app-layout">
 
-    <!-- PC/タブレット用 スタイリッシュSaaSナビバー (3つのメニュー) -->
-    <nav class="desktop-nav">
-      <button class="desktop-nav-btn active" data-tab="tab-announce">
-        <span>📢</span> お知らせ
-      </button>
-      <button class="desktop-nav-btn" data-tab="tab-forms">
-        <span>📝</span> 回答フォーム
-      </button>
-      <button class="desktop-nav-btn" data-tab="tab-venues">
-        <span>🗺️</span> 会場アクセス
-      </button>
-    </nav>
-  </header>
-
-  <!-- トースト通知 -->
-  <div id="toast" class="toast"></div>
-
-  <main class="container">
-
-    <!-- ヒーローメッセージ -->
-    <section class="hero-banner">
-      <div class="hero-title">凛 サポートポータルへようこそ！</div>
-      <div class="hero-desc">運営からの連絡確認、出欠・アンケートフォームへの回答、各練習会場へのアクセスガイドがご利用いただけます。</div>
-    </section>
-
-    <!-- タブ 1: 運営からのお知らせ -->
-    <section id="tab-announce" class="tab-content active">
-      <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
-        <span>📢</span> 運営からのお知らせ
-      </h2>
-      <div id="announce-list">
-        <div class="spinner-container">
-          <div class="spinner"></div>
-          <div>お知らせを読み込み中...</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- タブ 2: 回答フォーム (出欠・アンケート) -->
-    <section id="tab-forms" class="tab-content">
-      <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
-        <span>📝</span> 回答フォーム（出欠・アンケート）
-      </h2>
-
-      <!-- 自分の過去回答確認カード -->
-      <div class="card" style="border-color: rgba(212, 175, 55, 0.4); background: rgba(18, 22, 31, 0.7);">
-        <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--gold-light);">🔍 自分の過去の回答を確認する</div>
-        <div style="display: flex; gap: 8px;">
-          <input type="text" id="my-name-input" class="form-input" placeholder="お名前（例: たろう）" style="padding: 8px 12px; font-size: 0.85rem;">
-          <button id="btn-search-my-response" class="btn btn-gold" style="width: auto; padding: 8px 16px; font-size: 0.85rem; white-space: nowrap;">
-            確認
-          </button>
-        </div>
-        <div id="my-response-results" style="margin-top: 10px; display: none;"></div>
-      </div>
-
-      <!-- フォーム一覧 -->
-      <div id="forms-list">
-        <div class="spinner-container">
-          <div class="spinner"></div>
-          <div>フォーム一覧を取得中...</div>
+    <!-- PC用 スタイリッシュSaaSサイドバー (SmartHR / Notionスタイル) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">凛</div>
+        <div>
+          <div class="brand-title">ダンスチーム「凛」</div>
+          <div class="brand-subtitle">メンバーサポートポータル</div>
         </div>
       </div>
 
-      <!-- フォーム回答入力エリア -->
-      <div id="form-render-area" style="display: none;" class="card">
-        <button id="btn-back-forms" class="btn btn-secondary" style="margin-bottom: 16px; width: auto; padding: 6px 14px; font-size: 0.82rem;">
-          ← フォーム一覧に戻る
+      <nav class="sidebar-menu">
+        <button class="sidebar-btn active" data-tab="tab-announce">
+          <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg>
+          <span>運営からのお知らせ</span>
         </button>
-        <h3 id="render-form-title" class="announce-title" style="color: var(--gold-light);"></h3>
-        <p id="render-form-desc" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;"></p>
-        
-        <form id="dynamic-form">
-          <input type="hidden" id="form-id-input">
-          <input type="hidden" id="form-title-input">
-          <div id="form-fields-container"></div>
-          <button type="submit" id="form-submit-btn" class="btn btn-gold" style="margin-top: 16px;">
-            回答を送信する
-          </button>
-        </form>
-      </div>
-    </section>
+        <button class="sidebar-btn" data-tab="tab-forms">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <span>回答フォーム</span>
+        </button>
+        <button class="sidebar-btn" data-tab="tab-venues">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>会場アクセス</span>
+        </button>
+      </nav>
+    </aside>
 
-    <!-- タブ 3: 会場への道案内 -->
-    <section id="tab-venues" class="tab-content">
-      <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
-        <span>🗺️</span> 練習会場＆アクセスマップ
-      </h2>
-      <div id="venues-list">
-        <div class="spinner-container">
-          <div class="spinner"></div>
-          <div>会場データを取得中...</div>
+    <!-- メインコンテンツ領域 -->
+    <div class="main-wrapper">
+
+      <!-- 上部SaaSヘッダーバー -->
+      <header class="saas-topbar">
+        <div class="mobile-header-logo">
+          <div class="brand-icon" style="width: 32px; height: 32px; font-size: 16px;">凛</div>
+          <div class="brand-title" style="font-size: 1.05rem;">ダンスチーム「凛」</div>
         </div>
-      </div>
-    </section>
+        <div style="font-size: 0.85rem; color: var(--text-muted); margin-left: auto;">
+          チームメンバー用 Portal
+        </div>
+      </header>
 
-  </main>
+      <!-- トースト通知 -->
+      <div id="toast" class="toast"></div>
 
-  <!-- スマホ用 フローティング和モダンSaaSボトムナビ (3つのメニュー) -->
+      <main class="container">
+
+        <!-- ヒーローメッセージ -->
+        <section class="hero-banner">
+          <div class="hero-title">凛 サポートポータルへようこそ！</div>
+          <div class="hero-desc">運営からの連絡確認、出欠・アンケートフォームへの回答、各練習会場へのアクセスガイドがご利用いただけます。</div>
+        </section>
+
+        <!-- タブ 1: 運営からのお知らせ -->
+        <section id="tab-announce" class="tab-content active">
+          <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+            <span>📢</span> 運営からのお知らせ
+          </h2>
+          <div id="announce-list">
+            <div class="spinner-container">
+              <div class="spinner"></div>
+              <div>お知らせを読み込み中...</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- タブ 2: 回答フォーム -->
+        <section id="tab-forms" class="tab-content">
+          <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+            <span>📝</span> 回答フォーム（出欠・アンケート）
+          </h2>
+
+          <div class="card" style="border-color: rgba(212, 175, 55, 0.4); background: rgba(18, 24, 34, 0.7);">
+            <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--gold-light);">🔍 自分の過去の回答を確認する</div>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="my-name-input" class="form-input" placeholder="お名前（例: たろう）" style="padding: 8px 12px; font-size: 0.85rem;">
+              <button id="btn-search-my-response" class="btn btn-gold" style="width: auto; padding: 8px 16px; font-size: 0.85rem; white-space: nowrap;">
+                確認
+              </button>
+            </div>
+            <div id="my-response-results" style="margin-top: 10px; display: none;"></div>
+          </div>
+
+          <div id="forms-list">
+            <div class="spinner-container">
+              <div class="spinner"></div>
+              <div>フォーム一覧を取得中...</div>
+            </div>
+          </div>
+
+          <div id="form-render-area" style="display: none;" class="card">
+            <button id="btn-back-forms" class="btn btn-secondary" style="margin-bottom: 16px; width: auto; padding: 6px 14px; font-size: 0.82rem;">
+              ← フォーム一覧に戻る
+            </button>
+            <h3 id="render-form-title" class="announce-title" style="color: var(--gold-light);"></h3>
+            <p id="render-form-desc" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;"></p>
+            
+            <form id="dynamic-form">
+              <input type="hidden" id="form-id-input">
+              <input type="hidden" id="form-title-input">
+              <div id="form-fields-container"></div>
+              <button type="submit" id="form-submit-btn" class="btn btn-gold" style="margin-top: 16px;">
+                回答を送信する
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- タブ 3: 会場への道案内 -->
+        <section id="tab-venues" class="tab-content">
+          <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+            <span>🗺️</span> 練習会場＆アクセスマップ
+          </h2>
+          <div id="venues-list">
+            <div class="spinner-container">
+              <div class="spinner"></div>
+              <div>会場データを取得中...</div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+  </div>
+
+  <!-- スマホ用 フローティング底面ナビゲーション -->
   <nav class="bottom-nav">
-    <button class="nav-item active" data-tab="tab-announce" style="width: 33.3%;">
+    <button class="nav-item active" data-tab="tab-announce">
       <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg>
       お知らせ
     </button>
-    <button class="nav-item" data-tab="tab-forms" style="width: 33.3%;">
+    <button class="nav-item" data-tab="tab-forms">
       <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
       フォーム
     </button>
-    <button class="nav-item" data-tab="tab-venues" style="width: 33.3%;">
+    <button class="nav-item" data-tab="tab-venues">
       <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       道案内
     </button>
