@@ -4,6 +4,8 @@ import {
   collection, 
   getDocs, 
   addDoc, 
+  updateDoc,
+  doc,
   query, 
   where,
   orderBy, 
@@ -68,7 +70,6 @@ export async function fetchAnnouncements() {
   return [...local, ...defaultList];
 }
 
-// お知らせの新規作成 (管理者専用)
 export async function createAnnouncement(category, title, content, importance) {
   const dateStr = new Date().toLocaleString('ja-JP', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
   const newObj = { category, title, content, importance, date: dateStr };
@@ -129,7 +130,7 @@ export async function fetchVenues() {
 }
 
 // ----------------------------------------------------
-// 3. フォーム定義 (Forms) ＆ 発行 API
+// 3. フォーム定義 ＆ Google Forms 互換拡張 API
 // ----------------------------------------------------
 export async function fetchForms() {
   if (isFirebaseAvailable && db) {
@@ -152,8 +153,9 @@ export async function fetchForms() {
       deadline: '2026-08-22 23:59',
       status: 'open',
       fields: [
-        { id: 'name', label: 'お名前（ダンサー名/本名）', type: 'text', required: true },
+        { id: 'name', label: 'お名前（ダンサー名/本名）', type: 'text', helpText: '本名またはチーム内ニックネームを入力してください', required: true },
         { id: 'attendance', label: '出欠区分', type: 'radio', options: ['参加', '遅刻参加', '早退', '欠席'], required: true },
+        { id: 'car', label: '移動手段・配車可能か（複数選択可）', type: 'checkbox', options: ['徒歩・電車', '車（同乗可能）', '送迎希望'], required: false },
         { id: 'time', label: '遅刻・早退の予定時間（該当者のみ）', type: 'text', required: false },
         { id: 'comment', label: '連絡事項・連絡メモ', type: 'textarea', required: false }
       ]
@@ -161,22 +163,23 @@ export async function fetchForms() {
     {
       id: 'f2',
       title: '秋公演 衣装サイズ＆備品申請フォーム',
-      description: '秋公演用衣装の制作に伴うサイズ申請です。',
+      description: '秋公演用衣装の制作に伴うサイズ申請およびアンケートです。',
       deadline: '2026-08-25 23:59',
       status: 'open',
       fields: [
         { id: 'name', label: 'お名前', type: 'text', required: true },
-        { id: 'height', label: '身長 (cm)', type: 'number', required: true },
+        { id: 'height', label: '身長 (cm)', type: 'number', helpText: '衣装丈の参考にします', required: true },
         { id: 'size', label: '普段のTシャツサイズ', type: 'select', options: ['S', 'M', 'L', 'XL'], required: true },
-        { id: 'prop_needed', label: '追加道具（鳴子・扇子など）の追加購入希望', type: 'radio', options: ['不要', '鳴子1セット希望', '扇子1本希望', '両方希望'], required: true },
-        { id: 'note', label: '補足事項', type: 'textarea', required: false }
+        { id: 'prop_needed', label: '追加道具の希望（複数選択可）', type: 'checkbox', options: ['鳴子1セット', '扇子1本', '演舞用ハチマキ'], required: false },
+        { id: 'satisfaction', label: '新衣装デザインの満足度', type: 'scale', min: 1, max: 5, minLabel: '不満', maxLabel: '非常に満足', required: true },
+        { id: 'note', label: '補足事項・連絡欄', type: 'textarea', required: false }
       ]
     }
   ];
   return [...local, ...defaultForms];
 }
 
-// フォームの新規発行 (管理者専用)
+// フォームの新規発行 (管理者用)
 export async function createNewForm(title, description, deadline, fields) {
   const formId = 'f_' + Date.now();
   const formObj = {
@@ -204,11 +207,34 @@ export async function createNewForm(title, description, deadline, fields) {
   return { success: true, message: '新しいフォームを発行しました！（ローカル保存完了）' };
 }
 
-// ----------------------------------------------------
-// 4. フォーム回答 ＆ 権限分離 API
-// ----------------------------------------------------
+// フォーム受付ステータス（受付中/受付停止）の変更 (管理者用)
+export async function updateFormStatus(formId, newStatus) {
+  if (isFirebaseAvailable && db) {
+    try {
+      const q = query(collection(db, 'forms'), where('id', '==', formId));
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        const docRef = doc(db, 'forms', snapshot.docs[0].id);
+        await updateDoc(docRef, { status: newStatus });
+        return { success: true, message: '受付ステータスを変更しました！' };
+      }
+    } catch (err) {
+      console.warn('Firestore update error:', err);
+    }
+  }
 
-// 4-A. フォーム回答の送信
+  const local = JSON.parse(localStorage.getItem('rin_created_forms') || '[]');
+  const target = local.find(f => f.id === formId);
+  if (target) {
+    target.status = newStatus;
+    localStorage.setItem('rin_created_forms', JSON.stringify(local));
+  }
+  return { success: true, message: '受付ステータスを変更しました（ローカル更新）' };
+}
+
+// ----------------------------------------------------
+// 4. 回答データの保存 ＆ 集計 API
+// ----------------------------------------------------
 export async function sendFormResponse(formId, formTitle, respondentName, answers) {
   const payload = {
     formId,
@@ -236,7 +262,6 @@ export async function sendFormResponse(formId, formTitle, respondentName, answer
   return { success: true, message: 'ご回答ありがとうございます！送信が完了しました（ローカル保存）' };
 }
 
-// 4-B. 自分の回答履歴のみを取得 (一般メンバー用)
 export async function fetchMyFormResponses(respondentName) {
   if (!respondentName) return [];
 
@@ -259,7 +284,6 @@ export async function fetchMyFormResponses(respondentName) {
   return local.filter(r => r.respondentName === respondentName);
 }
 
-// 4-C. 特定フォームの全員分の回収・集計データを取得 (管理者専用)
 export async function fetchAllFormResponses(formId) {
   if (isFirebaseAvailable && db) {
     try {

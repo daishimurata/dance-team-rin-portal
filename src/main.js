@@ -132,7 +132,7 @@ async function loadVenuesData() {
   `).join('');
 }
 
-// 3. フォーム一覧ロード
+// 3. フォーム一覧ロード ＆ Google Forms 互換レンダラー
 async function loadFormsData() {
   const container = document.getElementById('forms-list');
   if (!container) return;
@@ -145,21 +145,31 @@ async function loadFormsData() {
     return;
   }
 
-  container.innerHTML = forms.map(f => `
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <span class="badge ${f.status === 'open' ? 'badge-high' : 'badge-normal'}">
-          ${f.status === 'open' ? '受付中' : '終了'}
-        </span>
-        <span style="font-size:0.8rem; color:var(--text-muted);">締切: ${escapeHtml(f.deadline)}</span>
+  container.innerHTML = forms.map(f => {
+    const isOpen = f.status === 'open';
+    return `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span class="badge ${isOpen ? 'badge-high' : 'badge-normal'}">
+            ${isOpen ? '受付中' : '受付終了'}
+          </span>
+          <span style="font-size:0.8rem; color:var(--text-muted);">締切: ${escapeHtml(f.deadline)}</span>
+        </div>
+        <h3 class="announce-title">${escapeHtml(f.title)}</h3>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">${escapeHtml(f.description)}</p>
+        
+        ${isOpen ? `
+          <button class="btn btn-gold btn-open-form" data-form-id="${f.id}">
+            📝 フォームに入力する
+          </button>
+        ` : `
+          <button class="btn btn-secondary" disabled style="opacity:0.6;">
+            🔒 回答受付は終了しました
+          </button>
+        `}
       </div>
-      <h3 class="announce-title">${escapeHtml(f.title)}</h3>
-      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">${escapeHtml(f.description)}</p>
-      <button class="btn btn-gold btn-open-form" data-form-id="${f.id}">
-        📝 フォームに入力する
-      </button>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 
   document.querySelectorAll('.btn-open-form').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -167,6 +177,15 @@ async function loadFormsData() {
       if (fid) openForm(fid);
     });
   });
+
+  // 直リンク URL チェック (?form=xxx)
+  const urlParams = new URLSearchParams(window.location.search);
+  const targetFormId = urlParams.get('form');
+  if (targetFormId) {
+    const formTabBtn = document.querySelector('.nav-item[data-tab="tab-forms"]');
+    if (formTabBtn) formTabBtn.click();
+    openForm(targetFormId);
+  }
 }
 
 function openForm(formId) {
@@ -185,7 +204,9 @@ function openForm(formId) {
   const fieldsContainer = document.getElementById('form-fields-container');
   fieldsContainer.innerHTML = form.fields.map(field => {
     const reqMark = field.required ? '<span class="required">*</span>' : '';
+    const helpHtml = field.helpText ? `<div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:6px;">${escapeHtml(field.helpText)}</div>` : '';
     
+    // 1. 単一選択 (ラジオボタン)
     if (field.type === 'radio' && field.options) {
       const optionsHtml = field.options.map((opt, idx) => `
         <label class="radio-option">
@@ -196,30 +217,81 @@ function openForm(formId) {
       return `
         <div class="form-group">
           <label class="form-label">${escapeHtml(field.label)}${reqMark}</label>
+          ${helpHtml}
           <div class="radio-group">${optionsHtml}</div>
         </div>
       `;
-    } else if (field.type === 'select' && field.options) {
+    } 
+    // 2. 複数選択 (チェックボックス)
+    else if (field.type === 'checkbox' && field.options) {
+      const optionsHtml = field.options.map(opt => `
+        <label class="radio-option">
+          <input type="checkbox" name="${field.id}" value="${escapeHtml(opt)}">
+          <span>${escapeHtml(opt)}</span>
+        </label>
+      `).join('');
+      return `
+        <div class="form-group">
+          <label class="form-label">${escapeHtml(field.label)}${reqMark}</label>
+          ${helpHtml}
+          <div class="radio-group">${optionsHtml}</div>
+        </div>
+      `;
+    }
+    // 3. 5段階評価スケール (均等スケール)
+    else if (field.type === 'scale') {
+      const min = field.min || 1;
+      const max = field.max || 5;
+      let scaleBtns = '';
+      for (let i = min; i <= max; i++) {
+        scaleBtns += `
+          <label style="display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer;">
+            <input type="radio" name="${field.id}" value="${i}" ${field.required && i === min ? 'required' : ''} style="width:18px; height:18px; accent-color:var(--accent-gold);">
+            <span style="font-size:0.85rem; font-weight:700;">${i}</span>
+          </label>
+        `;
+      }
+      return `
+        <div class="form-group">
+          <label class="form-label">${escapeHtml(field.label)}${reqMark}</label>
+          ${helpHtml}
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(13,17,23,0.5); padding:12px 16px; border-radius:var(--radius-sm); border:1px solid var(--border-color); margin-top:6px;">
+            <span style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(field.minLabel || '低い')}</span>
+            <div style="display:flex; gap:16px;">${scaleBtns}</div>
+            <span style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(field.maxLabel || '高い')}</span>
+          </div>
+        </div>
+      `;
+    }
+    // 4. ドロップダウン選択
+    else if (field.type === 'select' && field.options) {
       const optionsHtml = field.options.map(opt => `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`).join('');
       return `
         <div class="form-group">
           <label class="form-label" for="${field.id}">${escapeHtml(field.label)}${reqMark}</label>
+          ${helpHtml}
           <select id="${field.id}" name="${field.id}" class="form-select" ${field.required ? 'required' : ''}>
             ${optionsHtml}
           </select>
         </div>
       `;
-    } else if (field.type === 'textarea') {
+    } 
+    // 5. 段落 (長文テキスト)
+    else if (field.type === 'textarea') {
       return `
         <div class="form-group">
           <label class="form-label" for="${field.id}">${escapeHtml(field.label)}${reqMark}</label>
+          ${helpHtml}
           <textarea id="${field.id}" name="${field.id}" class="form-textarea" rows="3" ${field.required ? 'required' : ''}></textarea>
         </div>
       `;
-    } else {
+    } 
+    // 6. 1行記述 / 日付 / 時間 / 数値
+    else {
       return `
         <div class="form-group">
           <label class="form-label" for="${field.id}">${escapeHtml(field.label)}${reqMark}</label>
+          ${helpHtml}
           <input type="${field.type || 'text'}" id="${field.id}" name="${field.id}" class="form-input" ${field.required ? 'required' : ''}>
         </div>
       `;
@@ -248,26 +320,54 @@ async function handleFormSubmit(e) {
 
   for (let [key, value] of formDataObj.entries()) {
     if (key === 'form-id-input' || key === 'form-title-input') continue;
-    answers[key] = value;
+
+    // チェックボックス等で同キーが複数ある場合配列として統合
+    if (answers[key]) {
+      if (Array.isArray(answers[key])) {
+        answers[key].push(value);
+      } else {
+        answers[key] = [answers[key], value];
+      }
+    } else {
+      answers[key] = value;
+    }
+
     if (key === 'name' || key.includes('名前')) {
       respondentName = value;
     }
   }
+
+  // 配列化されている回答をカンマ区切りの文字列に変換
+  Object.keys(answers).forEach(k => {
+    if (Array.isArray(answers[k])) {
+      answers[k] = answers[k].join(', ');
+    }
+  });
 
   const res = await sendFormResponse(formId, formTitle, respondentName, answers);
   btn.disabled = false;
   btn.textContent = '回答を送信する';
 
   if (res.success) {
+    // Google Forms 風 サンクス画面の表示
+    const area = document.getElementById('form-render-area');
+    area.innerHTML = `
+      <div style="text-align:center; padding:30px 10px;">
+        <div style="font-size:48px; margin-bottom:12px;">✅</div>
+        <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-highlight); margin-bottom:8px;">ご回答ありがとうございました！</h3>
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:24px;">「${escapeHtml(formTitle)}」への送信が正常に完了いたしました。</p>
+        <button class="btn btn-gold" onclick="location.reload()">
+          フォーム一覧へ戻る
+        </button>
+      </div>
+    `;
     showToast(res.message);
-    closeFormArea();
-    e.target.reset();
   } else {
     alert(res.message);
   }
 }
 
-// 自分の過去の回答検索（他人の回答は見えない）
+// 自分の過去回答確認
 async function handleSearchMyResponse() {
   const nameInput = document.getElementById('my-name-input');
   const resultsDiv = document.getElementById('my-response-results');

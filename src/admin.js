@@ -2,12 +2,15 @@ import './styles.css';
 import { 
   fetchForms, 
   createNewForm, 
+  updateFormStatus,
   fetchAllFormResponses, 
   createAnnouncement 
 } from './firebase.js';
 
 let createdFields = [];
 let allForms = [];
+let currentFormResponses = [];
+let currentFormId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   setupAuth();
@@ -25,7 +28,6 @@ function setupAuth() {
   const authOverlay = document.getElementById('admin-auth');
   const adminMain = document.getElementById('admin-main');
 
-  // セッションキャッシュチェック
   if (sessionStorage.getItem('rin_admin_authed') === 'true') {
     authOverlay.style.display = 'none';
     adminMain.style.display = 'block';
@@ -48,7 +50,6 @@ function setupAuth() {
   });
 }
 
-// 2. ナビゲーション切り替え
 function setupAdminNav() {
   const navBtns = document.querySelectorAll('.admin-nav-btn');
   navBtns.forEach(btn => {
@@ -65,7 +66,6 @@ function setupAdminNav() {
   });
 }
 
-// トースト通知
 function showToast(msg) {
   const toast = document.getElementById('toast');
   if (!toast) return;
@@ -74,22 +74,22 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 3200);
 }
 
-// 初期ロード
 async function loadAdminData() {
   allForms = await fetchForms();
   renderFormSelectOptions();
   if (allForms.length > 0) {
+    currentFormId = allForms[0].id;
     loadFormResponsesSummary(allForms[0].id);
   }
 }
 
 // ----------------------------------------------------
-// 3. フォーム発行エディタ (Form Builder)
+// 2. Google Forms 互換 フォーム発行エディタ
 // ----------------------------------------------------
 function initFormBuilder() {
   createdFields = [
-    { id: 'name', label: 'お名前（ダンサー名/本名）', type: 'text', options: '', required: true },
-    { id: 'attendance', label: '出欠区分', type: 'radio', options: '参加, 遅刻参加, 早退, 欠席', required: true }
+    { id: 'name', label: 'お名前（ダンサー名/本名）', type: 'text', helpText: '', options: '', required: true },
+    { id: 'attendance', label: '出欠区分', type: 'radio', helpText: '該当する区分を選択してください', options: '参加, 遅刻参加, 早退, 欠席', required: true }
   ];
   renderFieldItems();
 
@@ -99,6 +99,7 @@ function initFormBuilder() {
       id: 'field_' + Date.now(),
       label: '設問' + newIdx,
       type: 'text',
+      helpText: '',
       options: '',
       required: false
     });
@@ -111,26 +112,34 @@ function renderFieldItems() {
   if (!container) return;
 
   container.innerHTML = createdFields.map((f, idx) => `
-    <div class="card" style="background: rgba(13, 17, 23, 0.7); margin-bottom: 12px; border-left: 3px solid var(--accent-gold);">
+    <div class="card" style="background: rgba(13, 17, 23, 0.7); margin-bottom: 14px; border-left: 4px solid var(--accent-gold);">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <span style="font-weight:700; font-size:0.85rem; color:var(--accent-gold);">設問 #${idx + 1}</span>
+        <span style="font-weight:700; font-size:0.88rem; color:var(--accent-gold);">設問 #${idx + 1}</span>
         ${createdFields.length > 1 ? `<button type="button" class="btn btn-secondary btn-del-field" data-idx="${idx}" style="padding:2px 8px; font-size:0.75rem; width:auto; color:#ff6b6b; border-color:rgba(230,57,70,0.3);">削除</button>` : ''}
       </div>
 
       <div class="form-group" style="margin-bottom:10px;">
-        <label class="form-label" style="font-size:0.8rem;">項目ラベル（設問テキスト）</label>
-        <input type="text" class="form-input field-label-input" data-idx="${idx}" value="${escapeHtml(f.label)}" required>
+        <label class="form-label" style="font-size:0.8rem;">設問タイトル</label>
+        <input type="text" class="form-input field-label-input" data-idx="${idx}" value="${escapeHtml(f.label)}" required placeholder="例: サイズ・希望カラー">
+      </div>
+
+      <div class="form-group" style="margin-bottom:10px;">
+        <label class="form-label" style="font-size:0.8rem;">補足説明（ヘルプテキスト）</label>
+        <input type="text" class="form-input field-help-input" data-idx="${idx}" value="${escapeHtml(f.helpText || '')}" placeholder="例: 普段着用しているTシャツのサイズを選択してください">
       </div>
 
       <div style="display:flex; gap:10px; margin-bottom:10px;">
         <div style="flex:1;">
-          <label class="form-label" style="font-size:0.8rem;">入力形式</label>
+          <label class="form-label" style="font-size:0.8rem;">回答形式</label>
           <select class="form-select field-type-select" data-idx="${idx}">
-            <option value="text" ${f.type === 'text' ? 'selected' : ''}>1行テキスト</option>
-            <option value="radio" ${f.type === 'radio' ? 'selected' : ''}>単一選択（ラジオボタン）</option>
-            <option value="select" ${f.type === 'select' ? 'selected' : ''}>ドロップダウン選択</option>
-            <option value="textarea" ${f.type === 'textarea' ? 'selected' : ''}>複数行本文テキスト</option>
-            <option value="number" ${f.type === 'number' ? 'selected' : ''}>数値入力</option>
+            <option value="text" ${f.type === 'text' ? 'selected' : ''}>✏️ 記述式 (短文)</option>
+            <option value="textarea" ${f.type === 'textarea' ? 'selected' : ''}>📄 段落 (長文)</option>
+            <option value="radio" ${f.type === 'radio' ? 'selected' : ''}>🔘 ラジオボタン (単一選択)</option>
+            <option value="checkbox" ${f.type === 'checkbox' ? 'selected' : ''}>☑️ チェックボックス (複数選択)</option>
+            <option value="select" ${f.type === 'select' ? 'selected' : ''}>🔽 ドロップダウン選択</option>
+            <option value="scale" ${f.type === 'scale' ? 'selected' : ''}>⭐ 5段階評価スケール</option>
+            <option value="number" ${f.type === 'number' ? 'selected' : ''}>🔢 数値入力</option>
+            <option value="date" ${f.type === 'date' ? 'selected' : ''}>📅 日付入力</option>
           </select>
         </div>
 
@@ -142,7 +151,7 @@ function renderFieldItems() {
         </div>
       </div>
 
-      ${(f.type === 'radio' || f.type === 'select') ? `
+      ${(f.type === 'radio' || f.type === 'checkbox' || f.type === 'select') ? `
         <div class="form-group" style="margin-bottom:4px;">
           <label class="form-label" style="font-size:0.8rem;">選択肢リスト（カンマ区切り）</label>
           <input type="text" class="form-input field-options-input" data-idx="${idx}" value="${escapeHtml(f.options)}" placeholder="例: 参加, 遅刻参加, 早退, 欠席">
@@ -156,6 +165,13 @@ function renderFieldItems() {
     el.addEventListener('input', (e) => {
       const idx = e.target.getAttribute('data-idx');
       createdFields[idx].label = e.target.value;
+    });
+  });
+
+  container.querySelectorAll('.field-help-input').forEach(el => {
+    el.addEventListener('input', (e) => {
+      const idx = e.target.getAttribute('data-idx');
+      createdFields[idx].helpText = e.target.value;
     });
   });
 
@@ -190,7 +206,6 @@ function renderFieldItems() {
   });
 }
 
-// フォーム発行送信ハンドラ
 async function handleCreateFormSubmit(e) {
   e.preventDefault();
   const title = document.getElementById('new-form-title').value;
@@ -198,8 +213,14 @@ async function handleCreateFormSubmit(e) {
   const deadline = document.getElementById('new-form-deadline').value || '未設定';
 
   const processedFields = createdFields.map(f => {
-    const item = { id: f.id, label: f.label, type: f.type, required: f.required };
-    if (f.type === 'radio' || f.type === 'select') {
+    const item = { 
+      id: f.id, 
+      label: f.label, 
+      type: f.type, 
+      helpText: f.helpText || '',
+      required: f.required 
+    };
+    if (f.type === 'radio' || f.type === 'checkbox' || f.type === 'select') {
       item.options = f.options.split(',').map(s => s.trim()).filter(Boolean);
     }
     return item;
@@ -217,7 +238,7 @@ async function handleCreateFormSubmit(e) {
 }
 
 // ----------------------------------------------------
-// 4. 回収データ・集計ダッシュボード
+// 3. Google Forms 風 自動集計ダッシュボード ＆ CSV出力
 // ----------------------------------------------------
 function renderFormSelectOptions() {
   const select = document.getElementById('select-admin-form');
@@ -229,13 +250,14 @@ function renderFormSelectOptions() {
   }
 
   select.innerHTML = allForms.map(f => `
-    <option value="${f.id}">${escapeHtml(f.title)} (締切: ${escapeHtml(f.deadline)})</option>
+    <option value="${f.id}">${escapeHtml(f.title)} (${f.status === 'open' ? '受付中' : '停止中'})</option>
   `).join('');
 }
 
 function handleSelectAdminFormChange(e) {
   const formId = e.target.value;
   if (formId) {
+    currentFormId = formId;
     loadFormResponsesSummary(formId);
   }
 }
@@ -245,24 +267,89 @@ async function loadFormResponsesSummary(formId) {
   if (!area) return;
 
   const responses = await fetchAllFormResponses(formId);
+  currentFormResponses = responses;
+
   const targetForm = allForms.find(f => f.id === formId);
+  if (!targetForm) return;
 
-  if (!responses || responses.length === 0) {
-    area.innerHTML = '<div style="color:var(--text-muted); padding:14px 0;">まだ回収された回答はありません。</div>';
-    return;
-  }
+  const isOpen = targetForm.status === 'open';
 
-  // 1. 集計データ計算 (集計サマリー)
-  let summaryHtml = `
-    <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); padding:12px 16px; border-radius:8px; margin-bottom:16px;">
-      <div>総回収件数: <strong style="font-size:1.2rem; color:var(--accent-gold);">${responses.length} 件</strong></div>
-      <div style="font-size:0.8rem; color:var(--text-muted);">最終回答: ${responses[responses.length - 1].timestamp || '直近'}</div>
+  let summaryHeaderHtml = `
+    <div style="background:rgba(255,255,255,0.04); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <h3 style="font-size:1.1rem; font-weight:700; color:var(--text-highlight);">${escapeHtml(targetForm.title)}</h3>
+          <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">回収件数: <strong style="color:var(--accent-gold); font-size:1rem;">${responses.length} 件</strong> ｜ 締切: ${escapeHtml(targetForm.deadline)}</div>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button id="btn-toggle-status" class="btn ${isOpen ? 'btn-secondary' : 'btn-primary'}" style="width:auto; padding:6px 14px; font-size:0.82rem;">
+            ${isOpen ? '🛑 回答の受付を停止する' : '🟢 回答の受付を再開する'}
+          </button>
+          <button id="btn-download-csv" class="btn btn-gold" style="width:auto; padding:6px 14px; font-size:0.82rem;">
+            📥 CSVでダウンロード
+          </button>
+        </div>
+      </div>
     </div>
   `;
 
-  // 2. テーブル（全メンバーの回収データ一覧）
-  const headers = ['回答者', '回答日時', ...Object.keys(responses[0]?.answers || {})];
+  if (!responses || responses.length === 0) {
+    area.innerHTML = summaryHeaderHtml + '<div style="color:var(--text-muted); padding:20px 0; text-align:center;">まだ回収された回答データはありません。</div>';
+    bindSummaryEvents(formId, isOpen);
+    return;
+  }
 
+  // Google Forms 風 選択肢別のリアルタイムバー集計計算
+  let chartsHtml = '';
+  if (targetForm.fields) {
+    chartsHtml = targetForm.fields.map(field => {
+      if (field.type === 'radio' || field.type === 'checkbox' || field.type === 'select') {
+        const optionCounts = {};
+        if (field.options) {
+          field.options.forEach(opt => optionCounts[opt] = 0);
+        }
+
+        let totalResForField = 0;
+        responses.forEach(r => {
+          const ansVal = r.answers[field.id] || r.answers[field.label];
+          if (ansVal) {
+            const selectedArr = String(ansVal).split(',').map(s => s.trim());
+            selectedArr.forEach(sel => {
+              optionCounts[sel] = (optionCounts[sel] || 0) + 1;
+              totalResForField++;
+            });
+          }
+        });
+
+        const barItems = Object.entries(optionCounts).map(([optName, count]) => {
+          const pct = totalResForField > 0 ? Math.round((count / responses.length) * 100) : 0;
+          return `
+            <div style="margin-bottom:8px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:2px;">
+                <span>${escapeHtml(optName)}</span>
+                <span style="color:var(--text-muted);">${count} 票 (${pct}%)</span>
+              </div>
+              <div style="background:rgba(255,255,255,0.1); height:10px; border-radius:5px; overflow:hidden;">
+                <div style="background:var(--accent-gold-gradient); width:${pct}%; height:100%; transition:width 0.4s ease;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="card" style="background:rgba(13,17,23,0.6); margin-bottom:14px;">
+            <h4 style="font-size:0.92rem; font-weight:700; color:var(--accent-gold); margin-bottom:10px;">📊 ${escapeHtml(field.label)}</h4>
+            ${barItems}
+          </div>
+        `;
+      }
+      return '';
+    }).join('');
+  }
+
+  // メンバー全員の回収回答テーブル
+  const headers = ['回答者', '回答日時', ...Object.keys(responses[0]?.answers || {})];
   const tableRowsHtml = responses.map(r => `
     <tr>
       <td><strong>${escapeHtml(r.respondentName)}</strong></td>
@@ -271,8 +358,8 @@ async function loadFormResponsesSummary(formId) {
     </tr>
   `).join('');
 
-  area.innerHTML = summaryHtml + `
-    <h3 style="font-size:0.95rem; font-weight:700; color:var(--text-main); margin-bottom:8px;">メンバー全員の回収回答一覧</h3>
+  area.innerHTML = summaryHeaderHtml + chartsHtml + `
+    <h4 style="font-size:0.95rem; font-weight:700; color:var(--text-main); margin: 20px 0 8px;">📋 回答明細データ一覧表</h4>
     <div class="table-responsive">
       <table class="data-table">
         <thead>
@@ -286,6 +373,67 @@ async function loadFormResponsesSummary(formId) {
       </table>
     </div>
   `;
+
+  bindSummaryEvents(formId, isOpen);
+}
+
+function bindSummaryEvents(formId, currentIsOpen) {
+  document.getElementById('btn-toggle-status')?.addEventListener('click', async () => {
+    const nextStatus = currentIsOpen ? 'closed' : 'open';
+    const res = await updateFormStatus(formId, nextStatus);
+    showToast(res.message);
+    loadAdminData();
+  });
+
+  document.getElementById('btn-download-csv')?.addEventListener('click', () => {
+    downloadCSV(formId);
+  });
+}
+
+// ----------------------------------------------------
+// 4. CSV ダウンロード機能 (Google Forms 互換)
+// ----------------------------------------------------
+function downloadCSV(formId) {
+  if (!currentFormResponses || currentFormResponses.length === 0) {
+    alert('ダウンロードする回答データがありません。');
+    return;
+  }
+
+  const targetForm = allForms.find(f => f.id === formId);
+  const title = targetForm ? targetForm.title : 'フォーム回答集計';
+
+  const firstAnswers = currentFormResponses[0].answers;
+  const answerKeys = Object.keys(firstAnswers);
+
+  const csvRows = [];
+  // ヘッダー行
+  csvRows.push(['回答日時', '回答者名', ...answerKeys].map(escapeCSV).join(','));
+
+  // データ行
+  currentFormResponses.forEach(r => {
+    const row = [
+      r.timestamp || '',
+      r.respondentName || '',
+      ...answerKeys.map(k => r.answers[k] || '')
+    ];
+    csvRows.push(row.map(escapeCSV).join(','));
+  });
+
+  const csvContent = '\uFEFF' + csvRows.join('\n'); // UTF-8 BOM付き
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${title}_回収集計_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast('CSVファイルをダウンロードしました！');
+}
+
+function escapeCSV(str) {
+  const s = String(str || '').replace(/"/g, '""');
+  return `"${s}"`;
 }
 
 // ----------------------------------------------------
