@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadAnnouncementsData();
   loadVenuesData();
   loadFormsData();
+  loadDomatsuriData();
 
   document.getElementById('dynamic-form')?.addEventListener('submit', handleFormSubmit);
   document.getElementById('btn-back-forms')?.addEventListener('click', closeFormArea);
@@ -395,4 +396,155 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+// ----------------------------------------------------
+// 4. どまつりタイムスケジュール ＆ ポーチ規定チェックリスト
+// ----------------------------------------------------
+function loadDomatsuriData() {
+  const scheduleContainer = document.getElementById('domatsuri-schedule-container');
+  const checklistContainer = document.getElementById('domatsuri-checklist-container');
+  if (!scheduleContainer || !checklistContainer) return;
+
+  const domatsuriSchedule = [
+    {
+      dayTitle: '1日目：8月28日（金）前夜祭',
+      assembly: '集合 15:00 @ 白川公園',
+      items: [
+        { time: '15:00', type: '集合', name: '白川公園 集合', detail: '点呼・隊列調整・ストレッチ', code: '-' },
+        { time: '17:50', type: '演舞', name: '[1] 前夜祭 演舞（久屋メイン）', detail: '徒歩移動（白川公園→久屋大通公園）。※出場目安時刻', code: '1016' },
+        { time: '18:59', type: '演舞', name: '[3] ぐるめぱーく会場（キャンパスバトル）', detail: 'エンゼル広場（久屋公園内徒歩移動）。※出場目安時刻', code: '1077' }
+      ]
+    },
+    {
+      dayTitle: '2日目：8月29日（土）本祭 1日目',
+      assembly: '集合 08:00 @ 白川公園',
+      items: [
+        { time: '08:00', type: '集合', name: '白川公園 集合', detail: '朝の点呼・隊列確認', code: '-' },
+        { time: '09:48', type: '電車', name: '矢場町駅 → 名古屋城駅', detail: '地下鉄名城線（右回り） 09:48発→09:55着（運賃200円）/ 7番出口徒歩10分', code: '-' },
+        { time: '10:42', type: '演舞', name: '[9] 名古屋城会場', detail: '名古屋城特設ステージ演舞', code: '1759' },
+        { time: '11:08', type: '電車', name: '名古屋城駅 → 久屋大通駅', detail: '地下鉄名城線（左回り） 11:08発→11:11着（運賃210円）', code: '-' },
+        { time: '11:42', type: '演舞', name: '[4] テレビ塔パレード会場', detail: 'パレード通常演舞', code: '1398' },
+        { time: '12:08', type: '電車', name: '栄駅 → 上前津駅', detail: '地下鉄名城線（左回り） 12:08発→12:12着（運賃210円）/ 上前津から徒歩8分', code: '-' },
+        { time: '12:42', type: '演舞', name: '[10] 大須観音会場', detail: '大須観音境内ステージ演舞', code: '1844' },
+        { time: '13:38', type: '電車', name: '大須観音駅 → 名古屋駅', detail: '鶴舞線＋東山線（伏見乗換） 13:38発→伏見乗換→13:49名古屋着（運賃210円）', code: '-' },
+        { time: '14:42', type: '演舞', name: '[8] 名古屋駅前JRタワーズガーデン会場', detail: '名駅タワー前ガーデンステージ演舞', code: '1719' },
+        { time: '15:45', type: '電車', name: '名古屋駅 → 栄駅', detail: '地下鉄東山線 15:45発→15:50栄着（運賃210円）※桜通線久屋大通着も可', code: '-' },
+        { time: '16:42', type: '審査演舞', name: '[4] テレビ塔パレード会場（審査演舞）', detail: '🔥 審査グループ ④ 重点勝負演舞！', code: '1448', isShinsa: true },
+        { time: '19:30', type: '演舞', name: '[1] ファイナルシード決定戦', detail: '久屋メインステージ（久屋公園内徒歩移動）', code: '1282' }
+      ]
+    },
+    {
+      dayTitle: '3日目：8月30日（日）本祭 2日目',
+      assembly: '集合 09:30 @ オアシス21',
+      items: [
+        { time: '09:30', type: '集合', name: 'オアシス21 集合', detail: '点呼・最終確認・演舞準備', code: '-' },
+        { time: '10:54', type: '演舞', name: '[6] オアシス21会場', detail: '銀河の広場ステージ演舞', code: '2353' },
+        { time: '12:50', type: '演舞', name: '[1] 久屋メイン（通常演舞）', detail: 'オアシス21より徒歩移動（徒歩約4分）', code: '2009' },
+        { time: '13:33', type: '電車', name: '栄駅 → 金山駅 → 道徳駅', detail: '地下鉄名城線＋名鉄常滑線（金山乗換） 栄13:33→金山13:47発(名鉄普通)→13:53道徳着［地下鉄210円+名鉄190円］', code: '-' },
+        { time: '14:48', type: '演舞', name: '[11] どえりゃ〜どうとくパレード会場', detail: '道徳商店街パレード演舞（道徳駅から徒歩4分）', code: '2652' },
+        { time: '15:15', type: '電車', name: '道徳駅 → 金山駅 → 栄駅', detail: '名鉄常滑線＋地下鉄名城線（金山乗換） 道徳15:15(名鉄普通)→金山15:28発(名城線)→15:36栄着［名鉄190円+地下鉄210円］', code: '-' },
+        { time: '16:54', type: '演舞', name: '[4] テレビ塔パレード会場', detail: '最終演舞ステージ！', code: '2252' }
+      ]
+    }
+  ];
+
+  scheduleContainer.innerHTML = domatsuriSchedule.map(day => {
+    const rowsHtml = day.items.map(item => {
+      let badgeClass = 'badge-normal';
+      if (item.type === '審査演舞') badgeClass = 'badge-shinsa';
+      else if (item.type === '集合') badgeClass = 'badge-syugo';
+      else if (item.type === '電車') badgeClass = 'badge-densha';
+      else if (item.type === '演舞') badgeClass = 'badge-high';
+
+      return `
+        <tr class="${item.isShinsa ? 'shinsa-row' : ''}">
+          <td style="font-weight:700; white-space:nowrap;">${escapeHtml(item.time)}</td>
+          <td><span class="badge ${badgeClass}">${escapeHtml(item.type)}</span></td>
+          <td style="font-weight:700;">${escapeHtml(item.name)}</td>
+          <td style="font-size:0.84rem; color:var(--text-muted);">${escapeHtml(item.detail)}</td>
+          <td style="font-family:monospace; font-weight:700; text-align:center;">${escapeHtml(item.code)}</td>
+        </tr>
+      `;
+    }).join('');
+
+    return `
+      <div class="domatsuri-day-card">
+        <div class="domatsuri-day-header">
+          <div class="domatsuri-day-title">
+            <span>📅</span> ${escapeHtml(day.dayTitle)}
+          </div>
+          <span class="badge badge-syugo">${escapeHtml(day.assembly)}</span>
+        </div>
+        <div class="domatsuri-table-wrapper">
+          <table class="domatsuri-table">
+            <thead>
+              <tr>
+                <th style="width:70px;">時刻</th>
+                <th style="width:80px; text-align:center;">区分</th>
+                <th>内容・会場</th>
+                <th>移動・詳細備考</th>
+                <th style="width:85px; text-align:center;">問合番号</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 持ち物チェックリストの初期化・ローカルストレージ連携
+  const checklistItems = [
+    { id: 'pouch', label: 'B6透明 / 半透明ポーチ（マチ無し）' },
+    { id: 'name_tag', label: 'ポーチ外側のチーム名「ダンスチーム凛」・氏名表記' },
+    { id: 'wallet', label: 'お財布・現金' },
+    { id: 'ticket', label: 'ドニチカ切符（土日620円） / 交通系ICカード' },
+    { id: 'phone', label: '携帯電話（スマートフォ全充電）' },
+    { id: 'meds', label: '常備薬・メイク直し用品・保険証（写）' }
+  ];
+
+  const savedState = JSON.parse(localStorage.getItem('rin_domatsuri_checklist') || '{}');
+
+  checklistContainer.innerHTML = `
+    <div class="card" style="border-color: var(--gold-primary);">
+      <h3 style="font-family: var(--font-family-mincho); font-size: 1.15rem; font-weight: 700; color: var(--gold-light); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <span>🎒</span> 演舞時ポーチ規定 ＆ 持参品チェックリスト
+      </h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+        演舞エリアへ持ち込める荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」</strong>限定です。持参するものをタップして準備状況をチェックできます。
+      </p>
+      <div id="checklist-items-wrapper">
+        ${checklistItems.map(item => {
+          const isChecked = !!savedState[item.id];
+          return `
+            <label class="domatsuri-checklist-item ${isChecked ? 'checked' : ''}" data-id="${item.id}">
+              <input type="checkbox" ${isChecked ? 'checked' : ''}>
+              <span>${escapeHtml(item.label)}</span>
+            </label>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  document.querySelectorAll('.domatsuri-checklist-item').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const checkbox = el.querySelector('input[type="checkbox"]');
+      if (e.target !== checkbox) {
+        checkbox.checked = !checkbox.checked;
+      }
+      const id = el.getAttribute('data-id');
+      if (checkbox.checked) {
+        el.classList.add('checked');
+        savedState[id] = true;
+      } else {
+        el.classList.remove('checked');
+        delete savedState[id];
+      }
+      localStorage.setItem('rin_domatsuri_checklist', JSON.stringify(savedState));
+    });
+  });
 }

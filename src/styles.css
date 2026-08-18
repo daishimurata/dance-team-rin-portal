@@ -538,3 +538,120 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* どまつり演舞タイムスケジュール ＆ ガイダンス用スタイル */
+.domatsuri-day-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.domatsuri-day-header {
+  background: linear-gradient(135deg, #131b26 0%, #1e293b 100%);
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.domatsuri-day-title {
+  font-family: var(--font-family-mincho);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.domatsuri-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.domatsuri-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+.domatsuri-table th, .domatsuri-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+
+.domatsuri-table th {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--gold-light);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.domatsuri-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.domatsuri-table tr.shinsa-row {
+  background: rgba(212, 175, 55, 0.12);
+  border-left: 4px solid var(--gold-primary);
+}
+
+.domatsuri-table tr.shinsa-row td {
+  color: #fff;
+}
+
+.badge-shinsa {
+  background: var(--gold-gradient);
+  color: #0b0e14;
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.badge-densha {
+  background: rgba(67, 56, 202, 0.25);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.4);
+}
+
+.badge-syugo {
+  background: rgba(21, 128, 61, 0.25);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.domatsuri-checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(9, 12, 16, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.domatsuri-checklist-item:hover {
+  border-color: var(--gold-primary);
+}
+
+.domatsuri-checklist-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold-primary);
+  cursor: pointer;
+}
+
+.domatsuri-checklist-item.checked span {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
