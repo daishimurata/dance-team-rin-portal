@@ -9,8 +9,8 @@
     .admin-auth-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(13, 17, 23, 0.96);
-      backdrop-filter: blur(15px);
+      background: rgba(9, 12, 16, 0.96);
+      backdrop-filter: blur(20px);
       z-index: 9999;
       display: flex;
       align-items: center;
@@ -19,36 +19,38 @@
     }
     .auth-box {
       background: var(--bg-card);
-      border: 1px solid var(--primary);
+      border: 1px solid var(--gold-primary);
       border-radius: var(--radius-lg);
-      padding: 28px;
-      max-width: 400px;
+      padding: 32px;
+      max-width: 420px;
       width: 100%;
       text-align: center;
-      box-shadow: var(--shadow-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-gold);
     }
     .admin-nav {
       display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 24px;
       overflow-x: auto;
       padding-bottom: 6px;
     }
     .admin-nav-btn {
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.08);
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-color);
-      border-radius: 20px;
-      color: var(--text-main);
-      font-size: 0.85rem;
+      border-radius: 25px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
+      transition: all 0.25s ease;
     }
     .admin-nav-btn.active {
-      background: var(--primary-gradient);
-      color: white;
+      background: var(--gold-gradient);
+      color: #090c10;
       border-color: transparent;
+      box-shadow: var(--gold-glow);
     }
     .table-responsive {
       width: 100%;
@@ -62,12 +64,13 @@
       text-align: left;
     }
     table.data-table th, table.data-table td {
-      padding: 10px 12px;
+      padding: 12px;
       border-bottom: 1px solid var(--border-color);
     }
     table.data-table th {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--accent-gold);
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold-light);
+      font-weight: 700;
     }
   </style>
 </head>
@@ -76,22 +79,22 @@
   <!-- パスコード認証オーバーレイ -->
   <div id="admin-auth" class="admin-auth-overlay">
     <div class="auth-box">
-      <div class="brand-icon" style="margin: 0 auto 14px;">凛</div>
-      <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 6px;">運営管理者アクセス</h2>
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 18px;">管理者用パスコードを入力してください</p>
+      <div class="brand-icon" style="margin: 0 auto 16px;">管</div>
+      <h2 style="font-family: var(--font-family-mincho); font-size: 1.3rem; font-weight: 700; color: var(--gold-light); margin-bottom: 6px;">運営管理者アクセス</h2>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 20px;">管理者用パスコードを入力してください</p>
       <form id="auth-form">
         <div class="form-group">
           <input type="password" id="auth-pass" class="form-input" placeholder="パスコードを入力 (初期: rin2026)" required style="text-align: center;">
         </div>
-        <button type="submit" class="btn btn-primary">認証してログイン</button>
+        <button type="submit" class="btn btn-gold">認証してログイン</button>
       </form>
     </div>
   </div>
 
   <!-- 管理者ヘッダー -->
-  <header class="app-header" style="border-bottom-color: rgba(244, 162, 97, 0.4);">
+  <header class="app-header">
     <div class="brand-logo">
-      <div class="brand-icon" style="background: var(--accent-gold-gradient); color: #111;">管</div>
+      <div class="brand-icon" style="background: var(--gold-gradient); color: #000;">管</div>
       <div>
         <div class="brand-title">ダンスチーム「凛」</div>
         <div class="brand-subtitle">運営管理者用ダッシュボード</div>
@@ -105,7 +108,7 @@
 
   <main class="container" id="admin-main" style="display: none;">
 
-    <!-- 管理用サブナビゲーション -->
+    <!-- 管理用サブナビゲーション (SaaSスタイリッシュピルタブ) -->
     <nav class="admin-nav">
       <button class="admin-nav-btn active" data-target="admin-sec-create-form">📝 フォームの発行・作成</button>
       <button class="admin-nav-btn" data-target="admin-sec-responses">📊 回収データ・全回答集計</button>
@@ -114,11 +117,11 @@
 
     <!-- 1. フォームの発行・作成セクション -->
     <section id="admin-sec-create-form" class="tab-content active">
-      <div class="card" style="border-color: rgba(244, 162, 97, 0.4);">
-        <h2 class="announce-title" style="color: var(--accent-gold); margin-bottom: 14px;">📝 新しいフォームを発行する</h2>
+      <div class="card" style="border-color: var(--gold-primary);">
+        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--gold-light); margin-bottom: 16px;">📝 新しいフォームを発行する</h2>
         <form id="create-form-form">
           <div class="form-group">
-            <label class="form-label">フォームのタイトル <span class="required">*</span></label>
+            <label class="form-label">フォームのタイトル <span style="color:var(--gold-primary);">*</span></label>
             <input type="text" id="new-form-title" class="form-input" placeholder="例: 9月15日(月) 遠征出欠確認" required>
           </div>
 
@@ -134,7 +137,7 @@
 
           <hr style="border-color: var(--border-color); margin: 20px 0;">
 
-          <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 12px;">設問項目の作成</h3>
+          <h3 style="font-size: 1rem; font-weight: 700; color: var(--gold-light); margin-bottom: 14px;">設問項目の作成</h3>
           <div id="fields-editor-container"></div>
 
           <button type="button" id="btn-add-field" class="btn btn-secondary" style="margin-bottom: 20px;">
@@ -151,7 +154,7 @@
     <!-- 2. フォーム回収データ・全回答集計セクション -->
     <section id="admin-sec-responses" class="tab-content">
       <div class="card">
-        <h2 class="announce-title" style="color: var(--accent-gold); margin-bottom: 14px;">📊 フォーム回収・集計ダッシュボード</h2>
+        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--gold-light); margin-bottom: 16px;">📊 フォーム回収・集計ダッシュボード</h2>
         
         <div class="form-group">
           <label class="form-label">確認したいフォームを選択</label>
@@ -170,7 +173,7 @@
     <!-- 3. 連絡・お知らせ発行セクション -->
     <section id="admin-sec-create-announce" class="tab-content">
       <div class="card">
-        <h2 class="announce-title" style="color: var(--primary); margin-bottom: 14px;">📢 運営からの重要連絡を発行する</h2>
+        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--primary-red); margin-bottom: 16px;">📢 運営からの重要連絡を発行する</h2>
         <form id="create-announce-form">
           <div class="form-group">
             <label class="form-label">連絡カテゴリ</label>
@@ -187,18 +190,18 @@
             <label class="form-label">重要度区分</label>
             <select id="announce-importance" class="form-select">
               <option value="high">高（赤バッジ強調）</option>
-              <option value="medium">中（オレンジバッジ）</option>
+              <option value="medium">中（金バッジ）</option>
               <option value="normal">通常</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">タイトル <span class="required">*</span></label>
+            <label class="form-label">タイトル <span style="color:var(--gold-primary);">*</span></label>
             <input type="text" id="announce-title" class="form-input" placeholder="例: 今週末の雨天時練習について" required>
           </div>
 
           <div class="form-group">
-            <label class="form-label">連絡本文 <span class="required">*</span></label>
+            <label class="form-label">連絡本文 <span style="color:var(--gold-primary);">*</span></label>
             <textarea id="announce-content" class="form-textarea" rows="5" placeholder="メンバー全体に届ける連絡内容を詳しく入力してください" required></textarea>
           </div>
 

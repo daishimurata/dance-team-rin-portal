@@ -24,18 +24,22 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-search-my-response')?.addEventListener('click', handleSearchMyResponse);
 });
 
+// PC ＆ スマホのスタイリッシュSaaSナビ連動設定
 function setupNavigation() {
-  const navBtns = document.querySelectorAll('.nav-item');
-  navBtns.forEach(btn => {
+  const allNavBtns = document.querySelectorAll('.nav-item, .desktop-nav-btn');
+  
+  allNavBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const tabId = btn.getAttribute('data-tab');
       if (!tabId) return;
 
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-      navBtns.forEach(b => b.classList.remove('active'));
+      allNavBtns.forEach(b => b.classList.remove('active'));
 
+      // 同じ tabId を持つボタン全て（PC・スマホ両方）をアクティブ化
+      document.querySelectorAll(`[data-tab="${tabId}"]`).forEach(b => b.classList.add('active'));
       document.getElementById(tabId)?.classList.add('active');
-      btn.classList.add('active');
+      
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
@@ -124,7 +128,7 @@ async function loadVenuesData() {
       ` : ''}
 
       ${v.mapUrl ? `
-        <a href="${escapeHtml(v.mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="margin-top: 14px;">
+        <a href="${escapeHtml(v.mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="margin-top: 14px;">
           <span>🗺️</span> Googleマップでナビを開く
         </a>
       ` : ''}
@@ -132,7 +136,7 @@ async function loadVenuesData() {
   `).join('');
 }
 
-// 3. フォーム一覧ロード ＆ Google Forms 互換レンダラー
+// 3. フォーム一覧ロード
 async function loadFormsData() {
   const container = document.getElementById('forms-list');
   if (!container) return;
@@ -155,7 +159,7 @@ async function loadFormsData() {
           </span>
           <span style="font-size:0.8rem; color:var(--text-muted);">締切: ${escapeHtml(f.deadline)}</span>
         </div>
-        <h3 class="announce-title">${escapeHtml(f.title)}</h3>
+        <h3 class="announce-title" style="color:var(--gold-light);">${escapeHtml(f.title)}</h3>
         <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">${escapeHtml(f.description)}</p>
         
         ${isOpen ? `
@@ -178,11 +182,10 @@ async function loadFormsData() {
     });
   });
 
-  // 直リンク URL チェック (?form=xxx)
   const urlParams = new URLSearchParams(window.location.search);
   const targetFormId = urlParams.get('form');
   if (targetFormId) {
-    const formTabBtn = document.querySelector('.nav-item[data-tab="tab-forms"]');
+    const formTabBtn = document.querySelector('[data-tab="tab-forms"]');
     if (formTabBtn) formTabBtn.click();
     openForm(targetFormId);
   }
@@ -203,10 +206,9 @@ function openForm(formId) {
 
   const fieldsContainer = document.getElementById('form-fields-container');
   fieldsContainer.innerHTML = form.fields.map(field => {
-    const reqMark = field.required ? '<span class="required">*</span>' : '';
+    const reqMark = field.required ? '<span class="required" style="color:var(--gold-primary);">*</span>' : '';
     const helpHtml = field.helpText ? `<div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:6px;">${escapeHtml(field.helpText)}</div>` : '';
     
-    // 1. 単一選択 (ラジオボタン)
     if (field.type === 'radio' && field.options) {
       const optionsHtml = field.options.map((opt, idx) => `
         <label class="radio-option">
@@ -222,7 +224,6 @@ function openForm(formId) {
         </div>
       `;
     } 
-    // 2. 複数選択 (チェックボックス)
     else if (field.type === 'checkbox' && field.options) {
       const optionsHtml = field.options.map(opt => `
         <label class="radio-option">
@@ -238,7 +239,6 @@ function openForm(formId) {
         </div>
       `;
     }
-    // 3. 5段階評価スケール (均等スケール)
     else if (field.type === 'scale') {
       const min = field.min || 1;
       const max = field.max || 5;
@@ -246,8 +246,8 @@ function openForm(formId) {
       for (let i = min; i <= max; i++) {
         scaleBtns += `
           <label style="display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer;">
-            <input type="radio" name="${field.id}" value="${i}" ${field.required && i === min ? 'required' : ''} style="width:18px; height:18px; accent-color:var(--accent-gold);">
-            <span style="font-size:0.85rem; font-weight:700;">${i}</span>
+            <input type="radio" name="${field.id}" value="${i}" ${field.required && i === min ? 'required' : ''} style="width:18px; height:18px; accent-color:var(--gold-primary);">
+            <span style="font-size:0.85rem; font-weight:700; color:var(--gold-light);">${i}</span>
           </label>
         `;
       }
@@ -255,7 +255,7 @@ function openForm(formId) {
         <div class="form-group">
           <label class="form-label">${escapeHtml(field.label)}${reqMark}</label>
           ${helpHtml}
-          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(13,17,23,0.5); padding:12px 16px; border-radius:var(--radius-sm); border:1px solid var(--border-color); margin-top:6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(9,12,16,0.6); padding:12px 16px; border-radius:var(--radius-sm); border:1px solid var(--border-color); margin-top:6px;">
             <span style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(field.minLabel || '低い')}</span>
             <div style="display:flex; gap:16px;">${scaleBtns}</div>
             <span style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(field.maxLabel || '高い')}</span>
@@ -263,7 +263,6 @@ function openForm(formId) {
         </div>
       `;
     }
-    // 4. ドロップダウン選択
     else if (field.type === 'select' && field.options) {
       const optionsHtml = field.options.map(opt => `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`).join('');
       return `
@@ -276,7 +275,6 @@ function openForm(formId) {
         </div>
       `;
     } 
-    // 5. 段落 (長文テキスト)
     else if (field.type === 'textarea') {
       return `
         <div class="form-group">
@@ -286,7 +284,6 @@ function openForm(formId) {
         </div>
       `;
     } 
-    // 6. 1行記述 / 日付 / 時間 / 数値
     else {
       return `
         <div class="form-group">
@@ -321,7 +318,6 @@ async function handleFormSubmit(e) {
   for (let [key, value] of formDataObj.entries()) {
     if (key === 'form-id-input' || key === 'form-title-input') continue;
 
-    // チェックボックス等で同キーが複数ある場合配列として統合
     if (answers[key]) {
       if (Array.isArray(answers[key])) {
         answers[key].push(value);
@@ -337,7 +333,6 @@ async function handleFormSubmit(e) {
     }
   }
 
-  // 配列化されている回答をカンマ区切りの文字列に変換
   Object.keys(answers).forEach(k => {
     if (Array.isArray(answers[k])) {
       answers[k] = answers[k].join(', ');
@@ -349,12 +344,11 @@ async function handleFormSubmit(e) {
   btn.textContent = '回答を送信する';
 
   if (res.success) {
-    // Google Forms 風 サンクス画面の表示
     const area = document.getElementById('form-render-area');
     area.innerHTML = `
       <div style="text-align:center; padding:30px 10px;">
-        <div style="font-size:48px; margin-bottom:12px;">✅</div>
-        <h3 style="font-size:1.3rem; font-weight:700; color:var(--text-highlight); margin-bottom:8px;">ご回答ありがとうございました！</h3>
+        <div style="font-size:48px; margin-bottom:12px; filter: drop-shadow(0 0 10px rgba(212,175,55,0.4));">✨</div>
+        <h3 style="font-family: var(--font-family-mincho); font-size:1.35rem; font-weight:700; color:var(--gold-light); margin-bottom:8px;">ご回答ありがとうございました！</h3>
         <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:24px;">「${escapeHtml(formTitle)}」への送信が正常に完了いたしました。</p>
         <button class="btn btn-gold" onclick="location.reload()">
           フォーム一覧へ戻る
@@ -367,7 +361,6 @@ async function handleFormSubmit(e) {
   }
 }
 
-// 自分の過去回答確認
 async function handleSearchMyResponse() {
   const nameInput = document.getElementById('my-name-input');
   const resultsDiv = document.getElementById('my-response-results');
@@ -389,8 +382,8 @@ async function handleSearchMyResponse() {
   }
 
   resultsDiv.innerHTML = myResponses.map(r => `
-    <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:6px; margin-top:8px; font-size:0.85rem;">
-      <div style="font-weight:700; color:var(--accent-gold);">${escapeHtml(r.formTitle)}</div>
+    <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:6px; margin-top:8px; font-size:0.85rem; border-left:3px solid var(--gold-primary);">
+      <div style="font-weight:700; color:var(--gold-light);">${escapeHtml(r.formTitle)}</div>
       <div style="font-size:0.75rem; color:var(--text-muted);">回答日時: ${escapeHtml(r.timestamp || r.createdAt)}</div>
       <div style="margin-top:6px;">
         ${Object.entries(r.answers).map(([k, v]) => `<div><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</div>`).join('')}
@@ -399,7 +392,6 @@ async function handleSearchMyResponse() {
   `).join('');
 }
 
-// 4. 掲示板
 async function loadBoardData() {
   const container = document.getElementById('board-list-container');
   if (!container) return;
@@ -413,7 +405,7 @@ async function loadBoardData() {
   container.innerHTML = posts.map(p => `
     <div class="board-item">
       <div class="board-meta">
-        <span class="board-author">👤 ${escapeHtml(p.author)}</span>
+        <span class="board-author" style="color:var(--gold-light);">👤 ${escapeHtml(p.author)}</span>
         <span>${escapeHtml(p.date)}</span>
       </div>
       <div class="board-msg">${escapeHtml(p.message)}</div>
