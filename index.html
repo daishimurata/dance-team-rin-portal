@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- ヘッダー -->
+  <!-- ヘッダー (管理者ボタンやリンクは配置しない) -->
   <header class="app-header">
     <div class="brand-logo">
       <div class="brand-icon">凛</div>
@@ -19,7 +19,7 @@
     </div>
   </header>
 
-  <!-- トースト通知用 -->
+  <!-- トースト通知 -->
   <div id="toast" class="toast"></div>
 
   <main class="container">
@@ -43,11 +43,25 @@
       </div>
     </section>
 
-    <!-- タブ 2: フォーム回収 -->
+    <!-- タブ 2: フォーム回収 (出欠・アンケート ＆ 自分の回答参照) -->
     <section id="tab-forms" class="tab-content">
       <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
         <span>📝</span> 回答フォーム（出欠・アンケート）
       </h2>
+
+      <!-- 自分の回答検索カード -->
+      <div class="card" style="border-color: rgba(42, 157, 143, 0.4); background: rgba(13, 17, 23, 0.6);">
+        <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--accent-teal);">🔍 自分の過去の回答を確認する</div>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="my-name-input" class="form-input" placeholder="お名前（例: たろう）" style="padding: 8px 12px; font-size: 0.85rem;">
+          <button id="btn-search-my-response" class="btn btn-secondary" style="width: auto; padding: 8px 14px; font-size: 0.85rem; white-space: nowrap;">
+            確認
+          </button>
+        </div>
+        <div id="my-response-results" style="margin-top: 10px; display: none;"></div>
+      </div>
+
+      <!-- フォーム一覧 -->
       <div id="forms-list">
         <div class="spinner-container">
           <div class="spinner"></div>
@@ -118,7 +132,7 @@
 
   </main>
 
-  <!-- ボトム固定ナビゲーション -->
+  <!-- ボトム固定ナビゲーション (一般メンバー用のみ) -->
   <nav class="bottom-nav">
     <button class="nav-item active" data-tab="tab-announce">
       <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg>

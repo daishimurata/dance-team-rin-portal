@@ -4,6 +4,7 @@ import {
   fetchVenues, 
   fetchForms, 
   sendFormResponse, 
+  fetchMyFormResponses,
   fetchBoardPosts, 
   saveBoardPost 
 } from './firebase.js';
@@ -17,13 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
   loadFormsData();
   loadBoardData();
 
-  // フォームイベント登録
   document.getElementById('dynamic-form')?.addEventListener('submit', handleFormSubmit);
   document.getElementById('board-form')?.addEventListener('submit', handleBoardSubmit);
   document.getElementById('btn-back-forms')?.addEventListener('click', closeFormArea);
+  document.getElementById('btn-search-my-response')?.addEventListener('click', handleSearchMyResponse);
 });
 
-// ナビゲーション設定
 function setupNavigation() {
   const navBtns = document.querySelectorAll('.nav-item');
   navBtns.forEach(btn => {
@@ -41,7 +41,6 @@ function setupNavigation() {
   });
 }
 
-// トースト通知
 function showToast(message) {
   const toast = document.getElementById('toast');
   if (!toast) return;
@@ -52,7 +51,7 @@ function showToast(message) {
   }, 3200);
 }
 
-// 1. お知らせ一覧ロード
+// 1. お知らせ
 async function loadAnnouncementsData() {
   const container = document.getElementById('announce-list');
   if (!container) return;
@@ -84,7 +83,7 @@ async function loadAnnouncementsData() {
   }).join('');
 }
 
-// 2. 会場案内ロード
+// 2. 会場案内
 async function loadVenuesData() {
   const container = document.getElementById('venues-list');
   if (!container) return;
@@ -268,14 +267,46 @@ async function handleFormSubmit(e) {
   }
 }
 
-// 4. 掲示板データロード
+// 自分の過去の回答検索（他人の回答は見えない）
+async function handleSearchMyResponse() {
+  const nameInput = document.getElementById('my-name-input');
+  const resultsDiv = document.getElementById('my-response-results');
+  const name = nameInput.value.trim();
+
+  if (!name) {
+    alert('確認したいお名前を入力してください');
+    return;
+  }
+
+  resultsDiv.style.display = 'block';
+  resultsDiv.innerHTML = '<div style="font-size:0.82rem; color:var(--text-muted);">検索中...</div>';
+
+  const myResponses = await fetchMyFormResponses(name);
+
+  if (!myResponses || myResponses.length === 0) {
+    resultsDiv.innerHTML = '<div style="font-size:0.82rem; color:var(--text-muted); margin-top:6px;">「' + escapeHtml(name) + '」様の過去回答履歴は見つかりませんでした。</div>';
+    return;
+  }
+
+  resultsDiv.innerHTML = myResponses.map(r => `
+    <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:6px; margin-top:8px; font-size:0.85rem;">
+      <div style="font-weight:700; color:var(--accent-gold);">${escapeHtml(r.formTitle)}</div>
+      <div style="font-size:0.75rem; color:var(--text-muted);">回答日時: ${escapeHtml(r.timestamp || r.createdAt)}</div>
+      <div style="margin-top:6px;">
+        ${Object.entries(r.answers).map(([k, v]) => `<div><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// 4. 掲示板
 async function loadBoardData() {
   const container = document.getElementById('board-list-container');
   if (!container) return;
 
   const posts = await fetchBoardPosts();
   if (!posts || posts.length === 0) {
-    container.innerHTML = '<div style="text-align:center; color: var(--text-muted); padding: 10px 0;">投稿はまだありません。最初のメッセージを投稿してみましょう！</div>';
+    container.innerHTML = '<div style="text-align:center; color: var(--text-muted); padding: 10px 0;">投稿はまだありません。</div>';
     return;
   }
 

@@ -5,11 +5,11 @@ import {
   getDocs, 
   addDoc, 
   query, 
+  where,
   orderBy, 
   serverTimestamp 
 } from 'firebase/firestore';
 
-// Firebase設定（環境変数またはデフォルト設定）
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDemoKeyForDanceTeamRin12345",
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "dance-team-rin.firebaseapp.com",
@@ -27,10 +27,12 @@ try {
   db = getFirestore(app);
   isFirebaseAvailable = true;
 } catch (e) {
-  console.warn('Firebase connection warning (offline / fallback mode):', e);
+  console.warn('Firebase connection warning (fallback mode):', e);
 }
 
-// 1. お知らせ一覧の取得
+// ----------------------------------------------------
+// 1. お知らせ (Announcements) API
+// ----------------------------------------------------
 export async function fetchAnnouncements() {
   if (isFirebaseAvailable && db) {
     try {
@@ -40,12 +42,12 @@ export async function fetchAnnouncements() {
         return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       }
     } catch (err) {
-      console.warn('Firestore fetch error, using fallback announcements:', err);
+      console.warn('Firestore fetch error, fallback announcements:', err);
     }
   }
 
-  // フォールバックデータ
-  return [
+  const local = JSON.parse(localStorage.getItem('rin_announcements') || '[]');
+  const defaultList = [
     {
       id: '1',
       date: '2026-08-18 10:00',
@@ -61,19 +63,37 @@ export async function fetchAnnouncements() {
       title: '新衣装のサイズ申請フォーム回答のお願い',
       content: '新衣装の採寸・サイズ申請フォームを設置しました。フォームタブより8月25日(火)までに回答をお願いします！',
       importance: 'medium'
-    },
-    {
-      id: '3',
-      date: '2026-08-10 18:00',
-      category: 'イベント',
-      title: '夏祭りステージ写真共有',
-      content: '夏祭りお疲れ様でした！練習風景・本番写真は公式ギャラリーよりご確認いただけます。',
-      importance: 'normal'
     }
   ];
+  return [...local, ...defaultList];
 }
 
-// 2. 会場案内の取得
+// お知らせの新規作成 (管理者専用)
+export async function createAnnouncement(category, title, content, importance) {
+  const dateStr = new Date().toLocaleString('ja-JP', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+  const newObj = { category, title, content, importance, date: dateStr };
+
+  if (isFirebaseAvailable && db) {
+    try {
+      await addDoc(collection(db, 'announcements'), {
+        ...newObj,
+        createdAt: serverTimestamp()
+      });
+      return { success: true, message: 'お知らせを公開しました！' };
+    } catch (err) {
+      console.warn('Firestore write error, local fallback:', err);
+    }
+  }
+
+  const local = JSON.parse(localStorage.getItem('rin_announcements') || '[]');
+  local.unshift({ id: 'loc_' + Date.now(), ...newObj });
+  localStorage.setItem('rin_announcements', JSON.stringify(local));
+  return { success: true, message: 'お知らせを投稿しました（ローカル保存）' };
+}
+
+// ----------------------------------------------------
+// 2. 会場案内 (Venues) API
+// ----------------------------------------------------
 export async function fetchVenues() {
   if (isFirebaseAvailable && db) {
     try {
@@ -82,7 +102,7 @@ export async function fetchVenues() {
         return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       }
     } catch (err) {
-      console.warn('Firestore fetch error, using fallback venues:', err);
+      console.warn('Firestore fetch error, fallback venues:', err);
     }
   }
 
@@ -108,7 +128,9 @@ export async function fetchVenues() {
   ];
 }
 
-// 3. フォーム一覧の取得
+// ----------------------------------------------------
+// 3. フォーム定義 (Forms) ＆ 発行 API
+// ----------------------------------------------------
 export async function fetchForms() {
   if (isFirebaseAvailable && db) {
     try {
@@ -117,11 +139,12 @@ export async function fetchForms() {
         return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       }
     } catch (err) {
-      console.warn('Firestore fetch error, using fallback forms:', err);
+      console.warn('Firestore fetch error, fallback forms:', err);
     }
   }
 
-  return [
+  const local = JSON.parse(localStorage.getItem('rin_created_forms') || '[]');
+  const defaultForms = [
     {
       id: 'f1',
       title: '8月24日(日) 全体練習 出欠確認',
@@ -150,39 +173,119 @@ export async function fetchForms() {
       ]
     }
   ];
+  return [...local, ...defaultForms];
 }
 
-// 4. フォーム回答の保存 (Firestore)
-export async function sendFormResponse(formId, formTitle, respondentName, answers) {
+// フォームの新規発行 (管理者専用)
+export async function createNewForm(title, description, deadline, fields) {
+  const formId = 'f_' + Date.now();
+  const formObj = {
+    id: formId,
+    title,
+    description,
+    deadline,
+    status: 'open',
+    fields,
+    createdAt: new Date().toISOString()
+  };
+
   if (isFirebaseAvailable && db) {
     try {
-      await addDoc(collection(db, 'form_responses'), {
-        formId,
-        formTitle,
-        respondentName,
-        answers,
-        createdAt: serverTimestamp()
-      });
-      return { success: true, message: 'Firebase (Firestore) にご回答を保存しました！' };
+      await addDoc(collection(db, 'forms'), formObj);
+      return { success: true, message: '新しいフォームを発行・公開しました！' };
     } catch (err) {
-      console.warn('Firestore write failed, saving locally:', err);
+      console.warn('Firestore write error, local fallback:', err);
     }
   }
 
-  // LocalStorage 保存フォールバック
-  const existing = JSON.parse(localStorage.getItem('rin_form_responses') || '[]');
-  existing.push({
+  const local = JSON.parse(localStorage.getItem('rin_created_forms') || '[]');
+  local.unshift(formObj);
+  localStorage.setItem('rin_created_forms', JSON.stringify(local));
+  return { success: true, message: '新しいフォームを発行しました！（ローカル保存完了）' };
+}
+
+// ----------------------------------------------------
+// 4. フォーム回答 ＆ 権限分離 API
+// ----------------------------------------------------
+
+// 4-A. フォーム回答の送信
+export async function sendFormResponse(formId, formTitle, respondentName, answers) {
+  const payload = {
     formId,
     formTitle,
     respondentName,
     answers,
-    createdAt: new Date().toISOString()
-  });
-  localStorage.setItem('rin_form_responses', JSON.stringify(existing));
-  return { success: true, message: 'ご回答を保存しました！（ローカル保存完了）' };
+    timestamp: new Date().toLocaleString('ja-JP')
+  };
+
+  if (isFirebaseAvailable && db) {
+    try {
+      await addDoc(collection(db, 'form_responses'), {
+        ...payload,
+        createdAt: serverTimestamp()
+      });
+      return { success: true, message: 'ご回答ありがとうございます！送信が完了しました。' };
+    } catch (err) {
+      console.warn('Firestore write error, local fallback:', err);
+    }
+  }
+
+  const local = JSON.parse(localStorage.getItem('rin_form_responses') || '[]');
+  local.push(payload);
+  localStorage.setItem('rin_form_responses', JSON.stringify(local));
+  return { success: true, message: 'ご回答ありがとうございます！送信が完了しました（ローカル保存）' };
 }
 
-// 5. メンバー掲示板の投稿取得 (Firestore)
+// 4-B. 自分の回答履歴のみを取得 (一般メンバー用)
+export async function fetchMyFormResponses(respondentName) {
+  if (!respondentName) return [];
+
+  if (isFirebaseAvailable && db) {
+    try {
+      const q = query(
+        collection(db, 'form_responses'), 
+        where('respondentName', '==', respondentName)
+      );
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        return snapshot.docs.map(doc => doc.data());
+      }
+    } catch (err) {
+      console.warn('Firestore query error, filtering locally:', err);
+    }
+  }
+
+  const local = JSON.parse(localStorage.getItem('rin_form_responses') || '[]');
+  return local.filter(r => r.respondentName === respondentName);
+}
+
+// 4-C. 特定フォームの全員分の回収・集計データを取得 (管理者専用)
+export async function fetchAllFormResponses(formId) {
+  if (isFirebaseAvailable && db) {
+    try {
+      let q = collection(db, 'form_responses');
+      if (formId) {
+        q = query(collection(db, 'form_responses'), where('formId', '==', formId));
+      }
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        return snapshot.docs.map(doc => doc.data());
+      }
+    } catch (err) {
+      console.warn('Firestore fetch error, reading local responses:', err);
+    }
+  }
+
+  const local = JSON.parse(localStorage.getItem('rin_form_responses') || '[]');
+  if (formId) {
+    return local.filter(r => r.formId === formId);
+  }
+  return local;
+}
+
+// ----------------------------------------------------
+// 5. メンバー掲示板 (Board) API
+// ----------------------------------------------------
 export async function fetchBoardPosts() {
   if (isFirebaseAvailable && db) {
     try {
@@ -200,7 +303,7 @@ export async function fetchBoardPosts() {
         });
       }
     } catch (err) {
-      console.warn('Firestore fetch error, using local/fallback board:', err);
+      console.warn('Firestore fetch error, reading local board:', err);
     }
   }
 
@@ -213,7 +316,6 @@ export async function fetchBoardPosts() {
   return [...localPosts, ...defaultPosts];
 }
 
-// 6. メンバー掲示板への新規投稿 (Firestore)
 export async function saveBoardPost(author, message) {
   if (isFirebaseAvailable && db) {
     try {
@@ -222,9 +324,9 @@ export async function saveBoardPost(author, message) {
         message,
         createdAt: serverTimestamp()
       });
-      return { success: true, message: 'Firebase (Firestore) に投稿しました！' };
+      return { success: true, message: '掲示板に投稿しました！' };
     } catch (err) {
-      console.warn('Firestore write failed, saving to LocalStorage:', err);
+      console.warn('Firestore write error, local board fallback:', err);
     }
   }
 

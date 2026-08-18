@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ダンスチーム「凛」運営管理者ダッシュボード</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  <style>
+    .admin-auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 17, 23, 0.96);
+      backdrop-filter: blur(15px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-box {
+      background: var(--bg-card);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+    }
+    .admin-nav {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .admin-nav-btn {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .admin-nav-btn.active {
+      background: var(--primary-gradient);
+      color: white;
+      border-color: transparent;
+    }
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+    table.data-table th, table.data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    table.data-table th {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--accent-gold);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- パスコード認証オーバーレイ -->
+  <div id="admin-auth" class="admin-auth-overlay">
+    <div class="auth-box">
+      <div class="brand-icon" style="margin: 0 auto 14px;">凛</div>
+      <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 6px;">運営管理者アクセス</h2>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 18px;">管理者用パスコードを入力してください</p>
+      <form id="auth-form">
+        <div class="form-group">
+          <input type="password" id="auth-pass" class="form-input" placeholder="パスコードを入力 (初期: rin2026)" required style="text-align: center;">
+        </div>
+        <button type="submit" class="btn btn-primary">認証してログイン</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 管理者ヘッダー -->
+  <header class="app-header" style="border-bottom-color: rgba(244, 162, 97, 0.4);">
+    <div class="brand-logo">
+      <div class="brand-icon" style="background: var(--accent-gold-gradient); color: #111;">管</div>
+      <div>
+        <div class="brand-title">ダンスチーム「凛」</div>
+        <div class="brand-subtitle">運営管理者用ダッシュボード</div>
+      </div>
+    </div>
+    <span class="badge badge-medium">管理者モード</span>
+  </header>
+
+  <!-- トースト通知 -->
+  <div id="toast" class="toast"></div>
+
+  <main class="container" id="admin-main" style="display: none;">
+
+    <!-- 管理用サブナビゲーション -->
+    <nav class="admin-nav">
+      <button class="admin-nav-btn active" data-target="admin-sec-create-form">📝 フォームの発行・作成</button>
+      <button class="admin-nav-btn" data-target="admin-sec-responses">📊 回収データ・全回答集計</button>
+      <button class="admin-nav-btn" data-target="admin-sec-create-announce">📢 連絡・お知らせ発行</button>
+    </nav>
+
+    <!-- 1. フォームの発行・作成セクション -->
+    <section id="admin-sec-create-form" class="tab-content active">
+      <div class="card" style="border-color: rgba(244, 162, 97, 0.4);">
+        <h2 class="announce-title" style="color: var(--accent-gold); margin-bottom: 14px;">📝 新しいフォームを発行する</h2>
+        <form id="create-form-form">
+          <div class="form-group">
+            <label class="form-label">フォームのタイトル <span class="required">*</span></label>
+            <input type="text" id="new-form-title" class="form-input" placeholder="例: 9月15日(月) 遠征出欠確認" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">フォームの説明・補足メッセージ</label>
+            <textarea id="new-form-desc" class="form-textarea" rows="2" placeholder="メンバーに伝えたい補足説明を入力してください"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">回答締切日時</label>
+            <input type="text" id="new-form-deadline" class="form-input" placeholder="例: 2026-09-10 23:59">
+          </div>
+
+          <hr style="border-color: var(--border-color); margin: 20px 0;">
+
+          <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 12px;">設問項目の作成</h3>
+          <div id="fields-editor-container"></div>
+
+          <button type="button" id="btn-add-field" class="btn btn-secondary" style="margin-bottom: 20px;">
+            ＋ 設問項目を1つ追加する
+          </button>
+
+          <button type="submit" class="btn btn-gold" style="font-size: 1rem; padding: 14px;">
+            🚀 この内容でフォームを発行・配信する
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 2. フォーム回収データ・全回答集計セクション -->
+    <section id="admin-sec-responses" class="tab-content">
+      <div class="card">
+        <h2 class="announce-title" style="color: var(--accent-gold); margin-bottom: 14px;">📊 フォーム回収・集計ダッシュボード</h2>
+        
+        <div class="form-group">
+          <label class="form-label">確認したいフォームを選択</label>
+          <select id="select-admin-form" class="form-select"></select>
+        </div>
+
+        <div id="responses-summary-area" style="margin-top: 20px;">
+          <div class="spinner-container">
+            <div class="spinner"></div>
+            <div>回収データを読み込み中...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 連絡・お知らせ発行セクション -->
+    <section id="admin-sec-create-announce" class="tab-content">
+      <div class="card">
+        <h2 class="announce-title" style="color: var(--primary); margin-bottom: 14px;">📢 運営からの重要連絡を発行する</h2>
+        <form id="create-announce-form">
+          <div class="form-group">
+            <label class="form-label">連絡カテゴリ</label>
+            <select id="announce-category" class="form-select">
+              <option value="重要">重要</option>
+              <option value="練習日程">練習日程</option>
+              <option value="衣装・備品">衣装・備品</option>
+              <option value="本番・イベント">本番・イベント</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">重要度区分</label>
+            <select id="announce-importance" class="form-select">
+              <option value="high">高（赤バッジ強調）</option>
+              <option value="medium">中（オレンジバッジ）</option>
+              <option value="normal">通常</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">タイトル <span class="required">*</span></label>
+            <input type="text" id="announce-title" class="form-input" placeholder="例: 今週末の雨天時練習について" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">連絡本文 <span class="required">*</span></label>
+            <textarea id="announce-content" class="form-textarea" rows="5" placeholder="メンバー全体に届ける連絡内容を詳しく入力してください" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            📢 メンバーポータルにお知らせを公開する
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="/src/admin.js"></script>
+</body>
+</html>
