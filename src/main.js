@@ -49,7 +49,7 @@ function showToast(message) {
   }, 3200);
 }
 
-// 1. 運営からのお知らせ
+// 1. 運営からのお知らせ (専用Webページリンク付き)
 async function loadAnnouncementsData() {
   const container = document.getElementById('announce-list');
   if (!container) return;
@@ -75,7 +75,13 @@ async function loadAnnouncementsData() {
           <span class="announce-date" style="font-size:0.8rem; color:var(--text-muted);">${escapeHtml(item.date)}</span>
         </div>
         <h3 class="announce-title">${escapeHtml(item.title)}</h3>
-        <div class="announce-body">${escapeHtml(item.content)}</div>
+        <div class="announce-body" style="margin-bottom:12px;">${escapeHtml(item.content)}</div>
+
+        ${item.linkUrl ? `
+          <a href="${escapeHtml(item.linkUrl)}" class="btn btn-gold" style="margin-top:10px; font-size:0.9rem;">
+            ${escapeHtml(item.linkText || '🔗 関連ページを開く')}
+          </a>
+        ` : ''}
       </article>
     `;
   }).join('');
@@ -111,8 +117,11 @@ async function loadVenuesData() {
 
       timelineHtml = `
         <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:var(--radius-sm); padding:16px; margin:14px 0 16px;">
-          <div style="font-weight:700; font-size:0.95rem; color:var(--text-main); margin-bottom:12px; display:flex; align-items:center; gap:6px;">
-            <span>⏱️</span> にっぽんど真ん中祭り 当日タイムスケジュール
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="font-weight:700; font-size:0.95rem; color:var(--text-main); display:flex; align-items:center; gap:6px;">
+              <span>⏱️</span> にっぽんど真ん中祭り 当日タイムスケジュール
+            </div>
+            <a href="/schedule.html" class="btn btn-secondary" style="width:auto; padding:4px 10px; font-size:0.78rem;">専用Webページを開く</a>
           </div>
           ${items}
         </div>
@@ -166,11 +175,11 @@ async function loadVenuesData() {
           </div>
         ` : ''}
 
-        ${v.mapUrl ? `
-          <a href="${escapeHtml(v.mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="margin-top: 16px;">
-            <span>🗺️</span> 会場のGoogleマップナビを開く
+        <div style="display:flex; gap:10px; margin-top:16px;">
+          <a href="/schedule.html" class="btn btn-gold">
+            <span>🎪</span> タイムスケジュール専用Webページを開く
           </a>
-        ` : ''}
+        </div>
       </div>
     `;
   }).join('');

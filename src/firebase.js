@@ -53,8 +53,10 @@ export async function fetchAnnouncements() {
       date: '2026-08-18 10:00',
       category: '重要・どまつり演舞',
       title: 'にっぽんど真ん中祭り 演舞タイムスケジュール決定',
-      content: '皆様お疲れ様です！「にっぽんど真ん中祭り（どまつり）」の本番演舞タイムスケジュールが決定いたしました。演舞ナビタブより各ステージの出演時間・集合時間・衣装をご確認ください。',
-      importance: 'high'
+      content: '皆様お疲れ様です！「にっぽんど真ん中祭り（どまつり）」の本番演舞タイムスケジュールが決定いたしました。下記リンクより演舞タイムスケジュール専用Webページを開いて本番時間・集合場所をご確認ください。',
+      importance: 'high',
+      linkUrl: '/schedule.html',
+      linkText: '🎪 にっぽんど真ん中祭り タイムスケジュール専用ページを開く'
     },
     {
       id: '2',
@@ -68,9 +70,9 @@ export async function fetchAnnouncements() {
   return [...local, ...defaultList];
 }
 
-export async function createAnnouncement(category, title, content, importance) {
+export async function createAnnouncement(category, title, content, importance, linkUrl = '', linkText = '') {
   const dateStr = new Date().toLocaleString('ja-JP', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
-  const newObj = { category, title, content, importance, date: dateStr };
+  const newObj = { category, title, content, importance, date: dateStr, linkUrl, linkText };
 
   if (isFirebaseAvailable && db) {
     try {
@@ -114,6 +116,7 @@ export async function fetchVenues() {
       access: '地下鉄名城線「矢場町駅」徒歩1分 / 「栄駅」徒歩3分',
       address: '愛知県名古屋市中区栄3-65 久屋大通公園会場',
       mapUrl: 'https://maps.google.com/?q=久屋大通公園',
+      scheduleUrl: '/schedule.html',
       directions: '1. 矢場町駅 6番出口を出て久屋大通公園中央エリアへ。\n2. メインステージ裏手「チーム「凛」特設テント」へ集合。',
       notice: '本番30分前に袖集合。熱中症対策（水分・塩分タブレット）を徹底してください。',
       scheduleTimeline: [
@@ -124,24 +127,6 @@ export async function fetchVenues() {
         { time: '15:45', event: '🔥 2nd 演舞（大須観音 パレード会場）' },
         { time: '17:30', event: '🔥 3rd 演舞（栄交差点 特設ステージ演舞）' },
         { time: '19:00', event: '総踊り ＆ 全演舞終了・集合写真撮影' }
-      ]
-    },
-    {
-      id: 'v_domatsuri_osu',
-      type: 'festival',
-      name: '🎪 にっぽんど真ん中祭り 大須観音 パレード会場',
-      eventDate: '2026年8月30日(日)',
-      meetingTime: '15:15 集合 (パレードスタート地点Aブロック)',
-      costume: '正装衣装（帯締め・オリジナル扇子持参）',
-      access: '地下鉄鶴舞線・名城線「上前津駅」8番出口 徒歩3分',
-      address: '愛知県名古屋市中区大須2-21-47',
-      mapUrl: 'https://maps.google.com/?q=大須観音',
-      directions: '1. 上前津駅 8番出口から大須商店街へ直進。\n2. パレード先頭看板「凛」横に整列。',
-      notice: '沿道観客との距離が近いため、隊列フォーラムの幅に注意してください。',
-      scheduleTimeline: [
-        { time: '15:15', event: 'パレードスタート地点整列' },
-        { time: '15:45', event: '🔥 流しパレード演舞スタート' },
-        { time: '16:30', event: 'パレード演舞終了・メイン会場へ帰還' }
       ]
     }
   ];

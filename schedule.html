@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>にっぽんど真ん中祭り タイムスケジュール｜ダンスチーム「凛」</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  <style>
+    .schedule-header {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-left: 6px solid var(--gold-primary);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+    .timeline-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+    .timeline-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .timeline-time {
+      background: var(--gold-gradient);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      min-width: 72px;
+      text-align: center;
+      flex-shrink: 0;
+      box-shadow: var(--gold-glow);
+    }
+    .timeline-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      padding-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="saas-topbar">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <a href="/" class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 0.82rem;">
+        ← ポータルへ戻る
+      </a>
+      <div class="brand-title" style="font-size: 1.05rem;">ダンスチーム「凛」</div>
+    </div>
+    <span class="badge badge-medium">演舞公式スケジュール</span>
+  </header>
+
+  <main class="container" style="padding-top: 28px;">
+
+    <!-- ヘッダーカード -->
+    <div class="schedule-header">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+        <span class="badge badge-high">🎪 公式本番演舞</span>
+        <span style="font-size:0.85rem; color:var(--text-muted); font-weight:700;">開催日: 2026年8月29日(土)・30日(日)</span>
+      </div>
+      <h1 style="font-family: var(--font-family-mincho); font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+        にっぽんど真ん中祭り（どまつり）演舞タイムスケジュール
+      </h1>
+      <p style="font-size: 0.9rem; color: var(--text-muted);">
+        ダンスチーム「凛」の当日の演舞本番時間、集合場所、移動、衣装・持ち物についての公式案内ページです。
+      </p>
+    </div>
+
+    <!-- 集合 ＆ 概要情報 -->
+    <div class="card" style="border-left: 4px solid #16a34a; background: #f0fdf4;">
+      <div style="font-size: 0.85rem; font-weight: 700; color: #16a34a; margin-bottom: 4px;">📍 集合時間 ＆ 集合場所</div>
+      <div style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
+        8月29日(土) 11:30 集合 ｜ 久屋大通公園 チーム「凛」楽屋テント前
+      </div>
+      <div style="font-size: 0.88rem; color: #334155;">
+        最寄り駅: 地下鉄名城線「矢場町駅」6番出口 徒歩1分 / 「栄駅」徒歩3分
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 4px;">👘 衣装 ＆ 持ち物・備品指示</div>
+      <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+        正装衣装（赤×金ハンテン・白袴・オリジナル鳴子・演舞用扇子必携）
+      </div>
+      <div style="font-size: 0.85rem; color: var(--text-muted);">
+        ※猛暑が予想されますので、各自水分補給（スポーツドリンク）、塩分タブレット、冷却シートを必ずご持参ください。
+      </div>
+    </div>
+
+    <!-- タイムスケジュール一覧 -->
+    <h2 style="font-family: var(--font-family-mincho); font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin: 28px 0 16px; display: flex; align-items: center; gap: 8px;">
+      <span>⏱️</span> 当日分刻みタイムスケジュール
+    </h2>
+
+    <div class="timeline-card">
+      <div class="timeline-item">
+        <div class="timeline-time">11:30</div>
+        <div class="timeline-text">久屋大通公園 チーム「凛」楽屋テント集合・衣装＆メイク最終チェック</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:15</div>
+        <div class="timeline-text">公式ウォーミングアップエリアへ移動・声出し</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time" style="background:var(--primary-red-gradient);">13:00</div>
+        <div class="timeline-text" style="color:#dc2626;">🔥 1st 演舞（久屋大通公園 メインステージ演舞スタート）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">14:30</div>
+        <div class="timeline-text">パレード会場へ移動・移動車手配</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time" style="background:var(--primary-red-gradient);">15:45</div>
+        <div class="timeline-text" style="color:#dc2626;">🔥 2nd 演舞（大須観音 パレード流し演舞スタート）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time" style="background:var(--primary-red-gradient);">17:30</div>
+        <div class="timeline-text" style="color:#dc2626;">🔥 3rd 演舞（栄交差点 特設ステージ演舞）</div>
+      </div>
+      <div class="timeline-item" style="margin-bottom:0;">
+        <div class="timeline-time">19:00</div>
+        <div class="timeline-text">全演舞終了・総踊り ＆ 集合写真撮影・解散</div>
+      </div>
+    </div>
+
+    <!-- 会場ナビゲーションボタン -->
+    <div style="margin-top: 24px; text-align: center;">
+      <a href="https://maps.google.com/?q=久屋大通公園" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="font-size: 1rem; padding: 14px;">
+        🗺️ 久屋大通公園 メイン会場のGoogleマップナビを開く
+      </a>
+    </div>
+
+  </main>
+
+</body>
+</html>
