@@ -87,50 +87,57 @@ async function loadAnnouncementsData() {
   }).join('');
 }
 
-// 2. にっぽんど真ん中祭り 全演舞タイムスケジュールテーブルの完全描画
+// 2. にっぽんど真ん中祭り 全3日間（前夜祭・本祭1日目・本祭2日目）演舞タイムスケジュール描画
 async function loadVenuesData() {
   const container = document.getElementById('venues-list');
   if (!container) return;
 
-  const venues = await fetchVenues();
-  if (!venues || venues.length === 0) {
-    container.innerHTML = '<div class="card" style="text-align:center; color: var(--text-muted);">演舞スケジュールデータはありません。</div>';
-    return;
-  }
-
-  // 1日目・2日目の全タイムスケジュールデータ定義 (コミット83b0d569より復元)
-  const domatsuriDays = [
+  // 3日分全日程の公式演舞スケジュールデータ定義 (コミット83b0d569より完全復元)
+  const domatsuriSchedule = [
     {
-      dayTitle: '1日目：2026年8月29日(土) 【審査演舞 ＆ メインステージ】',
-      assembly: '09:40 集合 (久屋大通公園 凛楽屋テント前)',
+      dayTitle: '1日目：8月28日（金）前夜祭',
+      assembly: '集合 16:30 @ 久屋メイン裏 凛テント前',
       items: [
-        { time: '10:00', type: '集合', name: '矢場町駅 6番出口改札前集合 ＆ 楽屋へ移動', detail: '衣装着用・着替えテント利用可', code: '-' },
-        { time: '10:45', type: '審査演舞', isShinsa: true, name: '[1] 久屋大通公園メインステージ', detail: '🔥 ファイナルシード審査演舞！（最重要演舞）', code: '2201' },
-        { time: '11:20', type: '電車', name: '矢場町駅 → 名古屋駅', detail: '地下鉄名城線・東山線 (矢場町11:20→栄11:22発→11:27名古屋着［210円］)', code: '-' },
-        { time: '12:12', type: '演舞', name: '[2] JR名古屋駅太閤通口会場', detail: '駅前広場特設ステージ演舞', code: '2601' },
-        { time: '13:00', type: '電車', name: '名古屋駅 → 伏見駅 → 鶴舞駅', detail: '地下鉄東山線・鶴舞線 (名古屋13:00→伏見13:03発→13:09鶴舞着［240円］)', code: '-' },
-        { time: '14:05', type: '演舞', name: '[3] 鶴舞公園会場', detail: '鶴舞公園 奏楽堂前ステージ演舞', code: '2701' },
-        { time: '15:30', type: '演舞', name: '[4] テレビ塔パレード会場', detail: '久屋大通公園テレビ塔前パレード演舞', code: '2251' },
-        { time: '17:00', type: '総踊り', name: '全チーム合同総踊り ＆ 1日目終了', detail: '集合写真撮影・1日目解散', code: '-' }
+        { time: '16:30', type: '集合', name: '久屋メイン裏 集合', detail: '点呼・楽屋準備・衣装確認', code: '-' },
+        { time: '18:12', type: '演舞', name: '[1] 久屋メインステージ', detail: 'オープニング前夜祭演舞', code: '1042' },
+        { time: '19:05', type: '演舞', name: '[4] テレビ塔パレード会場', detail: 'パレード前夜祭演舞', code: '1120' },
+        { time: '20:30', type: '総踊り', name: '前夜祭総踊り ＆ 解散', detail: '1日目終了', code: '-' }
       ]
     },
     {
-      dayTitle: '2日目：2026年8月30日(日) 【パレード演舞 ＆ どえりゃ〜どうとく演舞】',
-      assembly: '08:45 集合 (矢場町駅 6番出口前)',
+      dayTitle: '2日目：8月29日（土）本祭 1日目',
+      assembly: '集合 08:00 @ 白川公園',
       items: [
-        { time: '08:45', type: '集合', name: '矢場町駅 6番出口改札前集合 ＆ ウォームアップ', detail: '2日目スタート・隊列声出し確認', code: '-' },
-        { time: '09:30', type: '演舞', name: '[1] 久屋大通公園メインステージ', detail: '2日目オープニング演舞', code: '2202' },
-        { time: '10:45', type: '電車', name: '矢場町駅 → 上前津駅', detail: '地下鉄名城線 (矢場町10:45→上前津10:47着［210円］)', code: '-' },
-        { time: '11:30', type: '演舞', name: '[8] 大須観音パレード会場', detail: '大須商店街パレード流し演舞', code: '2501' },
-        { time: '13:33', type: '電車', name: '栄駅 → 金山駅 → 道徳駅', detail: '地下鉄名城線＋名鉄常滑線 (栄13:33→金山13:47発→13:53道徳着［地下鉄210円+名鉄190円］)', code: '-' },
+        { time: '08:00', type: '集合', name: '白川公園 集合', detail: '朝の点呼・隊列確認・ウォームアップ', code: '-' },
+        { time: '09:48', type: '電車', name: '矢場町駅 → 名古屋城駅', detail: '地下鉄名城線（右回り） 09:48発→09:55着（運賃200円）/ 7番出口徒歩10分', code: '-' },
+        { time: '10:42', type: '演舞', name: '[9] 名古屋城会場', detail: '名古屋城特設ステージ演舞', code: '1759' },
+        { time: '11:08', type: '電車', name: '名古屋城駅 → 久屋大通駅', detail: '地下鉄名城線（左回り） 11:08発→11:11着（運賃210円）', code: '-' },
+        { time: '11:42', type: '演舞', name: '[4] テレビ塔パレード会場', detail: 'パレード通常演舞', code: '1398' },
+        { time: '12:08', type: '電車', name: '栄駅 → 上前津駅', detail: '地下鉄名城線（左回り） 12:08発→12:12着（運賃210円）/ 上前津から徒歩8分', code: '-' },
+        { time: '12:42', type: '演舞', name: '[10] 大須観音会場', detail: '大須観音境内ステージ演舞', code: '1844' },
+        { time: '13:38', type: '電車', name: '大須観音駅 → 名古屋駅', detail: '鶴舞線＋東山線（伏見乗換） 13:38発→伏見乗換→13:49名古屋着（運賃210円）', code: '-' },
+        { time: '14:42', type: '演舞', name: '[8] 名古屋駅前JRタワーズガーデン会場', detail: '名駅タワー前ガーデンステージ演舞', code: '1719' },
+        { time: '15:45', type: '電車', name: '名古屋駅 → 栄駅', detail: '地下鉄東山線 15:45発→15:50栄着（運賃210円）※桜通線久屋大通着も可', code: '-' },
+        { time: '16:42', type: '審査演舞', isShinsa: true, name: '[4] テレビ塔パレード会場（審査演舞）', detail: '🔥 審査グループ ④ 重点勝負演舞！', code: '1448' },
+        { time: '19:30', type: '演舞', name: '[1] ファイナルシード決定戦', detail: '久屋メインステージ（久屋公園内徒歩移動）', code: '1282' }
+      ]
+    },
+    {
+      dayTitle: '3日目：8月30日（日）本祭 2日目',
+      assembly: '集合 09:30 @ オアシス21',
+      items: [
+        { time: '09:30', type: '集合', name: 'オアシス21 集合', detail: '点呼・最終確認・演舞準備', code: '-' },
+        { time: '10:54', type: '演舞', name: '[6] オアシス21会場', detail: '銀河の広場ステージ演舞', code: '2353' },
+        { time: '12:50', type: '演舞', name: '[1] 久屋メイン（通常演舞）', detail: 'オアシス21より徒歩移動（徒歩約4分）', code: '2009' },
+        { time: '13:33', type: '電車', name: '栄駅 → 金山駅 → 道徳駅', detail: '地下鉄名城線＋名鉄常滑線（金山乗換） 栄13:33→金山13:47発(名鉄普通)→13:53道徳着［地下鉄210円+名鉄190円］', code: '-' },
         { time: '14:48', type: '演舞', name: '[11] どえりゃ〜どうとくパレード会場', detail: '道徳商店街パレード演舞（道徳駅から徒歩4分）', code: '2652' },
-        { time: '15:15', type: '電車', name: '道徳駅 → 金山駅 → 栄駅', detail: '名鉄常滑線＋地下鉄名城線 (道徳15:15発→金山15:28発→15:36栄着［名鉄190円+地下鉄210円］)', code: '-' },
-        { time: '16:54', type: '演舞', isShinsa: true, name: '[4] テレビ塔パレード会場', detail: '🔥 どまつり最終ラスト演舞ステージ！', code: '2252' }
+        { time: '15:15', type: '電車', name: '道徳駅 → 金山駅 → 栄駅', detail: '名鉄常滑線＋地下鉄名城線（金山乗換） 道徳15:15(名鉄普通)→金山15:28発(名城線)→15:36栄着［名鉄190円+地下鉄210円］', code: '-' },
+        { time: '16:54', type: '演舞', isShinsa: true, name: '[4] テレビ塔パレード会場', detail: '🔥 最終演舞ステージ！', code: '2252' }
       ]
     }
   ];
 
-  const scheduleTablesHtml = domatsuriDays.map(day => {
+  const scheduleTablesHtml = domatsuriSchedule.map(day => {
     const rowsHtml = day.items.map(item => {
       let badgeClass = 'badge-normal';
       if (item.type === '審査演舞') badgeClass = 'badge-high';
@@ -180,8 +187,8 @@ async function loadVenuesData() {
   container.innerHTML = `
     <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
       <div>
-        <h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">🎪 にっぽんど真ん中祭り タイムスケジュール</h3>
-        <p style="font-size:0.85rem; color:var(--text-muted);">全演舞ステージ・全移動路線・問合番号の一覧です。</p>
+        <h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">🎪 にっぽんど真ん中祭り 全3日間タイムスケジュール</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted);">前夜祭・本祭1日目・本祭2日目の全演舞ステージ・移動路線・問合番号の一覧です。</p>
       </div>
       <a href="/schedule.html" class="btn btn-gold" style="width:auto; padding:8px 16px; font-size:0.88rem;">
         📄 タイムスケジュール専用Webページを開く
