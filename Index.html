@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ダンスチーム「凛」メンバーポータル</title>
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="app-header">
+    <div class="brand-logo">
+      <div class="brand-icon">凛</div>
+      <div>
+        <div class="brand-title">ダンスチーム「凛」</div>
+        <div class="brand-subtitle">メンバーサポートポータル</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- トースト通知用 -->
+  <div id="toast" class="toast"></div>
+
+  <main class="container">
+
+    <!-- ヒーローメッセージ -->
+    <section class="hero-banner">
+      <div class="hero-title">凛 サポートポータルへようこそ！</div>
+      <div class="hero-desc">運営からの連絡確認、出欠・アンケートフォームへの回答、各練習会場へのアクセスガイド、メンバー掲示板がご利用いただけます。</div>
+    </section>
+
+    <!-- タブ 1: お知らせ掲示板 -->
+    <section id="tab-announce" class="tab-content active">
+      <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+        <span>📢</span> 運営からのお知らせ
+      </h2>
+      <div id="announce-list">
+        <div class="spinner-container">
+          <div class="spinner"></div>
+          <div>お知らせを読み込み中...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- タブ 2: フォーム回収 -->
+    <section id="tab-forms" class="tab-content">
+      <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+        <span>📝</span> 回答フォーム（出欠・アンケート）
+      </h2>
+      <div id="forms-list">
+        <div class="spinner-container">
+          <div class="spinner"></div>
+          <div>フォーム一覧を取得中...</div>
+        </div>
+      </div>
+
+      <!-- フォーム回答入力エリア -->
+      <div id="form-render-area" style="display: none;" class="card">
+        <button id="btn-back-forms" class="btn btn-secondary" style="margin-bottom: 16px; width: auto; padding: 6px 14px; font-size: 0.82rem;">
+          ← フォーム一覧に戻る
+        </button>
+        <h3 id="render-form-title" class="announce-title"></h3>
+        <p id="render-form-desc" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;"></p>
+        
+        <form id="dynamic-form">
+          <input type="hidden" id="form-id-input">
+          <input type="hidden" id="form-title-input">
+          <div id="form-fields-container"></div>
+          <button type="submit" id="form-submit-btn" class="btn btn-primary" style="margin-top: 16px;">
+            回答を送信する
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- タブ 3: 会場への道案内 -->
+    <section id="tab-venues" class="tab-content">
+      <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+        <span>🗺️</span> 練習会場＆アクセスマップ
+      </h2>
+      <div id="venues-list">
+        <div class="spinner-container">
+          <div class="spinner"></div>
+          <div>会場データを取得中...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- タブ 4: メンバー掲示板 -->
+    <section id="tab-board" class="tab-content">
+      <h2 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
+        <span>💬</span> メンバー連絡掲示板
+      </h2>
+
+      <div class="card" style="border-color: rgba(244, 162, 97, 0.3);">
+        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--accent-gold);">メッセージを投稿する</h3>
+        <form id="board-form">
+          <div class="form-group">
+            <input type="text" id="board-author" class="form-input" placeholder="お名前（例: たろう）" required>
+          </div>
+          <div class="form-group">
+            <textarea id="board-message" class="form-textarea" rows="3" placeholder="メッセージを入力してください（例: 8/24練習よろしくお願いします！）" required></textarea>
+          </div>
+          <button type="submit" id="board-submit-btn" class="btn btn-gold">
+            投稿する
+          </button>
+        </form>
+      </div>
+
+      <div id="board-list-container" class="card">
+        <div class="spinner-container">
+          <div class="spinner"></div>
+          <div>掲示板メッセージを取得中...</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ボトム固定ナビゲーション -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-tab="tab-announce">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg>
+      お知らせ
+    </button>
+    <button class="nav-item" data-tab="tab-forms">
+      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      フォーム
+    </button>
+    <button class="nav-item" data-tab="tab-venues">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      道案内
+    </button>
+    <button class="nav-item" data-tab="tab-board">
+      <svg viewBox="0 0 24 24"><path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4-4H3c-.55 0-1 .45-1 1v14l4-4h11c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"/></svg>
+      掲示板
+    </button>
+  </nav>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

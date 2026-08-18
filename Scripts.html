@@ -1,0 +1,430 @@
+<script>
+  let currentFormsData = [];
+
+  // 初期ロード
+  document.addEventListener('DOMContentLoaded', () => {
+    loadAnnouncements();
+    loadForms();
+    loadVenues();
+    loadBoardPosts();
+  });
+
+  // タブ切り替え
+  function switchTab(tabId, btnElement) {
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.querySelectorAll('.nav-item').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    document.getElementById(tabId).classList.add('active');
+    if (btnElement) {
+      btnElement.classList.add('active');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // トースト表示
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3200);
+  }
+
+  // --------------------------------------------------
+  // 1. お知らせ機能
+  // --------------------------------------------------
+  function loadAnnouncements() {
+    const container = document.getElementById('announce-list');
+
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(renderAnnouncements)
+        .withFailureHandler(err => {
+          console.error(err);
+          renderAnnouncements(getFallbackAnnouncements());
+        })
+        .getAnnouncements();
+    } else {
+      // ローカル/Webプレビューフォールバック
+      setTimeout(() => renderAnnouncements(getFallbackAnnouncements()), 300);
+    }
+  }
+
+  function renderAnnouncements(list) {
+    const container = document.getElementById('announce-list');
+    if (!list || list.length === 0) {
+      container.innerHTML = '<div class="card" style="text-align:center; color: var(--text-muted);">現在お知らせはありません。</div>';
+      return;
+    }
+
+    container.innerHTML = list.map(item => {
+      let badgeClass = 'badge-normal';
+      if (item.importance === 'high') badgeClass = 'badge-high';
+      else if (item.importance === 'medium') badgeClass = 'badge-medium';
+
+      return `
+        <article class="card">
+          <div class="announce-header">
+            <div style="display:flex; gap:6px; align-items:center;">
+              <span class="badge ${badgeClass}">${escapeHtml(item.category)}</span>
+              ${item.importance === 'high' ? '<span class="badge badge-high">重要</span>' : ''}
+            </div>
+            <span class="announce-date">${escapeHtml(item.date)}</span>
+          </div>
+          <h3 class="announce-title">${escapeHtml(item.title)}</h3>
+          <div class="announce-body">${escapeHtml(item.content)}</div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  // --------------------------------------------------
+  // 2. 会場への道案内機能
+  // --------------------------------------------------
+  function loadVenues() {
+    const container = document.getElementById('venues-list');
+
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(renderVenues)
+        .withFailureHandler(err => {
+          console.error(err);
+          renderVenues(getFallbackVenues());
+        })
+        .getVenues();
+    } else {
+      setTimeout(() => renderVenues(getFallbackVenues()), 300);
+    }
+  }
+
+  function renderVenues(venues) {
+    const container = document.getElementById('venues-list');
+    if (!venues || venues.length === 0) {
+      container.innerHTML = '<div class="card" style="text-align:center; color: var(--text-muted);">会場情報はありません。</div>';
+      return;
+    }
+
+    container.innerHTML = venues.map(v => `
+      <div class="card">
+        <div class="venue-title">
+          <span>📍</span> ${escapeHtml(v.name)}
+        </div>
+
+        <div class="venue-info-item">
+          <div class="venue-info-label">最寄り駅・アクセス</div>
+          <div>${escapeHtml(v.access)}</div>
+        </div>
+
+        <div class="venue-info-item">
+          <div class="venue-info-label">住所</div>
+          <div>${escapeHtml(v.address)}</div>
+        </div>
+
+        ${v.directions ? `
+          <div class="venue-info-item">
+            <div class="venue-info-label">駅からの道案内</div>
+            <div class="venue-directions">${escapeHtml(v.directions)}</div>
+          </div>
+        ` : ''}
+
+        ${v.notice ? `
+          <div class="venue-notice">
+            ⚠️ <strong>利用注意事項:</strong> ${escapeHtml(v.notice)}
+          </div>
+        ` : ''}
+
+        ${v.mapUrl ? `
+          <a href="${escapeHtml(v.mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="margin-top: 14px;">
+            <span>🗺️</span> Googleマップでナビを開く
+          </a>
+        ` : ''}
+      </div>
+    `).join('');
+  }
+
+  // --------------------------------------------------
+  // 3. フォーム回収機能
+  // --------------------------------------------------
+  function loadForms() {
+    const container = document.getElementById('forms-list');
+
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(renderFormsList)
+        .withFailureHandler(err => {
+          console.error(err);
+          renderFormsList(getFallbackForms());
+        })
+        .getForms();
+    } else {
+      setTimeout(() => renderFormsList(getFallbackForms()), 300);
+    }
+  }
+
+  function renderFormsList(forms) {
+    currentFormsData = forms;
+    const container = document.getElementById('forms-list');
+    
+    if (!forms || forms.length === 0) {
+      container.innerHTML = '<div class="card" style="text-align:center; color: var(--text-muted);">現在受付中のフォームはありません。</div>';
+      return;
+    }
+
+    container.innerHTML = forms.map(f => `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span class="badge ${f.status === 'open' ? 'badge-high' : 'badge-normal'}">
+            ${f.status === 'open' ? '受付中' : '終了'}
+          </span>
+          <span style="font-size:0.8rem; color:var(--text-muted);">締切: ${escapeHtml(f.deadline)}</span>
+        </div>
+        <h3 class="announce-title">${escapeHtml(f.title)}</h3>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">${escapeHtml(f.description)}</p>
+        <button class="btn btn-gold" onclick="openForm('${f.id}')">
+          📝 フォームに入力する
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function openForm(formId) {
+    const form = currentFormsData.find(f => f.id === formId);
+    if (!form) return;
+
+    document.getElementById('forms-list').style.display = 'none';
+    const area = document.getElementById('form-render-area');
+    area.style.display = 'block';
+
+    document.getElementById('form-id-input').value = form.id;
+    document.getElementById('form-title-input').value = form.title;
+    document.getElementById('render-form-title').textContent = form.title;
+    document.getElementById('render-form-desc').textContent = form.description;
+
+    const fieldsContainer = document.getElementById('form-fields-container');
+    fieldsContainer.innerHTML = form.fields.map(field => {
+      const reqMark = field.required ? '<span class="required">*</span>' : '';
+      
+      if (field.type === 'radio' && field.options) {
+        const optionsHtml = field.options.map((opt, idx) => `
+          <label class="radio-option">
+            <input type="radio" name="${field.id}" value="${escapeHtml(opt)}" ${field.required && idx === 0 ? 'required' : ''}>
+            <span>${escapeHtml(opt)}</span>
+          </label>
+        `).join('');
+        return `
+          <div class="form-group">
+            <label class="form-label">${escapeHtml(field.label)}${reqMark}</label>
+            <div class="radio-group">${optionsHtml}</div>
+          </div>
+        `;
+      } else if (field.type === 'select' && field.options) {
+        const optionsHtml = field.options.map(opt => `<option value="${escapeHtml(opt)}">${escapeHtml(opt)}</option>`).join('');
+        return `
+          <div class="form-group">
+            <label class="form-label" for="${field.id}">${escapeHtml(field.label)}${reqMark}</label>
+            <select id="${field.id}" name="${field.id}" class="form-select" ${field.required ? 'required' : ''}>
+              ${optionsHtml}
+            </select>
+          </div>
+        `;
+      } else if (field.type === 'textarea') {
+        return `
+          <div class="form-group">
+            <label class="form-label" for="${field.id}">${escapeHtml(field.label)}${reqMark}</label>
+            <textarea id="${field.id}" name="${field.id}" class="form-textarea" rows="3" ${field.required ? 'required' : ''}></textarea>
+          </div>
+        `;
+      } else {
+        return `
+          <div class="form-group">
+            <label class="form-label" for="${field.id}">${escapeHtml(field.label)}${reqMark}</label>
+            <input type="${field.type || 'text'}" id="${field.id}" name="${field.id}" class="form-input" ${field.required ? 'required' : ''}>
+          </div>
+        `;
+      }
+    }).join('');
+
+    area.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function closeFormArea() {
+    document.getElementById('form-render-area').style.display = 'none';
+    document.getElementById('forms-list').style.display = 'block';
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('form-submit-btn');
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+
+    const formId = document.getElementById('form-id-input').value;
+    const formTitle = document.getElementById('form-title-input').value;
+    const formDataObj = new FormData(e.target);
+    const answers = {};
+    let respondentName = '未入力';
+
+    for (let [key, value] of formDataObj.entries()) {
+      if (key === 'form-id-input' || key === 'form-title-input') continue;
+      answers[key] = value;
+      if (key === 'name' || key.includes('名前')) {
+        respondentName = value;
+      }
+    }
+
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(res => {
+          btn.disabled = false;
+          btn.textContent = '回答を送信する';
+          if (res.success) {
+            showToast(res.message);
+            closeFormArea();
+            e.target.reset();
+          } else {
+            alert(res.message);
+          }
+        })
+        .withFailureHandler(err => {
+          btn.disabled = false;
+          btn.textContent = '回答を送信する';
+          alert('エラーが発生しました: ' + err.toString());
+        })
+        .submitFormResponse(formId, formTitle, respondentName, answers);
+    } else {
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = '回答を送信する';
+        showToast('【デモ】回答が保存されました！');
+        closeFormArea();
+        e.target.reset();
+      }, 500);
+    }
+  }
+
+  // --------------------------------------------------
+  // 4. メンバー掲示板機能
+  // --------------------------------------------------
+  function loadBoardPosts() {
+    const container = document.getElementById('board-list-container');
+
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(renderBoardPosts)
+        .withFailureHandler(err => {
+          console.error(err);
+          renderBoardPosts(getFallbackBoardPosts());
+        })
+        .getBoardPosts();
+    } else {
+      setTimeout(() => renderBoardPosts(getFallbackBoardPosts()), 300);
+    }
+  }
+
+  function renderBoardPosts(posts) {
+    const container = document.getElementById('board-list-container');
+    if (!posts || posts.length === 0) {
+      container.innerHTML = '<div style="text-align:center; color: var(--text-muted); padding: 10px 0;">投稿はまだありません。最初のメッセージを投稿してみましょう！</div>';
+      return;
+    }
+
+    container.innerHTML = posts.map(p => `
+      <div class="board-item">
+        <div class="board-meta">
+          <span class="board-author">👤 ${escapeHtml(p.author)}</span>
+          <span>${escapeHtml(p.date)}</span>
+        </div>
+        <div class="board-msg">${escapeHtml(p.message)}</div>
+      </div>
+    `).join('');
+  }
+
+  function handleBoardSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('board-submit-btn');
+    const author = document.getElementById('board-author').value;
+    const msg = document.getElementById('board-message').value;
+
+    if (!author || !msg) {
+      alert('お名前とメッセージを入力してください。');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '送信中...';
+
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(res => {
+          btn.disabled = false;
+          btn.textContent = '投稿する';
+          if (res.success) {
+            showToast(res.message);
+            document.getElementById('board-message').value = '';
+            loadBoardPosts();
+          } else {
+            alert(res.message);
+          }
+        })
+        .withFailureHandler(err => {
+          btn.disabled = false;
+          btn.textContent = '投稿する';
+          alert('投稿エラー: ' + err.toString());
+        })
+        .addBoardPost(author, msg);
+    } else {
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = '投稿する';
+        showToast('【デモ】投稿が反映されました');
+        document.getElementById('board-message').value = '';
+        loadBoardPosts();
+      }, 500);
+    }
+  }
+
+  // HTMLエスケープヘルパー
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // フォールバックデータ
+  function getFallbackAnnouncements() {
+    return [
+      { id: '1', date: '2026-08-18 10:00', category: '重要', title: '秋公演に向けた練習スケジュールの変更について', content: '皆様お疲れ様です！秋公演に向けた今後の練習日・会場が一部変更となりましたので、お知らせタブおよび道案内タブよりご確認ください。', importance: 'high' },
+      { id: '2', date: '2026-08-15 15:30', category: '衣装・備品', title: '新衣装のサイズ申請フォーム回答のお願い', content: '新衣装の採寸・サイズ申請フォームを設置しました。フォームタブより8月25日(火)までに回答をお願いします！', importance: 'medium' }
+    ];
+  }
+
+  function getFallbackVenues() {
+    return [
+      { id: 'v1', name: '市民体育館 アリーナ（メイン練習場）', access: '〇〇駅 南口 徒歩8分', address: '東京都〇〇区中央1-2-3', mapUrl: 'https://maps.google.com/?q=市民体育館', directions: '1. 南口改札を出て右折し、商店街を直進します。\n2. 2つ目の信号（ファミリーマート）を左折。\n3. 100mほど進んだ右側の大きな建物です。', notice: '室内履き（シューズ）必携。入館時にチーム名「凛」でお入りください。' },
+      { id: 'v2', name: '〇〇コミュニティセンター 多目的ホール', access: '〇〇駅 北口 徒歩5分', address: '東京都〇〇区北町4-5-6', mapUrl: 'https://maps.google.com/?q=コミュニティセンター', directions: '1. 北口を出てバスロータリー前を通過。\n2. 郵便局の角を右に曲がり、すぐ左手です。', notice: '鏡付きスタジオ。音が響きやすいため、近隣配慮をお願いします。' }
+    ];
+  }
+
+  function getFallbackForms() {
+    return [
+      { id: 'f1', title: '8月24日(日) 全体練習 出欠確認', description: '8/24(日) 13:00〜17:00 市民体育館での全体練習の参加可否をご回答ください。', deadline: '2026-08-22 23:59', status: 'open', fields: [ { id: 'name', label: 'お名前（ダンサー名/本名）', type: 'text', required: true }, { id: 'attendance', label: '出欠区分', type: 'radio', options: ['参加', '遅刻参加', '早退', '欠席'], required: true }, { id: 'time', label: '遅刻・早退の予定時間（該当者のみ）', type: 'text', required: false }, { id: 'comment', label: '連絡事項・連絡メモ', type: 'textarea', required: false } ] },
+      { id: 'f2', title: '秋公演 衣装サイズ＆備品申請フォーム', description: '秋公演用衣装の制作に伴うサイズ申請です。', deadline: '2026-08-25 23:59', status: 'open', fields: [ { id: 'name', label: 'お名前', type: 'text', required: true }, { id: 'height', label: '身長 (cm)', type: 'number', required: true }, { id: 'size', label: '普段のTシャツサイズ', type: 'select', options: ['S', 'M', 'L', 'XL'], required: true }, { id: 'prop_needed', label: '追加道具（鳴子・扇子など）の追加購入希望', type: 'radio', options: ['不要', '鳴子1セット希望', '扇子1本希望', '両方希望'], required: true }, { id: 'note', label: '補足事項', type: 'textarea', required: false } ] }
+    ];
+  }
+
+  function getFallbackBoardPosts() {
+    return [
+      { id: 'b1', date: '2026-08-18 12:30', author: 'あやか', message: '皆様、秋公演に向けて練習頑張りましょう！道案内ページの市民体育館の場所が分かりやすくて助かりました✨' },
+      { id: 'b2', date: '2026-08-17 20:15', author: 'たくみ', message: '8/24の練習、少し遅刻参加になりますがよろしくお願いします！' }
+    ];
+  }
+</script>

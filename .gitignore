@@ -1,0 +1,17 @@
+# Node / Build output
+node_modules/
+dist/
+.output/
+.vercel/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE & System
+.DS_Store
+*.log
+
+# GAS
+.clasp.json
