@@ -15,38 +15,118 @@
       margin-bottom: 24px;
       box-shadow: var(--shadow-soft);
     }
-    .timeline-card {
+
+    .domatsuri-day-card {
       background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 20px 24px;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
+      overflow: hidden;
       box-shadow: var(--shadow-soft);
     }
-    .timeline-item {
+
+    .domatsuri-day-header {
+      background: #f8fafc;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
       display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      margin-bottom: 16px;
-      position: relative;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-    .timeline-time {
-      background: var(--gold-gradient);
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 0.85rem;
-      padding: 4px 10px;
-      border-radius: 6px;
-      min-width: 72px;
-      text-align: center;
-      flex-shrink: 0;
-      box-shadow: var(--gold-glow);
-    }
-    .timeline-text {
-      font-size: 0.95rem;
+
+    .domatsuri-day-title {
+      font-family: var(--font-family-mincho);
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text-main);
-      padding-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .domatsuri-table-wrapper {
+      overflow-x: auto;
+      width: 100%;
+    }
+
+    .domatsuri-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+
+    .domatsuri-table th, .domatsuri-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    .domatsuri-table th {
+      background: #f1f5f9;
+      color: var(--text-main);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .domatsuri-table tr:hover {
+      background: #f8fafc;
+    }
+
+    .domatsuri-table tr.shinsa-row {
+      background: #fefce8;
+      border-left: 4px solid var(--gold-primary);
+    }
+
+    .badge-shinsa {
+      background: var(--gold-gradient);
+      color: #ffffff;
+      font-weight: 800;
+      box-shadow: var(--gold-glow);
+    }
+
+    .badge-densha {
+      background: #e0e7ff;
+      color: #3730a3;
+      border: 1px solid #c7d2fe;
+    }
+
+    .badge-syugo {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .domatsuri-checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .domatsuri-checklist-item:hover {
+      border-color: var(--gold-primary);
+      background: #fefce8;
+    }
+
+    .domatsuri-checklist-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--gold-primary);
+      cursor: pointer;
+    }
+
+    .domatsuri-checklist-item.checked span {
+      text-decoration: line-through;
+      color: var(--text-muted);
     }
   </style>
 </head>
@@ -59,83 +139,225 @@
       </a>
       <div class="brand-title" style="font-size: 1.05rem;">ダンスチーム「凛」</div>
     </div>
-    <span class="badge badge-medium">演舞公式スケジュール</span>
+    <span class="badge badge-medium">にっぽんど真ん中祭り 公式詳細</span>
   </header>
 
-  <main class="container" style="padding-top: 28px;">
+  <main class="container" style="padding-top: 24px;">
 
     <!-- ヘッダーカード -->
     <div class="schedule-header">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-        <span class="badge badge-high">🎪 公式本番演舞</span>
+        <span class="badge badge-high">🎪 どまつり本演舞スケジュール</span>
         <span style="font-size:0.85rem; color:var(--text-muted); font-weight:700;">開催日: 2026年8月29日(土)・30日(日)</span>
       </div>
       <h1 style="font-family: var(--font-family-mincho); font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
-        にっぽんど真ん中祭り（どまつり）演舞タイムスケジュール
+        にっぽんど真ん中祭り（どまつり）演舞タイムスケジュール ＆ 移動ガイド
       </h1>
       <p style="font-size: 0.9rem; color: var(--text-muted);">
-        ダンスチーム「凛」の当日の演舞本番時間、集合場所、移動、衣装・持ち物についての公式案内ページです。
+        ダンスチーム「凛」のどまつり当日の全演舞ステージ、移動電車・ルート、演舞エリア持ち込みポーチ規定です。
       </p>
     </div>
 
-    <!-- 集合 ＆ 概要情報 -->
-    <div class="card" style="border-left: 4px solid #16a34a; background: #f0fdf4;">
-      <div style="font-size: 0.85rem; font-weight: 700; color: #16a34a; margin-bottom: 4px;">📍 集合時間 ＆ 集合場所</div>
-      <div style="font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 8px;">
-        8月29日(土) 11:30 集合 ｜ 久屋大通公園 チーム「凛」楽屋テント前
+    <!-- 1日目 スケジュール -->
+    <div class="domatsuri-day-card">
+      <div class="domatsuri-day-header">
+        <div class="domatsuri-day-title">
+          <span>📅</span> 1日目：2026年8月29日(土) 【審査演舞 ＆ メインステージ】
+        </div>
+        <span class="badge badge-syugo">09:40 集合 (久屋大通公園 凛楽屋テント前)</span>
       </div>
-      <div style="font-size: 0.88rem; color: #334155;">
-        最寄り駅: 地下鉄名城線「矢場町駅」6番出口 徒歩1分 / 「栄駅」徒歩3分
+      <div class="domatsuri-table-wrapper">
+        <table class="domatsuri-table">
+          <thead>
+            <tr>
+              <th style="width:75px;">時刻</th>
+              <th style="width:90px; text-align:center;">区分</th>
+              <th>内容・演舞会場</th>
+              <th>移動・詳細備考</th>
+              <th style="width:90px; text-align:center;">問合番号</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:700;">10:00</td>
+              <td style="text-align:center;"><span class="badge badge-syugo">集合</span></td>
+              <td style="font-weight:700;">矢場町駅 6番出口改札前集合 ＆ 楽屋へ移動</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">衣装着用・着替えテント利用可</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">-</td>
+            </tr>
+            <tr class="shinsa-row">
+              <td style="font-weight:700;">10:45</td>
+              <td style="text-align:center;"><span class="badge badge-shinsa">審査演舞</span></td>
+              <td style="font-weight:700; color:#0f172a;">[1] 久屋大通公園メインステージ</td>
+              <td style="font-size:0.84rem; color:var(--text-main); font-weight:700;">🔥 ファイナルシード審査演舞！（最重要）</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">2201</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">11:20</td>
+              <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
+              <td style="font-weight:700;">矢場町駅 → 名古屋駅</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">地下鉄名城線・東山線 (矢場町11:20→栄11:22発→11:27名古屋着［210円］)</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">-</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">12:12</td>
+              <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
+              <td style="font-weight:700;">[2] JR名古屋駅太閤通口会場</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">駅前広場特設ステージ演舞</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">2601</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">13:00</td>
+              <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
+              <td style="font-weight:700;">名古屋駅 → 伏見駅 → 鶴舞駅</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">地下鉄東山線・鶴舞線 (名古屋13:00→伏見13:03発→13:09鶴舞着［240円］)</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">-</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">14:05</td>
+              <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
+              <td style="font-weight:700;">[3] 鶴舞公園会場</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">鶴舞公園 奏楽堂前ステージ演舞</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">2701</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">15:30</td>
+              <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
+              <td style="font-weight:700;">[4] テレビ塔パレード会場</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">久屋大通公園テレビ塔前パレード演舞</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">2251</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">17:00</td>
+              <td style="text-align:center;"><span class="badge badge-normal">総踊り</span></td>
+              <td style="font-weight:700;">全チーム合同総踊り ＆ 1日目終了</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">集合写真撮影・1日目解散</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">-</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <div class="card">
-      <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 4px;">👘 衣装 ＆ 持ち物・備品指示</div>
-      <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
-        正装衣装（赤×金ハンテン・白袴・オリジナル鳴子・演舞用扇子必携）
+    <!-- 2日目 スケジュール -->
+    <div class="domatsuri-day-card">
+      <div class="domatsuri-day-header">
+        <div class="domatsuri-day-title">
+          <span>📅</span> 2日目：2026年8月30日(日) 【パレード演舞 ＆ どえりゃ〜どうとく演舞】
+        </div>
+        <span class="badge badge-syugo">08:45 集合 (矢場町駅 6番出口前)</span>
       </div>
-      <div style="font-size: 0.85rem; color: var(--text-muted);">
-        ※猛暑が予想されますので、各自水分補給（スポーツドリンク）、塩分タブレット、冷却シートを必ずご持参ください。
+      <div class="domatsuri-table-wrapper">
+        <table class="domatsuri-table">
+          <thead>
+            <tr>
+              <th style="width:75px;">時刻</th>
+              <th style="width:90px; text-align:center;">区分</th>
+              <th>内容・演舞会場</th>
+              <th>移動・詳細備考</th>
+              <th style="width:90px; text-align:center;">問合番号</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:700;">08:45</td>
+              <td style="text-align:center;"><span class="badge badge-syugo">集合</span></td>
+              <td style="font-weight:700;">矢場町駅 6番出口改札前集合 ＆ ウォームアップ</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">2日目スタート・隊列声出し確認</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">-</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">09:30</td>
+              <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
+              <td style="font-weight:700;">[1] 久屋大通公園メインステージ</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">2日目オープニング演舞</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">2202</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">10:45</td>
+              <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
+              <td style="font-weight:700;">矢場町駅 → 上前津駅</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">地下鉄名城線 (矢場町10:45→上前津10:47着［210円］)</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">-</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">11:30</td>
+              <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
+              <td style="font-weight:700;">[8] 大須観音パレード会場</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">大須商店街パレード流し演舞</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">2501</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">13:33</td>
+              <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
+              <td style="font-weight:700;">栄駅 → 金山駅 → 道徳駅</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">地下鉄名城線＋名鉄常滑線（金山乗換 栄13:33→金山13:47発→13:53道徳着［地下鉄210円+名鉄190円］）</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">-</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">14:48</td>
+              <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
+              <td style="font-weight:700;">[11] どえりゃ〜どうとくパレード会場</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">道徳商店街パレード演舞（道徳駅から徒歩4分）</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">2652</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">15:15</td>
+              <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
+              <td style="font-weight:700;">道徳駅 → 金山駅 → 栄駅</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">名鉄常滑線＋地下鉄名城線（金山乗換 道徳15:15発→金山15:28発→15:36栄着［名鉄190円+地下鉄210円］）</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">-</td>
+            </tr>
+            <tr class="shinsa-row">
+              <td style="font-weight:700;">16:54</td>
+              <td style="text-align:center;"><span class="badge badge-shinsa">演舞</span></td>
+              <td style="font-weight:700; color:#0f172a;">[4] テレビ塔パレード会場</td>
+              <td style="font-size:0.84rem; color:var(--text-main); font-weight:700;">🔥 どまつり最終ラスト演舞ステージ！</td>
+              <td style="font-family:monospace; font-weight:700; text-align:center;">2252</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- タイムスケジュール一覧 -->
-    <h2 style="font-family: var(--font-family-mincho); font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin: 28px 0 16px; display: flex; align-items: center; gap: 8px;">
-      <span>⏱️</span> 当日分刻みタイムスケジュール
-    </h2>
+    <!-- 演舞時ポーチ規定 ＆ 持参品チェックリスト -->
+    <div class="card" style="border: 1px solid var(--gold-primary);">
+      <h3 style="font-family: var(--font-family-mincho); font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+        <span>🎒</span> 演舞エリア持ち込みポーチ規定 ＆ 持参品チェックリスト
+      </h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+        どまつり演舞エリアへ持ち込める荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」</strong>限定です。持ち物をタップして準備チェックができます。
+      </p>
 
-    <div class="timeline-card">
-      <div class="timeline-item">
-        <div class="timeline-time">11:30</div>
-        <div class="timeline-text">久屋大通公園 チーム「凛」楽屋テント集合・衣装＆メイク最終チェック</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">12:15</div>
-        <div class="timeline-text">公式ウォーミングアップエリアへ移動・声出し</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time" style="background:var(--primary-red-gradient);">13:00</div>
-        <div class="timeline-text" style="color:#dc2626;">🔥 1st 演舞（久屋大通公園 メインステージ演舞スタート）</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time">14:30</div>
-        <div class="timeline-text">パレード会場へ移動・移動車手配</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time" style="background:var(--primary-red-gradient);">15:45</div>
-        <div class="timeline-text" style="color:#dc2626;">🔥 2nd 演舞（大須観音 パレード流し演舞スタート）</div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-time" style="background:var(--primary-red-gradient);">17:30</div>
-        <div class="timeline-text" style="color:#dc2626;">🔥 3rd 演舞（栄交差点 特設ステージ演舞）</div>
-      </div>
-      <div class="timeline-item" style="margin-bottom:0;">
-        <div class="timeline-time">19:00</div>
-        <div class="timeline-text">全演舞終了・総踊り ＆ 集合写真撮影・解散</div>
+      <div id="checklist-items">
+        <label class="domatsuri-checklist-item">
+          <input type="checkbox">
+          <span>B6透明 / 半透明ポーチ（マチ無し）</span>
+        </label>
+        <label class="domatsuri-checklist-item">
+          <input type="checkbox">
+          <span>ポーチ外側のチーム名「ダンスチーム凛」・氏名表記</span>
+        </label>
+        <label class="domatsuri-checklist-item">
+          <input type="checkbox">
+          <span>お財布・必要現金額</span>
+        </label>
+        <label class="domatsuri-checklist-item">
+          <input type="checkbox">
+          <span>ドニチカ切符（土日620円） / 交通系ICカード</span>
+        </label>
+        <label class="domatsuri-checklist-item">
+          <input type="checkbox">
+          <span>携帯電話（スマートフォン全充電）</span>
+        </label>
+        <label class="domatsuri-checklist-item">
+          <input type="checkbox">
+          <span>常備薬・メイク直し用品・保険証（写し）</span>
+        </label>
       </div>
     </div>
 
-    <!-- 会場ナビゲーションボタン -->
+    <!-- ナビボタン -->
     <div style="margin-top: 24px; text-align: center;">
       <a href="https://maps.google.com/?q=久屋大通公園" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="font-size: 1rem; padding: 14px;">
         🗺️ 久屋大通公園 メイン会場のGoogleマップナビを開く
@@ -143,6 +365,22 @@
     </div>
 
   </main>
+
+  <script>
+    document.querySelectorAll('.domatsuri-checklist-item').forEach(el => {
+      el.addEventListener('click', (e) => {
+        const checkbox = el.querySelector('input[type="checkbox"]');
+        if (e.target !== checkbox) {
+          checkbox.checked = !checkbox.checked;
+        }
+        if (checkbox.checked) {
+          el.classList.add('checked');
+        } else {
+          el.classList.remove('checked');
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>

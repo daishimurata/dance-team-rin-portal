@@ -49,7 +49,7 @@ function showToast(message) {
   }, 3200);
 }
 
-// 1. 運営からのお知らせ (専用Webページリンク付き)
+// 1. 運営からのお知らせ
 async function loadAnnouncementsData() {
   const container = document.getElementById('announce-list');
   if (!container) return;
@@ -87,7 +87,7 @@ async function loadAnnouncementsData() {
   }).join('');
 }
 
-// 2. にっぽんど真ん中祭り（どまつり）演舞タイムスケジュール ＆ アクセス案内
+// 2. にっぽんど真ん中祭り 全演舞タイムスケジュールテーブルの完全描画
 async function loadVenuesData() {
   const container = document.getElementById('venues-list');
   if (!container) return;
@@ -98,91 +98,113 @@ async function loadVenuesData() {
     return;
   }
 
-  container.innerHTML = venues.map(v => {
-    const isFestival = v.type === 'festival';
-    
-    // タイムスケジュールタイムラインHtmlの生成
-    let timelineHtml = '';
-    if (v.scheduleTimeline && v.scheduleTimeline.length > 0) {
-      const items = v.scheduleTimeline.map(item => `
-        <div style="display:flex; gap:14px; align-items:flex-start; margin-bottom:10px; position:relative;">
-          <div style="background:var(--gold-gradient); color:#ffffff; font-weight:700; font-size:0.8rem; padding:3px 8px; border-radius:4px; min-width:64px; text-align:center; flex-shrink:0;">
-            ${escapeHtml(item.time)}
-          </div>
-          <div style="font-size:0.9rem; font-weight:500; color:var(--text-main); padding-top:2px;">
-            ${escapeHtml(item.event)}
-          </div>
-        </div>
-      `).join('');
-
-      timelineHtml = `
-        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:var(--radius-sm); padding:16px; margin:14px 0 16px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div style="font-weight:700; font-size:0.95rem; color:var(--text-main); display:flex; align-items:center; gap:6px;">
-              <span>⏱️</span> にっぽんど真ん中祭り 当日タイムスケジュール
-            </div>
-            <a href="/schedule.html" class="btn btn-secondary" style="width:auto; padding:4px 10px; font-size:0.78rem;">専用Webページを開く</a>
-          </div>
-          ${items}
-        </div>
-      `;
+  // 1日目・2日目の全タイムスケジュールデータ定義 (コミット83b0d569より復元)
+  const domatsuriDays = [
+    {
+      dayTitle: '1日目：2026年8月29日(土) 【審査演舞 ＆ メインステージ】',
+      assembly: '09:40 集合 (久屋大通公園 凛楽屋テント前)',
+      items: [
+        { time: '10:00', type: '集合', name: '矢場町駅 6番出口改札前集合 ＆ 楽屋へ移動', detail: '衣装着用・着替えテント利用可', code: '-' },
+        { time: '10:45', type: '審査演舞', isShinsa: true, name: '[1] 久屋大通公園メインステージ', detail: '🔥 ファイナルシード審査演舞！（最重要演舞）', code: '2201' },
+        { time: '11:20', type: '電車', name: '矢場町駅 → 名古屋駅', detail: '地下鉄名城線・東山線 (矢場町11:20→栄11:22発→11:27名古屋着［210円］)', code: '-' },
+        { time: '12:12', type: '演舞', name: '[2] JR名古屋駅太閤通口会場', detail: '駅前広場特設ステージ演舞', code: '2601' },
+        { time: '13:00', type: '電車', name: '名古屋駅 → 伏見駅 → 鶴舞駅', detail: '地下鉄東山線・鶴舞線 (名古屋13:00→伏見13:03発→13:09鶴舞着［240円］)', code: '-' },
+        { time: '14:05', type: '演舞', name: '[3] 鶴舞公園会場', detail: '鶴舞公園 奏楽堂前ステージ演舞', code: '2701' },
+        { time: '15:30', type: '演舞', name: '[4] テレビ塔パレード会場', detail: '久屋大通公園テレビ塔前パレード演舞', code: '2251' },
+        { time: '17:00', type: '総踊り', name: '全チーム合同総踊り ＆ 1日目終了', detail: '集合写真撮影・1日目解散', code: '-' }
+      ]
+    },
+    {
+      dayTitle: '2日目：2026年8月30日(日) 【パレード演舞 ＆ どえりゃ〜どうとく演舞】',
+      assembly: '08:45 集合 (矢場町駅 6番出口前)',
+      items: [
+        { time: '08:45', type: '集合', name: '矢場町駅 6番出口改札前集合 ＆ ウォームアップ', detail: '2日目スタート・隊列声出し確認', code: '-' },
+        { time: '09:30', type: '演舞', name: '[1] 久屋大通公園メインステージ', detail: '2日目オープニング演舞', code: '2202' },
+        { time: '10:45', type: '電車', name: '矢場町駅 → 上前津駅', detail: '地下鉄名城線 (矢場町10:45→上前津10:47着［210円］)', code: '-' },
+        { time: '11:30', type: '演舞', name: '[8] 大須観音パレード会場', detail: '大須商店街パレード流し演舞', code: '2501' },
+        { time: '13:33', type: '電車', name: '栄駅 → 金山駅 → 道徳駅', detail: '地下鉄名城線＋名鉄常滑線 (栄13:33→金山13:47発→13:53道徳着［地下鉄210円+名鉄190円］)', code: '-' },
+        { time: '14:48', type: '演舞', name: '[11] どえりゃ〜どうとくパレード会場', detail: '道徳商店街パレード演舞（道徳駅から徒歩4分）', code: '2652' },
+        { time: '15:15', type: '電車', name: '道徳駅 → 金山駅 → 栄駅', detail: '名鉄常滑線＋地下鉄名城線 (道徳15:15発→金山15:28発→15:36栄着［名鉄190円+地下鉄210円］)', code: '-' },
+        { time: '16:54', type: '演舞', isShinsa: true, name: '[4] テレビ塔パレード会場', detail: '🔥 どまつり最終ラスト演舞ステージ！', code: '2252' }
+      ]
     }
+  ];
+
+  const scheduleTablesHtml = domatsuriDays.map(day => {
+    const rowsHtml = day.items.map(item => {
+      let badgeClass = 'badge-normal';
+      if (item.type === '審査演舞') badgeClass = 'badge-high';
+      else if (item.type === '集合') badgeClass = 'badge-medium';
+      else if (item.type === '電車') badgeClass = 'badge-normal';
+      else if (item.type === '演舞') badgeClass = 'badge-high';
+
+      return `
+        <tr class="${item.isShinsa ? 'shinsa-row' : ''}" style="${item.isShinsa ? 'background:#fefce8;' : ''}">
+          <td style="font-weight:700; white-space:nowrap;">${escapeHtml(item.time)}</td>
+          <td style="text-align:center;"><span class="badge ${badgeClass}">${escapeHtml(item.type)}</span></td>
+          <td style="font-weight:700;">${escapeHtml(item.name)}</td>
+          <td style="font-size:0.84rem; color:var(--text-muted);">${escapeHtml(item.detail)}</td>
+          <td style="font-family:monospace; font-weight:700; text-align:center;">${escapeHtml(item.code)}</td>
+        </tr>
+      `;
+    }).join('');
 
     return `
-      <div class="card" style="${isFestival ? 'border-left: 5px solid var(--gold-primary);' : ''}">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <span class="badge ${isFestival ? 'badge-medium' : 'badge-normal'}">
-            ${isFestival ? '🎪 にっぽんど真ん中祭り 本番' : '🏢 練習会場'}
-          </span>
-          ${v.eventDate ? `<span style="font-weight:700; font-size:0.85rem; color:var(--text-main);">${escapeHtml(v.eventDate)}</span>` : ''}
+      <div class="card" style="margin-bottom:20px; padding:0; overflow:hidden; border:1px solid #cbd5e1;">
+        <div style="background:#f8fafc; padding:14px 18px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div style="font-family:var(--font-family-mincho); font-size:1.05rem; font-weight:700; color:var(--text-main);">
+            <span>📅</span> ${escapeHtml(day.dayTitle)}
+          </div>
+          <span class="badge badge-medium">${escapeHtml(day.assembly)}</span>
         </div>
-
-        <div class="venue-title" style="font-size:1.2rem; color:var(--text-main); margin-bottom:12px;">
-          ${escapeHtml(v.name)}
-        </div>
-
-        ${v.meetingTime ? `
-          <div style="background:#f0fdf4; border:1px solid #86efac; padding:10px 14px; border-radius:var(--radius-sm); margin-bottom:12px;">
-            <div style="font-size:0.82rem; font-weight:700; color:#16a34a;">📍 集合時間 ＆ 集合場所</div>
-            <div style="font-weight:700; font-size:0.95rem; color:#0f172a;">${escapeHtml(v.meetingTime)}</div>
-          </div>
-        ` : ''}
-
-        ${v.costume ? `
-          <div style="margin-bottom:10px;">
-            <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">👘 衣装 ＆ 持ち物指示:</span>
-            <div style="font-weight:500; font-size:0.9rem; color:var(--text-main);">${escapeHtml(v.costume)}</div>
-          </div>
-        ` : ''}
-
-        ${timelineHtml}
-
-        <div style="margin-bottom:10px;">
-          <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">🚉 会場最寄り駅・アクセス:</span>
-          <div style="font-weight:500; font-size:0.9rem; color:var(--text-main);">${escapeHtml(v.access)}</div>
-        </div>
-
-        ${v.directions ? `
-          <div style="margin-bottom:10px;">
-            <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">🚶 駅から集合場所への徒歩ルート:</span>
-            <div class="venue-directions">${escapeHtml(v.directions)}</div>
-          </div>
-        ` : ''}
-
-        ${v.notice ? `
-          <div style="background:#fefce8; border:1px dashed #fef08a; padding:10px 12px; border-radius:var(--radius-sm); font-size:0.85rem; color:#856404; margin-top:10px;">
-            ⚠️ <strong>注意事項:</strong> ${escapeHtml(v.notice)}
-          </div>
-        ` : ''}
-
-        <div style="display:flex; gap:10px; margin-top:16px;">
-          <a href="/schedule.html" class="btn btn-gold">
-            <span>🎪</span> タイムスケジュール専用Webページを開く
-          </a>
+        <div class="table-responsive" style="margin:0;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:70px;">時刻</th>
+                <th style="width:80px; text-align:center;">区分</th>
+                <th>内容・演舞会場</th>
+                <th>移動・詳細備考</th>
+                <th style="width:85px; text-align:center;">問合番号</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
         </div>
       </div>
     `;
   }).join('');
+
+  container.innerHTML = `
+    <div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div>
+        <h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">🎪 にっぽんど真ん中祭り タイムスケジュール</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted);">全演舞ステージ・全移動路線・問合番号の一覧です。</p>
+      </div>
+      <a href="/schedule.html" class="btn btn-gold" style="width:auto; padding:8px 16px; font-size:0.88rem;">
+        📄 タイムスケジュール専用Webページを開く
+      </a>
+    </div>
+
+    ${scheduleTablesHtml}
+
+    <div class="card" style="border-color: var(--gold-primary); background: #ffffff;">
+      <h3 style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+        🎒 演舞エリア持ち込みポーチ規定 ＆ 持参品規定
+      </h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+        どまつり演舞エリアへ持ち込める荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」</strong>限定です。
+      </p>
+      <div style="font-size:0.88rem; line-height:1.7; color:var(--text-main);">
+        ・B6透明 / 半透明ポーチ（マチ無し）<br>
+        ・ポーチ外側のチーム名「ダンスチーム凛」・氏名表記<br>
+        ・お財布・現金 ｜ ドニチカ切符（土日620円）/ 交通系IC<br>
+        ・スマートフォン（全充電） ｜ 常備薬・保険証（写し）
+      </div>
+    </div>
+  `;
 }
 
 // 3. フォーム一覧ロード
