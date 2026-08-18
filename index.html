@@ -10,7 +10,7 @@
 
   <div class="app-layout">
 
-    <!-- PC用 スタイリッシュSaaSサイドバー (SmartHR / Notionスタイル) -->
+    <!-- PC用 白基調SaaSサイドバー (SmartHR / freeeスタイル) -->
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="brand-icon">凛</div>
@@ -32,10 +32,6 @@
         <button class="sidebar-btn" data-tab="tab-venues">
           <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           <span>会場アクセス</span>
-        </button>
-        <button class="sidebar-btn" data-tab="tab-domatsuri">
-          <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
-          <span>どまつり演舞日程</span>
         </button>
       </nav>
     </aside>
@@ -67,7 +63,7 @@
 
         <!-- タブ 1: 運営からのお知らせ -->
         <section id="tab-announce" class="tab-content active">
-          <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+          <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
             <span>📢</span> 運営からのお知らせ
           </h2>
           <div id="announce-list">
@@ -80,12 +76,12 @@
 
         <!-- タブ 2: 回答フォーム -->
         <section id="tab-forms" class="tab-content">
-          <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+          <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
             <span>📝</span> 回答フォーム（出欠・アンケート）
           </h2>
 
-          <div class="card" style="border-color: rgba(212, 175, 55, 0.4); background: rgba(18, 24, 34, 0.7);">
-            <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--gold-light);">🔍 自分の過去の回答を確認する</div>
+          <div class="card" style="background: #f8fafc; border-color: #cbd5e1;">
+            <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--text-main);">🔍 自分の過去の回答を確認する</div>
             <div style="display: flex; gap: 8px;">
               <input type="text" id="my-name-input" class="form-input" placeholder="お名前（例: たろう）" style="padding: 8px 12px; font-size: 0.85rem;">
               <button id="btn-search-my-response" class="btn btn-gold" style="width: auto; padding: 8px 16px; font-size: 0.85rem; white-space: nowrap;">
@@ -106,7 +102,7 @@
             <button id="btn-back-forms" class="btn btn-secondary" style="margin-bottom: 16px; width: auto; padding: 6px 14px; font-size: 0.82rem;">
               ← フォーム一覧に戻る
             </button>
-            <h3 id="render-form-title" class="announce-title" style="color: var(--gold-light);"></h3>
+            <h3 id="render-form-title" class="announce-title"></h3>
             <p id="render-form-desc" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;"></p>
             
             <form id="dynamic-form">
@@ -122,7 +118,7 @@
 
         <!-- タブ 3: 会場への道案内 -->
         <section id="tab-venues" class="tab-content">
-          <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
+          <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
             <span>🗺️</span> 練習会場＆アクセスマップ
           </h2>
           <div id="venues-list">
@@ -131,39 +127,6 @@
               <div>会場データを取得中...</div>
             </div>
           </div>
-        </section>
-
-        <!-- タブ 4: どまつり演舞日程・ガイダンス -->
-        <section id="tab-domatsuri" class="tab-content">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
-            <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); display: flex; align-items: center; gap: 10px; margin: 0;">
-              <span>🏮</span> 第28回 にっぽんど真ん中祭り 演舞ガイド
-            </h2>
-            <span class="badge badge-high" style="font-size: 0.82rem;">チームNo. 1131 ダンスチーム凛</span>
-          </div>
-
-          <!-- 重要連絡・注意事項カード -->
-          <div class="card" style="border-color: rgba(230, 57, 70, 0.4); background: rgba(230, 57, 70, 0.08); margin-bottom: 20px;">
-            <div style="font-weight: 700; color: #ff6b6b; font-size: 0.95rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-              <span>⚠️</span> 運営からの重要注意連絡
-            </div>
-            <ul style="padding-left: 20px; font-size: 0.85rem; color: var(--text-main); line-height: 1.6;">
-              <li>演舞時刻・会場は主催者の最終調整により変更が生じる場合があります。</li>
-              <li>喉が渇く前に全員で「こまめな強制補水」を行ってください。</li>
-              <li>土日の移動は地下鉄乗り放題の「ドニチカ切符（620円）」を活用しましょう！</li>
-            </ul>
-          </div>
-
-          <!-- どまつり日程表示コンテナ -->
-          <div id="domatsuri-schedule-container">
-            <div class="spinner-container">
-              <div class="spinner"></div>
-              <div>どまつり演舞タイムスケジュールを読み込み中...</div>
-            </div>
-          </div>
-
-          <!-- 演舞時ポーチ規定 ＆ インタラクティブチェックリスト -->
-          <div id="domatsuri-checklist-container" style="margin-top: 24px;"></div>
         </section>
 
       </main>
@@ -184,10 +147,6 @@
     <button class="nav-item" data-tab="tab-venues">
       <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       道案内
-    </button>
-    <button class="nav-item" data-tab="tab-domatsuri">
-      <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
-      どまつり
     </button>
   </nav>
 

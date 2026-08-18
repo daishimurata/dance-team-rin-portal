@@ -9,8 +9,8 @@
     .admin-auth-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(9, 12, 16, 0.96);
-      backdrop-filter: blur(20px);
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
       z-index: 9999;
       display: flex;
       align-items: center;
@@ -18,14 +18,14 @@
       padding: 20px;
     }
     .auth-box {
-      background: var(--bg-card);
-      border: 1px solid var(--gold-primary);
+      background: #ffffff;
+      border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: 32px;
       max-width: 420px;
       width: 100%;
       text-align: center;
-      box-shadow: var(--shadow-soft), var(--shadow-gold);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
     .admin-nav {
       display: flex;
@@ -36,7 +36,7 @@
     }
     .admin-nav-btn {
       padding: 10px 20px;
-      background: rgba(255, 255, 255, 0.05);
+      background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: 25px;
       color: var(--text-muted);
@@ -44,13 +44,12 @@
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.25s ease;
+      transition: all 0.18s ease;
     }
     .admin-nav-btn.active {
-      background: var(--gold-gradient);
-      color: #090c10;
-      border-color: transparent;
-      box-shadow: var(--gold-glow);
+      background: #fefce8;
+      color: var(--gold-dark);
+      border-color: var(--gold-primary);
     }
     .table-responsive {
       width: 100%;
@@ -60,16 +59,16 @@
     table.data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       text-align: left;
     }
     table.data-table th, table.data-table td {
-      padding: 12px;
+      padding: 12px 14px;
       border-bottom: 1px solid var(--border-color);
     }
     table.data-table th {
-      background: rgba(212, 175, 55, 0.1);
-      color: var(--gold-light);
+      background: #f8fafc;
+      color: var(--text-main);
       font-weight: 700;
     }
   </style>
@@ -80,7 +79,7 @@
   <div id="admin-auth" class="admin-auth-overlay">
     <div class="auth-box">
       <div class="brand-icon" style="margin: 0 auto 16px;">管</div>
-      <h2 style="font-family: var(--font-family-mincho); font-size: 1.3rem; font-weight: 700; color: var(--gold-light); margin-bottom: 6px;">運営管理者アクセス</h2>
+      <h2 style="font-family: var(--font-family-mincho); font-size: 1.3rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">運営管理者アクセス</h2>
       <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 20px;">管理者用パスコードを入力してください</p>
       <form id="auth-form">
         <div class="form-group">
@@ -92,9 +91,9 @@
   </div>
 
   <!-- 管理者ヘッダー -->
-  <header class="app-header">
-    <div class="brand-logo">
-      <div class="brand-icon" style="background: var(--gold-gradient); color: #000;">管</div>
+  <header class="saas-topbar">
+    <div class="brand-logo" style="display: flex; align-items: center; gap: 12px;">
+      <div class="brand-icon">管</div>
       <div>
         <div class="brand-title">ダンスチーム「凛」</div>
         <div class="brand-subtitle">運営管理者用ダッシュボード</div>
@@ -106,9 +105,9 @@
   <!-- トースト通知 -->
   <div id="toast" class="toast"></div>
 
-  <main class="container" id="admin-main" style="display: none;">
+  <main class="container" id="admin-main" style="display: none; padding-top: 24px;">
 
-    <!-- 管理用サブナビゲーション (SaaSスタイリッシュピルタブ) -->
+    <!-- 管理用サブナビゲーション (SaaSスタイルピルタブ) -->
     <nav class="admin-nav">
       <button class="admin-nav-btn active" data-target="admin-sec-create-form">📝 フォームの発行・作成</button>
       <button class="admin-nav-btn" data-target="admin-sec-responses">📊 回収データ・全回答集計</button>
@@ -117,8 +116,8 @@
 
     <!-- 1. フォームの発行・作成セクション -->
     <section id="admin-sec-create-form" class="tab-content active">
-      <div class="card" style="border-color: var(--gold-primary);">
-        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--gold-light); margin-bottom: 16px;">📝 新しいフォームを発行する</h2>
+      <div class="card">
+        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--text-main); margin-bottom: 16px;">📝 新しいフォームを発行する</h2>
         <form id="create-form-form">
           <div class="form-group">
             <label class="form-label">フォームのタイトル <span style="color:var(--gold-primary);">*</span></label>
@@ -137,7 +136,7 @@
 
           <hr style="border-color: var(--border-color); margin: 20px 0;">
 
-          <h3 style="font-size: 1rem; font-weight: 700; color: var(--gold-light); margin-bottom: 14px;">設問項目の作成</h3>
+          <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">設問項目の作成</h3>
           <div id="fields-editor-container"></div>
 
           <button type="button" id="btn-add-field" class="btn btn-secondary" style="margin-bottom: 20px;">
@@ -154,7 +153,7 @@
     <!-- 2. フォーム回収データ・全回答集計セクション -->
     <section id="admin-sec-responses" class="tab-content">
       <div class="card">
-        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--gold-light); margin-bottom: 16px;">📊 フォーム回収・集計ダッシュボード</h2>
+        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--text-main); margin-bottom: 16px;">📊 フォーム回収・集計ダッシュボード</h2>
         
         <div class="form-group">
           <label class="form-label">確認したいフォームを選択</label>
@@ -173,7 +172,7 @@
     <!-- 3. 連絡・お知らせ発行セクション -->
     <section id="admin-sec-create-announce" class="tab-content">
       <div class="card">
-        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--primary-red); margin-bottom: 16px;">📢 運営からの重要連絡を発行する</h2>
+        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--text-main); margin-bottom: 16px;">📢 運営からの重要連絡を発行する</h2>
         <form id="create-announce-form">
           <div class="form-group">
             <label class="form-label">連絡カテゴリ</label>

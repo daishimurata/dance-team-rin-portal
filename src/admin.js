@@ -112,10 +112,10 @@ function renderFieldItems() {
   if (!container) return;
 
   container.innerHTML = createdFields.map((f, idx) => `
-    <div class="card" style="background: rgba(13, 17, 23, 0.7); margin-bottom: 14px; border-left: 4px solid var(--accent-gold);">
+    <div class="card" style="background: #f8fafc; border: 1px solid #cbd5e1; margin-bottom: 14px; border-left: 4px solid var(--gold-primary);">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <span style="font-weight:700; font-size:0.88rem; color:var(--accent-gold);">設問 #${idx + 1}</span>
-        ${createdFields.length > 1 ? `<button type="button" class="btn btn-secondary btn-del-field" data-idx="${idx}" style="padding:2px 8px; font-size:0.75rem; width:auto; color:#ff6b6b; border-color:rgba(230,57,70,0.3);">削除</button>` : ''}
+        <span style="font-weight:700; font-size:0.88rem; color:var(--text-main);">設問 #${idx + 1}</span>
+        ${createdFields.length > 1 ? `<button type="button" class="btn btn-secondary btn-del-field" data-idx="${idx}" style="padding:2px 8px; font-size:0.75rem; width:auto; color:#dc2626; border-color:#fca5a5;">削除</button>` : ''}
       </div>
 
       <div class="form-group" style="margin-bottom:10px;">
@@ -144,7 +144,7 @@ function renderFieldItems() {
         </div>
 
         <div style="display:flex; align-items:flex-end; padding-bottom:8px;">
-          <label style="font-size:0.82rem; display:flex; align-items:center; gap:6px; cursor:pointer;">
+          <label style="font-size:0.82rem; display:flex; align-items:center; gap:6px; cursor:pointer; font-weight:700;">
             <input type="checkbox" class="field-req-check" data-idx="${idx}" ${f.required ? 'checked' : ''}>
             <span>必須項目</span>
           </label>
@@ -160,7 +160,6 @@ function renderFieldItems() {
     </div>
   `).join('');
 
-  // イベントバインド
   container.querySelectorAll('.field-label-input').forEach(el => {
     el.addEventListener('input', (e) => {
       const idx = e.target.getAttribute('data-idx');
@@ -238,7 +237,7 @@ async function handleCreateFormSubmit(e) {
 }
 
 // ----------------------------------------------------
-// 3. Google Forms 風 自動集計ダッシュボード ＆ CSV出力
+// 3. 自動集計ダッシュボード (クリーンSaaSスタイル)
 // ----------------------------------------------------
 function renderFormSelectOptions() {
   const select = document.getElementById('select-admin-form');
@@ -275,11 +274,11 @@ async function loadFormResponsesSummary(formId) {
   const isOpen = targetForm.status === 'open';
 
   let summaryHeaderHtml = `
-    <div style="background:rgba(255,255,255,0.04); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px;">
+    <div style="background:#f8fafc; padding:16px; border-radius:8px; border:1px solid var(--border-color); margin-bottom:20px;">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div>
-          <h3 style="font-size:1.1rem; font-weight:700; color:var(--text-highlight);">${escapeHtml(targetForm.title)}</h3>
-          <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">回収件数: <strong style="color:var(--accent-gold); font-size:1rem;">${responses.length} 件</strong> ｜ 締切: ${escapeHtml(targetForm.deadline)}</div>
+          <h3 style="font-size:1.1rem; font-weight:700; color:var(--text-main);">${escapeHtml(targetForm.title)}</h3>
+          <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">回収件数: <strong style="color:var(--text-main); font-size:1rem;">${responses.length} 件</strong> ｜ 締切: ${escapeHtml(targetForm.deadline)}</div>
         </div>
 
         <div style="display:flex; gap:10px; align-items:center;">
@@ -300,7 +299,7 @@ async function loadFormResponsesSummary(formId) {
     return;
   }
 
-  // Google Forms 風 選択肢別のリアルタイムバー集計計算
+  // バーグラフ計算
   let chartsHtml = '';
   if (targetForm.fields) {
     chartsHtml = targetForm.fields.map(field => {
@@ -325,21 +324,21 @@ async function loadFormResponsesSummary(formId) {
         const barItems = Object.entries(optionCounts).map(([optName, count]) => {
           const pct = totalResForField > 0 ? Math.round((count / responses.length) * 100) : 0;
           return `
-            <div style="margin-bottom:8px;">
-              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:2px;">
+            <div style="margin-bottom:10px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px; font-weight:500;">
                 <span>${escapeHtml(optName)}</span>
-                <span style="color:var(--text-muted);">${count} 票 (${pct}%)</span>
+                <span style="color:var(--text-muted); font-weight:700;">${count} 票 (${pct}%)</span>
               </div>
-              <div style="background:rgba(255,255,255,0.1); height:10px; border-radius:5px; overflow:hidden;">
-                <div style="background:var(--accent-gold-gradient); width:${pct}%; height:100%; transition:width 0.4s ease;"></div>
+              <div style="background:#e2e8f0; height:12px; border-radius:6px; overflow:hidden;">
+                <div style="background:var(--gold-gradient); width:${pct}%; height:100%; transition:width 0.4s ease;"></div>
               </div>
             </div>
           `;
         }).join('');
 
         return `
-          <div class="card" style="background:rgba(13,17,23,0.6); margin-bottom:14px;">
-            <h4 style="font-size:0.92rem; font-weight:700; color:var(--accent-gold); margin-bottom:10px;">📊 ${escapeHtml(field.label)}</h4>
+          <div class="card" style="background:#ffffff; margin-bottom:14px; border:1px solid #cbd5e1;">
+            <h4 style="font-size:0.95rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">📊 ${escapeHtml(field.label)}</h4>
             ${barItems}
           </div>
         `;
@@ -348,7 +347,7 @@ async function loadFormResponsesSummary(formId) {
     }).join('');
   }
 
-  // メンバー全員の回収回答テーブル
+  // メンバー全回答一覧テーブル
   const headers = ['回答者', '回答日時', ...Object.keys(responses[0]?.answers || {})];
   const tableRowsHtml = responses.map(r => `
     <tr>
@@ -390,9 +389,6 @@ function bindSummaryEvents(formId, currentIsOpen) {
   });
 }
 
-// ----------------------------------------------------
-// 4. CSV ダウンロード機能 (Google Forms 互換)
-// ----------------------------------------------------
 function downloadCSV(formId) {
   if (!currentFormResponses || currentFormResponses.length === 0) {
     alert('ダウンロードする回答データがありません。');
@@ -406,10 +402,8 @@ function downloadCSV(formId) {
   const answerKeys = Object.keys(firstAnswers);
 
   const csvRows = [];
-  // ヘッダー行
   csvRows.push(['回答日時', '回答者名', ...answerKeys].map(escapeCSV).join(','));
 
-  // データ行
   currentFormResponses.forEach(r => {
     const row = [
       r.timestamp || '',
@@ -419,7 +413,7 @@ function downloadCSV(formId) {
     csvRows.push(row.map(escapeCSV).join(','));
   });
 
-  const csvContent = '\uFEFF' + csvRows.join('\n'); // UTF-8 BOM付き
+  const csvContent = '\uFEFF' + csvRows.join('\n');
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -436,9 +430,6 @@ function escapeCSV(str) {
   return `"${s}"`;
 }
 
-// ----------------------------------------------------
-// 5. 運営連絡・お知らせ発行
-// ----------------------------------------------------
 async function handleCreateAnnounceSubmit(e) {
   e.preventDefault();
   const category = document.getElementById('announce-category').value;
