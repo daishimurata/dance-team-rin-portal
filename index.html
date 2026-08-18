@@ -18,7 +18,7 @@
       </div>
     </a>
 
-    <!-- PC/タブレット用 スタイリッシュSaaSナビバー -->
+    <!-- PC/タブレット用 スタイリッシュSaaSナビバー (3つのメニュー) -->
     <nav class="desktop-nav">
       <button class="desktop-nav-btn active" data-tab="tab-announce">
         <span>📢</span> お知らせ
@@ -28,9 +28,6 @@
       </button>
       <button class="desktop-nav-btn" data-tab="tab-venues">
         <span>🗺️</span> 会場アクセス
-      </button>
-      <button class="desktop-nav-btn" data-tab="tab-board">
-        <span>💬</span> メンバー掲示板
       </button>
     </nav>
   </header>
@@ -43,10 +40,10 @@
     <!-- ヒーローメッセージ -->
     <section class="hero-banner">
       <div class="hero-title">凛 サポートポータルへようこそ！</div>
-      <div class="hero-desc">運営からの連絡確認、出欠・アンケートフォームへの回答、各練習会場へのアクセスガイド、メンバー掲示板がご利用いただけます。</div>
+      <div class="hero-desc">運営からの連絡確認、出欠・アンケートフォームへの回答、各練習会場へのアクセスガイドがご利用いただけます。</div>
     </section>
 
-    <!-- タブ 1: お知らせ掲示板 -->
+    <!-- タブ 1: 運営からのお知らせ -->
     <section id="tab-announce" class="tab-content active">
       <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
         <span>📢</span> 運営からのお知らせ
@@ -59,13 +56,13 @@
       </div>
     </section>
 
-    <!-- タブ 2: フォーム回収 -->
+    <!-- タブ 2: 回答フォーム (出欠・アンケート) -->
     <section id="tab-forms" class="tab-content">
       <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
         <span>📝</span> 回答フォーム（出欠・アンケート）
       </h2>
 
-      <!-- 自分の回答検索カード -->
+      <!-- 自分の過去回答確認カード -->
       <div class="card" style="border-color: rgba(212, 175, 55, 0.4); background: rgba(18, 22, 31, 0.7);">
         <div style="font-weight: 700; font-size: 0.88rem; margin-bottom: 8px; color: var(--gold-light);">🔍 自分の過去の回答を確認する</div>
         <div style="display: flex; gap: 8px;">
@@ -117,54 +114,21 @@
       </div>
     </section>
 
-    <!-- タブ 4: メンバー掲示板 -->
-    <section id="tab-board" class="tab-content">
-      <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--gold-light); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
-        <span>💬</span> メンバー連絡掲示板
-      </h2>
-
-      <div class="card" style="border-color: rgba(212, 175, 55, 0.4);">
-        <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--gold-light);">メッセージを投稿する</h3>
-        <form id="board-form">
-          <div class="form-group">
-            <input type="text" id="board-author" class="form-input" placeholder="お名前（例: たろう）" required>
-          </div>
-          <div class="form-group">
-            <textarea id="board-message" class="form-textarea" rows="3" placeholder="メッセージを入力してください（例: 8/24練習よろしくお願いします！）" required></textarea>
-          </div>
-          <button type="submit" id="board-submit-btn" class="btn btn-gold">
-            投稿する
-          </button>
-        </form>
-      </div>
-
-      <div id="board-list-container" class="card">
-        <div class="spinner-container">
-          <div class="spinner"></div>
-          <div>掲示板メッセージを取得中...</div>
-        </div>
-      </div>
-    </section>
-
   </main>
 
-  <!-- スマホ用 フローティング和モダンSaaSボトムナビ -->
+  <!-- スマホ用 フローティング和モダンSaaSボトムナビ (3つのメニュー) -->
   <nav class="bottom-nav">
-    <button class="nav-item active" data-tab="tab-announce">
+    <button class="nav-item active" data-tab="tab-announce" style="width: 33.3%;">
       <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 9h-2V5h2v6zm0 4h-2v-2h2v2z"/></svg>
       お知らせ
     </button>
-    <button class="nav-item" data-tab="tab-forms">
+    <button class="nav-item" data-tab="tab-forms" style="width: 33.3%;">
       <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
       フォーム
     </button>
-    <button class="nav-item" data-tab="tab-venues">
+    <button class="nav-item" data-tab="tab-venues" style="width: 33.3%;">
       <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       道案内
-    </button>
-    <button class="nav-item" data-tab="tab-board">
-      <svg viewBox="0 0 24 24"><path d="M21 6h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1zm-4-4H3c-.55 0-1 .45-1 1v14l4-4h11c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1z"/></svg>
-      掲示板
     </button>
   </nav>
 

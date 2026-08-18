@@ -4,9 +4,7 @@ import {
   fetchVenues, 
   fetchForms, 
   sendFormResponse, 
-  fetchMyFormResponses,
-  fetchBoardPosts, 
-  saveBoardPost 
+  fetchMyFormResponses 
 } from './firebase.js';
 
 let currentFormsData = [];
@@ -16,15 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
   loadAnnouncementsData();
   loadVenuesData();
   loadFormsData();
-  loadBoardData();
 
   document.getElementById('dynamic-form')?.addEventListener('submit', handleFormSubmit);
-  document.getElementById('board-form')?.addEventListener('submit', handleBoardSubmit);
   document.getElementById('btn-back-forms')?.addEventListener('click', closeFormArea);
   document.getElementById('btn-search-my-response')?.addEventListener('click', handleSearchMyResponse);
 });
 
-// PC ＆ スマホのスタイリッシュSaaSナビ連動設定
+// PC ＆ スマホのスタイリッシュSaaSナビ連動設定 (3メニュー構成)
 function setupNavigation() {
   const allNavBtns = document.querySelectorAll('.nav-item, .desktop-nav-btn');
   
@@ -36,7 +32,6 @@ function setupNavigation() {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       allNavBtns.forEach(b => b.classList.remove('active'));
 
-      // 同じ tabId を持つボタン全て（PC・スマホ両方）をアクティブ化
       document.querySelectorAll(`[data-tab="${tabId}"]`).forEach(b => b.classList.add('active'));
       document.getElementById(tabId)?.classList.add('active');
       
@@ -55,7 +50,7 @@ function showToast(message) {
   }, 3200);
 }
 
-// 1. お知らせ
+// 1. 運営からのお知らせ
 async function loadAnnouncementsData() {
   const container = document.getElementById('announce-list');
   if (!container) return;
@@ -136,7 +131,7 @@ async function loadVenuesData() {
   `).join('');
 }
 
-// 3. フォーム一覧ロード
+// 3. フォーム一覧ロード ＆ 動的入力
 async function loadFormsData() {
   const container = document.getElementById('forms-list');
   if (!container) return;
@@ -361,6 +356,7 @@ async function handleFormSubmit(e) {
   }
 }
 
+// 自分の過去回答確認
 async function handleSearchMyResponse() {
   const nameInput = document.getElementById('my-name-input');
   const resultsDiv = document.getElementById('my-response-results');
@@ -390,54 +386,6 @@ async function handleSearchMyResponse() {
       </div>
     </div>
   `).join('');
-}
-
-async function loadBoardData() {
-  const container = document.getElementById('board-list-container');
-  if (!container) return;
-
-  const posts = await fetchBoardPosts();
-  if (!posts || posts.length === 0) {
-    container.innerHTML = '<div style="text-align:center; color: var(--text-muted); padding: 10px 0;">投稿はまだありません。</div>';
-    return;
-  }
-
-  container.innerHTML = posts.map(p => `
-    <div class="board-item">
-      <div class="board-meta">
-        <span class="board-author" style="color:var(--gold-light);">👤 ${escapeHtml(p.author)}</span>
-        <span>${escapeHtml(p.date)}</span>
-      </div>
-      <div class="board-msg">${escapeHtml(p.message)}</div>
-    </div>
-  `).join('');
-}
-
-async function handleBoardSubmit(e) {
-  e.preventDefault();
-  const btn = document.getElementById('board-submit-btn');
-  const author = document.getElementById('board-author').value;
-  const msg = document.getElementById('board-message').value;
-
-  if (!author || !msg) {
-    alert('お名前とメッセージを入力してください。');
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = '送信中...';
-
-  const res = await saveBoardPost(author, msg);
-  btn.disabled = false;
-  btn.textContent = '投稿する';
-
-  if (res.success) {
-    showToast(res.message);
-    document.getElementById('board-message').value = '';
-    loadBoardData();
-  } else {
-    alert(res.message);
-  }
 }
 
 function escapeHtml(str) {
