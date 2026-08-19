@@ -274,10 +274,10 @@ async function loadVenuesData() {
     '<div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">' +
       '<div>' +
         '<h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">にっぽんど真ん中祭り イベントタイムスケジュール ＆ 会場ナビ</h3>' +
-        '<p style="font-size:0.85rem; color:var(--text-muted);">どまつり公式（domatsuri.com/team/detail/132）に基づくダンスチーム凛の全3日間演舞スケジュールです。</p>' +
+        '<p style="font-size:0.85rem; color:var(--text-muted);">どまつり公式（domatsuri.com/team/detail/1131）に基づくダンスチーム凛（チームNo. 1131）の全3日間演舞スケジュールです。</p>' +
       '</div>' +
       '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
-        '<a href="https://www.domatsuri.com/team/detail/132" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
+        '<a href="https://www.domatsuri.com/team/detail/1131" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
           'どまつり公式 凛ページ ↗' +
         '</a>' +
         '<a href="https://www.youtube.com/user/DOMATSURIofficial" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width:auto; padding:8px 14px; font-size:0.85rem; background:#fef2f2; color:#dc2626; border-color:#fca5a5;">' +
@@ -291,16 +291,22 @@ async function loadVenuesData() {
     scheduleTablesHtml +
     '<div class="card" style="border-color: var(--gold-primary); background: #ffffff;">' +
       '<h3 style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">' +
-        '演舞エリア持ち込みポーチ規定 ＆ 持参品規定' +
-      '旬</h3>' +
-      '<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">' +
-        'どまつり演舞エリアへ持ち込める荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」</strong>限定です。' +
+        '🎒 当日の荷物規定 ＆ 持参品規定' +
+      '</h3>' +
+      '<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">' +
+        '当日の荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」に入る物とチーム指定の水筒のみ</strong>でお願いします。' +
+      '</p>' +
+      '<p style="font-size: 0.82rem; color: #e11d48; font-weight: 700; margin-bottom: 12px;">' +
+        '※ ポーチ外側に必ず「ダンスチーム凛」と「自分の名前または隊列表で使用するニックネーム」を明記してください。' +
       '</p>' +
       '<div style="font-size:0.88rem; line-height:1.7; color:var(--text-main);">' +
-        '・B6透明 / 半透明ポーチ（マチ無し）<br>' +
-        '・ポーチ外側のチーム名「ダンスチーム凛」・氏名表記<br>' +
-        '・お財布・現金 ｜ ドニチカ切符（土日620円）/ 交通系IC<br>' +
-        '・スマートフォン（全充電） ｜ 常備薬・保険証（写し）' +
+        '・B6透明/半透明ポーチ（マチ無）<br>' +
+        '・チーム名・氏名の明記<br>' +
+        '・お財布・現金<br>' +
+        '・ドニチエコ切符 / ICカード<br>' +
+        '・携帯電話<br>' +
+        '・常備薬・メイク直し・健康保険証の写し<br>' +
+        '・ポーチに入るサイズのタオル' +
       '</div>' +
     '</div>'
   );
