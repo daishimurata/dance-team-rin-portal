@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>A4印刷用 演舞スケジュール</title>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 6mm 8mm 6mm 8mm;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      font-family: 'Shippori Mincho', serif;
+      color: #0f1b29;
+      font-size: 8.6pt;
+      line-height: 1.22;
+      position: relative;
+    }
+    body {
+      padding: 2px;
+    }
+    .header-box {
+      border-left: 5px solid #d93829;
+      padding: 6px 12px;
+      margin-bottom: 7px;
+      background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
+      border-radius: 5px;
+      border: 1px solid #e2e8f0;
+      border-left: 5px solid #d93829;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge-domatsuri {
+      background: linear-gradient(135deg, #d93829 0%, #991b1b 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 8.5pt;
+      padding: 3px 9px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .badge-no {
+      background: #0f1b29;
+      color: #fef08a;
+      font-weight: 700;
+      font-size: 8.5pt;
+      padding: 3px 9px;
+      border-radius: 3px;
+      border: 1px solid #d4af37;
+      display: inline-block;
+      margin-left: 5px;
+    }
+    .title-main {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #0f1b29;
+      margin: 4px 0 2px 0;
+      line-height: 1.25;
+    }
+    .sub-title {
+      font-size: 1.08rem;
+      color: #d93829;
+      font-weight: 700;
+    }
+    .qr-box {
+      border: 1.5px solid #0f1b29;
+      padding: 4px 6px;
+      background: #ffffff;
+      border-radius: 6px;
+      text-align: center;
+      width: 100px;
+      flex-shrink: 0;
+    }
+    .qr-box img {
+      width: 84px;
+      height: 84px;
+      display: block;
+      margin: 0 auto 2px;
+    }
+    .qr-box div {
+      font-size: 7.2pt;
+      font-weight: 800;
+      color: #0f1b29;
+      line-height: 1.1;
+    }
+    .day-card {
+      border: 1.2px solid #94a3b8;
+      border-radius: 5px;
+      margin-bottom: 7px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.95);
+    }
+    .day-header {
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-bottom: 1.8px solid #0f1b29;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .day-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+    .badge-syugo {
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      font-size: 7.8pt;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.6pt;
+    }
+    th {
+      background: #0f1b29;
+      color: #ffffff;
+      padding: 4.5px 8px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 8.6pt;
+    }
+    td {
+      padding: 4.8px 8px;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    .tag {
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 7.6pt;
+      font-weight: 700;
+      text-align: center;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .tag-syugo { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    .tag-enbu { background: #fef2f2; color: #b91c1c; border: 1px solid #fca5a5; }
+    .tag-densha { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; }
+    .tag-odori { background: #f8fafc; color: #475569; border: 1px solid #cbd5e1; }
+    .shinsa-row { background: #fffbebfb; }
+    .shinsa-badge {
+      background: linear-gradient(135deg, #d93829 0%, #991b1b 100%);
+      color: #fef08a;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 7.6pt;
+      white-space: nowrap;
+      display: inline-block;
+    }
+
+    /* 前面に配置して確実にくっきり見せる特大透かしロゴ */
+    .watermark-container {
+      position: absolute;
+      bottom: 8mm;
+      right: 10mm;
+      z-index: 99;
+      opacity: 0.28;
+      pointer-events: none;
+    }
+    .watermark-container img {
+      width: 250px;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-box">
+    <div>
+      <div>
+        <span class="badge-domatsuri">第28回 にっぽんど真ん中祭り 2026</span>
+        <span class="badge-no">チームナンバー: No.131</span>
+        <span style="font-size:8.5pt; color:#475569; font-weight:700; margin-left:6px;">日程: 8月28日(金)〜30日(日)</span>
+      </div>
+      <div class="title-main">ダンスチーム「凛」演舞作品 『修験』</div>
+      <div class="sub-title">全3日間 演舞スケジュール ＆ 移動ガイド</div>
+    </div>
+    <div class="qr-box">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://dance-team-rin-portal.vercel.app/schedule.html" alt="QR">
+      <div>📱 スマホで開く<br>最新MAP・案内</div>
+    </div>
+  </div>
+
+  <!-- Day 1 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-title" style="color: #0369a1;">1日目：8月28日（金）前夜祭</div>
+      <span class="badge-syugo">集合 16:30 @ 久屋メイン裏 凛テント前</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:72px;">開始時間</th>
+          <th style="width:85px; text-align:center;">区分</th>
+          <th style="width:200px;">演舞会場・内容</th>
+          <th>移動案内・詳細備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;">16:30</td>
+          <td style="text-align:center;"><span class="tag tag-syugo">集合</span></td>
+          <td style="font-weight:700;">久屋メイン裏 集合</td>
+          <td style="color:#475569;">点呼・楽屋準備・衣装確認（久屋メイン裏テント）</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">17:50 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[1] 久屋大通公園会場 メインステージ</td>
+          <td style="color:#475569;">前夜祭メインステージ演舞 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">18:59 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[3] ぐるめぱーく会場</td>
+          <td style="color:#475569;">【徒歩移動】久屋メインから公園内を南へ徒歩約3分 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">20:30</td>
+          <td style="text-align:center;"><span class="tag tag-odori">総踊り</span></td>
+          <td style="font-weight:700;">前夜祭総踊り ＆ 解散</td>
+          <td style="color:#475569;">1日目演舞終了・解散</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-title" style="color: #b91c1c;">2日目：8月29日（土）本祭 1日目</div>
+      <span class="badge-syugo">集合 08:00 @ 白川公園</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:72px;">開始時間</th>
+          <th style="width:85px; text-align:center;">区分</th>
+          <th style="width:200px;">演舞会場・内容</th>
+          <th>移動案内・詳細備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;">08:00</td>
+          <td style="text-align:center;"><span class="tag tag-syugo">集合</span></td>
+          <td style="font-weight:700;">白川公園 集合</td>
+          <td style="color:#475569;">朝の点呼・隊列確認・ウォームアップ</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">09:48</td>
+          <td style="text-align:center;"><span class="tag tag-densha">電車</span></td>
+          <td style="font-weight:700;">矢場町駅 → 名古屋城駅</td>
+          <td style="color:#475569;">【地下鉄名城線 右回り】矢場町09:48発 → 09:55名古屋城駅着（運賃210円）/ 7番出口より徒歩10分</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">10:42 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[9] 名古屋城会場</td>
+          <td style="color:#475569;">名古屋城特設ステージ演舞 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">11:00</td>
+          <td style="text-align:center;"><span class="tag tag-densha">電車</span></td>
+          <td style="font-weight:700;">名古屋城駅 → 久屋大通駅</td>
+          <td style="color:#475569;">【地下鉄名城線 左回り】11:00発 → 11:03久屋大通駅着（運賃210円）/ 徒歩3分</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">11:42 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[4] テレビ塔パレード会場</td>
+          <td style="color:#475569;">パレード通常演舞 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">12:04</td>
+          <td style="text-align:center;"><span class="tag tag-densha">電車</span></td>
+          <td style="font-weight:700;">栄駅 → 上前津駅</td>
+          <td style="color:#475569;">【地下鉄名城線 左回り】栄12:04発 → 12:08上前津駅着（運賃210円）/ 8番出口より徒歩8分</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">12:42 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[10] 大須観音会場</td>
+          <td style="color:#475569;">大須観音境内ステージ演舞 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">13:07</td>
+          <td style="text-align:center;"><span class="tag tag-densha">電車</span></td>
+          <td style="font-weight:700;">大須観音駅 → 名古屋駅</td>
+          <td style="color:#475569;">【地下鉄鶴舞線＋東山線（伏見乗換）】13:07発 → 13:15名古屋駅着（運賃210円）/ 昼食・着替え時間あり</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">14:42 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[8] 名古屋駅前JRタワーズガーデン会場</td>
+          <td style="color:#475569;">名駅タワー前ガーデンステージ演舞 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">15:25</td>
+          <td style="text-align:center;"><span class="tag tag-densha">電車</span></td>
+          <td style="font-weight:700;">名古屋駅 → 栄駅</td>
+          <td style="color:#475569;">【地下鉄東山線】15:25発 → 15:30栄駅着（運賃210円）/ 審査演舞前 準備・集中時間</td>
+        </tr>
+        <tr class="shinsa-row">
+          <td style="font-weight:800; color:#d93829;">16:42 頃</td>
+          <td style="text-align:center;"><span class="shinsa-badge">総合審査</span></td>
+          <td style="font-weight:800; color:#991b1b;">[4] テレビ塔パレード会場</td>
+          <td style="color:#7f1d1d; font-weight:700;">初審査演舞！本番勝負演舞 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">19:30 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[1] 久屋大通公園会場 メインステージ</td>
+          <td style="color:#475569;">【徒歩移動】テレビ塔から徒歩約5分（夕食・最終待機時間含む） 『修験』</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-title" style="color: #a16207;">3日目：8月30日（日）本祭 2日目</div>
+      <span class="badge-syugo">集合 09:30 @ オアシス21</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:72px;">開始時間</th>
+          <th style="width:85px; text-align:center;">区分</th>
+          <th style="width:200px;">演舞会場・内容</th>
+          <th>移動案内・詳細備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700;">09:30</td>
+          <td style="text-align:center;"><span class="tag tag-syugo">集合</span></td>
+          <td style="font-weight:700;">オアシス21 集合</td>
+          <td style="color:#475569;">点呼・最終確認・演舞準備</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">10:54 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[6] オアシス21会場</td>
+          <td style="color:#475569;">銀河の広場ステージ演舞 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">12:50 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[1] 久屋大通公園会場 メインステージ</td>
+          <td style="color:#475569;">【徒歩移動】オアシス21より徒歩約4分（昼食・ウォームアップ時間含む） 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">13:33</td>
+          <td style="text-align:center;"><span class="tag tag-densha">電車</span></td>
+          <td style="font-weight:700;">栄駅 → 金山駅 → 道徳駅</td>
+          <td style="color:#475569;">【地下鉄名城線＋名鉄常滑線（金山乗換）】栄13:33発 → 金山13:47発(名鉄) → 13:53道徳駅着（地下鉄210円＋名鉄190円）/ 徒歩4分</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700; color:#b48a1d;">14:48 頃</td>
+          <td style="text-align:center;"><span class="tag tag-enbu">演舞</span></td>
+          <td style="font-weight:700;">[11] どえりゃ〜どうとくパレード会場</td>
+          <td style="color:#475569;">道徳商店街パレード演舞 『修験』</td>
+        </tr>
+        <tr>
+          <td style="font-weight:700;">15:15</td>
+          <td style="text-align:center;"><span class="tag tag-densha">電車</span></td>
+          <td style="font-weight:700;">道徳駅 → 金山駅 → 栄駅</td>
+          <td style="color:#475569;">【名鉄常滑線＋地下鉄名城線（金山乗換）】道徳15:15発(名鉄) → 金山15:28発(地下鉄) → 15:36栄駅着（名鉄190円＋地下鉄210円）/ 徒歩4分</td>
+        </tr>
+        <tr class="shinsa-row">
+          <td style="font-weight:800; color:#d93829;">16:54 頃</td>
+          <td style="text-align:center;"><span class="shinsa-badge">最終演舞</span></td>
+          <td style="font-weight:800; color:#991b1b;">[4] テレビ塔パレード会場</td>
+          <td style="color:#7f1d1d; font-weight:700;">最終演舞ラストステージ！『修験』</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- A4用紙右下・前面くっきり浮き出る特大透かしロゴ -->
+  <div class="watermark-container">
+    <img src="https://dance-team-rin-portal.vercel.app/images/rin_user_exact_logo_gold.png" alt="凛">
+  </div>
+
+</body>
+</html>

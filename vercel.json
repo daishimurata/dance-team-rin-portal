@@ -1,4 +1,10 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "framework": "vite",
+  "buildCommand": "node scripts/generate_pdfs.js && vite build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/schedule", "destination": "/schedule.html" },
+    { "source": "/admin", "destination": "/admin.html" }
+  ]
 }

@@ -9,7 +9,7 @@
     .admin-auth-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(9, 18, 28, 0.85);
       backdrop-filter: blur(12px);
       z-index: 9999;
       display: flex;
@@ -19,13 +19,13 @@
     }
     .auth-box {
       background: #ffffff;
-      border: 1px solid var(--border-color);
+      border: 2px solid var(--domatsuri-gold);
       border-radius: var(--radius-lg);
       padding: 32px;
       max-width: 420px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.1);
     }
     .admin-nav {
       display: flex;
@@ -42,14 +42,16 @@
       color: var(--text-muted);
       font-size: 0.88rem;
       font-weight: 700;
+      font-family: var(--font-family-mincho);
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.18s ease;
     }
     .admin-nav-btn.active {
-      background: #fefce8;
-      color: var(--gold-dark);
-      border-color: var(--gold-primary);
+      background: var(--domatsuri-navy);
+      color: #fef08a;
+      border-color: var(--domatsuri-gold);
+      box-shadow: 0 4px 12px rgba(15, 27, 41, 0.25);
     }
     .table-responsive {
       width: 100%;
@@ -67,8 +69,9 @@
       border-bottom: 1px solid var(--border-color);
     }
     table.data-table th {
-      background: #f8fafc;
-      color: var(--text-main);
+      background: var(--domatsuri-navy);
+      color: #ffffff;
+      font-family: var(--font-family-mincho);
       font-weight: 700;
     }
   </style>

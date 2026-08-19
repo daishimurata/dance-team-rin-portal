@@ -1,36 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@700&family=Cinzel:wght@700&display=swap');
 
 :root {
-  /* メイン配色: 清潔感のある白 ＆ ライトスレート (SmartHR / freee スタイル) */
-  --bg-main: #f8fafc;
-  --bg-sidebar: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-hover: #ffffff;
-  --border-color: #e2e8f0;
-  --border-subtle: #cbd5e1;
+  /* ====================================================
+     にっぽんど真ん中祭り（どまつり）公式デザインシステム
+     メイン: 藍紺 (#0f1b29), テーマ: 朱赤 (#d93829), アクセント: 黄金 (#d4af37)
+     ==================================================== */
+  --domatsuri-navy: #0f1b29;
+  --domatsuri-navy-deep: #09121c;
+  --domatsuri-navy-card: #162436;
+  --domatsuri-navy-light: #1e293b;
+  --domatsuri-red: #d93829;
+  --domatsuri-red-light: #fff1f2;
+  --domatsuri-gold: #d4af37;
+  --domatsuri-gold-light: #fefce8;
+  --domatsuri-gold-glow: 0 4px 14px rgba(212, 175, 55, 0.35);
 
-  /* ワンポイントアクセント: シックなゴールド (金色) */
+  /* ベース配色 */
+  --bg-main: #0c1624;
+  --bg-sidebar: #0f1b29;
+  --bg-card: #ffffff;
+  --border-color: #cbd5e1;
+  --border-subtle: #94a3b8;
+  --border-gold: #d4af37;
+
+  /* 金箔グラデーション */
   --gold-primary: #c59b27;
   --gold-light: #fef08a;
   --gold-dark: #856404;
-  --gold-gradient: linear-gradient(135deg, #d4af37 0%, #c59b27 100%);
-  --gold-gradient-soft: rgba(197, 155, 39, 0.08);
-  --gold-glow: 0 4px 14px rgba(197, 155, 39, 0.25);
+  --gold-gradient: linear-gradient(135deg, #d4af37 0%, #b48a1d 100%);
+  --gold-gradient-soft: rgba(212, 175, 55, 0.12);
 
-  /* アクセント朱赤 */
-  --primary-red: #d97706; /* またはシックなカラー */
-  --primary-red-gradient: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  /* 朱赤グラデーション */
+  --primary-red: #d93829;
+  --primary-red-gradient: linear-gradient(135deg, #d93829 0%, #991b1b 100%);
 
   /* 文字カラー (高コントラスト・高可読性) */
-  --text-main: #0f172a;      /* 濃いチャコールブラック */
-  --text-muted: #475569;     /* 視認性の高いスレートグレー */
-  --text-gold: #856404;
-  --text-highlight: #000000;
+  --text-main: #0f172a;
+  --text-light: #f8fafc;
+  --text-muted: #475569;
+  --text-gold: #92400e;
 
   /* シャドウ ＆ 角丸 */
-  --shadow-soft: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-gold: 0 0 0 3px rgba(197, 155, 39, 0.2);
+  --shadow-soft: 0 4px 16px rgba(15, 27, 41, 0.08);
+  --shadow-hover: 0 10px 25px rgba(15, 27, 41, 0.15);
+  --shadow-gold: 0 0 0 3px rgba(212, 175, 55, 0.3);
   --radius-lg: 12px;
   --radius-md: 8px;
   --radius-sm: 6px;
@@ -50,24 +63,50 @@
 body {
   font-family: var(--font-family);
   background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(rgba(212, 175, 55, 0.12) 1px, transparent 0),
+    radial-gradient(rgba(217, 56, 41, 0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+  background-position: 0 0, 14px 14px;
   color: var(--text-main);
   line-height: 1.65;
   min-height: 100vh;
+  position: relative;
+}
+
+/* ユーザー提供の本物「凛」公式透過ロゴ背景ウォーターマーク */
+body::before {
+  content: "";
+  position: fixed;
+  right: -30px;
+  bottom: -30px;
+  width: clamp(380px, 48vw, 680px);
+  height: clamp(380px, 48vw, 680px);
+  background-image: url("/images/rin_user_exact_logo_gold.png");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: contain;
+  opacity: 0.16;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
 }
 
 /* ====================================================
-   SaaS レイアウト (サイドバー ＋ メイン)
+   どまつり風 SaaS レイアウト (サイドバー ＋ メイン)
    ==================================================== */
-.app-layout {
+.saas-layout, .app-layout {
   display: flex;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
-/* PC用 白基調SaaSサイドバー (SmartHR / freee スタイル) */
-.sidebar {
-  width: 250px;
-  background: var(--bg-sidebar);
-  border-right: 1px solid var(--border-color);
+/* PC用 藍紺×金箔 伝統サイドバー */
+.saas-sidebar, .sidebar {
+  width: 260px;
+  background: var(--domatsuri-navy);
+  border-right: 2px solid var(--domatsuri-gold);
   padding: 24px 16px;
   display: flex;
   flex-direction: column;
@@ -77,59 +116,63 @@ body {
   bottom: 0;
   left: 0;
   z-index: 1000;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
 }
 
 @media (max-width: 899px) {
-  .sidebar {
+  .saas-sidebar, .sidebar {
     display: none;
   }
 }
 
-.sidebar-header {
+.brand-container, .sidebar-header {
   display: flex;
   align-items: center;
   gap: 12px;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
   margin-bottom: 20px;
 }
 
+/* ユーザー提供の本物公式ロゴマークアイコン */
 .brand-icon {
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
-  background: var(--gold-gradient);
+  background: #ffffff url("/images/rin_user_exact_logo_gold.png") center/90% no-repeat;
+  border: 2px solid var(--domatsuri-gold);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-family-mincho);
-  font-weight: 700;
-  font-size: 18px;
-  color: #ffffff;
-  box-shadow: var(--gold-glow);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  color: var(--domatsuri-navy);
+  font-weight: 700;
+  font-family: var(--font-family-mincho);
 }
 
 .brand-title {
   font-family: var(--font-family-mincho);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: var(--text-main);
-  letter-spacing: 0.5px;
+  color: #ffffff;
+  letter-spacing: 1px;
 }
 
 .brand-subtitle {
-  font-size: 0.7rem;
-  color: var(--text-muted);
+  font-size: 0.72rem;
+  color: #94a3b8;
   font-weight: 500;
 }
 
 /* メニューボタン */
-.sidebar-menu {
+.sidebar-nav, .sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
 }
 
@@ -137,124 +180,218 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: var(--radius-md);
   background: transparent;
   border: 1px solid transparent;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  color: #cbd5e1;
+  font-size: 0.92rem;
   font-weight: 700;
+  font-family: var(--font-family-mincho);
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: all 0.2s ease;
   text-align: left;
   width: 100%;
+  text-decoration: none;
 }
 
 .sidebar-btn:hover {
-  color: var(--text-main);
-  background: #f1f5f9;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(2px);
 }
 
 .sidebar-btn.active {
-  background: #fefce8;
-  border-color: var(--gold-primary);
-  color: var(--gold-dark);
+  background: rgba(212, 175, 55, 0.18);
+  border-color: var(--domatsuri-gold);
+  color: #fef08a;
   font-weight: 700;
+  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
-.sidebar-btn svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* メイン表示エリア */
-.main-wrapper {
+.saas-main, .main-wrapper {
   flex: 1;
-  margin-left: 250px;
+  margin-left: 260px;
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
 @media (max-width: 899px) {
-  .main-wrapper {
+  .saas-main, .main-wrapper {
     margin-left: 0;
-    padding-bottom: 80px;
   }
 }
 
-/* 上部バー */
-.saas-topbar {
-  background: #ffffff;
-  border-bottom: 1px solid var(--border-color);
-  padding: 14px 28px;
+/* どまつり公式ヘッダーバー (藍紺 × 朱赤ライン) */
+.saas-topbar, .domatsuri-theme-header {
+  background: var(--domatsuri-navy);
+  border-bottom: 3px solid var(--domatsuri-red);
+  padding: 14px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: sticky;
   top: 0;
   z-index: 900;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
 }
 
-.mobile-header-logo {
-  display: none;
+/* スマホ用 右上3本線ハンバーガーボタン */
+#btn-hamburger, .hamburger-btn {
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid var(--domatsuri-gold);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fef08a;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--font-family-mincho);
+  transition: all 0.2s ease;
 }
 
-@media (max-width: 899px) {
-  .mobile-header-logo {
-    display: flex;
-  }
+#btn-hamburger:hover, .hamburger-btn:hover {
+  background: rgba(212, 175, 55, 0.25);
+  color: #ffffff;
+}
+
+/* スマホ用 藍紺×金箔 スライドドロワーメニュー */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 18, 28, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 1900;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+}
+
+.drawer-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 290px;
+  background: var(--domatsuri-navy);
+  border-left: 2px solid var(--domatsuri-gold);
+  z-index: 2000;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+}
+
+.drawer-menu.active {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  margin-bottom: 16px;
+}
+
+.drawer-item-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: var(--font-family-mincho);
+  cursor: pointer;
+  text-decoration: none;
+  margin-bottom: 6px;
+  transition: all 0.18s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.drawer-item-btn:hover, .drawer-item-btn.active {
+  background: rgba(212, 175, 55, 0.18);
+  color: #fef08a;
+  border-color: var(--domatsuri-gold);
 }
 
 .container {
-  max-width: 880px;
+  max-width: 920px;
   margin: 0 auto;
   padding: 24px 20px;
   width: 100%;
 }
 
-/* ヒーローバナー */
-.hero-banner {
-  background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-left: 5px solid var(--gold-primary);
+/* 演舞作品『炎 HOMURA』どまつり公式仕様バナー */
+.homura-banner-card {
+  width: 100%;
   border-radius: var(--radius-md);
-  padding: 20px 24px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  margin-bottom: 26px;
+  position: relative;
+  background: linear-gradient(135deg, #0f1b29 0%, #1e293b 50%, #450a0a 100%);
+  border: 2px solid var(--domatsuri-gold);
+  box-shadow: 0 6px 24px rgba(15, 27, 41, 0.4), inset 0 0 15px rgba(212, 175, 55, 0.15);
+  padding: 28px 24px;
+  color: #ffffff;
 }
 
-.hero-title {
+.homura-title-main {
   font-family: var(--font-family-mincho);
-  font-size: 1.25rem;
+  font-size: 1.45rem;
   font-weight: 700;
-  color: var(--text-main);
-  margin-bottom: 4px;
+  color: #ffffff;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.hero-desc {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-}
-
-/* カードコンポーネント (白背景クリーン) */
+/* カードコンポーネント (和モダン ＋ 高視認性) */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
+  border-top: 3px solid var(--domatsuri-navy);
   border-radius: var(--radius-md);
   padding: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   box-shadow: var(--shadow-soft);
   transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
   box-shadow: var(--shadow-hover);
-  border-color: #cbd5e1;
+  border-color: var(--domatsuri-gold);
 }
 
 .tab-content {
@@ -281,27 +418,77 @@ body {
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .badge-high {
-  background: #fef2f2;
-  color: #dc2626;
+  background: var(--domatsuri-red-light);
+  color: #b91c1c;
   border: 1px solid #fca5a5;
 }
 
 .badge-medium {
-  background: #fefce8;
+  background: var(--domatsuri-gold-light);
   color: #856404;
   border: 1px solid #fef08a;
 }
 
 .badge-normal {
-  background: #f0fdf4;
-  color: #16a34a;
-  border: 1px solid #86efac;
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #cbd5e1;
 }
 
-/* ボタン (SaaSゴールド＆クリーン仕様) */
+/* 審査演舞プレミアムバッジ */
+.badge-shinsa-premium {
+  background: linear-gradient(135deg, #d93829 0%, #991b1b 100%) !important;
+  color: #fef08a !important;
+  border: 1px solid #f59e0b !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px;
+  padding: 6px 12px !important;
+  box-shadow: 0 2px 8px rgba(217, 56, 41, 0.4);
+  font-size: 0.85rem !important;
+}
+
+/* ドーンと動かさずに魅せる『炎 HOMURA』背景ロゴ */
+.flame-bg-static {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 440px;
+  max-width: 95%;
+  height: auto;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.52;
+  filter: drop-shadow(0 0 24px rgba(212, 175, 55, 0.75)) drop-shadow(0 0 40px rgba(217, 56, 41, 0.35)) brightness(1.2);
+}
+
+.countdown-content-relative {
+  position: relative;
+  z-index: 2;
+}
+
+/* どまつり装飾パターン */
+.domatsuri-pattern-bg {
+  background-color: var(--domatsuri-navy);
+  background-image: 
+    radial-gradient(rgba(212, 175, 55, 0.14) 1px, transparent 0),
+    radial-gradient(rgba(217, 56, 41, 0.1) 1px, transparent 0);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+.domatsuri-gold-border-box {
+  border: 2px solid var(--domatsuri-gold);
+  box-shadow: 0 4px 20px rgba(15, 27, 41, 0.4), inset 0 0 15px rgba(212, 175, 55, 0.15);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* ボタン群 (金箔・朱赤・藍紺) */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -311,6 +498,7 @@ body {
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
   font-weight: 700;
+  font-family: var(--font-family-mincho);
   cursor: pointer;
   border: 1px solid transparent;
   transition: all 0.18s ease;
@@ -321,30 +509,37 @@ body {
 .btn-gold {
   background: var(--gold-gradient);
   color: #ffffff;
-  box-shadow: var(--gold-glow);
+  box-shadow: var(--domatsuri-gold-glow);
+  border: 1px solid #fef08a;
 }
 
 .btn-gold:hover {
-  filter: brightness(1.05);
+  filter: brightness(1.08);
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.45);
 }
 
 .btn-primary {
   background: var(--primary-red-gradient);
   color: white;
+  box-shadow: 0 4px 14px rgba(217, 56, 41, 0.35);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
 }
 
 .btn-secondary {
   background: #ffffff;
-  color: var(--text-main);
-  border-color: var(--border-subtle);
+  color: var(--domatsuri-navy);
+  border: 1px solid #cbd5e1;
 }
 
 .btn-secondary:hover {
   background: #f8fafc;
-  border-color: #94a3b8;
+  border-color: var(--domatsuri-navy);
 }
 
-/* フォームコントロール (高可読性) */
+/* フォームコントロール */
 .form-group {
   margin-bottom: 18px;
 }
@@ -353,6 +548,7 @@ body {
   display: block;
   font-size: 0.88rem;
   font-weight: 700;
+  font-family: var(--font-family-mincho);
   margin-bottom: 6px;
   color: var(--text-main);
 }
@@ -371,7 +567,7 @@ body {
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {
   outline: none;
-  border-color: var(--gold-primary);
+  border-color: var(--domatsuri-gold);
   box-shadow: var(--shadow-gold);
 }
 
@@ -388,70 +584,13 @@ body {
 }
 
 .radio-option:hover {
-  border-color: var(--gold-primary);
+  border-color: var(--domatsuri-gold);
 }
 
 .radio-option input[type="radio"], .radio-option input[type="checkbox"] {
-  accent-color: var(--gold-primary);
+  accent-color: var(--domatsuri-gold);
   width: 18px;
   height: 18px;
-}
-
-/* スマホ用 底面フローティングナビ */
-.bottom-nav {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  z-index: 1000;
-  background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: 30px;
-  display: flex;
-  justify-content: space-around;
-  padding: 6px 10px;
-  max-width: 500px;
-  margin: 0 auto;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-@media (min-width: 900px) {
-  .bottom-nav {
-    display: none;
-  }
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 700;
-  gap: 3px;
-  cursor: pointer;
-  width: 33.3%;
-  padding: 6px 0;
-  border-radius: 20px;
-  transition: all 0.18s ease;
-}
-
-.nav-item svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
-}
-
-.nav-item.active {
-  color: var(--gold-dark);
-  background: #fefce8;
-}
-
-.nav-item.active svg {
-  fill: var(--gold-primary);
 }
 
 .announce-header {
@@ -462,6 +601,7 @@ body {
 }
 
 .announce-title {
+  font-family: var(--font-family-mincho);
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 8px;
@@ -475,42 +615,23 @@ body {
   word-break: break-word;
 }
 
-.venue-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.venue-directions {
-  background: #f8fafc;
-  border-left: 4px solid var(--gold-primary);
-  padding: 12px 14px;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  margin: 12px 0;
-  font-size: 0.9rem;
-  white-space: pre-wrap;
-  color: #334155;
-}
-
+/* トースト通知 */
 .toast {
   position: fixed;
   top: 75px;
   left: 50%;
   transform: translateX(-50%) translateY(-20px);
   opacity: 0;
-  background: #0f172a;
-  border: 1px solid var(--gold-primary);
+  background: var(--domatsuri-navy);
+  border: 2px solid var(--domatsuri-gold);
   color: #ffffff;
   padding: 12px 28px;
   border-radius: 30px;
   font-size: 0.9rem;
   font-weight: 700;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-  z-index: 2000;
+  font-family: var(--font-family-mincho);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  z-index: 3000;
   transition: all 0.3s ease;
   pointer-events: none;
 }
@@ -519,3 +640,574 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* ====================================================
+   どまつり公式 スケジュールテーブル ＆ タブスタイル
+   ==================================================== */
+.domatsuri-tabs-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.domatsuri-tab-btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-top: 4px solid #cbd5e1;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-mincho);
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.domatsuri-tab-btn:hover {
+  background: #f8fafc;
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.domatsuri-tab-btn.active-day1 {
+  background: #ffffff;
+  border-color: #38bdf8;
+  border-top: 4px solid #0284c7;
+  color: #0369a1;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+}
+
+.domatsuri-tab-btn.active-day2 {
+  background: #ffffff;
+  border-color: #fca5a5;
+  border-top: 4px solid var(--domatsuri-red);
+  color: #b91c1c;
+  box-shadow: 0 4px 12px rgba(217, 56, 41, 0.2);
+}
+
+.domatsuri-tab-btn.active-day3 {
+  background: #ffffff;
+  border-color: #fde047;
+  border-top: 4px solid var(--domatsuri-gold);
+  color: #a16207;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+}
+
+.domatsuri-day-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 28px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(15, 27, 41, 0.12);
+}
+
+.domatsuri-card-day1 { border-top: 4px solid #0284c7 !important; }
+.domatsuri-card-day2 { border-top: 4px solid var(--domatsuri-red) !important; }
+.domatsuri-card-day3 { border-top: 4px solid var(--domatsuri-gold) !important; }
+
+.domatsuri-day-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.domatsuri-header-day1 { background: #f0f9ff !important; border-bottom: 1px solid #bae6fd !important; }
+.domatsuri-header-day2 { background: var(--domatsuri-red-light) !important; border-bottom: 1px solid #fecdd3 !important; }
+.domatsuri-header-day3 { background: var(--domatsuri-gold-light) !important; border-bottom: 1px solid #fef08a !important; }
+
+.domatsuri-day-title {
+  font-family: var(--font-family-mincho);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.domatsuri-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.domatsuri-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+.domatsuri-table th, .domatsuri-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.domatsuri-table th {
+  background: var(--domatsuri-navy);
+  color: #ffffff;
+  font-family: var(--font-family-mincho);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.domatsuri-table tr:hover {
+  background: #f8fafc;
+}
+
+/* ボタン・バッジ各種 */
+.map-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  background: #0284c7;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+
+.map-btn:hover { background: #0369a1; }
+
+.sched-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  background: #f1f5f9;
+  color: var(--domatsuri-navy);
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.18s ease;
+}
+
+.sched-btn:hover { background: #e2e8f0; }
+
+.badge-syugo {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  font-weight: 700;
+}
+
+.badge-densha {
+  background: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  font-weight: 700;
+}
+
+/* チェックリスト連動スタイリング */
+.domatsuri-checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #0f1b29 !important;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.domatsuri-checklist-item span {
+  color: #0f1b29 !important;
+}
+
+.domatsuri-checklist-item:hover {
+  background: var(--domatsuri-gold-light);
+  border-color: var(--domatsuri-gold);
+}
+
+.domatsuri-checklist-item input[type="checkbox"] {
+  accent-color: var(--domatsuri-navy);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.domatsuri-checklist-item.checked {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.domatsuri-checklist-item.checked span {
+  color: #64748b !important;
+  text-decoration: line-through;
+}
+
+.print-only {
+  display: none !important;
+}
+
+/* ==========================================================================
+   印刷 / PDF出力専用スタイリング (@media print - A4 1枚収まり完全最適化)
+   ========================================================================== */
+@media print {
+  .print-only {
+    display: block !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 6mm 8mm 6mm 8mm;
+  }
+
+  body, html {
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #0f172a !important;
+    font-size: 8.5pt !important;
+    line-height: 1.25 !important;
+  }
+
+  /* 印刷不要パーツの完全除外（カウントダウン・チェックリスト・ボタン類含む） */
+  .saas-topbar,
+  .btn-no-print,
+  .domatsuri-tabs-container,
+  #top_link,
+  header,
+  footer,
+  .nav-tabs,
+  button,
+  #btn-hamburger {
+    display: none !important;
+  }
+
+  /* 全体コンテナの印刷全幅化 */
+  .container, .domatsuri-pattern-bg {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+/* ====================================================
+   スマホレスポンシブ最適化 (横スクロール一切無しの縦並びカード表示)
+   ==================================================== */
+@media (max-width: 768px) {
+  /* 横スクロールラッパーの解除 */
+  .table-responsive, [style*="overflow-x: auto"] {
+    overflow-x: visible !important;
+    white-space: normal !important;
+  }
+  
+  /* テーブルを行単位のカード表示へ変換 */
+  .schedule-table, .table {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  
+  .schedule-table thead, .table thead {
+    display: none !important; /* PC用ヘッダー行は非表示 */
+  }
+
+  .schedule-table tbody, .table tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .schedule-table tr, .table tr {
+    display: block !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 10px !important;
+    margin-bottom: 14px !important;
+    padding: 14px 14px !important;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06) !important;
+  }
+
+  .schedule-table td, .table td {
+    display: block !important;
+    width: 100% !important;
+    padding: 3px 0 !important;
+    border: none !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 時刻・時間 */
+  .schedule-table td:nth-child(1) {
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: var(--domatsuri-navy) !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* 区分バッジ */
+  .schedule-table td:nth-child(2) {
+    margin-bottom: 6px !important;
+  }
+
+  /* 演舞会場・内容 */
+  .schedule-table td:nth-child(3) {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: var(--domatsuri-navy) !important;
+    line-height: 1.35 !important;
+    margin-bottom: 6px !important;
+  }
+
+  /* 移動案内・詳細備考 */
+  .schedule-table td:nth-child(4) {
+    font-size: 0.85rem !important;
+    color: #475569 !important;
+    background: #f8fafc !important;
+    padding: 8px 10px !important;
+    border-radius: 6px !important;
+    border-left: 3px solid #cbd5e1 !important;
+  }
+}  }
+
+  .card {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    margin-bottom: 6px !important;
+    padding: 4px 8px !important;
+  }
+
+  /* 演舞日程カードのゆったり拡大 ＆ 途切れ防止 */
+  .domatsuri-day-card {
+    background: #ffffff !important;
+    border: 1.5px solid #94a3b8 !important;
+    margin-bottom: 10px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .domatsuri-day-header {
+    background: #f1f5f9 !important;
+    border-bottom: 2px solid #0f1b29 !important;
+    padding: 5px 10px !important;
+    color: #0f1b29 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .domatsuri-day-title {
+    color: #0f1b29 !important;
+    font-size: 1.02rem !important;
+    font-weight: 700 !important;
+  }
+
+  .domatsuri-table-wrapper {
+    overflow: visible !important;
+  }
+
+  .domatsuri-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 8.8pt !important;
+  }
+
+  .domatsuri-table th {
+    background: #0f1b29 !important;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    padding: 5px 8px !important;
+    font-size: 8.8pt !important;
+  }
+
+  .domatsuri-table td {
+    padding: 5.5px 8px !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+  }
+
+  /* 審査演舞行 */
+  .domatsuri-shinsa-row {
+    background: #fefce8 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* 印刷・PDF出力時にMAPボタンおよび5番目のボタン列を完全非表示 */
+  .map-btn, 
+  .sched-btn, 
+  .domatsuri-table th:last-child, 
+  .domatsuri-table td:last-child {
+    display: none !important;
+  }
+
+  .badge {
+    border: 1px solid #94a3b8 !important;
+    padding: 2px 6px !important;
+    font-size: 7.8pt !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* 印刷用ヘッダーおよびQRコードブロックのレイアウト最適化 */
+  .header-schedule-card {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    border-left: 5px solid #0f1b29 !important;
+    padding: 6px 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .header-schedule-card h1 {
+    font-size: 1.45rem !important;
+    margin-bottom: 4px !important;
+    line-height: 1.3 !important;
+  }
+
+  .schedule-qr-box {
+    display: block !important;
+    border: 1.5px solid #0f1b29 !important;
+    padding: 4px 6px !important;
+    width: 108px !important;
+    text-align: center !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .schedule-qr-box img {
+    width: 92px !important;
+    height: 92px !important;
+    margin: 0 auto 2px !important;
+  }
+
+  /* A4用紙右下・透かしロゴ（ウォーターマーク・テキストなし特大ロゴ） */
+  .print-watermark {
+    display: block !important;
+    position: absolute !important;
+    bottom: 10mm !important;
+    right: 14mm !important;
+    opacity: 0.14 !important;
+    pointer-events: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-watermark img {
+    width: 220px !important;
+    height: auto !important;
+    filter: grayscale(10%) !important;
+  }
+}
+
+/* ====================================================
+   スマホレスポンシブ最適化 (幅広解消・縦並びスリムカード表示)
+   ==================================================== */
+@media (max-width: 768px) {
+  body {
+    padding: 0 !important;
+  }
+  
+  .container {
+    padding: 10px 8px !important;
+    max-width: 100% !important;
+  }
+
+  .card, .domatsuri-day-card, #domatsuri-countdown-panel {
+    padding: 12px 10px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 8px !important;
+  }
+
+  /* 横スクロールラッパーの完全解除 */
+  .table-responsive, [style*="overflow-x: auto"], .domatsuri-table-wrapper {
+    overflow-x: visible !important;
+    white-space: normal !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* テーブルを行単位の縦スリムカード表示へ変換 */
+  .schedule-table, .table, .domatsuri-table {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  
+  .schedule-table thead, .table thead, .domatsuri-table thead {
+    display: none !important; /* PC用見出しヘッダー行は非表示 */
+  }
+
+  .schedule-table tbody, .table tbody, .domatsuri-table tbody {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .schedule-table tr, .table tr, .domatsuri-table tr {
+    display: block !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    margin-bottom: 10px !important;
+    padding: 10px 12px !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+    box-sizing: border-box !important;
+  }
+
+  .schedule-table td, .table td, .domatsuri-table td {
+    display: block !important;
+    width: 100% !important;
+    padding: 2px 0 !important;
+    border: none !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 時刻・時間 */
+  .schedule-table td:nth-child(1), .domatsuri-table td:nth-child(1) {
+    font-size: 0.98rem !important;
+    font-weight: 700 !important;
+    color: var(--domatsuri-navy) !important;
+    margin-bottom: 2px !important;
+  }
+
+  /* 区分バッジ */
+  .schedule-table td:nth-child(2), .domatsuri-table td:nth-child(2) {
+    margin-bottom: 4px !important;
+  }
+
+  /* 演舞会場・内容 */
+  .schedule-table td:nth-child(3), .domatsuri-table td:nth-child(3) {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    color: var(--domatsuri-navy) !important;
+    line-height: 1.3 !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* 移動案内・詳細備考 */
+  .schedule-table td:nth-child(4), .domatsuri-table td:nth-child(4) {
+    font-size: 0.82rem !important;
+    color: #475569 !important;
+    background: #f8fafc !important;
+    padding: 6px 8px !important;
+    border-radius: 5px !important;
+    border-left: 3px solid #cbd5e1 !important;
+  }
+}
+
+

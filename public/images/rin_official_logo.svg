@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGradOfficial" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#c59b27"/>
+    </linearGradient>
+  </defs>
+
+  <g fill="url(#goldGradOfficial)">
+    <!-- イチョウの葉 3枚 (上部左) -->
+    <path d="M 230 70 Q 210 30 180 50 Q 150 70 190 95 Q 210 100 230 70 Z" />
+    <path d="M 290 85 Q 270 45 240 65 Q 210 85 250 110 Q 270 115 290 85 Z" />
+    <path d="M 330 125 Q 310 85 280 105 Q 250 125 290 150 Q 310 155 330 125 Z" />
+    
+    <!-- 茎 -->
+    <path d="M 190 95 Q 230 130 250 200" stroke="url(#goldGradOfficial)" stroke-width="3" fill="none" />
+    <path d="M 250 110 Q 270 140 280 190" stroke="url(#goldGradOfficial)" stroke-width="3" fill="none" />
+
+    <!-- 上部～中部のS字型 流水波模様 -->
+    <path d="M 360 35 C 260 30, 200 120, 320 150 C 420 180, 220 230, 120 230 C 20 230, 40 310, 160 280 C 240 260, 310 240, 280 290" fill="none" stroke="url(#goldGradOfficial)" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 320 65 C 240 60, 220 130, 310 170 C 370 190, 200 245, 140 245" fill="none" stroke="url(#goldGradOfficial)" stroke-width="3" opacity="0.85"/>
+    <path d="M 160 280 C 80 300, 30 360, 100 390 C 180 420, 280 380, 200 450" fill="none" stroke="url(#goldGradOfficial)" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- イチョウの葉 (中左下) -->
+    <path d="M 280 260 Q 260 230 230 245 Q 200 260 240 285 Z" />
+
+    <!-- 菊の小輪 (右上 2基) -->
+    <g transform="translate(390, 130) scale(0.48)">
+      <circle cx="0" cy="0" r="16" fill="url(#goldGradOfficial)"/>
+      <g stroke="url(#goldGradOfficial)" stroke-width="3">
+        <path d="M 0 -22 L 0 -70 M 0 22 L 0 70 M -22 0 L -70 0 M 22 0 L 70 0"/>
+        <path d="M -15 -15 L -50 -50 M 15 15 L 50 50 M -15 15 L -50 50 M 15 -15 L 50 -50"/>
+        <path d="M -8 -20 L -28 -65 M 8 20 L 28 65 M -20 8 L -65 28 M 20 -8 L 65 -28"/>
+        <path d="M 8 -20 L 28 -65 M -8 20 L -28 65 M 20 8 L 65 28 M -20 -8 L -65 -28"/>
+      </g>
+    </g>
+    <g transform="translate(490, 185) scale(0.45)">
+      <circle cx="0" cy="0" r="16" fill="url(#goldGradOfficial)"/>
+      <g stroke="url(#goldGradOfficial)" stroke-width="3">
+        <path d="M 0 -22 L 0 -70 M 0 22 L 0 70 M -22 0 L -70 0 M 22 0 L 70 0"/>
+        <path d="M -15 -15 L -50 -50 M 15 15 L 50 50 M -15 15 L -50 50 M 15 -15 L 50 -50"/>
+        <path d="M -8 -20 L -28 -65 M 8 20 L 28 65 M -20 8 L -65 28 M 20 -8 L 65 -28"/>
+        <path d="M 8 -20 L 28 -65 M -8 20 L -28 65 M 20 8 L 65 28 M -20 -8 L -65 -28"/>
+      </g>
+    </g>
+
+    <!-- 菊の大輪 (左下) -->
+    <g transform="translate(180, 480)">
+      <circle cx="0" cy="0" r="22" fill="url(#goldGradOfficial)"/>
+      <g stroke="url(#goldGradOfficial)" stroke-width="2.5">
+        <path d="M 0 -26 L 0 -105 M 0 26 L 0 105 M -26 0 L -105 0 M 26 0 L 105 0"/>
+        <path d="M -18 -18 L -74 -74 M 18 18 L 74 74 M -18 18 L -74 74 M 18 -18 L 74 -74"/>
+        <path d="M -10 -24 L -40 -96 M 10 24 L 40 96 M -24 10 L -96 40 M 24 -10 L 96 -40"/>
+        <path d="M 10 -24 L 40 -96 M -10 24 L -40 96 M 24 10 L 96 40 M -24 -10 L -96 -40"/>
+        <path d="M -24 -10 L -96 -40 M 24 10 L 96 40 M -10 -24 L -40 -96 M 10 24 L 40 96"/>
+        <path d="M -24 10 L -96 40 M 24 -10 L 96 -40 M 10 -24 L 40 -96 M -10 24 L -40 96"/>
+      </g>
+    </g>
+
+    <!-- 蓮の花 (右下) -->
+    <g transform="translate(510, 490) scale(0.7)">
+      <path d="M 0 30 Q -35 -25 0 -75 Q 35 -25 0 30" />
+      <path d="M -18 25 Q -60 -15 -42 -55 Q -12 -30 -18 25" />
+      <path d="M 18 25 Q 60 -15 42 -55 Q 12 -30 18 25" />
+      <path d="M -35 30 Q -85 5 -65 -30 Q -30 -5 -35 30" />
+      <path d="M 35 30 Q 85 5 65 -30 Q 30 -5 35 30" />
+    </g>
+
+    <!-- 下部 流水ライン -->
+    <path d="M 280 480 C 380 500, 480 570, 360 570 C 280 570, 320 520, 420 520 C 500 520, 560 550, 580 530" fill="none" stroke="url(#goldGradOfficial)" stroke-width="4.5" stroke-linecap="round"/>
+
+    <!-- 「凛」筆文字 (中央〜右手・正確な和風書体) -->
+    <text x="390" y="380" font-family="'Shippori Mincho', 'Noto Serif JP', serif" font-size="240" font-weight="900" text-anchor="middle" dominant-baseline="middle">
+      凛
+    </text>
+  </g>
+</svg>
