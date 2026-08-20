@@ -4,7 +4,11 @@ import {
   createNewForm, 
   updateFormStatus,
   fetchAllFormResponses, 
-  createAnnouncement 
+  createAnnouncement,
+  fetchInvoices,
+  createNewInvoice,
+  updateInvoiceStatus,
+  deleteInvoice
 } from './firebase.js';
 
 let createdFields = [];
@@ -12,15 +16,20 @@ let allForms = [];
 let currentFormResponses = [];
 let currentFormId = null;
 
+let invoiceItems = [];
+let allInvoices = [];
+
 document.addEventListener('DOMContentLoaded', () => {
   setupAuth();
   setupAdminNav();
   initFormBuilder();
+  initInvoiceForm();
 
   document.getElementById('create-form-form')?.addEventListener('submit', handleCreateFormSubmit);
   document.getElementById('create-announce-form')?.addEventListener('submit', handleCreateAnnounceSubmit);
   document.getElementById('select-admin-form')?.addEventListener('change', handleSelectAdminFormChange);
 });
+
 
 // 1. 管理者パスコード認証
 function setupAuth() {
@@ -38,7 +47,7 @@ function setupAuth() {
   authForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const pass = document.getElementById('auth-pass').value;
-    if (pass === 'rin2026' || pass === 'admin') {
+    if (pass === '0713' || pass === 'rin2026' || pass === 'admin') {
       sessionStorage.setItem('rin_admin_authed', 'true');
       authOverlay.style.display = 'none';
       adminMain.style.display = 'block';
@@ -81,6 +90,7 @@ async function loadAdminData() {
     currentFormId = allForms[0].id;
     loadFormResponsesSummary(allForms[0].id);
   }
+  loadInvoicesData();
 }
 
 // ----------------------------------------------------
@@ -455,3 +465,396 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+// ----------------------------------------------------
+// 4. 請求書発行・印刷・管理モジュール (Invoice Generator)
+// ----------------------------------------------------
+function initInvoiceForm() {
+  const invNoInput = document.getElementById('inv-no');
+  const issueDateInput = document.getElementById('inv-issue-date');
+  const dueDateInput = document.getElementById('inv-due-date');
+
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+
+  const defaultIssueDate = `${yyyy}-${mm}-${dd}`;
+  
+  const futureDate = new Date(today);
+  futureDate.setDate(futureDate.getDate() + 14);
+  const fyyyy = futureDate.getFullYear();
+  const fmm = String(futureDate.getMonth() + 1).padStart(2, '0');
+  const fdd = String(futureDate.getDate()).padStart(2, '0');
+  const defaultDueDate = `${fyyyy}-${fmm}-${fdd}`;
+
+  if (issueDateInput) issueDateInput.value = defaultIssueDate;
+  if (dueDateInput) dueDateInput.value = defaultDueDate;
+  if (invNoInput) {
+    const randomNum = Math.floor(100 + Math.random() * 900);
+    invNoInput.value = `INV-${yyyy}${mm}${dd}-${randomNum}`;
+  }
+
+  // デフォルトの明細行項目
+  invoiceItems = [
+    { name: 'にっぽんど真ん中祭り 演舞遠征・参加分担金', qty: 1, unit: '人', price: 15000 },
+    { name: '凛 公式よさこい演舞衣装一式', qty: 1, unit: '着', price: 28000 }
+  ];
+
+  renderInvoiceItemsTable();
+
+  // イベント登録
+  document.getElementById('btn-add-item-row')?.addEventListener('click', () => {
+    invoiceItems.push({ name: '', qty: 1, unit: '件', price: 0 });
+    renderInvoiceItemsTable();
+  });
+
+  document.getElementById('inv-tax-rate')?.addEventListener('change', calculateInvoiceTotals);
+  document.getElementById('create-invoice-form')?.addEventListener('submit', handleCreateInvoiceSubmit);
+
+  document.getElementById('btn-preview-inv')?.addEventListener('click', () => {
+    const data = getInvoiceFormData();
+    if (!data.toName) {
+      alert('宛名（請求先）を入力してください。');
+      return;
+    }
+    openInvoicePreviewModal(data);
+  });
+
+  document.getElementById('btn-close-inv-modal')?.addEventListener('click', () => {
+    document.getElementById('invoice-preview-modal').style.display = 'none';
+  });
+
+  document.getElementById('btn-print-invoice')?.addEventListener('click', () => {
+    window.print();
+  });
+}
+
+function renderInvoiceItemsTable() {
+  const tbody = document.getElementById('invoice-items-tbody');
+  if (!tbody) return;
+
+  tbody.innerHTML = invoiceItems.map((item, idx) => `
+    <tr>
+      <td>
+        <input type="text" class="form-input inv-item-name" data-idx="${idx}" value="${escapeHtml(item.name)}" placeholder="項目名 (例: 大会参加費)" required style="padding:6px 10px; font-size:0.85rem;">
+      </td>
+      <td>
+        <input type="number" class="form-input inv-item-qty" data-idx="${idx}" value="${item.qty}" min="1" required style="padding:6px 10px; font-size:0.85rem; text-align:right;">
+      </td>
+      <td>
+        <input type="text" class="form-input inv-item-unit" data-idx="${idx}" value="${escapeHtml(item.unit)}" placeholder="単位" style="padding:6px 10px; font-size:0.85rem; text-align:center;">
+      </td>
+      <td>
+        <input type="number" class="form-input inv-item-price" data-idx="${idx}" value="${item.price}" min="0" step="100" required style="padding:6px 10px; font-size:0.85rem; text-align:right;">
+      </td>
+      <td style="text-align:center;">
+        ${invoiceItems.length > 1 ? `
+          <button type="button" class="btn btn-secondary btn-del-inv-row" data-idx="${idx}" style="padding:4px 8px; font-size:0.75rem; width:auto; color:#dc2626; border-color:#fca5a5;">
+            削除
+          </button>
+        ` : ''}
+      </td>
+    </tr>
+  `).join('');
+
+  tbody.querySelectorAll('.inv-item-name').forEach(el => {
+    el.addEventListener('input', (e) => {
+      const idx = e.target.getAttribute('data-idx');
+      invoiceItems[idx].name = e.target.value;
+    });
+  });
+
+  tbody.querySelectorAll('.inv-item-qty').forEach(el => {
+    el.addEventListener('input', (e) => {
+      const idx = e.target.getAttribute('data-idx');
+      invoiceItems[idx].qty = parseFloat(e.target.value) || 0;
+      calculateInvoiceTotals();
+    });
+  });
+
+  tbody.querySelectorAll('.inv-item-unit').forEach(el => {
+    el.addEventListener('input', (e) => {
+      const idx = e.target.getAttribute('data-idx');
+      invoiceItems[idx].unit = e.target.value;
+    });
+  });
+
+  tbody.querySelectorAll('.inv-item-price').forEach(el => {
+    el.addEventListener('input', (e) => {
+      const idx = e.target.getAttribute('data-idx');
+      invoiceItems[idx].price = parseFloat(e.target.value) || 0;
+      calculateInvoiceTotals();
+    });
+  });
+
+  tbody.querySelectorAll('.btn-del-inv-row').forEach(el => {
+    el.addEventListener('click', (e) => {
+      const idx = parseInt(e.target.getAttribute('data-idx'));
+      invoiceItems.splice(idx, 1);
+      renderInvoiceItemsTable();
+    });
+  });
+
+  calculateInvoiceTotals();
+}
+
+function calculateInvoiceTotals() {
+  let subtotal = 0;
+  invoiceItems.forEach(item => {
+    subtotal += (item.qty || 0) * (item.price || 0);
+  });
+
+  const taxRate = parseFloat(document.getElementById('inv-tax-rate')?.value || '0.10');
+  const tax = Math.floor(subtotal * taxRate);
+  const total = subtotal + tax;
+
+  const subtotalEl = document.getElementById('calc-subtotal');
+  const taxEl = document.getElementById('calc-tax');
+  const totalEl = document.getElementById('calc-total');
+
+  if (subtotalEl) subtotalEl.textContent = `￥${subtotal.toLocaleString()}`;
+  if (taxEl) taxEl.textContent = `￥${tax.toLocaleString()}`;
+  if (totalEl) totalEl.textContent = `￥${total.toLocaleString()}`;
+
+  return { subtotal, taxRate, tax, total };
+}
+
+function getInvoiceFormData() {
+  const totals = calculateInvoiceTotals();
+  return {
+    invNo: document.getElementById('inv-no').value,
+    toName: document.getElementById('inv-to-name').value,
+    issueDate: document.getElementById('inv-issue-date').value,
+    dueDate: document.getElementById('inv-due-date').value,
+    fromName: document.getElementById('inv-from-name').value,
+    bankName: document.getElementById('inv-bank-name').value,
+    bankAccount: document.getElementById('inv-bank-account').value,
+    bankHolder: document.getElementById('inv-bank-holder').value,
+    notes: document.getElementById('inv-notes').value,
+    items: invoiceItems,
+    subtotal: totals.subtotal,
+    taxRate: totals.taxRate,
+    tax: totals.tax,
+    total: totals.total,
+    status: 'unpaid'
+  };
+}
+
+async function handleCreateInvoiceSubmit(e) {
+  e.preventDefault();
+  const invoiceData = getInvoiceFormData();
+  if (!invoiceData.toName) {
+    alert('宛名を入力してください。');
+    return;
+  }
+
+  const res = await createNewInvoice(invoiceData);
+  if (res.success) {
+    showToast(res.message);
+    initInvoiceForm();
+    loadInvoicesData();
+  } else {
+    alert(res.message);
+  }
+}
+
+async function loadInvoicesData() {
+  const container = document.getElementById('invoices-list-area');
+  if (!container) return;
+
+  allInvoices = await fetchInvoices();
+  renderInvoicesList(allInvoices);
+}
+
+function renderInvoicesList(invoices) {
+  const container = document.getElementById('invoices-list-area');
+  if (!container) return;
+
+  if (!invoices || invoices.length === 0) {
+    container.innerHTML = '<div style="color:var(--text-muted); padding:20px 0; text-align:center;">まだ発行された請求書データはありません。</div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>請求番号</th>
+            <th>宛名（請求先）</th>
+            <th>発行日 / お支払期限</th>
+            <th style="text-align:right;">請求合計（税込）</th>
+            <th style="text-align:center;">ステータス</th>
+            <th style="text-align:center;">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${invoices.map(inv => `
+            <tr>
+              <td><strong style="font-family: monospace; font-size:0.9rem;">${escapeHtml(inv.invNo)}</strong></td>
+              <td><strong>${escapeHtml(inv.toName)}</strong></td>
+              <td style="font-size:0.8rem; color:var(--text-muted);">
+                ${escapeHtml(inv.issueDate)} ～ <strong style="color:var(--domatsuri-navy);">${escapeHtml(inv.dueDate)}</strong>
+              </td>
+              <td style="text-align:right; font-weight:700; color:var(--gold-primary); font-size:1.05rem;">
+                ￥${(inv.total || 0).toLocaleString()}
+              </td>
+              <td style="text-align:center;">
+                ${inv.status === 'paid' 
+                  ? '<span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🟢 入金済み</span>' 
+                  : '<span style="background:#fee2e2; color:#991b1b; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🔴 未入金</span>'}
+              </td>
+              <td style="text-align:center;">
+                <div style="display:flex; gap:6px; justify-content:center;">
+                  <button type="button" class="btn btn-secondary btn-view-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
+                    👁️ プレビュー
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-toggle-inv-status" data-id="${inv.id}" data-status="${inv.status}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
+                    ${inv.status === 'paid' ? '未済に戻す' : '済にする'}
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-del-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto; color:#dc2626; border-color:#fca5a5;">
+                    削除
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  container.querySelectorAll('.btn-view-inv').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.target.getAttribute('data-id');
+      const inv = allInvoices.find(item => item.id === id);
+      if (inv) openInvoicePreviewModal(inv);
+    });
+  });
+
+  container.querySelectorAll('.btn-toggle-inv-status').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const id = e.target.getAttribute('data-id');
+      const currentStatus = e.target.getAttribute('data-status');
+      const nextStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
+      const res = await updateInvoiceStatus(id, nextStatus);
+      showToast(res.message);
+      loadInvoicesData();
+    });
+  });
+
+  container.querySelectorAll('.btn-del-inv').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      if (!confirm('この請求書レコードを削除して宜しいですか？')) return;
+      const id = e.target.getAttribute('data-id');
+      const res = await deleteInvoice(id);
+      showToast(res.message);
+      loadInvoicesData();
+    });
+  });
+}
+
+function openInvoicePreviewModal(invData) {
+  const paper = document.getElementById('printable-invoice-paper');
+  if (!paper) return;
+
+  paper.innerHTML = renderInvoicePaperHtml(invData);
+  document.getElementById('invoice-preview-modal').style.display = 'flex';
+}
+
+function renderInvoicePaperHtml(data) {
+  const taxPct = Math.round((data.taxRate || 0.10) * 100);
+  return `
+    <div class="inv-paper-header">
+      <div>
+        <div class="inv-paper-title">御 請 求 書</div>
+        <div style="font-size:0.85rem; color:#64748b; margin-top:4px;">INVOICE</div>
+      </div>
+      <div class="inv-paper-meta">
+        <div>請求番号: <strong>${escapeHtml(data.invNo)}</strong></div>
+        <div>発行年月日: ${escapeHtml(data.issueDate)}</div>
+        <div style="margin-top:4px; font-weight:700; color:var(--domatsuri-navy);">お支払期限: ${escapeHtml(data.dueDate)}</div>
+      </div>
+    </div>
+
+    <div class="inv-paper-to-from">
+      <div class="inv-paper-to">
+        <div class="inv-paper-to-name">${escapeHtml(data.toName)}</div>
+        <div style="font-size:0.85rem; color:#475569; margin-top:8px;">
+          下記の通り、ご請求申し上げます。
+        </div>
+      </div>
+
+      <div class="inv-paper-from">
+        <div style="font-weight:700; font-size:1.1rem; color:var(--domatsuri-navy);">${escapeHtml(data.fromName)}</div>
+        <div>〒460-0008 愛知県名古屋市中区栄 どまつり活動拠点</div>
+        <div>TEL: 052-XXX-XXXX / MAIL: info@dance-rin.jp</div>
+        <div class="inv-stamp">凛<br>印</div>
+      </div>
+    </div>
+
+    <div class="inv-paper-total-box">
+      <div class="inv-paper-total-label">ご請求金額（税込）</div>
+      <div class="inv-paper-total-val">￥${(data.total || 0).toLocaleString()} -</div>
+    </div>
+
+    <table class="inv-paper-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;">品名・明細内容</th>
+          <th style="width:12%; text-align:center;">数量</th>
+          <th style="width:12%; text-align:center;">単位</th>
+          <th style="width:20%; text-align:right;">単価 (円)</th>
+          <th style="width:22%; text-align:right;">金額 (円)</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${(data.items || []).map(item => {
+          const rowTotal = (item.qty || 0) * (item.price || 0);
+          return `
+            <tr>
+              <td>${escapeHtml(item.name)}</td>
+              <td style="text-align:center;">${item.qty}</td>
+              <td style="text-align:center;">${escapeHtml(item.unit || '')}</td>
+              <td style="text-align:right;">￥${(item.price || 0).toLocaleString()}</td>
+              <td style="text-align:right; font-weight:700;">￥${rowTotal.toLocaleString()}</td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    </table>
+
+    <div style="display:flex; justify-content:flex-end; margin-bottom:24px;">
+      <div style="width:260px; font-size:0.88rem; line-height:1.8;">
+        <div style="display:flex; justify-content:space-between;">
+          <span>小計（税抜）:</span>
+          <strong>￥${(data.subtotal || 0).toLocaleString()}</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; color:#64748b;">
+          <span>消費税 (${taxPct}%):</span>
+          <strong>￥${(data.tax || 0).toLocaleString()}</strong>
+        </div>
+        <hr style="border-color:#cbd5e1; margin:6px 0;">
+        <div style="display:flex; justify-content:space-between; font-size:1rem; font-weight:700; color:var(--domatsuri-navy);">
+          <span>合計（税込）:</span>
+          <span style="color:var(--gold-primary);">￥${(data.total || 0).toLocaleString()}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="inv-paper-footer-info">
+      <div>
+        <div style="font-weight:700; color:var(--domatsuri-navy); margin-bottom:4px;">【お振込先口座】</div>
+        <div>銀行名: ${escapeHtml(data.bankName)}</div>
+        <div>口座番号: ${escapeHtml(data.bankAccount)}</div>
+        <div>口座名義: ${escapeHtml(data.bankHolder)}</div>
+      </div>
+      <div>
+        <div style="font-weight:700; color:var(--domatsuri-navy); margin-bottom:4px;">【備考】</div>
+        <div>${escapeHtml(data.notes || 'お振込手数料はお客様負担にてお願い申し上げます。')}</div>
+      </div>
+    </div>
+  `;
+}
+

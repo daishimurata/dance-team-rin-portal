@@ -221,3 +221,96 @@ export async function fetchAllFormResponses(formId) {
     return filteredLocal;
   }
 }
+
+// 7. 請求書関連のFirebase/LocalStorage処理
+const defaultInvoices = [];
+
+export async function fetchInvoices() {
+  const localKey = "rin_invoices";
+  const history = JSON.parse(localStorage.getItem(localKey) || "[]");
+
+  if (!db) return history;
+
+  const fetchPromise = (async () => {
+    try {
+      const q = query(collection(db, "invoices"), orderBy("createdAt", "desc"));
+      const snap = await getDocs(q);
+      if (snap.empty) return history;
+      return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (e) {
+      console.warn("fetchInvoices fallback used:", e);
+      return history;
+    }
+  })();
+
+  const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(history), 1800));
+  return Promise.race([fetchPromise, timeoutPromise]);
+}
+
+export async function createNewInvoice(invoiceData) {
+  try {
+    const id = "inv_" + Date.now();
+    const newDoc = {
+      id,
+      ...invoiceData,
+      createdAt: new Date().toISOString()
+    };
+
+    if (db) {
+      try {
+        await addDoc(collection(db, "invoices"), {
+          ...newDoc,
+          serverTimestamp: serverTimestamp()
+        });
+      } catch(e) {
+        console.warn("Firebase save invoice failed, falling back to localStorage", e);
+      }
+    }
+
+    const localKey = "rin_invoices";
+    const history = JSON.parse(localStorage.getItem(localKey) || "[]");
+    history.unshift(newDoc);
+    localStorage.setItem(localKey, JSON.stringify(history));
+
+    return { success: true, message: "請求書を発行・保存しました！", invoice: newDoc };
+  } catch (e) {
+    console.error("createNewInvoice error:", e);
+    return { success: false, message: "請求書の保存中にエラーが発生しました。" };
+  }
+}
+
+export async function updateInvoiceStatus(invoiceId, status) {
+  try {
+    if (db) {
+      try {
+        const ref = doc(db, "invoices", invoiceId);
+        await updateDoc(ref, { status });
+      } catch(e) {
+        console.warn("Firebase update status error", e);
+      }
+    }
+
+    const localKey = "rin_invoices";
+    let history = JSON.parse(localStorage.getItem(localKey) || "[]");
+    history = history.map(item => item.id === invoiceId ? { ...item, status } : item);
+    localStorage.setItem(localKey, JSON.stringify(history));
+
+    return { success: true, message: "請求書のステータスを更新しました。" };
+  } catch (e) {
+    return { success: false, message: e.message };
+  }
+}
+
+export async function deleteInvoice(invoiceId) {
+  try {
+    const localKey = "rin_invoices";
+    let history = JSON.parse(localStorage.getItem(localKey) || "[]");
+    history = history.filter(item => item.id !== invoiceId);
+    localStorage.setItem(localKey, JSON.stringify(history));
+
+    return { success: true, message: "請求書を削除しました。" };
+  } catch (e) {
+    return { success: false, message: e.message };
+  }
+}
+
