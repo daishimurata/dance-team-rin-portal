@@ -523,11 +523,12 @@ function initInvoiceForm() {
 
   document.getElementById('inv-tax-rate')?.addEventListener('change', calculateInvoiceTotals);
   document.getElementById('create-invoice-form')?.addEventListener('submit', handleCreateInvoiceSubmit);
+  document.getElementById('btn-save-inv')?.addEventListener('click', handleCreateInvoiceSubmit);
 
   document.getElementById('btn-preview-inv')?.addEventListener('click', () => {
     const data = getInvoiceFormData();
     if (!data.toName) {
-      alert('宛名（請求先）を入力してください。');
+      alert('宛名を入力してください。');
       return;
     }
     openInvoicePreviewModal(data);
@@ -655,10 +656,10 @@ function getInvoiceFormData() {
 }
 
 async function handleCreateInvoiceSubmit(e) {
-  e.preventDefault();
+  if (e && e.preventDefault) e.preventDefault();
   const invoiceData = getInvoiceFormData();
-  if (!invoiceData.toName) {
-    alert('宛名を入力してください。');
+  if (!invoiceData.toName || !invoiceData.toName.trim()) {
+    alert('宛名（請求先/見積先）を入力してください。');
     return;
   }
 
@@ -667,6 +668,7 @@ async function handleCreateInvoiceSubmit(e) {
     showToast(res.message);
     initInvoiceForm();
     loadInvoicesData();
+    openInvoicePreviewModal(invoiceData);
   } else {
     alert(res.message);
   }
