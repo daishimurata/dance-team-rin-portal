@@ -11,8 +11,8 @@ if (!fs.existsSync(outDir)) {
   try {
     console.log("PDF Generation from Local HTML templates starting...");
     const browser = await puppeteer.launch({
-      headless: "new",
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process', '--no-zygote']
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
     // 1. pdf_template_a4.html -> domatsuri2026_rin_schedule_a4.pdf (A4 1枚収まり)

@@ -349,7 +349,7 @@ body::before {
   width: 100%;
 }
 
-/* 演舞作品『炎 HOMURA』どまつり公式仕様バナー */
+/* 演舞作品『修験 SHUGEN』どまつり公式仕様バナー */
 .homura-banner-card {
   width: 100%;
   border-radius: var(--radius-md);
@@ -451,7 +451,7 @@ body::before {
   font-size: 0.85rem !important;
 }
 
-/* ドーンと動かさずに魅せる『炎 HOMURA』背景ロゴ */
+/* ドーンと動かさずに魅せる『修験 SHUGEN』背景ロゴ */
 .flame-bg-static {
   position: absolute;
   top: 50%;

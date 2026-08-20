@@ -1,12 +1,12 @@
 /**
- * ダンスチーム「凛」サポート ポータル Web App
+ * ダンスチーム凛 サポート ポータル Web App
  * バックエンド処理 (Google Apps Script)
  */
 
 function doGet(e) {
   const template = HtmlService.createTemplateFromFile('Index');
   return template.evaluate()
-    .setTitle('ダンスチーム「凛」メンバーポータル')
+    .setTitle('ダンスチーム凛 メンバーポータル')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
