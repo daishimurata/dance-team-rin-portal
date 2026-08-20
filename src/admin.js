@@ -507,8 +507,12 @@ function initInvoiceForm() {
   // イベント登録
   document.getElementById('inv-doc-type')?.addEventListener('change', (e) => {
     const dueDateInput = document.getElementById('inv-due-date');
+    const dueDateLabel = document.getElementById('inv-due-date-label');
     if (e.target.value === 'estimate') {
+      if (dueDateLabel) dueDateLabel.innerHTML = '有効期限 <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">(任意)</span>';
       if (dueDateInput) dueDateInput.value = '';
+    } else {
+      if (dueDateLabel) dueDateLabel.innerHTML = 'お支払期限 <span style="font-size:0.75rem; color:var(--text-muted); font-weight:normal;">(任意)</span>';
     }
   });
 
@@ -789,8 +793,9 @@ function renderInvoicePaperHtml(data) {
   const noLabel = isEstimate ? '見積番号' : '請求番号';
   const totalBoxLabel = isEstimate ? 'お見積金額（税込）' : 'ご請求金額（税込）';
   const leadText = isEstimate ? '下記の通り、お見積申し上げます。' : '下記の通り、ご請求申し上げます。';
+  const dateLabel = isEstimate ? '有効期限' : 'お支払期限';
   const dueDateHtml = data.dueDate 
-    ? `<div style="margin-top:4px; font-weight:700; color:var(--domatsuri-navy);">お支払期限: ${escapeHtml(data.dueDate)}</div>` 
+    ? `<div style="margin-top:4px; font-weight:700; color:var(--domatsuri-navy);">${dateLabel}: ${escapeHtml(data.dueDate)}</div>` 
     : '';
 
   return `
