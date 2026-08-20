@@ -12,7 +12,9 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         admin: resolve(__dirname, 'admin.html'),
-        schedule: resolve(__dirname, 'schedule.html')
+        schedule: resolve(__dirname, 'schedule.html'),
+        mobile_schedule: resolve(__dirname, 'pdf_template_mobile.html'),
+        a4_schedule: resolve(__dirname, 'pdf_template_a4.html')
       }
     }
   }
