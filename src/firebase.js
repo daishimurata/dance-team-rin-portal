@@ -13,12 +13,12 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDummyApiKeyForRinPortal2026",
-  authDomain: "dance-team-rin.firebaseapp.com",
-  projectId: "dance-team-rin",
-  storageBucket: "dance-team-rin.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abc123def456ghi789"
+  apiKey: "AIzaSyC_j-2HlxQ3l4TeJNMY5-ZIm9jotP6lcxA",
+  authDomain: "suzukawork-6ce0a.firebaseapp.com",
+  projectId: "suzukawork-6ce0a",
+  storageBucket: "suzukawork-6ce0a.firebasestorage.app",
+  messagingSenderId: "293193015244",
+  appId: "1:293193015244:web:2cc2b135e0c3905be98769"
 };
 
 let db = null;
