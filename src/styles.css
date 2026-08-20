@@ -1288,8 +1288,8 @@ body::before {
 
 .inv-paper-to-from {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 24px;
   margin-bottom: 28px;
 }
 
@@ -1300,39 +1300,21 @@ body::before {
 
 .inv-paper-to-name {
   font-family: var(--font-family-mincho);
-  font-size: 1.4rem;
+  font-size: clamp(1.0rem, 1.8vw, 1.25rem);
   font-weight: 700;
   color: #0f172a;
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .inv-paper-from {
   position: relative;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   line-height: 1.6;
   text-align: right;
-}
-
-/* 印影 (朱印) デジタルハンコ */
-.inv-stamp {
-  position: absolute;
-  right: -10px;
-  bottom: -10px;
-  width: 64px;
-  height: 64px;
-  border: 2px solid #dc2626;
-  border-radius: 50%;
-  color: #dc2626;
-  font-family: var(--font-family-mincho);
-  font-size: 0.75rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  line-height: 1.1;
-  transform: rotate(-12deg);
-  opacity: 0.85;
-  pointer-events: none;
+  white-space: nowrap;
 }
 
 /* 請求合計ボックス（フォーマル・高視認性ビジネスデザイン） */
@@ -1397,12 +1379,16 @@ table.inv-paper-table .text-center {
 .inv-paper-footer-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 20px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
-  padding: 16px 20px;
-  font-size: 0.85rem;
+  padding: 14px 18px;
+  font-size: 0.8rem;
+}
+
+.inv-paper-footer-info div {
+  white-space: nowrap;
 }
 
 /* @media print A4印刷最適化 */
