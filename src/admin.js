@@ -789,8 +789,8 @@ function renderInvoicePaperHtml(data) {
 
       <div class="inv-paper-from">
         <div style="font-weight:700; font-size:1.1rem; color:var(--domatsuri-navy);">${escapeHtml(data.fromName)}</div>
-        <div>〒460-0008 愛知県名古屋市中区栄 どまつり活動拠点</div>
-        <div>TEL: 052-XXX-XXXX / MAIL: info@dance-rin.jp</div>
+        <div>〒510-0256 三重県鈴鹿市磯山1-14-12</div>
+        <div>TEL: 080-5155-2602</div>
         <div class="inv-stamp">凛<br>印</div>
       </div>
     </div>
