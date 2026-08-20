@@ -170,8 +170,8 @@ async function loadVenuesData() {
       assembly: '集合 15:00 @ 白川公園',
       items: [
         { time: '15:00', type: '集合', name: '白川公園 集合', detail: '点呼・隊列確認・ウォームアップ・楽屋準備（16:30 白川公園出発）', mapQuery: '白川公園+名古屋' },
-        { time: '17:50 頃', type: '演舞', name: '[1] 久屋大通公園会場 メインステージ', detail: '前夜祭メインステージ演舞 『炎 (HOMURA)』', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 2 },
-        { time: '18:59 頃', type: '演舞', name: '[3] ぐるめぱーく会場', detail: '【徒歩移動】久屋メインから公園内を南へ徒歩約3分（移動バッファ約60分・余裕あり） 『炎 (HOMURA)』', mapQuery: '久屋大通公園ぐるめぱーく', spaceId: 3, dateNo: 2 },
+        { time: '17:50 頃', type: '演舞', name: '[1] 久屋大通公園会場 メインステージ', detail: '前夜祭メインステージ演舞 『修験』', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 2 },
+        { time: '18:59 頃', type: '演舞', name: '[3] ぐるめぱーく会場', detail: '【徒歩移動】久屋メインから公園内を南へ徒歩約3分（移動バッファ約60分・余裕あり） 『修験』', mapQuery: '久屋大通公園ぐるめぱーく', spaceId: 3, dateNo: 2 },
         { time: '20:30', type: '総踊り', name: '前夜祭総踊り ＆ 解散', detail: '1日目演舞終了・解散' }
       ]
     },
@@ -181,16 +181,16 @@ async function loadVenuesData() {
       items: [
         { time: '08:00', type: '集合', name: '白川公園 集合', detail: '朝の点呼・隊列確認・ウォームアップ', mapQuery: '白川公園+名古屋' },
         { time: '09:48', type: '電車', name: '矢場町駅 → 名古屋城駅', detail: '【地下鉄名城線 右回り】矢場町09:48発→09:55名古屋城着（210円）/ 7番出口徒歩10分 → 10:05会場着（余裕37分）' },
-        { time: '10:42 頃', type: '演舞', name: '[9] 名古屋城会場', detail: '名古屋城特設ステージ演舞 『炎 (HOMURA)』', mapQuery: '名古屋城', spaceId: 9, dateNo: 3 },
+        { time: '10:42 頃', type: '演舞', name: '[9] 名古屋城会場', detail: '名古屋城特設ステージ演舞', mapQuery: '名古屋城', spaceId: 9, dateNo: 3 },
         { time: '11:00', type: '電車', name: '名古屋城駅 → 久屋大通駅', detail: '【地下鉄名城線 左回り】11:00発→11:03久屋大通着（210円）/ 徒歩3分 → 11:10テレビ塔着（余裕32分）' },
-        { time: '11:42 頃', type: '演舞', name: '[4] テレビ塔パレード会場', detail: 'パレード通常演舞 『炎 (HOMURA)』', mapQuery: '中部電力MIRAI+TOWER', spaceId: 4, dateNo: 3 },
+        { time: '11:42 頃', type: '演舞', name: '[4] テレビ塔パレード会場', detail: 'パレード通常演舞', mapQuery: '中部電力MIRAI+TOWER', spaceId: 4, dateNo: 3 },
         { time: '12:04', type: '電車', name: '栄駅 → 上前津駅', detail: '【地下鉄名城線 左回り】栄12:04発→12:08上前津着（210円）/ 8番出口徒歩8分 → 12:16大須着（余裕26分）' },
-        { time: '12:42 頃', type: '演舞', name: '[10] 大須観音会場', detail: '大須観音境内ステージ演舞 『炎 (HOMURA)』', mapQuery: '大須観音', spaceId: 10, dateNo: 3 },
+        { time: '12:42 頃', type: '演舞', name: '[10] 大須観音会場', detail: '大須観音境内ステージ演舞', mapQuery: '大須観音', spaceId: 10, dateNo: 3 },
         { time: '13:07', type: '電車', name: '大須観音駅 → 名古屋駅', detail: '【鶴舞線＋東山線（伏見乗換）】13:07発→13:15名古屋着（210円）/ 徒歩5分 → 13:25名駅着（昼食・着替え・余裕77分）' },
-        { time: '14:42 頃', type: '演舞', name: '[8] 名古屋駅前JRタワーズガーデン会場', detail: '名駅タワー前ガーデンステージ演舞 『炎 (HOMURA)』', mapQuery: 'JRタワーズガーデン', spaceId: 8, dateNo: 3 },
+        { time: '14:42 頃', type: '演舞', name: '[8] 名古屋駅前JRタワーズガーデン会場', detail: '名駅タワー前ガーデンステージ演舞', mapQuery: 'JRタワーズガーデン', spaceId: 8, dateNo: 3 },
         { time: '15:25', type: '電車', name: '名古屋駅 → 栄駅', detail: '【地下鉄東山線】15:25発→15:30栄着（210円）/ 徒歩4分 → 15:40テレビ塔着（勝負演舞前集中・余裕62分）' },
-        { time: '16:42 頃', type: '総合審査演舞', isShinsa: true, name: '[4] テレビ塔パレード会場', detail: '初審査演舞！勝負演舞 『炎 (HOMURA)』', mapQuery: '中部電力MIRAI+TOWER', spaceId: 4, dateNo: 3 },
-        { time: '19:30 頃', type: '演舞', name: '[1] 久屋大通公園会場 メインステージ', detail: '【徒歩移動】テレビ塔から徒歩5分（夕食・最終待機バッファ約2.5時間・余裕あり） 『炎 (HOMURA)』', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 3 }
+        { time: '16:42 頃', type: '総合審査演舞', isShinsa: true, name: '[4] テレビ塔パレード会場', detail: '★初審査演舞！本番勝負演舞', mapQuery: '中部電力MIRAI+TOWER', spaceId: 4, dateNo: 3 },
+        { time: '19:30 頃', type: '演舞', name: '[1] 久屋大通公園会場 メインステージ', detail: '【徒歩移動】テレビ塔から徒歩5分（夕食・最終待機時間含む）', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 3 }
       ]
     },
     {
@@ -198,12 +198,12 @@ async function loadVenuesData() {
       assembly: '集合 09:30 @ オアシス21',
       items: [
         { time: '09:30', type: '集合', name: 'オアシス21 集合', detail: '点呼・最終確認・演舞準備', mapQuery: 'オアシス21' },
-        { time: '10:54 頃', type: '演舞', name: '[6] オアシス21会場', detail: '銀河の広場ステージ演舞 『炎 (HOMURA)』', mapQuery: 'オアシス21', spaceId: 6, dateNo: 4 },
-        { time: '12:50 頃', type: '演舞', name: '[1] 久屋大通公園会場 メインステージ', detail: '【徒歩移動】オアシス21より徒歩4分（昼食・ウォームアップバッファ約105分・超安全） 『炎 (HOMURA)』', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 4 },
+        { time: '10:54 頃', type: '演舞', name: '[6] オアシス21会場', detail: '銀河の広場ステージ演舞', mapQuery: 'オアシス21', spaceId: 6, dateNo: 4 },
+        { time: '12:50 頃', type: '演舞', name: '[1] 久屋大通公園会場 メインステージ', detail: '【徒歩移動】オアシス21より徒歩4分（昼食・ウォームアップ時間含む）', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 4 },
         { time: '13:33', type: '電車', name: '栄駅 → 金山駅 → 道徳駅', detail: '【地下鉄名城線＋名鉄常滑線（金山乗換）】栄13:33発→金山13:47発(名鉄普通)→13:53道徳着［地下鉄210円+名鉄190円］/ 徒歩4分 → 13:58道徳着（余裕50分）' },
-        { time: '14:48 頃', type: '演舞', name: '[11] どえりゃ〜どうとくパレード会場', detail: '道徳商店街パレード演舞 『炎 (HOMURA)』', mapQuery: '道徳商店街', spaceId: 11, dateNo: 4 },
+        { time: '14:48 頃', type: '演舞', name: '[11] どえりゃ〜どうとくパレード会場', detail: '道徳商店街パレード演舞', mapQuery: '道徳商店街', spaceId: 11, dateNo: 4 },
         { time: '15:15', type: '電車', name: '道徳駅 → 金山駅 → 栄駅', detail: '【名鉄常滑線＋地下鉄名城線（金山乗換）】道徳15:15発(名鉄)→金山15:28発(地下鉄)→15:36栄着［名鉄190円+地下鉄210円］/ 徒歩4分 → 15:40テレビ塔着（最終演舞前余裕74分）' },
-        { time: '16:54 頃', type: '演舞', isShinsa: true, name: '[4] テレビ塔パレード会場', detail: '最終演舞ラストステージ！『炎 (HOMURA)』', mapQuery: '中部電力MIRAI+TOWER', spaceId: 4, dateNo: 4 }
+        { time: '16:54 頃', type: '演舞', isShinsa: true, name: '[4] テレビ塔パレード会場', detail: '★最終演舞ラストステージ！', mapQuery: '中部電力MIRAI+TOWER', spaceId: 4, dateNo: 4 }
       ]
     }
   ];
