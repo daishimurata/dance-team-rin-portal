@@ -221,15 +221,23 @@
         <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--text-main); margin-bottom: 16px;">🧾 新しい請求書を作成・発行する</h2>
         <form id="create-invoice-form">
           
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
             <div class="form-group">
-              <label class="form-label">請求番号 <span style="color:var(--gold-primary);">*</span></label>
+              <label class="form-label">書類種別 <span style="color:var(--gold-primary);">*</span></label>
+              <select id="inv-doc-type" class="form-select" style="font-weight:700;">
+                <option value="invoice" selected>📄 請求書 (御請求書)</option>
+                <option value="estimate">📄 見積書 (御見積書)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">管理伝票番号 <span style="color:var(--gold-primary);">*</span></label>
               <input type="text" id="inv-no" class="form-input" required readonly style="background: #f1f5f9; font-weight:700;">
             </div>
 
             <div class="form-group">
-              <label class="form-label">宛名（請求先） <span style="color:var(--gold-primary);">*</span></label>
-              <input type="text" id="inv-to-name" class="form-input" placeholder="例: 凛 太郎 様 / 〇〇イベント実行委員会 御中" required>
+              <label class="form-label">宛名（請求先/見積先） <span style="color:var(--gold-primary);">*</span></label>
+              <input type="text" id="inv-to-name" class="form-input" placeholder="例: ホンダモビリティランド株式会社 御中" required>
             </div>
 
             <div class="form-group">

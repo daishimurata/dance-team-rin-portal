@@ -624,6 +624,7 @@ function calculateInvoiceTotals() {
 function getInvoiceFormData() {
   const totals = calculateInvoiceTotals();
   return {
+    docType: document.getElementById('inv-doc-type')?.value || 'invoice',
     invNo: document.getElementById('inv-no').value,
     toName: document.getElementById('inv-to-name').value,
     issueDate: document.getElementById('inv-issue-date').value,
@@ -673,7 +674,7 @@ function renderInvoicesList(invoices) {
   if (!container) return;
 
   if (!invoices || invoices.length === 0) {
-    container.innerHTML = '<div style="color:var(--text-muted); padding:20px 0; text-align:center;">まだ発行された請求書データはありません。</div>';
+    container.innerHTML = '<div style="color:var(--text-muted); padding:20px 0; text-align:center;">まだ発行された伝票データはありません。</div>';
     return;
   }
 
@@ -682,45 +683,53 @@ function renderInvoicesList(invoices) {
       <table class="data-table">
         <thead>
           <tr>
-            <th>請求番号</th>
-            <th>宛名（請求先）</th>
+            <th>種別 / 伝票番号</th>
+            <th>宛名（請求先/見積先）</th>
             <th>発行日 / お支払期限</th>
-            <th style="text-align:right;">請求合計（税込）</th>
+            <th style="text-align:right;">合計金額（税込）</th>
             <th style="text-align:center;">ステータス</th>
             <th style="text-align:center;">操作</th>
           </tr>
         </thead>
         <tbody>
-          ${invoices.map(inv => `
-            <tr>
-              <td><strong style="font-family: monospace; font-size:0.9rem;">${escapeHtml(inv.invNo)}</strong></td>
-              <td><strong>${escapeHtml(inv.toName)}</strong></td>
-              <td style="font-size:0.8rem; color:var(--text-muted);">
-                ${escapeHtml(inv.issueDate)} ～ <strong style="color:var(--domatsuri-navy);">${escapeHtml(inv.dueDate)}</strong>
-              </td>
-              <td style="text-align:right; font-weight:700; color:var(--gold-primary); font-size:1.05rem;">
-                ￥${(inv.total || 0).toLocaleString()}
-              </td>
-              <td style="text-align:center;">
-                ${inv.status === 'paid' 
-                  ? '<span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🟢 入金済み</span>' 
-                  : '<span style="background:#fee2e2; color:#991b1b; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🔴 未入金</span>'}
-              </td>
-              <td style="text-align:center;">
-                <div style="display:flex; gap:6px; justify-content:center;">
-                  <button type="button" class="btn btn-secondary btn-view-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
-                    👁️ プレビュー
-                  </button>
-                  <button type="button" class="btn btn-secondary btn-toggle-inv-status" data-id="${inv.id}" data-status="${inv.status}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
-                    ${inv.status === 'paid' ? '未済に戻す' : '済にする'}
-                  </button>
-                  <button type="button" class="btn btn-secondary btn-del-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto; color:#dc2626; border-color:#fca5a5;">
-                    削除
-                  </button>
-                </div>
-              </td>
-            </tr>
-          `).join('')}
+          ${invoices.map(inv => {
+            const isEst = inv.docType === 'estimate';
+            return `
+              <tr>
+                <td>
+                  <span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:${isEst ? '#e0f2fe; color:#0369a1;' : '#fef3c7; color:#92400e;'}">
+                    ${isEst ? '見積書' : '請求書'}
+                  </span>
+                  <strong style="font-family: monospace; font-size:0.88rem; margin-left:4px;">${escapeHtml(inv.invNo)}</strong>
+                </td>
+                <td><strong>${escapeHtml(inv.toName)}</strong></td>
+                <td style="font-size:0.8rem; color:var(--text-muted);">
+                  ${escapeHtml(inv.issueDate)} ～ <strong style="color:var(--domatsuri-navy);">${escapeHtml(inv.dueDate)}</strong>
+                </td>
+                <td style="text-align:right; font-weight:700; color:#0f172a; font-size:1.05rem;">
+                  ￥${(inv.total || 0).toLocaleString()}
+                </td>
+                <td style="text-align:center;">
+                  ${inv.status === 'paid' 
+                    ? '<span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🟢 完了/入金済</span>' 
+                    : '<span style="background:#fee2e2; color:#991b1b; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🔴 未完了</span>'}
+                </td>
+                <td style="text-align:center;">
+                  <div style="display:flex; gap:6px; justify-content:center;">
+                    <button type="button" class="btn btn-secondary btn-view-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
+                      👁️ プレビュー
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-toggle-inv-status" data-id="${inv.id}" data-status="${inv.status}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
+                      ${inv.status === 'paid' ? '未済に戻す' : '済にする'}
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-del-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto; color:#dc2626; border-color:#fca5a5;">
+                      削除
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('')}
         </tbody>
       </table>
     </div>
@@ -747,7 +756,7 @@ function renderInvoicesList(invoices) {
 
   container.querySelectorAll('.btn-del-inv').forEach(btn => {
     btn.addEventListener('click', async (e) => {
-      if (!confirm('この請求書レコードを削除して宜しいですか？')) return;
+      if (!confirm('この伝票レコードを削除して宜しいですか？')) return;
       const id = e.target.getAttribute('data-id');
       const res = await deleteInvoice(id);
       showToast(res.message);
@@ -766,14 +775,22 @@ function openInvoicePreviewModal(invData) {
 
 function renderInvoicePaperHtml(data) {
   const taxPct = Math.round((data.taxRate || 0.10) * 100);
+  const isEstimate = data.docType === 'estimate';
+
+  const titleText = isEstimate ? '御 見 積 書' : '御 請 求 書';
+  const subTitleText = isEstimate ? '見積明細書' : '請求明細書';
+  const noLabel = isEstimate ? '見積番号' : '請求番号';
+  const totalBoxLabel = isEstimate ? 'お見積金額（税込）' : 'ご請求金額（税込）';
+  const leadText = isEstimate ? '下記の通り、お見積申し上げます。' : '下記の通り、ご請求申し上げます。';
+
   return `
     <div class="inv-paper-header">
       <div>
-        <div class="inv-paper-title">御 請 求 書</div>
-        <div style="font-size:0.85rem; color:#64748b; margin-top:4px;">請求明細書</div>
+        <div class="inv-paper-title">${titleText}</div>
+        <div style="font-size:0.85rem; color:#64748b; margin-top:4px;">${subTitleText}</div>
       </div>
       <div class="inv-paper-meta">
-        <div>請求番号: <strong>${escapeHtml(data.invNo)}</strong></div>
+        <div>${noLabel}: <strong>${escapeHtml(data.invNo)}</strong></div>
         <div>発行年月日: ${escapeHtml(data.issueDate)}</div>
         <div style="margin-top:4px; font-weight:700; color:var(--domatsuri-navy);">お支払期限: ${escapeHtml(data.dueDate)}</div>
       </div>
@@ -783,7 +800,7 @@ function renderInvoicePaperHtml(data) {
       <div class="inv-paper-to">
         <div class="inv-paper-to-name">${escapeHtml(data.toName)}</div>
         <div style="font-size:0.85rem; color:#475569; margin-top:8px;">
-          下記の通り、ご請求申し上げます。
+          ${leadText}
         </div>
       </div>
 
@@ -795,7 +812,7 @@ function renderInvoicePaperHtml(data) {
     </div>
 
     <div class="inv-paper-total-box">
-      <div class="inv-paper-total-label">ご請求金額（税込）</div>
+      <div class="inv-paper-total-label">${totalBoxLabel}</div>
       <div class="inv-paper-total-val">￥${(data.total || 0).toLocaleString()} -</div>
     </div>
 
