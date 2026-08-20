@@ -167,9 +167,9 @@ async function loadVenuesData() {
   const domatsuriSchedule = [
     {
       dayTitle: '1日目：8月28日（金）前夜祭',
-      assembly: '集合 16:30 @ 久屋メイン裏 凛テント前',
+      assembly: '集合 15:00 @ 白川公園',
       items: [
-        { time: '16:30', type: '集合', name: '久屋メイン裏 集合', detail: '点呼・楽屋準備・衣装確認（久屋メイン裏テント）', mapQuery: '久屋大通公園メインステージ' },
+        { time: '15:00', type: '集合', name: '白川公園 集合', detail: '点呼・隊列確認・ウォームアップ・楽屋準備（16:30 白川公園出発）', mapQuery: '白川公園+名古屋' },
         { time: '17:50 頃', type: '演舞', name: '[1] 久屋大通公園会場 メインステージ', detail: '前夜祭メインステージ演舞 『炎 (HOMURA)』', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 2 },
         { time: '18:59 頃', type: '演舞', name: '[3] ぐるめぱーく会場', detail: '【徒歩移動】久屋メインから公園内を南へ徒歩約3分（移動バッファ約60分・余裕あり） 『炎 (HOMURA)』', mapQuery: '久屋大通公園ぐるめぱーく', spaceId: 3, dateNo: 2 },
         { time: '20:30', type: '総踊り', name: '前夜祭総踊り ＆ 解散', detail: '1日目演舞終了・解散' }
