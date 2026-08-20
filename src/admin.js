@@ -839,7 +839,7 @@ function renderInvoicePaperHtml(data) {
         <hr style="border-color:#cbd5e1; margin:6px 0;">
         <div style="display:flex; justify-content:space-between; font-size:1rem; font-weight:700; color:var(--domatsuri-navy);">
           <span>合計（税込）:</span>
-          <span style="color:var(--gold-primary);">￥${(data.total || 0).toLocaleString()}</span>
+          <span style="color:#0f172a;">￥${(data.total || 0).toLocaleString()}</span>
         </div>
       </div>
     </div>
