@@ -55,7 +55,7 @@ function setupAuth() {
       showToast('管理者としてログインしました');
       loadAdminData();
     } else {
-      alert(`パスコードが正しくありません。パスコード: 0713`);
+      alert('パスコードが正しくありません。');
     }
   });
 }
