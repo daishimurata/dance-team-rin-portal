@@ -493,7 +493,7 @@ function initInvoiceForm() {
   if (dueDateInput) dueDateInput.value = defaultDueDate;
   if (invNoInput) {
     const randomNum = Math.floor(100 + Math.random() * 900);
-    invNoInput.value = `INV-${yyyy}${mm}${dd}-${randomNum}`;
+    invNoInput.value = `RIN-${yyyy}${mm}${dd}-${randomNum}`;
   }
 
   // デフォルトの明細行項目
@@ -770,7 +770,7 @@ function renderInvoicePaperHtml(data) {
     <div class="inv-paper-header">
       <div>
         <div class="inv-paper-title">御 請 求 書</div>
-        <div style="font-size:0.85rem; color:#64748b; margin-top:4px;">INVOICE</div>
+        <div style="font-size:0.85rem; color:#64748b; margin-top:4px;">請求明細書</div>
       </div>
       <div class="inv-paper-meta">
         <div>請求番号: <strong>${escapeHtml(data.invNo)}</strong></div>
