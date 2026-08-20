@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate_pdfs.js && vite build",
+    "build": "vite build",
+    "build:all": "node scripts/generate_pdfs.js && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
