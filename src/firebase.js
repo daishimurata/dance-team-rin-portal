@@ -349,3 +349,70 @@ export async function deleteInvoice(invoiceId) {
   }
 }
 
+// --- 練習予定 (Practice Schedules) 機能 ---
+export async function fetchPracticeSchedules() {
+  const localKey = "rin_practice_schedules";
+  const history = JSON.parse(localStorage.getItem(localKey) || "[]");
+
+  if (!db) return history;
+
+  try {
+    const q = query(collection(db, "practice_schedules"), orderBy("date", "asc"));
+    const snap = await getDocs(q);
+    const dbDocs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    localStorage.setItem(localKey, JSON.stringify(dbDocs));
+    return dbDocs;
+  } catch (e) {
+    console.warn("fetchPracticeSchedules fallback used:", e);
+    return history;
+  }
+}
+
+export async function savePracticeSchedule(data) {
+  try {
+    const localKey = "rin_practice_schedules";
+    let history = JSON.parse(localStorage.getItem(localKey) || "[]");
+
+    const scheduleData = {
+      ...data,
+      createdAt: new Date().toISOString(),
+      serverTimestamp: db ? serverTimestamp() : null
+    };
+
+    if (db) {
+      const ref = await addDoc(collection(db, "practice_schedules"), scheduleData);
+      scheduleData.id = ref.id;
+    } else {
+      scheduleData.id = "prac_" + Date.now();
+    }
+
+    history.push(scheduleData);
+    localStorage.setItem(localKey, JSON.stringify(history));
+
+    return { success: true, message: "練習予定を登録・保存しました！", data: scheduleData };
+  } catch (e) {
+    console.error("savePracticeSchedule error:", e);
+    return { success: false, message: e.message };
+  }
+}
+
+export async function deletePracticeSchedule(id) {
+  try {
+    if (db) {
+      try {
+        await deleteDoc(doc(db, "practice_schedules", id));
+      } catch (e) {
+        console.warn("deletePracticeSchedule direct error:", e);
+      }
+    }
+    const localKey = "rin_practice_schedules";
+    let history = JSON.parse(localStorage.getItem(localKey) || "[]");
+    history = history.filter(item => item.id !== id);
+    localStorage.setItem(localKey, JSON.stringify(history));
+
+    return { success: true, message: "練習予定を削除しました。" };
+  } catch (e) {
+    return { success: false, message: e.message };
+  }
+}
+

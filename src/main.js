@@ -4,7 +4,10 @@ import {
   fetchVenues, 
   fetchForms, 
   sendFormResponse, 
-  fetchMyFormResponses 
+  fetchMyFormResponses,
+  fetchPracticeSchedules,
+  savePracticeSchedule,
+  deletePracticeSchedule
 } from './firebase.js';
 
 let currentFormsData = [];
@@ -17,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadFormsData();
   initMainCountdown();
   setupChecklist();
+  setupPracticeScheduleFeature();
 
   document.getElementById('dynamic-form')?.addEventListener('submit', handleFormSubmit);
   document.getElementById('btn-back-forms')?.addEventListener('click', closeFormArea);
@@ -563,4 +567,131 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+function setupPracticeScheduleFeature() {
+  const authForm = document.getElementById('practice-auth-form');
+  const authLock = document.getElementById('practice-auth-lock');
+  const contentArea = document.getElementById('practice-content-area');
+  const authPassInput = document.getElementById('practice-auth-pass');
+  const authError = document.getElementById('practice-auth-error');
+  const btnLock = document.getElementById('btn-practice-lock');
+  const addForm = document.getElementById('form-add-practice');
+
+  const checkAuth = () => {
+    if (sessionStorage.getItem('rin_practice_auth') === 'true') {
+      if (authLock) authLock.style.display = 'none';
+      if (contentArea) contentArea.style.display = 'block';
+      loadPracticeSchedulesData();
+    } else {
+      if (authLock) authLock.style.display = 'block';
+      if (contentArea) contentArea.style.display = 'none';
+    }
+  };
+
+  checkAuth();
+
+  authForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const pass = authPassInput ? authPassInput.value.trim() : '';
+    if (pass === 'rin2026') {
+      sessionStorage.setItem('rin_practice_auth', 'true');
+      if (authError) authError.style.display = 'none';
+      if (authPassInput) authPassInput.value = '';
+      checkAuth();
+      showToast('🔑 認証に成功しました。練習予定の閲覧・登録が可能です。');
+    } else {
+      if (authError) authError.style.display = 'block';
+    }
+  });
+
+  btnLock?.addEventListener('click', () => {
+    sessionStorage.removeItem('rin_practice_auth');
+    checkAuth();
+    showToast('🔒 ログアウトしました。保護状態に戻りました。');
+  });
+
+  addForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const date = document.getElementById('prac-date').value;
+    const time = document.getElementById('prac-time').value.trim();
+    const location = document.getElementById('prac-location').value.trim();
+    const notes = document.getElementById('prac-notes').value.trim();
+
+    if (!date || !time || !location) {
+      alert('練習日、練習時間、練習場所を入力してください。');
+      return;
+    }
+
+    const res = await savePracticeSchedule({ date, time, location, notes });
+    if (res.success) {
+      showToast(res.message);
+      addForm.reset();
+      loadPracticeSchedulesData();
+    } else {
+      alert(res.message);
+    }
+  });
+}
+
+async function loadPracticeSchedulesData() {
+  const container = document.getElementById('practice-list-container');
+  if (!container) return;
+
+  container.innerHTML = '<div class="card" style="text-align:center; color:var(--text-muted);">読み込み中...</div>';
+
+  const list = await fetchPracticeSchedules();
+
+  if (!list || list.length === 0) {
+    container.innerHTML = `
+      <div class="card" style="text-align:center; color:var(--text-muted); padding:30px 10px;">
+        まだ登録された練習予定はありません。上のフォームから新しい練習日を追加してください。
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = list.map(item => {
+    const d = new Date(item.date);
+    const dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'][d.getDay()] || '';
+    const formattedDate = `${item.date} (${dayOfWeek})`;
+
+    return `
+      <div class="card" style="margin-bottom:16px; border-left:4px solid var(--domatsuri-navy);">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
+          <div>
+            <span class="badge" style="background:var(--domatsuri-navy); color:#ffffff; font-weight:700; font-size:0.85rem;">
+              📅 ${escapeHtml(formattedDate)}
+            </span>
+            <span style="font-weight:700; color:var(--domatsuri-gold); font-size:0.95rem; margin-left:8px;">
+              ⏰ ${escapeHtml(item.time)}
+            </span>
+          </div>
+          <button type="button" class="btn btn-secondary btn-del-practice" data-id="${item.id}" style="padding:3px 8px; font-size:0.75rem; color:#dc2626; border-color:#fca5a5;">
+            削除
+          </button>
+        </div>
+
+        <div style="font-weight:700; font-size:1.05rem; color:var(--text-main); margin-bottom:6px;">
+          📍 場所: ${escapeHtml(item.location)}
+        </div>
+
+        ${item.notes ? `
+          <div style="background:#f8fafc; padding:10px 12px; border-radius:6px; font-size:0.88rem; color:#334155; line-height:1.6; border:1px solid #e2e8f0;">
+            📝 <strong>内容・持ち物:</strong><br>${escapeHtml(item.notes).replace(/\n/g, '<br>')}
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.btn-del-practice').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      if (!confirm('この練習予定を削除して宜しいですか？')) return;
+      const id = e.target.getAttribute('data-id');
+      const res = await deletePracticeSchedule(id);
+      showToast(res.message);
+      loadPracticeSchedulesData();
+    });
+  });
 }

@@ -33,6 +33,9 @@
         <a href="/schedule.html" class="sidebar-btn" style="color: #fef08a; font-weight: 700;">
           にっぽんど真ん中祭り2026
         </a>
+        <button class="sidebar-btn" data-tab="tab-practice" style="color: #93c5fd; font-weight: 700;">
+          🔒 練習予定
+        </button>
         <button class="sidebar-btn" data-tab="tab-venues">
           過去のイベント
         </button>
@@ -220,10 +223,92 @@
           </div>
         </section>
 
-        <!-- 3. イベント・スケジュールナビタブ -->
+        <!-- 3. 過去のイベント・アーカイブ -->
         <section id="tab-venues" class="tab-content">
           <div id="venues-list">
             <div class="card" style="text-align: center; color: var(--text-muted);">読み込み中...</div>
+          </div>
+        </section>
+
+        <!-- 4. 練習予定（パスワード保護・開発中エリア） -->
+        <section id="tab-practice" class="tab-content">
+          <!-- パスワード未認証状態の表示 -->
+          <div id="practice-auth-lock" class="card" style="max-width: 480px; margin: 30px auto; text-align: center; border-color: var(--gold-primary); background: #ffffff;">
+            <div style="font-size: 3rem; margin-bottom: 12px;">🔒</div>
+            <h3 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--domatsuri-navy); margin-bottom: 8px;">
+              練習予定・登録（開発中機能）
+            </h3>
+            <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 20px; line-height: 1.6;">
+              このエリアは現在開発中です。<br>閲覧および練習スケジュールの登録・編集には管理者パスワードが必要です。
+            </p>
+            <form id="practice-auth-form" style="display: flex; flex-direction: column; gap: 12px;">
+              <input type="password" id="practice-auth-pass" class="form-input" placeholder="管理者パスワードを入力" required style="text-align: center; font-size: 1.05rem; letter-spacing: 2px;">
+              <button type="submit" class="btn btn-gold" style="width: 100%; padding: 10px; font-weight: 700;">
+                🔑 パスワード認証して開く
+              </button>
+              <div id="practice-auth-error" style="color: #dc2626; font-size: 0.82rem; font-weight: 700; display: none;">
+                ※ パスワードが違います。管理者パスワードを入力してください。
+              </div>
+            </form>
+          </div>
+
+          <!-- パスワード認証後の表示エリア (初期非表示) -->
+          <div id="practice-content-area" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; font-weight: 700;">
+                  🔒 開発中機能 (管理者アクセス中)
+                </span>
+                <h3 style="font-family: var(--font-family-mincho); font-size: 1.3rem; font-weight: 700; color: var(--domatsuri-navy); margin-top: 6px;">
+                  凛 練習スケジュール管理・登録
+                </h3>
+              </div>
+              <button id="btn-practice-lock" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
+                🔒 ログアウト（保護）
+              </button>
+            </div>
+
+            <!-- 新規練習予定登録フォーム -->
+            <div class="card" style="margin-bottom: 24px; border-left: 5px solid var(--gold-primary);">
+              <h4 style="font-family: var(--font-family-mincho); font-size: 1.05rem; font-weight: 700; color: var(--domatsuri-navy); margin-bottom: 14px;">
+                ➕ 新しい練習予定を登録する
+              </h4>
+              <form id="form-add-practice">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 16px;">
+                  <div class="form-group">
+                    <label class="form-label">練習日 <span style="color:var(--gold-primary);">*</span></label>
+                    <input type="date" id="prac-date" class="form-input" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">練習時間 (例: 13:00 - 17:00) <span style="color:var(--gold-primary);">*</span></label>
+                    <input type="text" id="prac-time" class="form-input" placeholder="例: 13:00〜17:00" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">練習場所 <span style="color:var(--gold-primary);">*</span></label>
+                    <input type="text" id="prac-location" class="form-input" placeholder="例: 鈴鹿市体育館 体育室1" required>
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                  <label class="form-label">練習内容・注意事項・持ち物</label>
+                  <textarea id="prac-notes" class="form-textarea" rows="3" placeholder="例: 『修験』隊列合わせ・後半振付確認。水筒とシューズ持参。"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-gold" style="width: auto; padding: 10px 24px; font-weight: 700;">
+                  💾 練習予定を登録・保存する
+                </button>
+              </form>
+            </div>
+
+            <!-- 登録済み練習予定一覧 -->
+            <div style="margin-top: 30px;">
+              <h4 style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: var(--domatsuri-navy); margin-bottom: 14px;">
+                📅 登録済み 練習予定一覧
+              </h4>
+              <div id="practice-list-container">
+                <div class="card" style="text-align: center; color: var(--text-muted);">読み込み中...</div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -253,6 +338,9 @@
         <a href="/schedule.html" class="drawer-item-btn" style="color: #fef08a; font-weight: 700; text-decoration: none;">
           にっぽんど真ん中祭り2026
         </a>
+        <button class="drawer-item-btn" data-tab="tab-practice" style="color: #93c5fd; font-weight: 700;">
+          🔒 練習予定
+        </button>
         <button class="drawer-item-btn" data-tab="tab-venues">
           過去のイベント
         </button>
