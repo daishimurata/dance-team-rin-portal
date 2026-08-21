@@ -682,6 +682,20 @@ async function loadInvoicesData() {
   renderInvoicesList(allInvoices);
 }
 
+function getDocTypeBadgeHtml(type) {
+  switch(type) {
+    case 'estimate':
+      return `<span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:#e0f2fe; color:#0369a1;">📋 見積書</span>`;
+    case 'invoice_receipt':
+      return `<span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:#dcfce7; color:#166534;">🧾 請求兼領収書</span>`;
+    case 'receipt':
+      return `<span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:#f3e8ff; color:#6b21a8;">📜 領収書</span>`;
+    case 'invoice':
+    default:
+      return `<span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:#fef3c7; color:#92400e;">📄 請求書</span>`;
+  }
+}
+
 function renderInvoicesList(invoices) {
   const container = document.getElementById('invoices-list-area');
   if (!container) return;
@@ -692,13 +706,10 @@ function renderInvoicesList(invoices) {
   }
 
   const tableRowsHtml = invoices.map(inv => {
-    const isEst = inv.docType === 'estimate';
     return `
       <tr>
         <td>
-          <span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:${isEst ? '#e0f2fe; color:#0369a1;' : '#fef3c7; color:#92400e;'}">
-            ${isEst ? '見積書' : '請求書'}
-          </span>
+          ${getDocTypeBadgeHtml(inv.docType)}
           <strong style="font-family: monospace; font-size:0.88rem; margin-left:4px;">${escapeHtml(inv.invNo)}</strong>
         </td>
         <td><strong>${escapeHtml(inv.toName)}</strong></td>
@@ -719,9 +730,12 @@ function renderInvoicesList(invoices) {
             : '<span style="background:#fee2e2; color:#991b1b; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🔴 未完了</span>'}
         </td>
         <td style="text-align:center;">
-          <div style="display:flex; gap:6px; justify-content:center;">
+          <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
             <button type="button" class="btn btn-gold btn-view-inv" data-id="${inv.id}" style="padding:3px 10px; font-size:0.78rem; width:auto;">
               🖨️ PDF / プレビュー
+            </button>
+            <button type="button" class="btn btn-secondary btn-copy-convert-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto; border-color:#93c5fd; color:#1d4ed8; background:#eff6ff;">
+              ⚡ ${inv.docType === 'estimate' ? '請求書を作成' : '転記・コピー'}
             </button>
             <button type="button" class="btn btn-secondary btn-toggle-inv-status" data-id="${inv.id}" data-status="${inv.status}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
               ${inv.status === 'paid' ? '未済に戻す' : '済にする'}
@@ -736,14 +750,11 @@ function renderInvoicesList(invoices) {
   }).join('');
 
   const mobileCardsHtml = invoices.map(inv => {
-    const isEst = inv.docType === 'estimate';
     return `
       <div class="invoice-mobile-card">
         <div class="invoice-mobile-card-header">
           <div style="display:flex; align-items:center; gap:6px;">
-            <span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:${isEst ? '#e0f2fe; color:#0369a1;' : '#fef3c7; color:#92400e;'}">
-              ${isEst ? '見積書' : '請求書'}
-            </span>
+            ${getDocTypeBadgeHtml(inv.docType)}
             <strong style="font-family: monospace; font-size:0.92rem;">${escapeHtml(inv.invNo)}</strong>
           </div>
           <div style="display:flex; align-items:center; gap:6px;">
@@ -774,7 +785,10 @@ function renderInvoicesList(invoices) {
 
         <div class="invoice-mobile-card-actions">
           <button type="button" class="btn btn-gold btn-view-inv" data-id="${inv.id}">
-            🖨️ PDF / プレビュー
+            🖨️ プレビュー
+          </button>
+          <button type="button" class="btn btn-secondary btn-copy-convert-inv" data-id="${inv.id}" style="border-color:#93c5fd; color:#1d4ed8; background:#eff6ff;">
+            ⚡ ${inv.docType === 'estimate' ? '請求書を作成' : '転記・コピー'}
           </button>
           <button type="button" class="btn btn-secondary btn-toggle-inv-status" data-id="${inv.id}" data-status="${inv.status}">
             ${inv.status === 'paid' ? '未済に戻す' : '済にする'}
@@ -820,6 +834,38 @@ function renderInvoicesList(invoices) {
     });
   });
 
+  // 見積書から請求書への変換・転記ショートカットイベント
+  container.querySelectorAll('.btn-copy-convert-inv').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.target.getAttribute('data-id');
+      const inv = allInvoices.find(item => item.id === id);
+      if (!inv) return;
+
+      document.getElementById('inv-doc-type').value = inv.docType === 'estimate' ? 'invoice' : inv.docType;
+      document.getElementById('inv-to-name').value = inv.toName || '';
+      document.getElementById('inv-issue-date').value = new Date().toISOString().slice(0, 10);
+      document.getElementById('inv-from-name').value = inv.fromName || 'ダンスチーム凛';
+      document.getElementById('inv-bank-name').value = inv.bankName || '百五銀行 河芸支店';
+      document.getElementById('inv-bank-account').value = inv.bankAccount || '普通 393392';
+      document.getElementById('inv-bank-holder').value = inv.bankHolder || 'ダンスチーム凛';
+      document.getElementById('inv-notes').value = inv.notes || '';
+
+      if (inv.items && inv.items.length > 0) {
+        invoiceItems = JSON.parse(JSON.stringify(inv.items));
+      } else {
+        invoiceItems = [{ name: '', qty: 1, unit: '名', price: 0 }];
+      }
+      renderInvoiceItemsTable();
+
+      const d = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      const r = Math.floor(Math.random() * 900 + 100);
+      document.getElementById('inv-no').value = `RIN-${d}-${r}`;
+
+      showToast(`伝票「${inv.invNo}」の内容を転記しました！新規発行してください。`);
+      document.getElementById('admin-sec-invoice')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
   container.querySelectorAll('.btn-toggle-inv-status').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       const id = e.target.getAttribute('data-id');
@@ -852,14 +898,38 @@ function openInvoicePreviewModal(invData) {
 
 function renderInvoicePaperHtml(data) {
   const taxPct = Math.round((data.taxRate || 0.10) * 100);
-  const isEstimate = data.docType === 'estimate';
+  const docType = data.docType || 'invoice';
 
-  const titleText = isEstimate ? '御 見 積 書' : '御 請 求 書';
-  const subTitleText = isEstimate ? '見積明細書' : '請求明細書';
-  const noLabel = isEstimate ? '見積番号' : '請求番号';
-  const totalBoxLabel = isEstimate ? 'お見積金額（税込）' : 'ご請求金額（税込）';
-  const leadText = isEstimate ? '下記の通り、お見積申し上げます。' : '下記の通り、ご請求申し上げます。';
-  const dateLabel = isEstimate ? '有効期限' : 'お支払期限';
+  let titleText = '御 請 求 書';
+  let subTitleText = '請求明細書';
+  let noLabel = '請求番号';
+  let totalBoxLabel = 'ご請求金額（税込）';
+  let leadText = '下記の通り、ご請求申し上げます。';
+  let dateLabel = 'お支払期限';
+
+  if (docType === 'estimate') {
+    titleText = '御 見 積 書';
+    subTitleText = '見積明細書';
+    noLabel = '見積番号';
+    totalBoxLabel = 'お見積金額（税込）';
+    leadText = '下記の通り、お見積申し上げます。';
+    dateLabel = '有効期限';
+  } else if (docType === 'invoice_receipt') {
+    titleText = '御 請 求 兼 領 収 書';
+    subTitleText = '請求兼領収明細書';
+    noLabel = '伝票番号';
+    totalBoxLabel = 'ご請求・領収金額（税込）';
+    leadText = '下記の通り、ご請求ならびに全額領収いたしました。';
+    dateLabel = '領収年月日';
+  } else if (docType === 'receipt') {
+    titleText = '領 収 証 (御領収書)';
+    subTitleText = '領収明細書';
+    noLabel = '領収番号';
+    totalBoxLabel = '領収金額（税込）';
+    leadText = '但し、演舞出演料/サポート代として上記金額を正に領収いたしました。';
+    dateLabel = '領収年月日';
+  }
+
   const dueDateHtml = data.dueDate 
     ? `<div style="margin-top:4px; font-weight:700; color:var(--domatsuri-navy);">${dateLabel}: ${escapeHtml(data.dueDate)}</div>` 
     : '';
