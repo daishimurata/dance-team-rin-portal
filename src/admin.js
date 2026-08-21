@@ -700,6 +700,7 @@ function renderInvoicesList(invoices) {
             <th>宛名（請求先/見積先）</th>
             <th>発行日 / お支払期限</th>
             <th style="text-align:right;">合計金額（税込）</th>
+            <th style="text-align:center;">保管場所</th>
             <th style="text-align:center;">ステータス</th>
             <th style="text-align:center;">操作</th>
           </tr>
@@ -723,14 +724,19 @@ function renderInvoicesList(invoices) {
                   ￥${(inv.total || 0).toLocaleString()}
                 </td>
                 <td style="text-align:center;">
+                  <span style="background:#e0f2fe; color:#0369a1; padding:3px 8px; border-radius:6px; font-weight:600; font-size:0.75rem; display:inline-flex; align-items:center; gap:4px;">
+                    ☁️ Firebase DB
+                  </span>
+                </td>
+                <td style="text-align:center;">
                   ${inv.status === 'paid' 
                     ? '<span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🟢 完了/入金済</span>' 
                     : '<span style="background:#fee2e2; color:#991b1b; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🔴 未完了</span>'}
                 </td>
                 <td style="text-align:center;">
                   <div style="display:flex; gap:6px; justify-content:center;">
-                    <button type="button" class="btn btn-secondary btn-view-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
-                      👁️ プレビュー
+                    <button type="button" class="btn btn-gold btn-view-inv" data-id="${inv.id}" style="padding:3px 10px; font-size:0.78rem; width:auto;">
+                      🖨️ PDF / プレビュー
                     </button>
                     <button type="button" class="btn btn-secondary btn-toggle-inv-status" data-id="${inv.id}" data-status="${inv.status}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
                       ${inv.status === 'paid' ? '未済に戻す' : '済にする'}

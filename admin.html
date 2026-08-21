@@ -218,8 +218,13 @@
     <!-- 4. 請求書発行・管理セクション -->
     <section id="admin-sec-invoice" class="tab-content">
       <div class="card" style="margin-bottom: 24px;">
-        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--text-main); margin-bottom: 16px;">🧾 新しい請求書を作成・発行する</h2>
-        <form id="create-invoice-form">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+          <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--text-main); margin: 0;">📝 新しい請求書を作成・発行する</h2>
+          <div style="font-size: 0.8rem; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 4px 12px; border-radius: 6px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+            ☁️ 保存設定: <strong>Firebase クラウドDB (suzukawork-6ce0a / invoices) ＆ 自動同期済</strong>
+          </div>
+        </div>
+        <form id="invoice-form">
           
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
             <div class="form-group">
@@ -341,7 +346,12 @@
 
       <!-- 発行済み請求書履歴一覧 -->
       <div class="card">
-        <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--text-main); margin-bottom: 16px;">📜 発行済み請求書一覧・履歴</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--text-main); margin: 0;">📜 発行済み請求書一覧・履歴</h2>
+          <div style="font-size: 0.8rem; color: #166534; background: #dcfce7; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+            🟢 データの保存先: <strong>Firebase Cloud Database (suzukawork-6ce0a) ＆ ローカル保存</strong>
+          </div>
+        </div>
         <div id="invoices-list-area">
           <div class="spinner-container">
             <div class="spinner"></div>

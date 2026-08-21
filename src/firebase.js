@@ -272,7 +272,7 @@ export async function createNewInvoice(invoiceData) {
     history.unshift(newDoc);
     localStorage.setItem(localKey, JSON.stringify(history));
 
-    return { success: true, message: "請求書を発行・保存しました！", invoice: newDoc };
+    return { success: true, message: "☁️ Firebaseクラウドデータベース(suzukawork-6ce0a)に伝票を保存・発行しました！", invoice: newDoc };
   } catch (e) {
     console.error("createNewInvoice error:", e);
     return { success: false, message: "請求書の保存中にエラーが発生しました。" };
