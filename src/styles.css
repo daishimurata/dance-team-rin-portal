@@ -1437,5 +1437,62 @@ table.inv-paper-table .text-center {
   }
 }
 
+/* 発行済み請求書一覧・履歴 モバイル対応縦長カードレイアウト */
+.mobile-only-cards {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.invoice-mobile-card {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.invoice-mobile-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #cbd5e1;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.invoice-mobile-card-body {
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+
+.invoice-mobile-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 767px) {
+  .desktop-only-table {
+    display: none !important;
+  }
+  .mobile-only-cards {
+    display: flex !important;
+  }
+  .invoice-mobile-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .invoice-mobile-card-actions .btn {
+    flex: 1;
+    min-width: 90px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+    justify-content: center;
+  }
+}
+
 
 

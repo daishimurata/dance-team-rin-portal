@@ -691,8 +691,104 @@ function renderInvoicesList(invoices) {
     return;
   }
 
+  const tableRowsHtml = invoices.map(inv => {
+    const isEst = inv.docType === 'estimate';
+    return `
+      <tr>
+        <td>
+          <span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:${isEst ? '#e0f2fe; color:#0369a1;' : '#fef3c7; color:#92400e;'}">
+            ${isEst ? '見積書' : '請求書'}
+          </span>
+          <strong style="font-family: monospace; font-size:0.88rem; margin-left:4px;">${escapeHtml(inv.invNo)}</strong>
+        </td>
+        <td><strong>${escapeHtml(inv.toName)}</strong></td>
+        <td style="font-size:0.8rem; color:var(--text-muted);">
+          ${escapeHtml(inv.issueDate)} ～ <strong style="color:var(--domatsuri-navy);">${escapeHtml(inv.dueDate)}</strong>
+        </td>
+        <td style="text-align:right; font-weight:700; color:#0f172a; font-size:1.05rem;">
+          ￥${(inv.total || 0).toLocaleString()}
+        </td>
+        <td style="text-align:center;">
+          <span style="background:#e0f2fe; color:#0369a1; padding:3px 8px; border-radius:6px; font-weight:600; font-size:0.75rem; display:inline-flex; align-items:center; gap:4px;">
+            ☁️ Firebase DB
+          </span>
+        </td>
+        <td style="text-align:center;">
+          ${inv.status === 'paid' 
+            ? '<span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🟢 完了/入金済</span>' 
+            : '<span style="background:#fee2e2; color:#991b1b; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🔴 未完了</span>'}
+        </td>
+        <td style="text-align:center;">
+          <div style="display:flex; gap:6px; justify-content:center;">
+            <button type="button" class="btn btn-gold btn-view-inv" data-id="${inv.id}" style="padding:3px 10px; font-size:0.78rem; width:auto;">
+              🖨️ PDF / プレビュー
+            </button>
+            <button type="button" class="btn btn-secondary btn-toggle-inv-status" data-id="${inv.id}" data-status="${inv.status}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
+              ${inv.status === 'paid' ? '未済に戻す' : '済にする'}
+            </button>
+            <button type="button" class="btn btn-secondary btn-del-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto; color:#dc2626; border-color:#fca5a5;">
+              削除
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  const mobileCardsHtml = invoices.map(inv => {
+    const isEst = inv.docType === 'estimate';
+    return `
+      <div class="invoice-mobile-card">
+        <div class="invoice-mobile-card-header">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:${isEst ? '#e0f2fe; color:#0369a1;' : '#fef3c7; color:#92400e;'}">
+              ${isEst ? '見積書' : '請求書'}
+            </span>
+            <strong style="font-family: monospace; font-size:0.92rem;">${escapeHtml(inv.invNo)}</strong>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:600; font-size:0.72rem;">
+              ☁️ Firebase DB
+            </span>
+            ${inv.status === 'paid' 
+              ? '<span style="background:#dcfce7; color:#166534; padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.75rem;">🟢 完了</span>' 
+              : '<span style="background:#fee2e2; color:#991b1b; padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.75rem;">🔴 未完了</span>'}
+          </div>
+        </div>
+
+        <div class="invoice-mobile-card-body">
+          <div style="font-size:1.05rem; font-weight:700; color:#0f172a; margin-bottom:6px;">
+            ${escapeHtml(inv.toName)} <span style="font-size:0.8rem; font-weight:400; color:#64748b;">様/御中</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px; background:#f8fafc; padding:10px 12px; border-radius:8px; border:1px solid #f1f5f9;">
+            <div style="font-size:0.78rem; color:#64748b;">
+              発行: ${escapeHtml(inv.issueDate)}<br>
+              期限: <strong style="color:var(--domatsuri-navy);">${escapeHtml(inv.dueDate)}</strong>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:0.72rem; color:#64748b;">合計金額 (税込)</div>
+              <strong style="font-size:1.2rem; color:#0f172a;">￥${(inv.total || 0).toLocaleString()}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="invoice-mobile-card-actions">
+          <button type="button" class="btn btn-gold btn-view-inv" data-id="${inv.id}">
+            🖨️ PDF / プレビュー
+          </button>
+          <button type="button" class="btn btn-secondary btn-toggle-inv-status" data-id="${inv.id}" data-status="${inv.status}">
+            ${inv.status === 'paid' ? '未済に戻す' : '済にする'}
+          </button>
+          <button type="button" class="btn btn-secondary btn-del-inv" data-id="${inv.id}" style="color:#dc2626; border-color:#fca5a5;">
+            削除
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
   container.innerHTML = `
-    <div class="table-responsive">
+    <div class="table-responsive desktop-only-table">
       <table class="data-table">
         <thead>
           <tr>
@@ -706,51 +802,13 @@ function renderInvoicesList(invoices) {
           </tr>
         </thead>
         <tbody>
-          ${invoices.map(inv => {
-            const isEst = inv.docType === 'estimate';
-            return `
-              <tr>
-                <td>
-                  <span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:${isEst ? '#e0f2fe; color:#0369a1;' : '#fef3c7; color:#92400e;'}">
-                    ${isEst ? '見積書' : '請求書'}
-                  </span>
-                  <strong style="font-family: monospace; font-size:0.88rem; margin-left:4px;">${escapeHtml(inv.invNo)}</strong>
-                </td>
-                <td><strong>${escapeHtml(inv.toName)}</strong></td>
-                <td style="font-size:0.8rem; color:var(--text-muted);">
-                  ${escapeHtml(inv.issueDate)} ～ <strong style="color:var(--domatsuri-navy);">${escapeHtml(inv.dueDate)}</strong>
-                </td>
-                <td style="text-align:right; font-weight:700; color:#0f172a; font-size:1.05rem;">
-                  ￥${(inv.total || 0).toLocaleString()}
-                </td>
-                <td style="text-align:center;">
-                  <span style="background:#e0f2fe; color:#0369a1; padding:3px 8px; border-radius:6px; font-weight:600; font-size:0.75rem; display:inline-flex; align-items:center; gap:4px;">
-                    ☁️ Firebase DB
-                  </span>
-                </td>
-                <td style="text-align:center;">
-                  ${inv.status === 'paid' 
-                    ? '<span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🟢 完了/入金済</span>' 
-                    : '<span style="background:#fee2e2; color:#991b1b; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🔴 未完了</span>'}
-                </td>
-                <td style="text-align:center;">
-                  <div style="display:flex; gap:6px; justify-content:center;">
-                    <button type="button" class="btn btn-gold btn-view-inv" data-id="${inv.id}" style="padding:3px 10px; font-size:0.78rem; width:auto;">
-                      🖨️ PDF / プレビュー
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-toggle-inv-status" data-id="${inv.id}" data-status="${inv.status}" style="padding:3px 8px; font-size:0.75rem; width:auto;">
-                      ${inv.status === 'paid' ? '未済に戻す' : '済にする'}
-                    </button>
-                    <button type="button" class="btn btn-secondary btn-del-inv" data-id="${inv.id}" style="padding:3px 8px; font-size:0.75rem; width:auto; color:#dc2626; border-color:#fca5a5;">
-                      削除
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            `;
-          }).join('')}
+          ${tableRowsHtml}
         </tbody>
       </table>
+    </div>
+
+    <div class="mobile-only-cards">
+      ${mobileCardsHtml}
     </div>
   `;
 
