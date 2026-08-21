@@ -235,8 +235,9 @@ export async function fetchInvoices() {
     try {
       const q = query(collection(db, "invoices"), orderBy("createdAt", "desc"));
       const snap = await getDocs(q);
-      if (snap.empty) return history;
-      return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const dbDocs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      localStorage.setItem(localKey, JSON.stringify(dbDocs));
+      return dbDocs;
     } catch (e) {
       console.warn("fetchInvoices fallback used:", e);
       return history;
