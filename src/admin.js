@@ -898,3 +898,47 @@ function renderInvoicePaperHtml(data) {
   `;
 }
 
+// 伝票データのバックアップエクスポート & 他端末取り込み機能
+document.getElementById('btn-export-inv-json')?.addEventListener('click', () => {
+  const localKey = "rin_invoices";
+  const history = JSON.parse(localStorage.getItem(localKey) || "[]");
+  if (history.length === 0) {
+    alert("出力する伝票データがありません。");
+    return;
+  }
+  const blob = new Blob([JSON.stringify(history, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `rin_invoices_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('btn-import-inv-json')?.addEventListener('click', () => {
+  document.getElementById('input-import-inv-file')?.click();
+});
+
+document.getElementById('input-import-inv-file')?.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async (event) => {
+    try {
+      const importedData = JSON.parse(event.target.result);
+      if (!Array.isArray(importedData)) {
+        alert("無効な伝票バックアップファイルフォーマットです。");
+        return;
+      }
+      const localKey = "rin_invoices";
+      localStorage.setItem(localKey, JSON.stringify(importedData));
+      alert(`${importedData.length}件の伝票データを取込み・同期しました！`);
+      loadInvoicesData();
+    } catch(err) {
+      alert("JSONファイルの読み込みエラー: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+});
+

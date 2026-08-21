@@ -348,8 +348,14 @@
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
           <h2 class="announce-title" style="font-family: var(--font-family-mincho); color: var(--text-main); margin: 0;">📜 発行済み請求書一覧・履歴</h2>
-          <div style="font-size: 0.8rem; color: #166534; background: #dcfce7; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
-            🟢 データの保存先: <strong>Firebase Cloud Database (suzukawork-6ce0a) ＆ ローカル保存</strong>
+          <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <button type="button" id="btn-export-inv-json" class="btn btn-secondary" style="font-size:0.78rem; padding:4px 10px; width:auto;">
+              📥 伝票バックアップ保存
+            </button>
+            <button type="button" id="btn-import-inv-json" class="btn btn-secondary" style="font-size:0.78rem; padding:4px 10px; width:auto;">
+              📤 他端末へ伝票データ取込
+            </button>
+            <input type="file" id="input-import-inv-file" accept=".json" style="display:none;">
           </div>
         </div>
         <div id="invoices-list-area">
