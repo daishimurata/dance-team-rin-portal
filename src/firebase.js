@@ -5,6 +5,7 @@ import {
   getDocs, 
   addDoc, 
   updateDoc,
+  deleteDoc,
   doc,
   query, 
   where, 
@@ -287,16 +288,25 @@ export async function updateInvoiceStatus(invoiceId, status) {
         const ref = doc(db, "invoices", invoiceId);
         await updateDoc(ref, { status });
       } catch(e) {
-        console.warn("Firebase update status error", e);
+        console.warn("Direct doc status update error:", e);
+      }
+      try {
+        const q1 = query(collection(db, "invoices"), where("id", "==", invoiceId));
+        const snap1 = await getDocs(q1);
+        for (const document of snap1.docs) {
+          await updateDoc(doc(db, "invoices", document.id), { status });
+        }
+      } catch(e) {
+        console.warn("Query status update error:", e);
       }
     }
 
     const localKey = "rin_invoices";
     let history = JSON.parse(localStorage.getItem(localKey) || "[]");
-    history = history.map(item => item.id === invoiceId ? { ...item, status } : item);
+    history = history.map(item => (item.id === invoiceId || item.invNo === invoiceId) ? { ...item, status } : item);
     localStorage.setItem(localKey, JSON.stringify(history));
 
-    return { success: true, message: "請求書のステータスを更新しました。" };
+    return { success: true, message: "伝票のステータスを更新しました。" };
   } catch (e) {
     return { success: false, message: e.message };
   }
@@ -304,14 +314,38 @@ export async function updateInvoiceStatus(invoiceId, status) {
 
 export async function deleteInvoice(invoiceId) {
   try {
+    if (db) {
+      try {
+        await deleteDoc(doc(db, "invoices", invoiceId));
+      } catch(e) {
+        console.warn("Direct doc delete error:", e);
+      }
+      try {
+        const q1 = query(collection(db, "invoices"), where("id", "==", invoiceId));
+        const snap1 = await getDocs(q1);
+        for (const document of snap1.docs) {
+          await deleteDoc(doc(db, "invoices", document.id));
+        }
+
+        const q2 = query(collection(db, "invoices"), where("invNo", "==", invoiceId));
+        const snap2 = await getDocs(q2);
+        for (const document of snap2.docs) {
+          await deleteDoc(doc(db, "invoices", document.id));
+        }
+      } catch(e) {
+        console.warn("Query delete error:", e);
+      }
+    }
+
     const localKey = "rin_invoices";
     let history = JSON.parse(localStorage.getItem(localKey) || "[]");
-    history = history.filter(item => item.id !== invoiceId);
+    history = history.filter(item => item.id !== invoiceId && item.invNo !== invoiceId);
     localStorage.setItem(localKey, JSON.stringify(history));
 
-    return { success: true, message: "請求書を削除しました。" };
+    return { success: true, message: "伝票を削除しました。" };
   } catch (e) {
-    return { success: false, message: e.message };
+    console.error("deleteInvoice error:", e);
+    return { success: false, message: "伝票の削除中にエラーが発生しました。" };
   }
 }
 
