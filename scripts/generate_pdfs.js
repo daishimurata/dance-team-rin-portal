@@ -19,15 +19,15 @@ if (!fs.existsSync(outDir)) {
     const pageA4 = await browser.newPage();
     const a4HtmlPath = 'file://' + path.resolve('./pdf_template_a4.html');
     await pageA4.goto(a4HtmlPath, { waitUntil: 'networkidle0' });
+    await pageA4.evaluate(() => document.fonts.ready);
     
     const a4PdfPath = path.join(outDir, 'domatsuri2026_rin_schedule_a4.pdf');
     await pageA4.pdf({
       path: a4PdfPath,
       format: 'A4',
-      pageRanges: '1',
       preferCSSPageSize: true,
       printBackground: true,
-      margin: { top: '6mm', bottom: '6mm', left: '8mm', right: '8mm' }
+      margin: { top: '4mm', bottom: '4mm', left: '6mm', right: '6mm' }
     });
     fs.copyFileSync(a4PdfPath, path.join(outDir, 'A4印刷用 演舞スケジュール.pdf'));
     fs.copyFileSync(a4PdfPath, path.join(outDir, 'どまつり2026_ダンスチーム凛_スケジュール_A4.pdf'));
@@ -39,6 +39,7 @@ if (!fs.existsSync(outDir)) {
     await pageMobile.setViewport({ width: 390, height: 800, deviceScaleFactor: 2 });
     const mobileHtmlPath = 'file://' + path.resolve('./pdf_template_mobile.html');
     await pageMobile.goto(mobileHtmlPath, { waitUntil: 'networkidle0' });
+    await pageMobile.evaluate(() => document.fonts.ready);
 
     const bodyHeight = await pageMobile.evaluate(() => document.body.scrollHeight);
     const mobilePdfPath = path.join(outDir, 'domatsuri2026_rin_schedule_mobile.pdf');
@@ -46,12 +47,13 @@ if (!fs.existsSync(outDir)) {
     await pageMobile.pdf({
       path: mobilePdfPath,
       width: '390px',
-      height: `${bodyHeight + 10}px`,
+      height: `${bodyHeight + 20}px`,
       printBackground: true,
       margin: { top: '0px', bottom: '0px', left: '0px', right: '0px' }
     });
     fs.copyFileSync(mobilePdfPath, path.join(outDir, 'スマホ保存用 演舞スケジュール.pdf'));
     fs.copyFileSync(mobilePdfPath, path.join(outDir, 'どまつり2026_ダンスチーム凛_スケジュール_スマホ用.pdf'));
+    fs.copyFileSync(mobilePdfPath, path.join(outDir, 'どまつり2026_ダンスチーム凛_スケジュール_スマダ用.pdf'));
 
     // iPhoneの「写真」アプリ保存用 高画質縦長PNG画像出力
     const imgDir = path.resolve('./public/images');
