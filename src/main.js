@@ -295,7 +295,7 @@ async function loadVenuesData() {
     scheduleTablesHtml +
     '<div class="card" style="border-color: var(--gold-primary); background: #ffffff;">' +
       '<h3 style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">' +
-        '🎒 当日の荷物規定 ＆ 持参品規定' +
+        '🎒 当日の荷物＆チェックリスト' +
       '</h3>' +
       '<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">' +
         '当日の荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」に入る物とチーム指定の水筒のみ</strong>でお願いします。' +
