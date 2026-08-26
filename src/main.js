@@ -278,10 +278,10 @@ async function loadVenuesData() {
     '<div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">' +
     '<div>' +
     '<h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">にっぽんど真ん中祭り イベントタイムスケジュール ＆ 会場ナビ</h3>' +
-    '<p style="font-size:0.85rem; color:var(--text-muted);">どまつり公式（domatsuri.com/team/detail/132）に基づくダンスチーム凛（チームNo. 132）の全3日間演舞スケジュールです。</p>' +
+    '<p style="font-size:0.85rem; color:var(--text-muted);">どまつり公式（domatsuri.com/team/detail/1131）に基づくダンスチーム凛（チームNo. 1131）の全3日間演舞スケジュールです。</p>' +
     '</div>' +
     '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
-    '<a href="https://www.domatsuri.com/team/detail/132" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
+    '<a href="https://www.domatsuri.com/team/detail/1131" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
     'どまつり公式 凛ページ ↗' +
     '</a>' +
     '<a href="https://www.youtube.com/user/DOMATSURIofficial" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width:auto; padding:8px 14px; font-size:0.85rem; background:#fef2f2; color:#dc2626; border-color:#fca5a5;">' +
