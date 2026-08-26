@@ -59,38 +59,60 @@ const defaultForms = [];
 
 // 1. お知らせ一覧取得（1.8秒でフォールバック）
 export async function fetchAnnouncements() {
-  if (!db) return defaultAnnouncements;
+  const localKey = "rin_announcements";
+  const history = JSON.parse(localStorage.getItem(localKey) || "[]");
+  const combined = [...history, ...defaultAnnouncements];
+
+  if (!db) return combined;
 
   const fetchPromise = (async () => {
     try {
       const q = query(collection(db, "announcements"), orderBy("createdAt", "desc"));
       const snap = await getDocs(q);
-      if (snap.empty) return defaultAnnouncements;
+      if (snap.empty) return combined;
       return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     } catch (e) {
       console.warn("fetchAnnouncements fallback used:", e);
-      return defaultAnnouncements;
+      return combined;
     }
   })();
 
-  const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(defaultAnnouncements), 1800));
+  const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(combined), 1800));
   return Promise.race([fetchPromise, timeoutPromise]);
 }
 
 // 新規お知らせ作成
 export async function createNewAnnouncement(data) {
   try {
-    if (!db) {
-      return { success: false, message: "データベース(Firestore)が設定されていないか、接続できません。\nFirebaseコンソールでFirestore Databaseを有効にしてください。" };
-    }
-    await addDoc(collection(db, "announcements"), {
+    const id = "ann_" + Date.now();
+    const newDoc = {
+      id,
       ...data,
-      createdAt: new Date().toISOString(),
-      serverTimestamp: serverTimestamp()
-    });
+      createdAt: new Date().toISOString()
+    };
+
+    if (db) {
+      try {
+        await addDoc(collection(db, "announcements"), {
+          ...newDoc,
+          serverTimestamp: serverTimestamp()
+        });
+      } catch(e) {
+        console.warn("Firebase save announcement failed, falling back to localStorage", e);
+      }
+    }
+
+    const localKey = "rin_announcements";
+    const history = JSON.parse(localStorage.getItem(localKey) || "[]");
+    history.unshift(newDoc);
+    localStorage.setItem(localKey, JSON.stringify(history));
+
+    if (!db) {
+      return { success: true, message: "お知らせを作成しました\n(※データベース未設定のため、現在はお使いの端末内にのみ保存されています)" };
+    }
     return { success: true, message: "お知らせを作成しました" };
   } catch (e) {
-    return { success: false, message: "データベース保存エラー: " + e.message + "\n※Firestoreの設定やセキュリティルール(権限)を確認してください。" };
+    return { success: false, message: "データベース保存エラー: " + e.message };
   }
 }
 export const createAnnouncement = createNewAnnouncement;
@@ -102,38 +124,60 @@ export async function fetchVenues() {
 
 // 3. フォーム一覧取得
 export async function fetchForms() {
-  if (!db) return defaultForms;
+  const localKey = "rin_forms";
+  const history = JSON.parse(localStorage.getItem(localKey) || "[]");
+  const combined = [...history, ...defaultForms];
+
+  if (!db) return combined;
 
   const fetchPromise = (async () => {
     try {
       const q = query(collection(db, "forms"), orderBy("createdAt", "desc"));
       const snap = await getDocs(q);
-      if (snap.empty) return defaultForms;
+      if (snap.empty) return combined;
       return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     } catch (e) {
       console.warn("fetchForms fallback used:", e);
-      return defaultForms;
+      return combined;
     }
   })();
 
-  const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(defaultForms), 1800));
+  const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(combined), 1800));
   return Promise.race([fetchPromise, timeoutPromise]);
 }
 
 // 新規フォーム作成
 export async function createNewForm(data) {
   try {
-    if (!db) {
-      return { success: false, message: "データベース(Firestore)が設定されていないか、接続できません。\nFirebaseコンソールでFirestore Databaseを有効にしてください。" };
-    }
-    await addDoc(collection(db, "forms"), {
+    const id = "form_" + Date.now();
+    const newDoc = {
+      id,
       ...data,
-      createdAt: new Date().toISOString(),
-      serverTimestamp: serverTimestamp()
-    });
+      createdAt: new Date().toISOString()
+    };
+
+    if (db) {
+      try {
+        await addDoc(collection(db, "forms"), {
+          ...newDoc,
+          serverTimestamp: serverTimestamp()
+        });
+      } catch(e) {
+        console.warn("Firebase save form failed, falling back to localStorage", e);
+      }
+    }
+
+    const localKey = "rin_forms";
+    const history = JSON.parse(localStorage.getItem(localKey) || "[]");
+    history.unshift(newDoc);
+    localStorage.setItem(localKey, JSON.stringify(history));
+
+    if (!db) {
+      return { success: true, message: "フォームを作成しました\n(※データベース未設定のため、現在はお使いの端末内にのみ保存されています)" };
+    }
     return { success: true, message: "フォームを作成しました" };
   } catch (e) {
-    return { success: false, message: "データベース保存エラー: " + e.message + "\n※Firestoreの設定やセキュリティルールを確認してください。" };
+    return { success: false, message: "データベース保存エラー: " + e.message };
   }
 }
 
