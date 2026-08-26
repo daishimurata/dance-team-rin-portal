@@ -1,9 +1,9 @@
 import './styles.css';
-import { 
-  fetchForms, 
-  createNewForm, 
+import {
+  fetchForms,
+  createNewForm,
   updateFormStatus,
-  fetchAllFormResponses, 
+  fetchAllFormResponses,
   createAnnouncement,
   fetchInvoices,
   createNewInvoice,
@@ -223,12 +223,12 @@ async function handleCreateFormSubmit(e) {
   const deadline = document.getElementById('new-form-deadline').value || '未設定';
 
   const processedFields = createdFields.map(f => {
-    const item = { 
-      id: f.id, 
-      label: f.label, 
-      type: f.type, 
+    const item = {
+      id: f.id,
+      label: f.label,
+      type: f.type,
       helpText: f.helpText || '',
-      required: f.required 
+      required: f.required
     };
     if (f.type === 'radio' || f.type === 'checkbox' || f.type === 'select') {
       item.options = f.options.split(',').map(s => s.trim()).filter(Boolean);
@@ -429,7 +429,7 @@ function downloadCSV(formId) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${title}_回収集計_${new Date().toISOString().slice(0,10)}.csv`;
+  a.download = `${title}_回収集計_${new Date().toISOString().slice(0, 10)}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -481,7 +481,7 @@ function initInvoiceForm() {
   const dd = String(today.getDate()).padStart(2, '0');
 
   const defaultIssueDate = `${yyyy}-${mm}-${dd}`;
-  
+
   const futureDate = new Date(today);
   futureDate.setDate(futureDate.getDate() + 14);
   const fyyyy = futureDate.getFullYear();
@@ -683,7 +683,7 @@ async function loadInvoicesData() {
 }
 
 function getDocTypeBadgeHtml(type) {
-  switch(type) {
+  switch (type) {
     case 'estimate':
       return `<span style="font-size:0.75rem; padding:2px 6px; border-radius:4px; font-weight:700; background:#e0f2fe; color:#0369a1;">📋 見積書</span>`;
     case 'invoice_receipt':
@@ -725,9 +725,9 @@ function renderInvoicesList(invoices) {
           </span>
         </td>
         <td style="text-align:center;">
-          ${inv.status === 'paid' 
-            ? '<span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🟢 完了/入金済</span>' 
-            : '<span style="background:#fee2e2; color:#991b1b; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🔴 未完了</span>'}
+          ${inv.status === 'paid'
+        ? '<span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🟢 完了/入金済</span>'
+        : '<span style="background:#fee2e2; color:#991b1b; padding:4px 10px; border-radius:12px; font-weight:700; font-size:0.78rem;">🔴 未完了</span>'}
         </td>
         <td style="text-align:center;">
           <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap;">
@@ -761,9 +761,9 @@ function renderInvoicesList(invoices) {
             <span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:600; font-size:0.72rem;">
               ☁️ Firebase DB
             </span>
-            ${inv.status === 'paid' 
-              ? '<span style="background:#dcfce7; color:#166534; padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.75rem;">🟢 完了</span>' 
-              : '<span style="background:#fee2e2; color:#991b1b; padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.75rem;">🔴 未完了</span>'}
+            ${inv.status === 'paid'
+        ? '<span style="background:#dcfce7; color:#166534; padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.75rem;">🟢 完了</span>'
+        : '<span style="background:#fee2e2; color:#991b1b; padding:2px 8px; border-radius:10px; font-weight:700; font-size:0.75rem;">🔴 未完了</span>'}
           </div>
         </div>
 
@@ -930,8 +930,8 @@ function renderInvoicePaperHtml(data) {
     dateLabel = '領収年月日';
   }
 
-  const dueDateHtml = data.dueDate 
-    ? `<div style="margin-top:4px; font-weight:700; color:var(--domatsuri-navy);">${dateLabel}: ${escapeHtml(data.dueDate)}</div>` 
+  const dueDateHtml = data.dueDate
+    ? `<div style="margin-top:4px; font-weight:700; color:var(--domatsuri-navy);">${dateLabel}: ${escapeHtml(data.dueDate)}</div>`
     : '';
 
   return `
@@ -979,8 +979,8 @@ function renderInvoicePaperHtml(data) {
       </thead>
       <tbody>
         ${(data.items || []).map(item => {
-          const rowTotal = (item.qty || 0) * (item.price || 0);
-          return `
+    const rowTotal = (item.qty || 0) * (item.price || 0);
+    return `
             <tr>
               <td>${escapeHtml(item.name)}</td>
               <td style="text-align:center;">${item.qty}</td>
@@ -989,7 +989,7 @@ function renderInvoicePaperHtml(data) {
               <td style="text-align:right; font-weight:700;">￥${rowTotal.toLocaleString()}</td>
             </tr>
           `;
-        }).join('')}
+  }).join('')}
       </tbody>
     </table>
 
@@ -1038,7 +1038,7 @@ document.getElementById('btn-export-inv-json')?.addEventListener('click', () => 
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `rin_invoices_backup_${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `rin_invoices_backup_${new Date().toISOString().slice(0, 10)}.json`;
   a.click();
   URL.revokeObjectURL(url);
 });
@@ -1063,7 +1063,7 @@ document.getElementById('input-import-inv-file')?.addEventListener('change', (e)
       localStorage.setItem(localKey, JSON.stringify(importedData));
       alert(`${importedData.length}件の伝票データを取込み・同期しました！`);
       loadInvoicesData();
-    } catch(err) {
+    } catch (err) {
       alert("JSONファイルの読み込みエラー: " + err.message);
     }
   };

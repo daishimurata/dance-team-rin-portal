@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,27 +8,35 @@
   <link rel="stylesheet" href="/src/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=Shippori+Mincho:wght@500;700&display=swap"
+    rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
+
 <body>
 
   <!-- どまつり公式風 ディープネイビー＆朱赤ヘッダーバー (絵文字なし) -->
-  <header class="domatsuri-theme-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <header class="domatsuri-theme-header"
+    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
     <div style="display: flex; align-items: center; gap: 14px;">
-      <a href="/" class="btn btn-secondary" style="width: auto; padding: 6px 14px; font-size: 0.82rem; background: rgba(255,255,255,0.1); color: #ffffff; border-color: rgba(255,255,255,0.2);">
+      <a href="/" class="btn btn-secondary"
+        style="width: auto; padding: 6px 14px; font-size: 0.82rem; background: rgba(255,255,255,0.1); color: #ffffff; border-color: rgba(255,255,255,0.2);">
         ← ポータルへ戻る
       </a>
       <div style="display: flex; align-items: center; gap: 10px;">
         <div class="brand-icon" style="width: 36px; height: 36px;"></div>
         <div>
-          <div style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px;">ダンスチーム凛</div>
+          <div
+            style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px;">
+            ダンスチーム凛</div>
           <div style="font-size: 0.72rem; color: #94a3b8; letter-spacing: 0.5px;">にっぽんど真ん中祭り2026 専用ページ</div>
         </div>
       </div>
     </div>
     <div>
-      <span class="badge" style="background: var(--domatsuri-red); color: #ffffff; font-weight: 700; border: none; padding: 6px 12px; font-size: 0.82rem;">
+      <span class="badge"
+        style="background: var(--domatsuri-red); color: #ffffff; font-weight: 700; border: none; padding: 6px 12px; font-size: 0.82rem;">
         チームナンバー: No.132
       </span>
     </div>
@@ -36,44 +45,64 @@
   <main class="container" style="padding-top: 24px;">
 
     <!-- どまつり公式テーマ 重厚和風カウントダウンタイマー パネル (Web限定・印刷時非表示) -->
-    <div id="domatsuri-countdown-panel" class="domatsuri-pattern-bg domatsuri-gold-border-box btn-no-print" style="padding: 28px 20px; margin-bottom: 24px; text-align: center; position: relative;">
-      
+    <div id="domatsuri-countdown-panel" class="domatsuri-pattern-bg domatsuri-gold-border-box btn-no-print"
+      style="padding: 28px 20px; margin-bottom: 24px; text-align: center; position: relative;">
+
       <!-- 動かさずにドーンと構える公式「修験 SHUGEN」金箔筆文字ロゴ背景 -->
       <img src="/images/shugen_user_exact_logo_gold.png" alt="修験 SHUGEN" class="flame-bg-static">
-      
+
       <div class="countdown-content-relative">
-        <div style="font-family: var(--font-family-mincho); font-size: 1rem; color: #fef08a; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; text-shadow: 0 2px 6px rgba(0,0,0,0.9);">
+        <div
+          style="font-family: var(--font-family-mincho); font-size: 1rem; color: #fef08a; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; text-shadow: 0 2px 6px rgba(0,0,0,0.9);">
           にっぽんど真ん中祭り2026 前夜祭 初演舞まで
         </div>
-        
+
         <div style="display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;">
-          <div style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
-            <div id="cd-days" style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">00</div>
-            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">DAYS</div>
+          <div
+            style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
+            <div id="cd-days"
+              style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">
+              00</div>
+            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">DAYS
+            </div>
           </div>
           <span style="font-size: 1.5rem; font-weight: 300; color: #94a3b8;">:</span>
-          <div style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
-            <div id="cd-hours" style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">00</div>
-            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">HOURS</div>
+          <div
+            style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
+            <div id="cd-hours"
+              style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">
+              00</div>
+            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">
+              HOURS</div>
           </div>
           <span style="font-size: 1.5rem; font-weight: 300; color: #94a3b8;">:</span>
-          <div style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
-            <div id="cd-mins" style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">00</div>
-            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">MINUTES</div>
+          <div
+            style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
+            <div id="cd-mins"
+              style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">
+              00</div>
+            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">
+              MINUTES</div>
           </div>
           <span style="font-size: 1.5rem; font-weight: 300; color: #94a3b8;">:</span>
-          <div style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid var(--domatsuri-red); border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(217, 56, 41, 0.4);">
-            <div id="cd-secs" style="font-size: 2.3rem; font-weight: 700; color: #f87171; line-height: 1; font-family: 'Inter', sans-serif;">00</div>
-            <div style="font-size: 0.7rem; color: #fca5a5; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">SECONDS</div>
+          <div
+            style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid var(--domatsuri-red); border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(217, 56, 41, 0.4);">
+            <div id="cd-secs"
+              style="font-size: 2.3rem; font-weight: 700; color: #f87171; line-height: 1; font-family: 'Inter', sans-serif;">
+              00</div>
+            <div style="font-size: 0.7rem; color: #fca5a5; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">
+              SECONDS</div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- B6ポーチ・荷物規定 ＆ 持参品チェックリスト (Web限定・印刷時非表示) -->
-    <div class="card btn-no-print" style="border-color: var(--domatsuri-gold); background: #ffffff; margin-bottom: 24px;">
+    <div class="card btn-no-print"
+      style="border-color: var(--domatsuri-gold); background: #ffffff; margin-bottom: 24px;">
       <details>
-        <summary style="font-family: var(--font-family-mincho); font-size: 1.15rem; font-weight: 700; color: var(--domatsuri-navy); margin-bottom: 8px; cursor: pointer; outline: none; list-style-position: inside;">
+        <summary
+          style="font-family: var(--font-family-mincho); font-size: 1.15rem; font-weight: 700; color: var(--domatsuri-navy); margin-bottom: 8px; cursor: pointer; outline: none; list-style-position: inside;">
           当日の荷物＆チェックリスト
         </summary>
         <div style="margin-top: 12px;">
@@ -139,8 +168,10 @@
     </div>
 
     <!-- 重要連絡・注意事項カード -->
-    <div class="card btn-no-print" style="border-color: #fca5a5; border-left: 5px solid #d93829; background: #ffffff; margin-bottom: 24px;">
-      <h3 style="font-family: var(--font-family-mincho); font-size: 1.05rem; font-weight: 700; color: #d93829; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+    <div class="card btn-no-print"
+      style="border-color: #fca5a5; border-left: 5px solid #d93829; background: #ffffff; margin-bottom: 24px;">
+      <h3
+        style="font-family: var(--font-family-mincho); font-size: 1.05rem; font-weight: 700; color: #d93829; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
         ⚠️ 連絡・注意事項
       </h3>
       <ul style="padding-left: 20px; font-size: 0.88rem; color: #0f172a; line-height: 1.65; margin: 0;">
@@ -152,47 +183,64 @@
     </div>
 
     <!-- どまつり公式仕様 豪華ヘッダーカード ＆ アクションボタン群 ＆ Webアクセス用QRコード -->
-    <div class="card header-schedule-card" style="margin-bottom: 20px; border-left: 6px solid var(--domatsuri-red); display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);">
+    <div class="card header-schedule-card"
+      style="margin-bottom: 20px; border-left: 6px solid var(--domatsuri-red); display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);">
       <div style="flex: 1; min-width: 280px;">
         <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
-          <span class="badge" style="background: linear-gradient(135deg, #d93829 0%, #991b1b 100%); color: #ffffff; font-weight: 700; font-size: 0.88rem; padding: 5px 12px; border: none; box-shadow: 0 2px 6px rgba(217,56,41,0.25);">
+          <span class="badge"
+            style="background: linear-gradient(135deg, #d93829 0%, #991b1b 100%); color: #ffffff; font-weight: 700; font-size: 0.88rem; padding: 5px 12px; border: none; box-shadow: 0 2px 6px rgba(217,56,41,0.25);">
             第28回 にっぽんど真ん中祭り 2026
           </span>
-          <span class="badge" style="background: var(--domatsuri-navy); color: #fef08a; font-weight: 700; font-size: 0.88rem; padding: 5px 12px; border: 1px solid #d4af37;">
+          <span class="badge"
+            style="background: var(--domatsuri-navy); color: #fef08a; font-weight: 700; font-size: 0.88rem; padding: 5px 12px; border: 1px solid #d4af37;">
             チームナンバー: No.132
           </span>
           <span style="font-size:0.88rem; color:var(--text-muted); font-weight:700;">開催日程: 8月28日(金)〜30日(日)</span>
         </div>
 
         <div style="display: flex; align-items: center; margin-bottom: 16px; padding-top: 4px;">
-          <h1 style="font-family: var(--font-family-mincho); font-size: clamp(1.55rem, 3.8vw, 2.15rem); font-weight: 700; color: var(--domatsuri-navy); margin: 0; line-height: 1.3;">
+          <h1
+            style="font-family: var(--font-family-mincho); font-size: clamp(1.55rem, 3.8vw, 2.15rem); font-weight: 700; color: var(--domatsuri-navy); margin: 0; line-height: 1.3;">
             ダンスチーム凛 『修験』<br>
-            <span style="font-size: clamp(1.15rem, 2.6vw, 1.45rem); color: var(--domatsuri-red); font-weight: 700; display: inline-block; margin-top: 6px;">全3日間 演舞スケジュール ＆ 移動ガイド</span>
+            <span
+              style="font-size: clamp(1.15rem, 2.6vw, 1.45rem); color: var(--domatsuri-red); font-weight: 700; display: inline-block; margin-top: 6px;">全3日間
+              演舞スケジュール ＆ 移動ガイド</span>
           </h1>
         </div>
 
         <div class="btn-no-print" style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <a href="/images/domatsuri2026_rin_schedule_mobile.png?v=20260821" target="_blank" class="btn" style="background: var(--domatsuri-navy); color: #ffffff; border: 1px solid var(--domatsuri-gold); font-size: 0.88rem; padding: 10px 18px; font-weight:700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(15,27,41,0.35);">
+          <a href="/images/domatsuri2026_rin_schedule_mobile.png?v=20260821" target="_blank" class="btn"
+            style="background: var(--domatsuri-navy); color: #ffffff; border: 1px solid var(--domatsuri-gold); font-size: 0.88rem; padding: 10px 18px; font-weight:700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(15,27,41,0.35);">
             🖼️ スマホ保存用 画像を表示 (長押し保存)
           </a>
-          <a href="/pdf/%E3%81%A9%E3%81%BE%E3%81%A4%E3%82%8A2026_%E3%83%80%E3%83%B3%E3%82%B9%E3%83%81%E3%83%BC%E3%83%A0%E5%87%9B_%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB_%E3%82%B9%E3%83%9E%E3%83%8B%E3%83%9B%E7%94%A8.pdf?v=20260823" download="どまつり2026_ダンスチーム凛_演舞スケジュール_スマホ用.pdf" target="_blank" class="btn" style="background: #475569; color: #ffffff; border: none; font-size: 0.88rem; padding: 10px 18px; font-weight:700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+          <a href="/pdf/%E3%81%A9%E3%81%BE%E3%81%A4%E3%82%8A2026_%E3%83%80%E3%83%B3%E3%82%B9%E3%83%81%E3%83%BC%E3%83%A0%E5%87%9B_%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB_%E3%82%B9%E3%83%9E%E3%83%8B%E3%83%9B%E7%94%A8.pdf?v=20260823"
+            download="どまつり2026_ダンスチーム凛_演舞スケジュール_スマホ用.pdf" target="_blank" class="btn"
+            style="background: #475569; color: #ffffff; border: none; font-size: 0.88rem; padding: 10px 18px; font-weight:700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
             📱 スマホ用 PDF
           </a>
-          <a href="/pdf/%E3%81%A9%E3%81%BE%E3%81%A4%E3%82%8A2026_%E3%83%80%E3%83%B3%E3%82%B9%E3%83%81%E3%83%BC%E3%83%A0%E5%87%9B_%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB_A4.pdf?v=20260821" download="どまつり2026_ダンスチーム凛_演舞スケジュール_A4印刷用.pdf" target="_blank" class="btn" style="background: var(--domatsuri-red); color: #ffffff; border: none; font-size: 0.88rem; padding: 10px 18px; font-weight:700; box-shadow: 0 2px 8px rgba(217,56,41,0.35); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+          <a href="/pdf/%E3%81%A9%E3%81%BE%E3%81%A4%E3%82%8A2026_%E3%83%80%E3%83%B3%E3%82%B9%E3%83%81%E3%83%BC%E3%83%A0%E5%87%9B_%E3%82%B9%E3%82%B1%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB_A4.pdf?v=20260821"
+            download="どまつり2026_ダンスチーム凛_演舞スケジュール_A4印刷用.pdf" target="_blank" class="btn"
+            style="background: var(--domatsuri-red); color: #ffffff; border: none; font-size: 0.88rem; padding: 10px 18px; font-weight:700; box-shadow: 0 2px 8px rgba(217,56,41,0.35); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
             A4印刷用 PDF
           </a>
-          <a href="https://www.domatsuri.com/team/detail/132" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 16px;">
+          <a href="https://www.domatsuri.com/team/detail/132" target="_blank" rel="noopener noreferrer"
+            class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 16px;">
             どまつり公式 凛ページ ↗
           </a>
-          <a href="https://www.google.com/maps/d/viewer?mid=1x4KsQ9oah3ENvkIsf-p8mS6n5YvIjFA&usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 16px;">
+          <a href="https://www.google.com/maps/d/viewer?mid=1x4KsQ9oah3ENvkIsf-p8mS6n5YvIjFA&usp=sharing"
+            target="_blank" rel="noopener noreferrer" class="btn btn-secondary"
+            style="font-size: 0.85rem; padding: 8px 16px;">
             どまつり全会場 Googleマップ ↗
           </a>
         </div>
       </div>
 
       <!-- 印刷・紙資料・持ち歩きPDF出力専用 WebアクセスQRコードブロック (最大サイズ最適化) -->
-      <div class="schedule-qr-box print-only" style="display: none; text-align: center; background: #ffffff; padding: 6px 8px; border: 1.5px solid #0f1b29; border-radius: 8px; width: 140px; flex-shrink: 0;">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://dance-team-rin-portal.vercel.app/schedule.html" alt="WEBスケジュールQRコード" style="width: 120px; height: 120px; display: block; margin: 0 auto 4px;">
+      <div class="schedule-qr-box print-only"
+        style="display: none; text-align: center; background: #ffffff; padding: 6px 8px; border: 1.5px solid #0f1b29; border-radius: 8px; width: 140px; flex-shrink: 0;">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://dance-team-rin-portal.vercel.app/schedule.html"
+          alt="WEBスケジュールQRコード" style="width: 120px; height: 120px; display: block; margin: 0 auto 4px;">
         <div style="font-size: 0.78rem; font-weight: 800; color: var(--domatsuri-navy); line-height: 1.2;">
           📱 スマホで開く<br>最新MAP・案内
         </div>
@@ -236,7 +284,8 @@
               <td style="font-weight:700;">15:00</td>
               <td style="text-align:center;"><span class="badge badge-syugo">集合</span></td>
               <td style="font-weight:700;">白川公園 集合</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">点呼・ブリーフィング・ストレッチ ｜ 15:15 隊列練習 ｜ 16:15 給水・トイレ休憩 ｜ 16:30 出発 ｜ 16:45 南噴水広場到着 ｜ 17:15 集合、点呼 ｜ 17:20 久屋大通公園会場メインステージに移動(受付 17:30)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">点呼・ブリーフィング・ストレッチ ｜ 15:15 隊列練習 ｜ 16:15 給水・トイレ休憩 ｜
+                16:30 出発 ｜ 16:45 南噴水広場到着 ｜ 17:15 集合、点呼 ｜ 17:20 久屋大通公園会場メインステージに移動(受付 17:30)</td>
               <td style="text-align:center;">
                 <a href="https://goo.gl/maps/RvsNf8mNGds" target="_blank" class="map-btn">MAP ↗</a>
               </td>
@@ -245,20 +294,24 @@
               <td style="font-weight:700; color:var(--gold-dark);">17:50</td>
               <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
               <td style="font-weight:700;">[1] 前夜祭 エキシビション（久屋大通公園会場 メインステージ）</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">18:10 演舞後、愛の広場に移動、休憩 ｜ 18:35 愛の広場集合、ぐるめぱーく会場に移動(受付 18:44)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">18:10 演舞後、愛の広場に移動、休憩 ｜ 18:35 愛の広場集合、ぐるめぱーく会場に移動(受付
+                18:44)</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://goo.gl/maps/RvsNf8mNGds" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=2&space_id=1" target="_blank" class="sched-btn">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=2&space_id=1" target="_blank"
+                  class="sched-btn">当日会場スケジュール ↗</a>
               </td>
             </tr>
             <tr class="domatsuri-shinsa-row">
               <td style="font-weight:700; color:var(--domatsuri-red);">18:59</td>
               <td style="text-align:center;"><span class="badge badge-shinsa-premium">審査演舞</span></td>
               <td style="font-weight:700; color:#991b1b;">[3] ぐるめぱーく会場（キャンパスバトル）</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">ステージ演舞(観客の拍手の大きさでNO.1が決まります） ｜ 19:15 演舞後、愛の広場に移動</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">ステージ演舞(観客の拍手の大きさでNO.1が決まります） ｜ 19:15 演舞後、愛の広場に移動
+              </td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://goo.gl/maps/oonH6qqphWVKtMF59" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=2&space_id=3" target="_blank" class="sched-btn">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=2&space_id=3" target="_blank"
+                  class="sched-btn">当日会場スケジュール ↗</a>
               </td>
             </tr>
             <tr>
@@ -297,16 +350,19 @@
               <td style="font-weight:700;">08:00</td>
               <td style="text-align:center;"><span class="badge badge-syugo">集合</span></td>
               <td style="font-weight:700;">白川公園 集合</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">点呼・ブリーフィング・ストレッチ ｜ 8:15 隊列練習 ｜ 8:45 給水・トイレ休憩・メイク確認 ｜ 9:15 点呼・白川公園出発 ｜ 9:30 地下鉄矢場町駅到着</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">点呼・ブリーフィング・ストレッチ ｜ 8:15 隊列練習 ｜ 8:45 給水・トイレ休憩・メイク確認
+                ｜ 9:15 点呼・白川公園出発 ｜ 9:30 地下鉄矢場町駅到着</td>
               <td style="text-align:center;">
-                <a href="https://www.google.com/maps/search/?api=1&query=白川公園+名古屋" target="_blank" class="map-btn">MAP ↗</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=白川公園+名古屋" target="_blank" class="map-btn">MAP
+                  ↗</a>
               </td>
             </tr>
             <tr>
               <td style="font-weight:700;">09:48</td>
               <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
               <td style="font-weight:700;">矢場町駅 → 名古屋城駅</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄名城線 右回り】矢場町09:48発 → 09:55名古屋城駅着（運賃210円）/ 7番出口より徒歩10分 ｜ 10:05 名古屋城会場到着(点呼後自由行動) ｜ 10:25 集合(点呼後、受付10:27)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄名城線 右回り】矢場町09:48発 → 09:55名古屋城駅着（運賃210円）/
+                7番出口より徒歩10分 ｜ 10:05 名古屋城会場到着(点呼後自由行動) ｜ 10:25 集合(点呼後、受付10:27)</td>
               <td style="text-align:center;">-</td>
             </tr>
             <tr>
@@ -316,14 +372,16 @@
               <td style="font-size:0.84rem; color:var(--text-muted);">名古屋城特設ステージ演舞 ｜ 10:50 演舞後会場出発</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://maps.app.goo.gl/4qMtfYmVcpAksTjk8" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=9" target="_blank" class="sched-btn">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=9" target="_blank"
+                  class="sched-btn">当日会場スケジュール ↗</a>
               </td>
             </tr>
             <tr>
               <td style="font-weight:700;">11:08</td>
               <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
               <td style="font-weight:700;">名古屋城駅 → 久屋大通駅</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄名城線 左回り】11:08発 → 11:11久屋大通駅着（運賃210円）徒歩3分 ｜ 11:15 テレビ塔パレード会場着、トイレ休憩 ｜ 11:25 集合(受付 11:27)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄名城線 左回り】11:08発 → 11:11久屋大通駅着（運賃210円）徒歩3分 ｜
+                11:15 テレビ塔パレード会場着、トイレ休憩 ｜ 11:25 集合(受付 11:27)</td>
               <td style="text-align:center;">-</td>
             </tr>
             <tr>
@@ -333,31 +391,36 @@
               <td style="font-size:0.84rem; color:var(--text-muted);">パレード演舞 ｜ 11:55 演舞後、栄駅に移動</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://maps.app.goo.gl/jYwvCTN6ukK6wbHo8" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=4" target="_blank" class="sched-btn">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=4" target="_blank"
+                  class="sched-btn">当日会場スケジュール ↗</a>
               </td>
             </tr>
             <tr>
               <td style="font-weight:700;">12:04</td>
               <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
               <td style="font-weight:700;">栄駅 → 大須観音駅</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄東山線＋鶴舞線（伏見乗換）】栄12:04発 → 12:12大須観音駅着（運賃210円）2番出口より徒歩3分 ｜ 12:15 大須観音会場到着、トイレ休憩 ｜ 12:25 集合(受付 12:27)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄東山線＋鶴舞線（伏見乗換）】栄12:04発 →
+                12:12大須観音駅着（運賃210円）2番出口より徒歩3分 ｜ 12:15 大須観音会場到着、トイレ休憩 ｜ 12:25 集合(受付 12:27)</td>
               <td style="text-align:center;">-</td>
             </tr>
             <tr>
               <td style="font-weight:700; color:var(--gold-dark);">12:42</td>
               <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
               <td style="font-weight:700;">[10] 大須観音会場</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">大須観音境内ステージ演舞 ｜ 12:50 演舞終了後、自由行動（昼食休憩） ｜ 13:30 集合、点呼 ｜ 13:45 大須観音駅に移動</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">大須観音境内ステージ演舞 ｜ 12:50 演舞終了後、自由行動（昼食休憩） ｜ 13:30
+                集合、点呼 ｜ 13:45 大須観音駅に移動</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://maps.app.goo.gl/8qtSkbxxLTmCrxh29" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=10" target="_blank" class="sched-btn">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=10" target="_blank"
+                  class="sched-btn">当日会場スケジュール ↗</a>
               </td>
             </tr>
             <tr>
               <td style="font-weight:700;">13:48</td>
               <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
               <td style="font-weight:700;">大須観音駅 → 名古屋駅</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄鶴舞線＋東山線（伏見乗換）】13:48発 → 13:59名古屋駅着（運賃210円）/ 徒歩5分 ｜ 13:55 名古屋駅前JRタワーズガーデン会場到着、トイレ休憩 ｜ 14:20 集合(受付 14:27)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄鶴舞線＋東山線（伏見乗換）】13:48発 → 13:59名古屋駅着（運賃210円）/
+                徒歩5分 ｜ 13:55 名古屋駅前JRタワーズガーデン会場到着、トイレ休憩 ｜ 14:20 集合(受付 14:27)</td>
               <td style="text-align:center;">-</td>
             </tr>
             <tr>
@@ -367,34 +430,44 @@
               <td style="font-size:0.84rem; color:var(--text-muted);">ステージ演舞 ｜ 14:50 演舞終了後、休憩 ｜ 15:10 集合、点呼後、地下鉄へ移動</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://maps.app.goo.gl/6nQZ9wb9iswv84dt8" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=8" target="_blank" class="sched-btn">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=8" target="_blank"
+                  class="sched-btn">当日会場スケジュール ↗</a>
               </td>
             </tr>
             <tr>
               <td style="font-weight:700;">15:25</td>
               <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
               <td style="font-weight:700;">名古屋駅 → 栄駅</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄東山線】15:25発 → 15:30栄駅着（運賃210円） ｜ 審査演舞前 準備・集中時間（場所：愛の広場またはテレビ塔裏広場） ｜ 16:15 テレビ塔パレード会場へ移動(受付 16:27)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄東山線】15:25発 → 15:30栄駅着（運賃210円） ｜ 審査演舞前
+                準備・集中時間（場所：愛の広場またはテレビ塔裏広場） ｜ 16:15 テレビ塔パレード会場へ移動(受付 16:27)</td>
               <td style="text-align:center;">-</td>
             </tr>
             <tr class="domatsuri-shinsa-row">
               <td style="font-weight:800; color:var(--domatsuri-red); font-size:1.05rem;">16:42</td>
               <td style="text-align:center;"><span class="badge badge-shinsa-premium">審査演舞</span></td>
               <td style="font-weight:800; color:#991b1b; font-size:1.02rem;">[4] テレビ塔パレード会場</td>
-              <td style="font-size:0.88rem; color:#7f1d1d; font-weight:700;">パレード1次審査演舞！ ｜ 16:55 演舞後、愛の広場に移動、ミーティング後解散、自由行動 ｜ 18:50 南噴水広場集合、点呼 ｜ 19:00 久屋大通公園メインステージに移動(受付 19:20)</td>
+              <td style="font-size:0.88rem; color:#7f1d1d; font-weight:700;">パレード1次審査演舞！ ｜ 16:55
+                演舞後、愛の広場に移動、ミーティング後解散、自由行動 ｜ 18:50 南噴水広場集合、点呼 ｜ 19:00 久屋大通公園メインステージに移動(受付 19:20)</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://maps.app.goo.gl/jYwvCTN6ukK6wbHo8" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=4" target="_blank" class="sched-btn" style="background: linear-gradient(135deg, #d4af37 0%, #b48a1d 100%); color:#ffffff; font-weight:700; border:none; box-shadow: 0 2px 6px rgba(180, 138, 29, 0.4);">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=4" target="_blank"
+                  class="sched-btn"
+                  style="background: linear-gradient(135deg, #d4af37 0%, #b48a1d 100%); color:#ffffff; font-weight:700; border:none; box-shadow: 0 2px 6px rgba(180, 138, 29, 0.4);">当日会場スケジュール
+                  ↗</a>
               </td>
             </tr>
             <tr class="domatsuri-shinsa-row">
               <td style="font-weight:800; color:var(--domatsuri-red); font-size:1.05rem;">19:30</td>
               <td style="text-align:center;"><span class="badge badge-shinsa-premium">審査演舞</span></td>
               <td style="font-weight:800; color:#991b1b; font-size:1.02rem;">[1] 久屋大通公園会場 メインステージ</td>
-              <td style="font-size:0.88rem; color:#7f1d1d; font-weight:700;">ファイナルシード決定戦！ ｜ 19:45 演舞後、南噴水広場へ移動 ｜ 連絡事項、解散。2日目終了</td>
+              <td style="font-size:0.88rem; color:#7f1d1d; font-weight:700;">ファイナルシード決定戦！ ｜ 19:45 演舞後、南噴水広場へ移動 ｜
+                連絡事項、解散。2日目終了</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://goo.gl/maps/RvsNf8mNGds" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=1" target="_blank" class="sched-btn" style="background: linear-gradient(135deg, #d4af37 0%, #b48a1d 100%); color:#ffffff; font-weight:700; border:none; box-shadow: 0 2px 6px rgba(180, 138, 29, 0.4);">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=3&space_id=1" target="_blank"
+                  class="sched-btn"
+                  style="background: linear-gradient(135deg, #d4af37 0%, #b48a1d 100%); color:#ffffff; font-weight:700; border:none; box-shadow: 0 2px 6px rgba(180, 138, 29, 0.4);">当日会場スケジュール
+                  ↗</a>
               </td>
             </tr>
           </tbody>
@@ -426,7 +499,8 @@
               <td style="font-weight:700;">09:30</td>
               <td style="text-align:center;"><span class="badge badge-syugo">集合</span></td>
               <td style="font-weight:700;">オアシス21 集合</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">点呼・ブリーフィング・ストレッチ・メイク確認 ｜ 10:35 オアシス21会場へ移動(受付 10:39)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">点呼・ブリーフィング・ストレッチ・メイク確認 ｜ 10:35 オアシス21会場へ移動(受付
+                10:39)</td>
               <td style="text-align:center;">
                 <a href="https://maps.app.goo.gl/Zv7TrmENJ6ZV1M166" target="_blank" class="map-btn">MAP ↗</a>
               </td>
@@ -435,27 +509,32 @@
               <td style="font-weight:700; color:var(--gold-dark);">10:54</td>
               <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
               <td style="font-weight:700;">[6] オアシス21会場</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">ステージ演舞 ｜ 11:10 演舞後、＠NAGOYAモニュメントへ移動、記念撮影 ｜ 11:30 解散、自由行動、各自で移動 ｜ 12:10 南噴水広場集合、点呼 ｜ 12:20 久屋大通公園会場メインステージへ移動（受付 12:30、レギュレーションチェック）</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">ステージ演舞 ｜ 11:10 演舞後、＠NAGOYAモニュメントへ移動、記念撮影 ｜ 11:30
+                解散、自由行動、各自で移動 ｜ 12:10 南噴水広場集合、点呼 ｜ 12:20 久屋大通公園会場メインステージへ移動（受付 12:30、レギュレーションチェック）</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://maps.app.goo.gl/Zv7TrmENJ6ZV1M166" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=4&space_id=6" target="_blank" class="sched-btn">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=4&space_id=6" target="_blank"
+                  class="sched-btn">当日会場スケジュール ↗</a>
               </td>
             </tr>
             <tr>
               <td style="font-weight:700; color:var(--gold-dark);">12:50</td>
               <td style="text-align:center;"><span class="badge badge-high">演舞</span></td>
               <td style="font-weight:700;">[1] 久屋大通公園会場 メインステージ</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">ステージ演舞 ｜ 13:05 演舞後、南噴水広場に移動、おそらく記念撮影あり ｜ 13:10 愛の広場集合、点呼 ｜ 13:20 矢場町駅に移動</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">ステージ演舞 ｜ 13:05 演舞後、南噴水広場に移動、おそらく記念撮影あり ｜ 13:10
+                愛の広場集合、点呼 ｜ 13:20 矢場町駅に移動</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://goo.gl/maps/RvsNf8mNGds" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=4&space_id=1" target="_blank" class="sched-btn">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=4&space_id=1" target="_blank"
+                  class="sched-btn">当日会場スケジュール ↗</a>
               </td>
             </tr>
             <tr>
               <td style="font-weight:700;">13:33</td>
               <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
               <td style="font-weight:700;">矢場町駅 → 金山駅 → 道徳駅</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄名城線＋名鉄常滑線（金山乗換）】矢場町13:33発 → 金山13:47発(名鉄) → 13:53道徳駅着（地下鉄210円＋名鉄190円）/ 徒歩4分 ｜ 14:00 どえりゃ～どうとくパレード会場着、休憩 ｜ 14:20 集合(受付 14:33)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">【地下鉄名城線＋名鉄常滑線（金山乗換）】矢場町13:33発 → 金山13:47発(名鉄) →
+                13:53道徳駅着（地下鉄210円＋名鉄190円）/ 徒歩4分 ｜ 14:00 どえりゃ～どうとくパレード会場着、休憩 ｜ 14:20 集合(受付 14:33)</td>
               <td style="text-align:center;">-</td>
             </tr>
             <tr>
@@ -465,24 +544,30 @@
               <td style="font-size:0.84rem; color:var(--text-muted);">パレード2回演舞 ｜ 15:15 演舞後、道徳駅に移動</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://maps.app.goo.gl/p2UMLw9JFEuJw8NBA" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=4&space_id=11" target="_blank" class="sched-btn">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=4&space_id=11" target="_blank"
+                  class="sched-btn">当日会場スケジュール ↗</a>
               </td>
             </tr>
             <tr>
               <td style="font-weight:700;">15:30</td>
               <td style="text-align:center;"><span class="badge badge-densha">電車</span></td>
               <td style="font-weight:700;">道徳駅 → 金山駅 → 栄駅</td>
-              <td style="font-size:0.84rem; color:var(--text-muted);">【名鉄常滑線＋地下鉄名城線（金山乗換）】道徳15:30発(名鉄) → 金山15:43発(地下鉄) → 15:55栄駅着（名鉄190円＋地下鉄210円）/ 徒歩4分 ｜ 16:00 テレビ塔裏の広場に到着、休憩 ｜ 16:20 集合、点呼 ｜ 16:30 テレビ塔パレード会場へ移動(受付 16:39)</td>
+              <td style="font-size:0.84rem; color:var(--text-muted);">【名鉄常滑線＋地下鉄名城線（金山乗換）】道徳15:30発(名鉄) → 金山15:43発(地下鉄) →
+                15:55栄駅着（名鉄190円＋地下鉄210円）/ 徒歩4分 ｜ 16:00 テレビ塔裏の広場に到着、休憩 ｜ 16:20 集合、点呼 ｜ 16:30 テレビ塔パレード会場へ移動(受付 16:39)</td>
               <td style="text-align:center;">-</td>
             </tr>
             <tr class="domatsuri-shinsa-row">
               <td style="font-weight:800; color:var(--domatsuri-red); font-size:1.05rem;">16:54</td>
               <td style="text-align:center;"><span class="badge badge-shinsa-premium">最終演舞</span></td>
               <td style="font-weight:800; color:#991b1b; font-size:1.02rem;">[4] テレビ塔パレード会場</td>
-              <td style="font-size:0.88rem; color:#7f1d1d; font-weight:700;">パレード演舞 ｜ 17:15 演舞後、愛の広場に移動、連絡事項後解散。セミファイナルコンテスト、ファイナルコンテストに進出の場合は、日曜日の15：00以降の演舞スケジュールが変更になる可能性があります。</td>
+              <td style="font-size:0.88rem; color:#7f1d1d; font-weight:700;">パレード演舞 ｜ 17:15
+                演舞後、愛の広場に移動、連絡事項後解散。セミファイナルコンテスト、ファイナルコンテストに進出の場合は、日曜日の15：00以降の演舞スケジュールが変更になる可能性があります。</td>
               <td style="text-align:center; display:flex; justify-content:center; gap:4px;">
                 <a href="https://maps.app.goo.gl/jYwvCTN6ukK6wbHo8" target="_blank" class="map-btn">MAP ↗</a>
-                <a href="https://www.domatsuri.com/schedule/index?date_no=4&space_id=4" target="_blank" class="sched-btn" style="background: linear-gradient(135deg, #d4af37 0%, #b48a1d 100%); color:#ffffff; font-weight:700; border:none; box-shadow: 0 2px 6px rgba(180, 138, 29, 0.4);">当日会場スケジュール ↗</a>
+                <a href="https://www.domatsuri.com/schedule/index?date_no=4&space_id=4" target="_blank"
+                  class="sched-btn"
+                  style="background: linear-gradient(135deg, #d4af37 0%, #b48a1d 100%); color:#ffffff; font-weight:700; border:none; box-shadow: 0 2px 6px rgba(180, 138, 29, 0.4);">当日会場スケジュール
+                  ↗</a>
               </td>
             </tr>
           </tbody>
@@ -564,7 +649,7 @@
         element.style.background = '#ffffff';
         element.style.color = '#0f1b29';
         element.style.fontFamily = 'Shippori Mincho, sans-serif';
-        
+
         const day1 = document.getElementById('day1').cloneNode(true);
         const day2 = document.getElementById('day2').cloneNode(true);
         const day3 = document.getElementById('day3').cloneNode(true);
@@ -579,13 +664,13 @@
         element.appendChild(day1);
         element.appendChild(day2);
         element.appendChild(day3);
-        
+
         const opt = {
-          margin:       [6, 6, 6, 6],
-          filename:     'どまつり2026_ダンスチーム凛_演舞スケジュール_スマホ用.pdf',
-          image:        { type: 'jpeg', quality: 0.98 },
-          html2canvas:  { scale: 2, useCORS: true },
-          jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+          margin: [6, 6, 6, 6],
+          filename: 'どまつり2026_ダンスチーム凛_演舞スケジュール_スマホ用.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         if (window.html2pdf) {
@@ -598,4 +683,5 @@
     window.downloadPdf = downloadPdf;
   </script>
 </body>
+
 </html>
