@@ -14,12 +14,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC_j-2HlxQ3l4TeJNMY5-ZIm9jotP6lcxA",
-  authDomain: "suzukawork-6ce0a.firebaseapp.com",
-  projectId: "suzukawork-6ce0a",
-  storageBucket: "suzukawork-6ce0a.firebasestorage.app",
-  messagingSenderId: "293193015244",
-  appId: "1:293193015244:web:2cc2b135e0c3905be98769"
+  projectId: "dance-rin",
+  appId: "1:899184288512:web:bb95dca8b4ad0eded7c9e5",
+  storageBucket: "dance-rin.firebasestorage.app",
+  apiKey: "AIzaSyAjzeka8fh1XOVVFBBp-VWw7rhzJrn3COE",
+  authDomain: "dance-rin.firebaseapp.com",
+  messagingSenderId: "899184288512",
+  measurementId: "G-2VS2J5R29V"
 };
 
 let db = null;
