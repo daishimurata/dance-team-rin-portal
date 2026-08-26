@@ -69,12 +69,23 @@
 
       <main class="container">
 
+        <!-- 1. 連絡事項タブ (最上部へ移動) -->
+        <section id="tab-announce" class="tab-content active" style="margin-bottom: 24px;">
+          <div style="margin-bottom: 16px;">
+            <h2 style="font-size: 1.15rem; font-weight: 700; color: #ffffff;">連絡事項</h2>
+            <p style="font-size: 0.85rem; color: #cbd5e1;">運営からの最新のご連絡・スケジュール連絡です。</p>
+          </div>
+          <div id="announce-list" class="announce-list">
+            <div class="card" style="text-align: center; color: var(--text-muted);">読み込み中...</div>
+          </div>
+        </section>
+
         <!-- 演舞作品『修験』グラフィックバナー ＋ 洗練されたリアルタイムカウントダウン -->
         <div class="homura-banner-card" style="padding: 22px 24px;">
           <div>
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
               <span class="badge" style="background: var(--gold-gradient); color: #ffffff; font-size: 0.85rem; padding: 4px 10px; font-weight: 700;">
-                チームナンバー: No.132
+                チームナンバー: No.1131
               </span>
               <span style="font-size: 0.8rem; color: #fef08a; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">
                 2026年 演舞作品
@@ -85,14 +96,14 @@
             </div>
 
             <!-- 洗練されたカウントダウン パネル (絵文字なし) -->
-            <div style="background: rgba(15, 23, 42, 0.88); border: 1px solid #d97706; border-radius: 8px; padding: 14px 16px; margin-top: 14px; text-align: center; position: relative; overflow: hidden;">
+            <a href="/schedule.html" style="text-decoration: none; display: block; background: rgba(15, 23, 42, 0.88); border: 1px solid #d97706; border-radius: 8px; padding: 14px 16px; margin-top: 14px; text-align: center; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 12px rgba(217,119,6,0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
               
               <!-- ドーンと構える公式「修験 SHUGEN」ロゴ背景 -->
               <img src="/images/shugen_user_exact_logo_gold.png" alt="修験 SHUGEN" class="flame-bg-static" style="width: 240px; opacity: 0.38;">
               
               <div class="countdown-content-relative">
                 <div style="font-family: var(--font-family-mincho); font-size: 0.82rem; color: #fef08a; font-weight: 600; letter-spacing: 2px; margin-bottom: 8px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
-                  にっぽんど真ん中祭り2026 前夜祭 初演舞まで
+                  にっぽんど真ん中祭り2026 前夜祭 初演舞まで <span style="font-size:0.75rem; color:#cbd5e1;">(クリックでスケジュールを開く)</span>
                 </div>
                 <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
                   <span id="main-cd-days" style="font-size: 1.4rem; font-weight: 700; color: #f59e0b; font-family: 'Inter', sans-serif;">00</span><span style="font-size:0.7rem; color:#94a3b8; margin-right:4px;">日</span>
@@ -101,97 +112,9 @@
                   <span id="main-cd-secs" style="font-size: 1.4rem; font-weight: 700; color: #fbbf24; font-family: 'Inter', sans-serif;">00</span><span style="font-size:0.7rem; color:#f59e0b; font-weight:600;">秒</span>
                 </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
-
-        <!-- 重要連絡・注意事項カード -->
-        <div class="card" style="border-color: #fca5a5; border-left: 5px solid #d93829; background: #ffffff; margin-bottom: 20px;">
-          <div style="font-weight: 700; color: #d93829; font-size: 0.95rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-            <span>⚠️</span> 連絡・注意事項
-          </div>
-          <ul style="padding-left: 20px; font-size: 0.88rem; color: #0f172a; line-height: 1.65;">
-            <li>土日の移動は地下鉄全線で利用可能な一日乗車券「ドニチエコきっぷ（大人620円、小児310円）」を利用してください。１日１枚必要です。地下鉄全駅で販売しています。朝の集合時までに必ず用意をしておいてください。</li>
-            <li>30日（日）は名鉄も利用するためチャージした交通系ICカードも用意しておいてください。</li>
-            <li>チーム指定水筒には必ず名前を書いておいてください。継ぎ足し用の水はチームで用意します。</li>
-            <li>体調が悪くなった場合は無理をせずマネージャーに伝えてください。栄周辺で救急車を呼ぶときはどまつりスタッフを通さなければなりません。</li>
-          </ul>
-        </div>
-
-        <!-- 演舞エリア持ち込みポーチ・荷物規定 ＆ 本番チェックリスト -->
-        <div class="card" style="border-color: var(--domatsuri-gold); background: #ffffff; margin-bottom: 24px;">
-          <h3 style="font-family: var(--font-family-mincho); font-size: 1.15rem; font-weight: 700; color: var(--domatsuri-navy); margin-bottom: 8px;">
-            🎒 当日の荷物＆チェックリスト
-          </h3>
-          <p style="font-size: 0.88rem; color: #334155; margin-bottom: 6px; line-height: 1.6;">
-            当日の荷物は<strong style="color: var(--domatsuri-navy);">「透明または半透明のB6ポーチ（マチ無し）」に入る物とチーム指定の水筒のみ</strong>でお願いします。
-          </p>
-          <p style="font-size: 0.84rem; color: #e11d48; font-weight: 700; margin-bottom: 14px;">
-            ※ ポーチ外側に必ず「ダンスチーム凛」と「自分の名前または隊列表で使用するニックネーム」を明記してください。
-          </p>
-
-          <div style="display: flex; flex-direction: column; gap: 4px;">
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>B6透明/半透明ポーチ（マチ無）</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>お財布・現金</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>ドニチエコ切符 / ICカード</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>携帯電話(必要な人)</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>常備薬・メイク直し・健康保険証の写し</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>ポーチに入るサイズのタオル</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>チーム指定水筒</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>衣装</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>手甲脚絆</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>足袋</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>鳴子</span>
-            </label>
-            <label class="domatsuri-checklist-item">
-              <input type="checkbox">
-              <span>ファンベール</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- 1. 連絡事項タブ -->
-        <section id="tab-announce" class="tab-content active">
-          <div style="margin-bottom: 16px;">
-            <h2 style="font-size: 1.15rem; font-weight: 700; color: #ffffff;">連絡事項</h2>
-            <p style="font-size: 0.85rem; color: #cbd5e1;">運営からの最新のご連絡・スケジュール連絡です。</p>
-          </div>
-          <div id="announce-list" class="announce-list">
-            <div class="card" style="text-align: center; color: var(--text-muted);">読み込み中...</div>
-          </div>
-        </section>
 
         <!-- 2. 回答フォームタブ -->
         <section id="tab-forms" class="tab-content">

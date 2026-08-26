@@ -1,9 +1,9 @@
 import './styles.css';
-import { 
-  fetchAnnouncements, 
-  fetchVenues, 
-  fetchForms, 
-  sendFormResponse, 
+import {
+  fetchAnnouncements,
+  fetchVenues,
+  fetchForms,
+  sendFormResponse,
   fetchMyFormResponses,
   fetchPracticeSchedules,
   savePracticeSchedule,
@@ -78,7 +78,7 @@ function initMainCountdown() {
 
 function setupNavigation() {
   const allNavBtns = document.querySelectorAll('.sidebar-btn, .drawer-item-btn[data-tab]');
-  
+
   allNavBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const tabId = btn.getAttribute('data-tab');
@@ -89,7 +89,7 @@ function setupNavigation() {
 
       document.querySelectorAll('[data-tab="' + tabId + '"]').forEach(b => b.classList.add('active'));
       document.getElementById(tabId)?.classList.add('active');
-      
+
       closeDrawer();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -149,16 +149,16 @@ async function loadAnnouncementsData() {
 
     return (
       '<article class="card">' +
-        '<div class="announce-header">' +
-          '<div style="display:flex; gap:6px; align-items:center;">' +
-            '<span class="badge ' + badgeClass + '">' + escapeHtml(item.category || '連絡事項') + '</span>' +
-            (item.importance === 'high' ? '<span class="badge badge-high">重要</span>' : '') +
-          '</div>' +
-          '<span class="announce-date" style="font-size:0.8rem; color:var(--text-muted);">' + escapeHtml(item.date) + '</span>' +
-        '</div>' +
-        '<h3 class="announce-title">' + escapeHtml(item.title) + '</h3>' +
-        '<div class="announce-body" style="margin-bottom:12px;">' + escapeHtml(item.content) + '</div>' +
-        (item.linkUrl ? '<a href="' + escapeHtml(item.linkUrl) + '" class="btn btn-gold" style="margin-top:10px; font-size:0.9rem;">' + escapeHtml(item.linkText || '関連ページを開く') + '</a>' : '') +
+      '<div class="announce-header">' +
+      '<div style="display:flex; gap:6px; align-items:center;">' +
+      '<span class="badge ' + badgeClass + '">' + escapeHtml(item.category || '連絡事項') + '</span>' +
+      (item.importance === 'high' ? '<span class="badge badge-high">重要</span>' : '') +
+      '</div>' +
+      '<span class="announce-date" style="font-size:0.8rem; color:var(--text-muted);">' + escapeHtml(item.date) + '</span>' +
+      '</div>' +
+      '<h3 class="announce-title">' + escapeHtml(item.title) + '</h3>' +
+      '<div class="announce-body" style="margin-bottom:12px;">' + escapeHtml(item.content) + '</div>' +
+      (item.linkUrl ? '<a href="' + escapeHtml(item.linkUrl) + '" class="btn btn-gold" style="margin-top:10px; font-size:0.9rem;">' + escapeHtml(item.linkText || '関連ページを開く') + '</a>' : '') +
       '</article>'
     );
   }).join('');
@@ -229,94 +229,94 @@ async function loadVenuesData() {
         }
         actionBtns = (
           '<div style="display:flex; justify-content:center; gap:4px;">' +
-            '<a href="' + mapUrl + '" target="_blank" class="map-btn">MAP</a>' +
-            (schedUrl ? '<a href="' + schedUrl + '" target="_blank" class="sched-btn">当日会場スケジュール</a>' : '') +
+          '<a href="' + mapUrl + '" target="_blank" class="map-btn">MAP</a>' +
+          (schedUrl ? '<a href="' + schedUrl + '" target="_blank" class="sched-btn">当日会場スケジュール</a>' : '') +
           '</div>'
         );
       }
 
       return (
         '<tr class="' + (item.isShinsa ? 'shinsa-row' : '') + '" style="' + (item.isShinsa ? 'background:#fefce8;' : '') + '">' +
-          '<td style="font-weight:700; white-space:nowrap;">' + escapeHtml(item.time) + '</td>' +
-          '<td style="text-align:center;"><span class="badge ' + badgeClass + '">' + escapeHtml(item.type) + '</span></td>' +
-          '<td style="font-weight:700;">' + escapeHtml(item.name) + '</td>' +
-          '<td style="font-size:0.84rem; color:var(--text-muted);">' + escapeHtml(item.detail) + '</td>' +
-          '<td style="text-align:center;">' + actionBtns + '</td>' +
+        '<td style="font-weight:700; white-space:nowrap;">' + escapeHtml(item.time) + '</td>' +
+        '<td style="text-align:center;"><span class="badge ' + badgeClass + '">' + escapeHtml(item.type) + '</span></td>' +
+        '<td style="font-weight:700;">' + escapeHtml(item.name) + '</td>' +
+        '<td style="font-size:0.84rem; color:var(--text-muted);">' + escapeHtml(item.detail) + '</td>' +
+        '<td style="text-align:center;">' + actionBtns + '</td>' +
         '</tr>'
       );
     }).join('');
 
     return (
       '<div class="card" style="margin-bottom:20px; padding:0; overflow:hidden; border:1px solid #cbd5e1;">' +
-        '<div style="background:#f8fafc; padding:14px 18px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">' +
-          '<div style="font-family:var(--font-family-mincho); font-size:1.05rem; font-weight:700; color:var(--text-main);">' +
-            escapeHtml(day.dayTitle) +
-          '</div>' +
-          '<span class="badge badge-medium">' + escapeHtml(day.assembly) + '</span>' +
-        '</div>' +
-        '<div class="table-responsive" style="margin:0;">' +
-          '<table class="data-table">' +
-            '<thead>' +
-              '<tr>' +
-                '<th style="width:90px;">演舞開始時間</th>' +
-                '<th style="width:85px; text-align:center;">区分</th>' +
-                '<th>演舞会場・内容</th>' +
-                '<th>移動・詳細備考</th>' +
-                '<th style="width:140px; text-align:center;">MAP・当日案内</th>' +
-              '</tr>' +
-            '</thead>' +
-            '<tbody>' +
-              rowsHtml +
-            '</tbody>' +
-          '</table>' +
-        '</div>' +
+      '<div style="background:#f8fafc; padding:14px 18px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">' +
+      '<div style="font-family:var(--font-family-mincho); font-size:1.05rem; font-weight:700; color:var(--text-main);">' +
+      escapeHtml(day.dayTitle) +
+      '</div>' +
+      '<span class="badge badge-medium">' + escapeHtml(day.assembly) + '</span>' +
+      '</div>' +
+      '<div class="table-responsive" style="margin:0;">' +
+      '<table class="data-table">' +
+      '<thead>' +
+      '<tr>' +
+      '<th style="width:90px;">演舞開始時間</th>' +
+      '<th style="width:85px; text-align:center;">区分</th>' +
+      '<th>演舞会場・内容</th>' +
+      '<th>移動・詳細備考</th>' +
+      '<th style="width:140px; text-align:center;">MAP・当日案内</th>' +
+      '</tr>' +
+      '</thead>' +
+      '<tbody>' +
+      rowsHtml +
+      '</tbody>' +
+      '</table>' +
+      '</div>' +
       '</div>'
     );
   }).join('');
 
   container.innerHTML = (
     '<div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">' +
-      '<div>' +
-        '<h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">にっぽんど真ん中祭り イベントタイムスケジュール ＆ 会場ナビ</h3>' +
-        '<p style="font-size:0.85rem; color:var(--text-muted);">どまつり公式（domatsuri.com/team/detail/132）に基づくダンスチーム凛（チームNo. 132）の全3日間演舞スケジュールです。</p>' +
-      '</div>' +
-      '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
-        '<a href="https://www.domatsuri.com/team/detail/132" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
-          'どまつり公式 凛ページ ↗' +
-        '</a>' +
-        '<a href="https://www.youtube.com/user/DOMATSURIofficial" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width:auto; padding:8px 14px; font-size:0.85rem; background:#fef2f2; color:#dc2626; border-color:#fca5a5;">' +
-          'どまつり公式YouTube ↗' +
-        '</a>' +
-        '<a href="/schedule.html" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
-          '専用スケジュール ↗' +
-        '</a>' +
-      '</div>' +
+    '<div>' +
+    '<h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">にっぽんど真ん中祭り イベントタイムスケジュール ＆ 会場ナビ</h3>' +
+    '<p style="font-size:0.85rem; color:var(--text-muted);">どまつり公式（domatsuri.com/team/detail/132）に基づくダンスチーム凛（チームNo. 132）の全3日間演舞スケジュールです。</p>' +
+    '</div>' +
+    '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
+    '<a href="https://www.domatsuri.com/team/detail/132" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
+    'どまつり公式 凛ページ ↗' +
+    '</a>' +
+    '<a href="https://www.youtube.com/user/DOMATSURIofficial" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width:auto; padding:8px 14px; font-size:0.85rem; background:#fef2f2; color:#dc2626; border-color:#fca5a5;">' +
+    'どまつり公式YouTube ↗' +
+    '</a>' +
+    '<a href="/schedule.html" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
+    '専用スケジュール ↗' +
+    '</a>' +
+    '</div>' +
     '</div>' +
     scheduleTablesHtml +
     '<div class="card" style="border-color: var(--gold-primary); background: #ffffff;">' +
-      '<h3 style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">' +
-        '🎒 当日の荷物＆チェックリスト' +
-      '</h3>' +
-      '<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">' +
-        '当日の荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」に入る物とチーム指定の水筒のみ</strong>でお願いします。' +
-      '</p>' +
-      '<p style="font-size: 0.82rem; color: #e11d48; font-weight: 700; margin-bottom: 12px;">' +
-        '※ ポーチ外側に必ず「ダンスチーム凛」と「自分の名前または隊列表で使用するニックネーム」を明記してください。' +
-      '</p>' +
-      '<div style="font-size:0.88rem; line-height:1.7; color:var(--text-main);">' +
-        '・B6透明/半透明ポーチ（マチ無）<br>' +
-        '・お財布・現金<br>' +
-        '・ドニチエコ切符 / ICカード<br>' +
-        '・携帯電話(必要な人)<br>' +
-        '・常備薬・メイク直し・健康保険証の写し<br>' +
-        '・ポーチに入るサイズのタオル<br>' +
-        '・チーム指定水筒<br>' +
-        '・衣装<br>' +
-        '・手甲脚絆<br>' +
-        '・足袋<br>' +
-        '・鳴子<br>' +
-        '・ファンベール' +
-      '</div>' +
+    '<h3 style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">' +
+    '🎒 当日の荷物＆チェックリスト' +
+    '</h3>' +
+    '<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">' +
+    '当日の荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」に入る物とチーム指定の水筒のみ</strong>でお願いします。' +
+    '</p>' +
+    '<p style="font-size: 0.82rem; color: #e11d48; font-weight: 700; margin-bottom: 12px;">' +
+    '※ ポーチ外側に必ず「ダンスチーム凛」と「自分の名前または隊列表で使用するニックネーム」を明記してください。' +
+    '</p>' +
+    '<div style="font-size:0.88rem; line-height:1.7; color:var(--text-main);">' +
+    '・B6透明/半透明ポーチ（マチ無）<br>' +
+    '・お財布・現金<br>' +
+    '・ドニチエコ切符 / ICカード<br>' +
+    '・携帯電話(必要な人)<br>' +
+    '・常備薬・メイク直し・健康保険証の写し<br>' +
+    '・ポーチに入るサイズのタオル<br>' +
+    '・チーム指定水筒<br>' +
+    '・衣装<br>' +
+    '・手甲脚絆<br>' +
+    '・足袋<br>' +
+    '・鳴子<br>' +
+    '・ファンベール' +
+    '</div>' +
     '</div>'
   );
 }
@@ -337,15 +337,15 @@ async function loadFormsData() {
     const isOpen = f.status === 'open';
     return (
       '<div class="card">' +
-        '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">' +
-          '<span class="badge ' + (isOpen ? 'badge-high' : 'badge-normal') + '">' +
-            (isOpen ? '受付中' : '受付終了') +
-          '</span>' +
-          '<span style="font-size:0.8rem; color:var(--text-muted);">締切: ' + escapeHtml(f.deadline) + '</span>' +
-        '</div>' +
-        '<h3 class="announce-title">' + escapeHtml(f.title) + '</h3>' +
-        '<p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">' + escapeHtml(f.description) + '</p>' +
-        (isOpen ? '<button class="btn btn-gold btn-open-form" data-form-id="' + f.id + '">フォームに入力する</button>' : '<button class="btn btn-secondary" disabled style="opacity:0.6;">回答受付は終了しました</button>') +
+      '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">' +
+      '<span class="badge ' + (isOpen ? 'badge-high' : 'badge-normal') + '">' +
+      (isOpen ? '受付中' : '受付終了') +
+      '</span>' +
+      '<span style="font-size:0.8rem; color:var(--text-muted);">締切: ' + escapeHtml(f.deadline) + '</span>' +
+      '</div>' +
+      '<h3 class="announce-title">' + escapeHtml(f.title) + '</h3>' +
+      '<p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">' + escapeHtml(f.description) + '</p>' +
+      (isOpen ? '<button class="btn btn-gold btn-open-form" data-form-id="' + f.id + '">フォームに入力する</button>' : '<button class="btn btn-secondary" disabled style="opacity:0.6;">回答受付は終了しました</button>') +
       '</div>'
     );
   }).join('');
@@ -383,34 +383,34 @@ function openForm(formId) {
   fieldsContainer.innerHTML = form.fields.map(field => {
     const reqMark = field.required ? '<span class="required" style="color:#dc2626;">*</span>' : '';
     const helpHtml = field.helpText ? '<div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:6px;">' + escapeHtml(field.helpText) + '</div>' : '';
-    
+
     if (field.type === 'radio' && field.options) {
       const optionsHtml = field.options.map((opt, idx) => (
         '<label class="radio-option">' +
-          '<input type="radio" name="' + field.id + '" value="' + escapeHtml(opt) + '" ' + (field.required && idx === 0 ? 'required' : '') + '>' +
-          '<span>' + escapeHtml(opt) + '</span>' +
+        '<input type="radio" name="' + field.id + '" value="' + escapeHtml(opt) + '" ' + (field.required && idx === 0 ? 'required' : '') + '>' +
+        '<span>' + escapeHtml(opt) + '</span>' +
         '</label>'
       )).join('');
       return (
         '<div class="form-group">' +
-          '<label class="form-label">' + escapeHtml(field.label) + reqMark + '</label>' +
-          helpHtml +
-          '<div class="radio-group">' + optionsHtml + '</div>' +
+        '<label class="form-label">' + escapeHtml(field.label) + reqMark + '</label>' +
+        helpHtml +
+        '<div class="radio-group">' + optionsHtml + '</div>' +
         '</div>'
       );
-    } 
+    }
     else if (field.type === 'checkbox' && field.options) {
       const optionsHtml = field.options.map(opt => (
         '<label class="radio-option">' +
-          '<input type="checkbox" name="' + field.id + '" value="' + escapeHtml(opt) + '">' +
-          '<span>' + escapeHtml(opt) + '</span>' +
+        '<input type="checkbox" name="' + field.id + '" value="' + escapeHtml(opt) + '">' +
+        '<span>' + escapeHtml(opt) + '</span>' +
         '</label>'
       )).join('');
       return (
         '<div class="form-group">' +
-          '<label class="form-label">' + escapeHtml(field.label) + reqMark + '</label>' +
-          helpHtml +
-          '<div class="radio-group">' + optionsHtml + '</div>' +
+        '<label class="form-label">' + escapeHtml(field.label) + reqMark + '</label>' +
+        helpHtml +
+        '<div class="radio-group">' + optionsHtml + '</div>' +
         '</div>'
       );
     }
@@ -421,20 +421,20 @@ function openForm(formId) {
       for (let i = min; i <= max; i++) {
         scaleBtns += (
           '<label style="display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer;">' +
-            '<input type="radio" name="' + field.id + '" value="' + i + '" ' + (field.required && i === min ? 'required' : '') + ' style="width:18px; height:18px; accent-color:var(--gold-primary);">' +
-            '<span style="font-size:0.85rem; font-weight:700;">' + i + '</span>' +
+          '<input type="radio" name="' + field.id + '" value="' + i + '" ' + (field.required && i === min ? 'required' : '') + ' style="width:18px; height:18px; accent-color:var(--gold-primary);">' +
+          '<span style="font-size:0.85rem; font-weight:700;">' + i + '</span>' +
           '</label>'
         );
       }
       return (
         '<div class="form-group">' +
-          '<label class="form-label">' + escapeHtml(field.label) + reqMark + '</label>' +
-          helpHtml +
-          '<div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px 16px; border-radius:var(--radius-sm); border:1px solid #cbd5e1; margin-top:6px;">' +
-            '<span style="font-size:0.75rem; color:var(--text-muted);">' + escapeHtml(field.minLabel || '低い') + '</span>' +
-            '<div style="display:flex; gap:16px;">' + scaleBtns + '</div>' +
-            '<span style="font-size:0.75rem; color:var(--text-muted);">' + escapeHtml(field.maxLabel || '高い') + '</span>' +
-          '</div>' +
+        '<label class="form-label">' + escapeHtml(field.label) + reqMark + '</label>' +
+        helpHtml +
+        '<div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px 16px; border-radius:var(--radius-sm); border:1px solid #cbd5e1; margin-top:6px;">' +
+        '<span style="font-size:0.75rem; color:var(--text-muted);">' + escapeHtml(field.minLabel || '低い') + '</span>' +
+        '<div style="display:flex; gap:16px;">' + scaleBtns + '</div>' +
+        '<span style="font-size:0.75rem; color:var(--text-muted);">' + escapeHtml(field.maxLabel || '高い') + '</span>' +
+        '</div>' +
         '</div>'
       );
     }
@@ -442,29 +442,29 @@ function openForm(formId) {
       const optionsHtml = field.options.map(opt => '<option value="' + escapeHtml(opt) + '">' + escapeHtml(opt) + '</option>').join('');
       return (
         '<div class="form-group">' +
-          '<label class="form-label" for="' + field.id + '">' + escapeHtml(field.label) + reqMark + '</label>' +
-          helpHtml +
-          '<select id="' + field.id + '" name="' + field.id + '" class="form-select" ' + (field.required ? 'required' : '') + '>' +
-            optionsHtml +
-          '</select>' +
+        '<label class="form-label" for="' + field.id + '">' + escapeHtml(field.label) + reqMark + '</label>' +
+        helpHtml +
+        '<select id="' + field.id + '" name="' + field.id + '" class="form-select" ' + (field.required ? 'required' : '') + '>' +
+        optionsHtml +
+        '</select>' +
         '</div>'
       );
-    } 
+    }
     else if (field.type === 'textarea') {
       return (
         '<div class="form-group">' +
-          '<label class="form-label" for="' + field.id + '">' + escapeHtml(field.label) + reqMark + '</label>' +
-          helpHtml +
-          '<textarea id="' + field.id + '" name="' + field.id + '" class="form-textarea" rows="3" ' + (field.required ? 'required' : '') + '></textarea>' +
+        '<label class="form-label" for="' + field.id + '">' + escapeHtml(field.label) + reqMark + '</label>' +
+        helpHtml +
+        '<textarea id="' + field.id + '" name="' + field.id + '" class="form-textarea" rows="3" ' + (field.required ? 'required' : '') + '></textarea>' +
         '</div>'
       );
-    } 
+    }
     else {
       return (
         '<div class="form-group">' +
-          '<label class="form-label" for="' + field.id + '">' + escapeHtml(field.label) + reqMark + '</label>' +
-          helpHtml +
-          '<input type="' + (field.type || 'text') + '" id="' + field.id + '" name="' + field.id + '" class="form-input" ' + (field.required ? 'required' : '') + '>' +
+        '<label class="form-label" for="' + field.id + '">' + escapeHtml(field.label) + reqMark + '</label>' +
+        helpHtml +
+        '<input type="' + (field.type || 'text') + '" id="' + field.id + '" name="' + field.id + '" class="form-input" ' + (field.required ? 'required' : '') + '>' +
         '</div>'
       );
     }
@@ -522,9 +522,9 @@ async function handleFormSubmit(e) {
     const area = document.getElementById('form-render-area');
     area.innerHTML = (
       '<div style="text-align:center; padding:30px 10px;">' +
-        '<h3 style="font-family: var(--font-family-mincho); font-size:1.35rem; font-weight:700; color:var(--text-main); margin-bottom:8px;">ご回答ありがとうございました</h3>' +
-        '<p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:24px;">「' + escapeHtml(formTitle) + '」への送信が正常に完了いたしました。</p>' +
-        '<button class="btn btn-gold" onclick="location.reload()">フォーム一覧へ戻る</button>' +
+      '<h3 style="font-family: var(--font-family-mincho); font-size:1.35rem; font-weight:700; color:var(--text-main); margin-bottom:8px;">ご回答ありがとうございました</h3>' +
+      '<p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:24px;">「' + escapeHtml(formTitle) + '」への送信が正常に完了いたしました。</p>' +
+      '<button class="btn btn-gold" onclick="location.reload()">フォーム一覧へ戻る</button>' +
       '</div>'
     );
     showToast(res.message);
@@ -555,11 +555,11 @@ async function handleSearchMyResponse() {
 
   resultsDiv.innerHTML = myResponses.map(r => (
     '<div style="background:#ffffff; border:1px solid #cbd5e1; padding:10px; border-radius:6px; margin-top:8px; font-size:0.85rem; border-left:4px solid var(--gold-primary);">' +
-      '<div style="font-weight:700; color:var(--text-main);">' + escapeHtml(r.formTitle) + '</div>' +
-      '<div style="font-size:0.75rem; color:var(--text-muted);">回答日時: ' + escapeHtml(r.timestamp || r.createdAt) + '</div>' +
-      '<div style="margin-top:6px;">' +
-        Object.entries(r.answers).map(([k, v]) => '<div><strong>' + escapeHtml(k) + ':</strong> ' + escapeHtml(v) + '</div>').join('') +
-      '</div>' +
+    '<div style="font-weight:700; color:var(--text-main);">' + escapeHtml(r.formTitle) + '</div>' +
+    '<div style="font-size:0.75rem; color:var(--text-muted);">回答日時: ' + escapeHtml(r.timestamp || r.createdAt) + '</div>' +
+    '<div style="margin-top:6px;">' +
+    Object.entries(r.answers).map(([k, v]) => '<div><strong>' + escapeHtml(k) + ':</strong> ' + escapeHtml(v) + '</div>').join('') +
+    '</div>' +
     '</div>'
   )).join('');
 }

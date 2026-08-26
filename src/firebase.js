@@ -80,16 +80,17 @@ export async function fetchAnnouncements() {
 // 新規お知らせ作成
 export async function createNewAnnouncement(data) {
   try {
-    if (db) {
-      await addDoc(collection(db, "announcements"), {
-        ...data,
-        createdAt: new Date().toISOString(),
-        serverTimestamp: serverTimestamp()
-      });
+    if (!db) {
+      return { success: false, message: "データベース(Firestore)が設定されていないか、接続できません。\nFirebaseコンソールでFirestore Databaseを有効にしてください。" };
     }
+    await addDoc(collection(db, "announcements"), {
+      ...data,
+      createdAt: new Date().toISOString(),
+      serverTimestamp: serverTimestamp()
+    });
     return { success: true, message: "お知らせを作成しました" };
   } catch (e) {
-    return { success: false, message: e.message };
+    return { success: false, message: "データベース保存エラー: " + e.message + "\n※Firestoreの設定やセキュリティルール(権限)を確認してください。" };
   }
 }
 export const createAnnouncement = createNewAnnouncement;
@@ -122,16 +123,17 @@ export async function fetchForms() {
 // 新規フォーム作成
 export async function createNewForm(data) {
   try {
-    if (db) {
-      await addDoc(collection(db, "forms"), {
-        ...data,
-        createdAt: new Date().toISOString(),
-        serverTimestamp: serverTimestamp()
-      });
+    if (!db) {
+      return { success: false, message: "データベース(Firestore)が設定されていないか、接続できません。\nFirebaseコンソールでFirestore Databaseを有効にしてください。" };
     }
+    await addDoc(collection(db, "forms"), {
+      ...data,
+      createdAt: new Date().toISOString(),
+      serverTimestamp: serverTimestamp()
+    });
     return { success: true, message: "フォームを作成しました" };
   } catch (e) {
-    return { success: false, message: e.message };
+    return { success: false, message: "データベース保存エラー: " + e.message + "\n※Firestoreの設定やセキュリティルールを確認してください。" };
   }
 }
 
@@ -151,7 +153,9 @@ export async function updateFormStatus(formId, status) {
 // 4. フォーム回答送信
 export async function sendFormResponse(formId, formTitle, respondentName, answers) {
   try {
-    if (db) {
+    if (!db) {
+      console.warn("db is null. Local storage only.");
+    } else {
       await addDoc(collection(db, "form_responses"), {
         formId,
         formTitle,
@@ -173,10 +177,13 @@ export async function sendFormResponse(formId, formTitle, respondentName, answer
     });
     localStorage.setItem(localKey, JSON.stringify(history));
 
+    if (!db) {
+       return { success: true, message: "ご回答を保存しました。\n(※データベース未設定のため、現在はお使いの端末内にのみ保存されています。管理画面には反映されません)" };
+    }
     return { success: true, message: "ご回答が正常に送信されました！" };
   } catch (e) {
     console.error("Form submit error:", e);
-    return { success: false, message: "送信中にエラーが発生しました。" };
+    return { success: false, message: "送信中にエラーが発生しました。\n詳細: " + e.message + "\n※データベースの設定やセキュリティルールをご確認ください。" };
   }
 }
 
