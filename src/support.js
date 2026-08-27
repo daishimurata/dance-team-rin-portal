@@ -79,6 +79,7 @@ const scheduleData = {
 };
 
 let currentTab = 'day1';
+let displayMode = 'by_venue'; // デフォルト「会場別カード表示」
 let searchQuery = '';
 let roleFilter = 'all';
 
@@ -94,19 +95,15 @@ function renderMarkBadge(mark) {
 
 function filterMembers(members) {
   return members.filter(name => {
-    // 検索語フィルター
     if (searchQuery && !name.toLowerCase().includes(searchQuery.toLowerCase())) {
       return false;
     }
-    // ロールフィルター
     if (roleFilter === 'support_only') {
-      // どこかで〇がついているメンバー
       const hasCircle = ['day1', 'day2', 'day3'].some(d => 
         scheduleData[d].shifts[name] && scheduleData[d].shifts[name].includes('〇')
       );
       if (!hasCircle) return false;
     } else if (roleFilter === 'aux_only') {
-      // どこかで△がついているメンバー
       const hasTriangle = ['day1', 'day2', 'day3'].some(d => 
         scheduleData[d].shifts[name] && scheduleData[d].shifts[name].includes('△')
       );
@@ -134,7 +131,108 @@ function computeVenueTotals(dayKey, filteredMembers) {
   return totals;
 }
 
-function renderDayTabContent(dayKey) {
+// ==========================================
+// 1. 会場別カード表示 (By Venue Layout) - 見やすさ最優先
+// ==========================================
+function renderByVenueDayContent(dayKey) {
+  const day = scheduleData[dayKey];
+  const filtered = filterMembers(membersList);
+
+  return `
+    <div style="margin-bottom: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; background: #ffffff; padding: 16px 20px; border-radius: 8px; border-left: 5px solid var(--domatsuri-gold); box-shadow: var(--shadow-soft);">
+        <h2 style="font-family: var(--font-family-mincho); font-size: 1.2rem; font-weight: 700; color: var(--domatsuri-navy); margin: 0;">
+          📍 ${day.title}
+        </h2>
+        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+          全${day.venues.length}会場 ｜ 対象スタッフ: ${filtered.length}名
+        </span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px;">
+        ${day.venues.map((venueName, vIdx) => {
+          const mainSupporters = filtered.filter(name => day.shifts[name] && day.shifts[name][vIdx] === '〇');
+          const subSupporters = filtered.filter(name => day.shifts[name] && day.shifts[name][vIdx] === '△');
+
+          return `
+            <div class="card" style="padding: 18px; border-top: 4px solid var(--domatsuri-navy); box-shadow: var(--shadow-soft); background: #ffffff;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1.5px solid var(--border-color);">
+                <div style="font-family: var(--font-family-mincho); font-size: 1.15rem; font-weight: 700; color: var(--domatsuri-navy); display: flex; align-items: center; gap: 8px;">
+                  <span style="background: var(--domatsuri-navy); color: #ffffff; font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; font-family: 'Inter', sans-serif;">会場 ${vIdx + 1}</span>
+                  ${venueName}
+                </div>
+                <span class="badge" style="background: #f1f5f9; color: #475569; font-weight: 700; font-size: 0.8rem;">
+                  サポート計 ${mainSupporters.length + subSupporters.length}名
+                </span>
+              </div>
+
+              <!-- 〇 メインサポート -->
+              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                <div style="font-weight: 700; font-size: 0.88rem; color: #166534; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                  <span style="display: flex; align-items: center; gap: 6px;">
+                    <span style="background: #166534; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 900;">〇</span>
+                    メインサポート（荷物預かり）
+                  </span>
+                  <span style="font-size: 0.82rem; font-weight: 800; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 12px;">${mainSupporters.length}名</span>
+                </div>
+                ${mainSupporters.length === 0 ? `
+                  <div style="font-size: 0.82rem; color: #94a3b8; font-style: italic;">担当者なし</div>
+                ` : `
+                  <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    ${mainSupporters.map(name => `
+                      <button onclick="openMemberModal('${name}')" style="background: #ffffff; color: #166534; border: 1px solid #86efac; border-radius: 6px; padding: 6px 12px; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-family: inherit;" title="タップして${name}さんの詳細シフトを表示">
+                        <span>${name}</span>
+                        <span style="font-size: 0.75rem; opacity: 0.7;">👤</span>
+                      </button>
+                    `).join('')}
+                  </div>
+                `}
+              </div>
+
+              <!-- △ サブサポート -->
+              <div style="background: #fefce8; border: 1px solid #fef08a; border-radius: 8px; padding: 12px;">
+                <div style="font-weight: 700; font-size: 0.88rem; color: #854d0e; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                  <span style="display: flex; align-items: center; gap: 6px;">
+                    <span style="background: #854d0e; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 900;">△</span>
+                    サブサポート（お手伝い）
+                  </span>
+                  <span style="font-size: 0.82rem; font-weight: 800; background: #fef9c3; color: #a16207; padding: 2px 8px; border-radius: 12px;">${subSupporters.length}名</span>
+                </div>
+                ${subSupporters.length === 0 ? `
+                  <div style="font-size: 0.82rem; color: #94a3b8; font-style: italic;">担当者なし</div>
+                ` : `
+                  <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                    ${subSupporters.map(name => `
+                      <button onclick="openMemberModal('${name}')" style="background: #ffffff; color: #854d0e; border: 1px solid #fef08a; border-radius: 6px; padding: 6px 12px; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); font-family: inherit;" title="タップして${name}さんの詳細シフトを表示">
+                        <span>${name}</span>
+                        <span style="font-size: 0.75rem; opacity: 0.7;">👤</span>
+                      </button>
+                    `).join('')}
+                  </div>
+                `}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderByVenueAllDaysContent() {
+  return `
+    <div>
+      ${renderByVenueDayContent('day1')}
+      ${renderByVenueDayContent('day2')}
+      ${renderByVenueDayContent('day3')}
+    </div>
+  `;
+}
+
+// ==========================================
+// 2. 全体表マトリクス表示 (Matrix Table Layout)
+// ==========================================
+function renderDayTableContent(dayKey) {
   const day = scheduleData[dayKey];
   const filtered = filterMembers(membersList);
   const totals = computeVenueTotals(dayKey, filtered);
@@ -154,7 +252,7 @@ function renderDayTabContent(dayKey) {
         <table class="domatsuri-table" style="width: 100%; border-collapse: collapse; min-width: 600px;">
           <thead>
             <tr style="background: var(--domatsuri-navy); color: #ffffff;">
-              <th style="padding: 12px; font-weight: 700; min-width: 110px; text-align: left; position: sticky; left: 0; background: var(--domatsuri-navy); z-index: 2; border-right: 2px solid rgba(255,255,255,0.1);">メンバー名</th>
+              <th style="padding: 12px; font-weight: 700; min-width: 110px; text-align: left; position: sticky; left: 0; background: var(--domatsuri-navy); z-index: 2; border-right: 2px solid rgba(255,255,255,0.1);">スタッフ名</th>
               ${day.venues.map((v, i) => `
                 <th style="padding: 12px; font-weight: 700; text-align: center; border-right: 1px solid rgba(255,255,255,0.1);">
                   ${v}
@@ -164,7 +262,7 @@ function renderDayTabContent(dayKey) {
           </thead>
           <tbody>
             ${filtered.length === 0 ? `
-              <tr><td colspan="${day.venues.length + 1}" style="text-align: center; padding: 24px; color: #94a3b8;">該当するメンバーが見つかりませんでした。</td></tr>
+              <tr><td colspan="${day.venues.length + 1}" style="text-align: center; padding: 24px; color: #94a3b8;">該当するスタッフが見つかりませんでした。</td></tr>
             ` : filtered.map(name => {
               const rowShifts = day.shifts[name] || day.venues.map(() => '×');
               return `
@@ -185,7 +283,7 @@ function renderDayTabContent(dayKey) {
           <tfoot style="background: #f8fafc; border-top: 2px solid var(--domatsuri-navy);">
             <tr>
               <td style="padding: 12px; font-weight: 800; color: var(--domatsuri-navy); position: sticky; left: 0; background: #f8fafc; z-index: 1; border-right: 2px solid var(--border-color);">
-                集計 (〇サポート)
+                集計 (〇メイン)
               </td>
               ${totals.map(t => `
                 <td style="padding: 10px 12px; text-align: center; font-weight: 800; color: #166534; font-size: 0.95rem;">
@@ -195,7 +293,7 @@ function renderDayTabContent(dayKey) {
             </tr>
             <tr>
               <td style="padding: 12px; font-weight: 800; color: var(--domatsuri-navy); position: sticky; left: 0; background: #f8fafc; z-index: 1; border-right: 2px solid var(--border-color);">
-                集計 (△補助凛)
+                集計 (△サブ)
               </td>
               ${totals.map(t => `
                 <td style="padding: 10px 12px; text-align: center; font-weight: 800; color: #854d0e; font-size: 0.95rem;">
@@ -211,14 +309,14 @@ function renderDayTabContent(dayKey) {
   return html;
 }
 
-function renderAllDaysTabContent() {
+function renderAllDaysTableContent() {
   const filtered = filterMembers(membersList);
   
   return `
     <div class="card" style="padding: 20px; margin-bottom: 24px;">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 2px solid var(--domatsuri-gold); padding-bottom: 12px;">
         <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--domatsuri-navy); margin: 0;">
-          全3日間 補助凛シフト総覧
+          全3日間 補助凛シフト総覧マトリクス
         </h2>
         <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
           表示人数: ${filtered.length}名
@@ -291,10 +389,18 @@ function updateView() {
   const container = document.getElementById('support-tab-content');
   if (!container) return;
 
-  if (currentTab === 'all') {
-    container.innerHTML = renderAllDaysTabContent();
+  if (displayMode === 'by_venue') {
+    if (currentTab === 'all') {
+      container.innerHTML = renderByVenueAllDaysContent();
+    } else {
+      container.innerHTML = renderByVenueDayContent(currentTab);
+    }
   } else {
-    container.innerHTML = renderDayTabContent(currentTab);
+    if (currentTab === 'all') {
+      container.innerHTML = renderAllDaysTableContent();
+    } else {
+      container.innerHTML = renderDayTableContent(currentTab);
+    }
   }
 
   // タブボタンのアクティブ表示切替
@@ -407,6 +513,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (roleSelect) {
     roleSelect.addEventListener('change', (e) => {
       roleFilter = e.target.value;
+      updateView();
+    });
+  }
+
+  const displayModeSelect = document.getElementById('display-mode');
+  if (displayModeSelect) {
+    displayModeSelect.addEventListener('change', (e) => {
+      displayMode = e.target.value;
       updateView();
     });
   }

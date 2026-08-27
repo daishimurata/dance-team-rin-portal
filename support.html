@@ -86,19 +86,28 @@
       </div>
     </div>
 
-    <!-- 検索 ＆ 絞り込みコントロール -->
+    <!-- 検索 ＆ 絞り込み ＆ 表示モード切替コントロール -->
     <div class="card btn-no-print" style="margin-bottom: 20px; padding: 16px;">
       <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
         <div style="flex: 1; min-width: 240px; position: relative;">
-          <input type="text" id="member-search" placeholder="🔍 メンバー名で検索（例: みやっち、もりた、あや子...）" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; font-family: inherit;">
+          <input type="text" id="member-search" placeholder="🔍 スタッフ名で検索（例: みやっち、もりた、あや子...）" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; font-family: inherit;">
         </div>
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <label style="font-size: 0.85rem; color: #475569; font-weight: 600;">表示絞り込み:</label>
-          <select id="role-filter" style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; font-family: inherit; background: #fff;">
-            <option value="all">全員表示 (16名)</option>
-            <option value="support_only">〇 サポート参加者のみ</option>
-            <option value="aux_only">△ 補助凛参加者を含む</option>
-          </select>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <label style="font-size: 0.85rem; color: #475569; font-weight: 600;">表示形式:</label>
+            <select id="display-mode" style="padding: 8px 12px; border: 1px solid var(--domatsuri-gold); border-radius: 6px; font-size: 0.85rem; font-family: inherit; background: #fffde7; font-weight: 700; color: #0f1b29;">
+              <option value="by_venue">📍 会場別（カード表示）</option>
+              <option value="table">📊 全体表（マトリクス表示）</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <label style="font-size: 0.85rem; color: #475569; font-weight: 600;">表示絞り込み:</label>
+            <select id="role-filter" style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; font-family: inherit; background: #fff;">
+              <option value="all">全員表示 (16名)</option>
+              <option value="support_only">〇 メインサポート参加者</option>
+              <option value="aux_only">△ サブサポート参加者</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
