@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ど真ん中祭り 荷物持ち当番表</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary: #F59E0B;
+            --background: #F3F4F6;
+            --surface: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --border: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--background);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 0;
+            letter-spacing: -0.025em;
+            text-shadow: 0 2px 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .header p {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        th {
+            padding: 1.25rem 1rem;
+            font-weight: 600;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        th:first-child {
+            border-top-left-radius: 16px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 16px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #F9FAFB;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .time-badge {
+            background-color: #EEF2FF;
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: inline-block;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .duty-name {
+            display: inline-block;
+            background-color: #FEF3C7;
+            color: #92400E;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .duty-name.empty {
+            background-color: #F3F4F6;
+            color: #9CA3AF;
+            border: 1px dashed #D1D5DB;
+        }
+
+        /* アニメーション */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ど真ん中祭り 2026</h1>
+            <p>ダンスチーム凛 サポート - 荷物持ち当番表</p>
+        </div>
+
+        <div class="card">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>演舞日程</th>
+                            <th>会場</th>
+                            <th>集合時間</th>
+                            <th>演舞時間</th>
+                            <th>荷物当番 (親御さん)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>8月28日 (金)</td>
+                            <td>
+                                <div class="location">
+                                    <span>久屋大通公園メインステージ</span>
+                                </div>
+                            </td>
+                            <td><span class="time-badge">13:00</span></td>
+                            <td><span class="time-badge">14:30</span></td>
+                            <td>
+                                <span class="duty-name">田中さん</span>
+                                <span class="duty-name">鈴木さん</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>8月28日 (金)</td>
+                            <td>
+                                <div class="location">
+                                    <span>オアシス21会場</span>
+                                </div>
+                            </td>
+                            <td><span class="time-badge">16:30</span></td>
+                            <td><span class="time-badge">17:15</span></td>
+                            <td>
+                                <span class="duty-name">佐藤さん</span>
+                                <span class="duty-name">伊藤さん</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>8月29日 (土)</td>
+                            <td>
+                                <div class="location">
+                                    <span>名古屋城会場</span>
+                                </div>
+                            </td>
+                            <td><span class="time-badge">09:30</span></td>
+                            <td><span class="time-badge">10:45</span></td>
+                            <td>
+                                <span class="duty-name">渡辺さん</span>
+                                <span class="duty-name">山本さん</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>8月29日 (土)</td>
+                            <td>
+                                <div class="location">
+                                    <span>大須観音会場</span>
+                                </div>
+                            </td>
+                            <td><span class="time-badge">13:15</span></td>
+                            <td><span class="time-badge">14:00</span></td>
+                            <td>
+                                <span class="duty-name empty">未定</span>
+                                <span class="duty-name empty">未定</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>8月30日 (日)</td>
+                            <td>
+                                <div class="location">
+                                    <span>テレビ塔パレード</span>
+                                </div>
+                            </td>
+                            <td><span class="time-badge">10:00</span></td>
+                            <td><span class="time-badge">11:30</span></td>
+                            <td>
+                                <span class="duty-name">中村さん</span>
+                                <span class="duty-name">小林さん</span>
+                                <span class="duty-name">加藤さん</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
