@@ -31,13 +31,12 @@
 
         .container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
+            margin-bottom: 2rem;
         }
 
         .header h1 {
@@ -46,7 +45,6 @@
             color: var(--primary);
             margin: 0;
             letter-spacing: -0.025em;
-            text-shadow: 0 2px 4px rgba(79, 70, 229, 0.1);
         }
 
         .header p {
@@ -58,125 +56,124 @@
         .card {
             background: var(--surface);
             border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card:hover {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            transform: translateY(-2px);
         }
 
         .table-responsive {
             overflow-x: auto;
+            position: relative;
         }
 
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        thead {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-        }
-
-        th {
-            padding: 1.25rem 1rem;
-            font-weight: 600;
-            text-align: left;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-size: 0.875rem;
+            border-collapse: collapse;
             white-space: nowrap;
         }
 
-        th:first-child {
-            border-top-left-radius: 16px;
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0;
+            text-align: center;
         }
 
-        th:last-child {
-            border-top-right-radius: 16px;
-        }
-
-        td {
+        /* 縦軸（親御さんの名前）を固定 */
+        .sticky-col {
+            position: sticky;
+            left: 0;
+            background-color: #FFFFFF;
+            z-index: 10;
             padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-main);
-            font-size: 0.95rem;
+            text-align: left;
+            font-weight: 600;
+            min-width: 120px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+        
+        th.sticky-col {
+            background-color: var(--primary);
+            color: white;
+            z-index: 20;
+            text-align: center;
             vertical-align: middle;
         }
 
-        tbody tr {
-            transition: background-color 0.2s ease;
-        }
-
-        tbody tr:hover {
-            background-color: #F9FAFB;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .time-badge {
-            background-color: #EEF2FF;
-            color: var(--primary);
-            padding: 0.25rem 0.6rem;
-            border-radius: 6px;
+        /* 日付ヘッダー */
+        .day-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
             font-weight: 600;
-            font-size: 0.875rem;
-            display: inline-block;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .day1 { background: #0369a1; }
+        .day2 { background: #b91c1c; }
+        .day3 { background: #a16207; }
+
+        /* スケジュールヘッダー (演舞ごとの列) */
+        .stage-header {
+            background-color: #F8FAFC;
+            min-width: 90px;
+            vertical-align: top;
         }
 
-        .time-badge.accent {
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.75rem 0.5rem;
+            gap: 0.5rem;
+        }
+
+        .time {
             background-color: #FEF2F2;
             color: #DC2626;
-        }
-
-        .location {
-            font-weight: 600;
-            line-height: 1.4;
-        }
-        .location-sub {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .duty-name {
-            display: inline-block;
-            background-color: #FEF3C7;
-            color: #92400E;
-            padding: 0.25rem 0.75rem;
-            border-radius: 8px;
-            font-weight: 600;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        
-        .duty-name.empty {
-            background-color: #F3F4F6;
-            color: #9CA3AF;
-            border: 1px dashed #D1D5DB;
-            box-shadow: none;
-        }
-
-        .day-divider {
-            background-color: #F8FAFC !important;
-        }
-        
-        .day-divider td {
             font-weight: 800;
-            color: #334155;
-            padding: 0.75rem 1rem;
-            border-bottom: 2px solid var(--border);
+            font-size: 0.9rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
         }
 
-        /* アニメーション */
+        .place {
+            font-size: 0.8rem;
+            color: var(--text-main);
+            font-weight: 600;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* セルのスタイル */
+        td.cell {
+            padding: 0.5rem;
+            height: 50px;
+            transition: background-color 0.2s;
+        }
+
+        tr:hover td.cell, tr:hover td.sticky-col {
+            background-color: #F3F4F6;
+        }
+
+        /* 当番のマーク */
+        .duty-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background-color: #FEF3C7;
+            color: #D97706;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 4px rgba(217, 119, 6, 0.2);
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -187,12 +184,8 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-            .header h1 {
-                font-size: 2rem;
-            }
+            body { padding: 1rem; }
+            .header h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -208,167 +201,240 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>日程</th>
-                            <th>会場・内容</th>
-                            <th>直前集合(受付)</th>
-                            <th>演舞時間</th>
-                            <th>荷物当番 (親御さん)</th>
+                            <th rowspan="2" class="sticky-col">親御さんのお名前</th>
+                            <th colspan="2" class="day-header day1">8/28(金) 前夜祭</th>
+                            <th colspan="6" class="day-header day2">8/29(土) 本祭1日目</th>
+                            <th colspan="4" class="day-header day3">8/30(日) 本祭2日目</th>
+                        </tr>
+                        <tr>
+                            <!-- 8/28 -->
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">17:50</span>
+                                    <span class="place">久屋大通公園<br>メイン</span>
+                                </div>
+                            </th>
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">18:59</span>
+                                    <span class="place">ぐるめぱーく</span>
+                                </div>
+                            </th>
+                            <!-- 8/29 -->
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">10:42</span>
+                                    <span class="place">名古屋城</span>
+                                </div>
+                            </th>
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">11:42</span>
+                                    <span class="place">テレビ塔</span>
+                                </div>
+                            </th>
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">12:42</span>
+                                    <span class="place">大須観音</span>
+                                </div>
+                            </th>
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">14:42</span>
+                                    <span class="place">JRタワーズ</span>
+                                </div>
+                            </th>
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">16:42</span>
+                                    <span class="place">テレビ塔 (審査)</span>
+                                </div>
+                            </th>
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">19:30</span>
+                                    <span class="place">久屋大通 (審査)</span>
+                                </div>
+                            </th>
+                            <!-- 8/30 -->
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">10:54</span>
+                                    <span class="place">オアシス21</span>
+                                </div>
+                            </th>
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">12:50</span>
+                                    <span class="place">久屋大通公園<br>メイン</span>
+                                </div>
+                            </th>
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">14:48</span>
+                                    <span class="place">どうとくパレード</span>
+                                </div>
+                            </th>
+                            <th class="stage-header">
+                                <div class="header-content">
+                                    <span class="time">16:54</span>
+                                    <span class="place">テレビ塔 (最終)</span>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- 1日目 -->
-                        <tr class="day-divider">
-                            <td colspan="5">8月28日 (金) ｜ 1日目：前夜祭</td>
+                        <!-- ダミーデータ：親御さん10名程度 -->
+                        <tr>
+                            <td class="sticky-col">田中さん</td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
                         </tr>
                         <tr>
-                            <td rowspan="2">8/28(金)</td>
-                            <td>
-                                <div class="location">久屋大通公園会場 メインステージ</div>
-                                <div class="location-sub">前夜祭 エキシビション</div>
-                            </td>
-                            <td><span class="time-badge">17:20</span></td>
-                            <td><span class="time-badge accent">17:50</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
+                            <td class="sticky-col">鈴木さん</td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
                         </tr>
                         <tr>
-                            <td>
-                                <div class="location">ぐるめぱーく会場</div>
-                                <div class="location-sub">キャンパスバトル (審査演舞)</div>
-                            </td>
-                            <td><span class="time-badge">18:35</span></td>
-                            <td><span class="time-badge accent">18:59</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
-                        </tr>
-
-                        <!-- 2日目 -->
-                        <tr class="day-divider">
-                            <td colspan="5">8月29日 (土) ｜ 2日目：本祭 1日目</td>
+                            <td class="sticky-col">佐藤さん</td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
                         </tr>
                         <tr>
-                            <td rowspan="6">8/29(土)</td>
-                            <td>
-                                <div class="location">名古屋城会場</div>
-                            </td>
-                            <td><span class="time-badge">10:25</span></td>
-                            <td><span class="time-badge accent">10:42</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
+                            <td class="sticky-col">伊藤さん</td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
                         </tr>
                         <tr>
-                            <td>
-                                <div class="location">テレビ塔パレード会場</div>
-                            </td>
-                            <td><span class="time-badge">11:25</span></td>
-                            <td><span class="time-badge accent">11:42</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
+                            <td class="sticky-col">渡辺さん</td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
                         </tr>
                         <tr>
-                            <td>
-                                <div class="location">大須観音会場</div>
-                            </td>
-                            <td><span class="time-badge">12:25</span></td>
-                            <td><span class="time-badge accent">12:42</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
+                            <td class="sticky-col">山本さん</td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
                         </tr>
                         <tr>
-                            <td>
-                                <div class="location">名古屋駅前JRタワーズガーデン会場</div>
-                            </td>
-                            <td><span class="time-badge">14:20</span></td>
-                            <td><span class="time-badge accent">14:42</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
+                            <td class="sticky-col">中村さん</td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
                         </tr>
                         <tr>
-                            <td>
-                                <div class="location">テレビ塔パレード会場</div>
-                                <div class="location-sub">1次審査演舞</div>
-                            </td>
-                            <td><span class="time-badge">16:15</span></td>
-                            <td><span class="time-badge accent">16:42</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
+                            <td class="sticky-col">小林さん</td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
                         </tr>
                         <tr>
-                            <td>
-                                <div class="location">久屋大通公園会場 メインステージ</div>
-                                <div class="location-sub">ファイナルシード決定戦 (審査演舞)</div>
-                            </td>
-                            <td><span class="time-badge">18:50</span></td>
-                            <td><span class="time-badge accent">19:30</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
-                        </tr>
-
-                        <!-- 3日目 -->
-                        <tr class="day-divider">
-                            <td colspan="5">8月30日 (日) ｜ 3日目：本祭 2日目</td>
+                            <td class="sticky-col">加藤さん</td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
                         </tr>
                         <tr>
-                            <td rowspan="4">8/30(日)</td>
-                            <td>
-                                <div class="location">オアシス21会場</div>
-                            </td>
-                            <td><span class="time-badge">10:35</span></td>
-                            <td><span class="time-badge accent">10:54</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="location">久屋大通公園会場 メインステージ</div>
-                            </td>
-                            <td><span class="time-badge">12:10</span></td>
-                            <td><span class="time-badge accent">12:50</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="location">どえりゃ〜どうとくパレード会場</div>
-                            </td>
-                            <td><span class="time-badge">14:20</span></td>
-                            <td><span class="time-badge accent">14:48</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="location">テレビ塔パレード会場</div>
-                                <div class="location-sub">最終演舞</div>
-                            </td>
-                            <td><span class="time-badge">16:20</span></td>
-                            <td><span class="time-badge accent">16:54</span></td>
-                            <td>
-                                <span class="duty-name empty">未定</span>
-                                <span class="duty-name empty">未定</span>
-                            </td>
+                            <td class="sticky-col">吉田さん</td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
+                            <td class="cell"></td>
+                            <td class="cell"></td>
+                            <td class="cell"><span class="duty-mark">◯</span></td>
                         </tr>
                     </tbody>
                 </table>
