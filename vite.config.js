@@ -15,7 +15,8 @@ export default defineConfig({
         schedule: resolve(__dirname, 'schedule.html'),
         mobile_schedule: resolve(__dirname, 'pdf_template_mobile.html'),
         a4_schedule: resolve(__dirname, 'pdf_template_a4.html'),
-        suzuka_schedule: resolve(__dirname, 'suzuka_schedule.html')
+        suzuka_schedule: resolve(__dirname, 'suzuka_schedule.html'),
+        baggage_duty: resolve(__dirname, 'baggage_duty.html')
       }
     }
   }
