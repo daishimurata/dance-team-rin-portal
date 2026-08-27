@@ -63,6 +63,7 @@
         .table-responsive {
             overflow-x: auto;
             position: relative;
+            max-height: 80vh;
         }
 
         table {
@@ -76,24 +77,35 @@
             padding: 0;
             text-align: center;
         }
+        
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 15;
+            background-color: #F8FAFC;
+        }
+        
+        thead tr:first-child th {
+            z-index: 16;
+        }
 
-        /* 縦軸（親御さんの名前）を固定 */
+        /* 縦軸（名前）を固定 */
         .sticky-col {
             position: sticky;
             left: 0;
             background-color: #FFFFFF;
             z-index: 10;
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             text-align: left;
             font-weight: 600;
-            min-width: 120px;
+            min-width: 100px;
             box-shadow: 2px 0 5px rgba(0,0,0,0.05);
         }
         
         th.sticky-col {
             background-color: var(--primary);
             color: white;
-            z-index: 20;
+            z-index: 20 !important;
             text-align: center;
             vertical-align: middle;
         }
@@ -114,9 +126,9 @@
 
         /* スケジュールヘッダー (演舞ごとの列) */
         .stage-header {
-            background-color: #F8FAFC;
             min-width: 90px;
             vertical-align: top;
+            border-bottom: 2px solid var(--border);
         }
 
         .header-content {
@@ -150,12 +162,21 @@
 
         /* セルのスタイル */
         td.cell {
-            padding: 0.5rem;
-            height: 50px;
+            padding: 0.25rem;
+            height: 40px;
             transition: background-color 0.2s;
+            cursor: pointer;
         }
 
         tr:hover td.cell, tr:hover td.sticky-col {
+            background-color: #F3F4F6;
+        }
+        
+        /* 1列ごとの区切りをわかりやすく */
+        tr:nth-child(even) td.sticky-col, tr:nth-child(even) td.cell {
+            background-color: #FAFAFA;
+        }
+        tr:nth-child(even):hover td.cell, tr:nth-child(even):hover td.sticky-col {
             background-color: #F3F4F6;
         }
 
@@ -164,14 +185,14 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             background-color: #FEF3C7;
             color: #D97706;
             border-radius: 50%;
             font-weight: 800;
-            font-size: 1.2rem;
-            box-shadow: 0 2px 4px rgba(217, 119, 6, 0.2);
+            font-size: 1rem;
+            box-shadow: 0 1px 3px rgba(217, 119, 6, 0.2);
         }
 
         @keyframes fadeIn {
@@ -285,157 +306,57 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- ダミーデータ：親御さん10名程度 -->
-                        <tr>
-                            <td class="sticky-col">田中さん</td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                        </tr>
-                        <tr>
-                            <td class="sticky-col">鈴木さん</td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                        </tr>
-                        <tr>
-                            <td class="sticky-col">佐藤さん</td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                        </tr>
-                        <tr>
-                            <td class="sticky-col">伊藤さん</td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                        </tr>
-                        <tr>
-                            <td class="sticky-col">渡辺さん</td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                        </tr>
-                        <tr>
-                            <td class="sticky-col">山本さん</td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                        </tr>
-                        <tr>
-                            <td class="sticky-col">中村さん</td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                        </tr>
-                        <tr>
-                            <td class="sticky-col">小林さん</td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                        </tr>
-                        <tr>
-                            <td class="sticky-col">加藤さん</td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                        </tr>
-                        <tr>
-                            <td class="sticky-col">吉田さん</td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                            <td class="cell"></td>
-                            <td class="cell"></td>
-                            <td class="cell"><span class="duty-mark">◯</span></td>
-                        </tr>
+                        <!-- 列1 -->
+                        <tr><td class="sticky-col">きのん</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">のぞみ</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">くうら</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">かおん</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">せな</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">きいな</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">あいり</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">あおい</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">とうわ</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">じん</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">ひさと</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+
+                        <!-- 列2 -->
+                        <tr><td class="sticky-col">さら</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">みゆ</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">ゆうた</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">いろは</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">あいか</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">こはる</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">ゆず</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">あやね</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">えり</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">けいご</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">ひより</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+
+                        <!-- 列3 -->
+                        <tr><td class="sticky-col">ゆずな</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">ひまり</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">るき</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">えま</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">みお</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">りおん</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">めぐ</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">まりん</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">あやの</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">みづき</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">ひで</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+
+                        <!-- 列4 -->
+                        <tr><td class="sticky-col">こはく</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">めい</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">すずね</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">あお</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">もえ</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">あや</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">はるか</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">いおり</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">たま</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">りあ</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
+                        <tr><td class="sticky-col">かなで</td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td><td class="cell"></td></tr>
                     </tbody>
                 </table>
             </div>
