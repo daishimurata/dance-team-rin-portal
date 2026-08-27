@@ -1,4 +1,4 @@
-// どまつりダンスチーム凛サポート・補助凛 シフト管理JS
+// どまつりダンスチーム凛サポートスタッフ・補助凛 シフト管理JS
 
 const membersList = [
   'みやっち', 'まり', 'みどり', 'けえ', 'ようへい', 'えみ',
@@ -218,7 +218,7 @@ function renderAllDaysTabContent() {
     <div class="card" style="padding: 20px; margin-bottom: 24px;">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 2px solid var(--domatsuri-gold); padding-bottom: 12px;">
         <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--domatsuri-navy); margin: 0;">
-          全3日間 サポート＆補助凛シフト総覧
+          全3日間 補助凛シフト総覧
         </h2>
         <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
           表示人数: ${filtered.length}名
@@ -333,7 +333,7 @@ window.openMemberModal = function(name) {
       <div class="brand-icon" style="width: 40px; height: 40px; font-size: 1.1rem;">凛</div>
       <div>
         <div style="font-size: 1.25rem; font-weight: 700; color: var(--domatsuri-navy);">${name} さんのシフト詳細</div>
-        <div style="font-size: 0.8rem; color: #64748b;">どまつり2026 サポート・補助凛全日程</div>
+        <div style="font-size: 0.8rem; color: #64748b;">どまつり2026 サポートスタッフ・補助凛全日程</div>
       </div>
     </div>
 
