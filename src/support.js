@@ -79,17 +79,17 @@ const scheduleData = {
 };
 
 let currentTab = 'day1';
-let displayMode = 'by_venue'; // デフォルト「会場別カード表示」
+let displayMode = 'by_venue'; // 'by_venue', 'by_staff', 'table'
 let searchQuery = '';
 let roleFilter = 'all';
 
 function renderMarkBadge(mark) {
   if (mark === '〇') {
-    return `<span class="badge-status badge-ok" style="background:#dcfce7; color:#166534; font-weight:900; font-size:1rem; padding:4px 10px; border-radius:50px; border:1px solid #86efac; display:inline-block; min-width:32px; text-align:center;">〇</span>`;
+    return `<span class="badge-status badge-ok" style="background:#dcfce7; color:#166534; font-weight:900; font-size:1rem; padding:3px 9px; border-radius:50px; border:1px solid #86efac; display:inline-block; min-width:30px; text-align:center;">〇</span>`;
   } else if (mark === '△') {
-    return `<span class="badge-status badge-tri" style="background:#fef9c3; color:#854d0e; font-weight:900; font-size:0.95rem; padding:4px 10px; border-radius:50px; border:1px solid #fef08a; display:inline-block; min-width:32px; text-align:center;">△</span>`;
+    return `<span class="badge-status badge-tri" style="background:#fef9c3; color:#854d0e; font-weight:900; font-size:0.92rem; padding:3px 9px; border-radius:50px; border:1px solid #fef08a; display:inline-block; min-width:30px; text-align:center;">△</span>`;
   } else {
-    return `<span class="badge-status badge-ng" style="background:#f1f5f9; color:#94a3b8; font-weight:700; font-size:0.88rem; padding:4px 10px; border-radius:50px; border:1px solid #cbd5e1; display:inline-block; min-width:32px; text-align:center;">×</span>`;
+    return `<span class="badge-status badge-ng" style="background:#f1f5f9; color:#94a3b8; font-weight:700; font-size:0.85rem; padding:3px 9px; border-radius:50px; border:1px solid #cbd5e1; display:inline-block; min-width:30px; text-align:center;">×</span>`;
   }
 }
 
@@ -132,7 +132,7 @@ function computeVenueTotals(dayKey, filteredMembers) {
 }
 
 // ==========================================
-// 1. 会場別カード表示 (By Venue Layout) - 見やすさ最優先
+// 1. 会場別カード表示 (By Venue Layout)
 // ==========================================
 function renderByVenueDayContent(dayKey) {
   const day = scheduleData[dayKey];
@@ -167,11 +167,11 @@ function renderByVenueDayContent(dayKey) {
               </div>
 
               <!-- 〇 メインサポート -->
-              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+              <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
                 <div style="font-weight: 700; font-size: 0.88rem; color: #166534; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
                   <span style="display: flex; align-items: center; gap: 6px;">
                     <span style="background: #166534; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 900;">〇</span>
-                    メインサポート（荷物預かり）
+                    メインサポート
                   </span>
                   <span style="font-size: 0.82rem; font-weight: 800; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 12px;">${mainSupporters.length}名</span>
                 </div>
@@ -194,7 +194,7 @@ function renderByVenueDayContent(dayKey) {
                 <div style="font-weight: 700; font-size: 0.88rem; color: #854d0e; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
                   <span style="display: flex; align-items: center; gap: 6px;">
                     <span style="background: #854d0e; color: #ffffff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 900;">△</span>
-                    サブサポート（お手伝い）
+                    サブサポート
                   </span>
                   <span style="font-size: 0.82rem; font-weight: 800; background: #fef9c3; color: #a16207; padding: 2px 8px; border-radius: 12px;">${subSupporters.length}名</span>
                 </div>
@@ -230,7 +230,81 @@ function renderByVenueAllDaysContent() {
 }
 
 // ==========================================
-// 2. 全体表マトリクス表示 (Matrix Table Layout)
+// 2. スタッフ個人別 3日間カード表示 (By Staff Layout)
+// ==========================================
+function renderByStaffContent() {
+  const filtered = filterMembers(membersList);
+
+  return `
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; background: #ffffff; padding: 16px 20px; border-radius: 8px; border-left: 5px solid var(--domatsuri-gold); box-shadow: var(--shadow-soft);">
+        <h2 style="font-family: var(--font-family-mincho); font-size: 1.2rem; font-weight: 700; color: var(--domatsuri-navy); margin: 0;">
+          👤 スタッフ個人別 3日間シフト一覧カード
+        </h2>
+        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+          表示人数: ${filtered.length}名
+        </span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px;">
+        ${filtered.map(name => {
+          const d1 = scheduleData.day1;
+          const d2 = scheduleData.day2;
+          const d3 = scheduleData.day3;
+
+          const s1 = d1.shifts[name] || ['×', '×'];
+          const s2 = d2.shifts[name] || ['×', '×', '×', '×', '×', '×'];
+          const s3 = d3.shifts[name] || ['×', '×', '×', '×'];
+
+          return `
+            <div class="card" style="padding: 18px; border-top: 4px solid var(--domatsuri-gold); background: #ffffff; box-shadow: var(--shadow-soft);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1.5px solid var(--border-color); padding-bottom: 8px;">
+                <div style="font-weight: 800; font-size: 1.15rem; color: var(--domatsuri-navy); display: flex; align-items: center; gap: 6px;">
+                  <span>${name}</span>
+                  <span style="font-size: 0.8rem; color: #64748b;">さん</span>
+                </div>
+                <button class="btn btn-secondary" style="padding: 3px 10px; font-size: 0.75rem;" onclick="openMemberModal('${name}')">モーダル拡大</button>
+              </div>
+
+              <!-- 8/28 金 -->
+              <div style="margin-bottom: 10px; background: #f8fafc; padding: 8px 10px; border-radius: 6px;">
+                <div style="font-size: 0.78rem; font-weight: 700; color: #0284c7; margin-bottom: 4px;">📅 8/28（金）前夜祭</div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  ${d1.venues.map((v, i) => `
+                    <span style="font-size: 0.8rem; color: #334155;">${v}: ${renderMarkBadge(s1[i])}</span>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- 8/29 土 -->
+              <div style="margin-bottom: 10px; background: #f8fafc; padding: 8px 10px; border-radius: 6px;">
+                <div style="font-size: 0.78rem; font-weight: 700; color: #059669; margin-bottom: 4px;">📅 8/29（土）本祭1日目</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 0.8rem; color: #334155;">
+                  ${d2.venues.map((v, i) => `
+                    <div>${v}: ${renderMarkBadge(s2[i])}</div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <!-- 8/30 日 -->
+              <div style="background: #f8fafc; padding: 8px 10px; border-radius: 6px;">
+                <div style="font-size: 0.78rem; font-weight: 700; color: #dc2626; margin-bottom: 4px;">📅 8/30（日）本祭2日目</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 0.8rem; color: #334155;">
+                  ${d3.venues.map((v, i) => `
+                    <div>${v}: ${renderMarkBadge(s3[i])}</div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ==========================================
+// 3. 日程別テーブル表示 (Table Matrix Layout)
 // ==========================================
 function renderDayTableContent(dayKey) {
   const day = scheduleData[dayKey];
@@ -249,7 +323,7 @@ function renderDayTableContent(dayKey) {
       </div>
 
       <div class="domatsuri-table-wrapper" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
-        <table class="domatsuri-table" style="width: 100%; border-collapse: collapse; min-width: 600px;">
+        <table class="domatsuri-table" style="width: 100%; border-collapse: collapse; min-width: 550px;">
           <thead>
             <tr style="background: var(--domatsuri-navy); color: #ffffff;">
               <th style="padding: 12px; font-weight: 700; min-width: 110px; text-align: left; position: sticky; left: 0; background: var(--domatsuri-navy); z-index: 2; border-right: 2px solid rgba(255,255,255,0.1);">スタッフ名</th>
@@ -310,77 +384,20 @@ function renderDayTableContent(dayKey) {
 }
 
 function renderAllDaysTableContent() {
-  const filtered = filterMembers(membersList);
-  
   return `
-    <div class="card" style="padding: 20px; margin-bottom: 24px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; border-bottom: 2px solid var(--domatsuri-gold); padding-bottom: 12px;">
-        <h2 style="font-family: var(--font-family-mincho); font-size: 1.25rem; font-weight: 700; color: var(--domatsuri-navy); margin: 0;">
-          全3日間 補助凛シフト総覧マトリクス
+    <div>
+      <div style="margin-bottom: 20px; background: #ffffff; padding: 16px 20px; border-radius: 8px; border-left: 5px solid var(--domatsuri-gold); box-shadow: var(--shadow-soft);">
+        <h2 style="font-family: var(--font-family-mincho); font-size: 1.2rem; font-weight: 700; color: var(--domatsuri-navy); margin: 0;">
+          📊 全3日間 日程別テーブルまとめ
         </h2>
-        <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
-          表示人数: ${filtered.length}名
-        </span>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 4px 0 0 0;">
+          見やすさのため、8/28、8/29、8/30の各日程ごとに表を分割して表示しています。
+        </p>
       </div>
 
-      <div class="domatsuri-table-wrapper" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
-        <table class="domatsuri-table" style="width: 100%; border-collapse: collapse; min-width: 980px;">
-          <thead>
-            <tr style="background: var(--domatsuri-navy); color: #ffffff;">
-              <th rowspan="2" style="padding: 10px; font-weight: 700; min-width: 110px; text-align: left; position: sticky; left: 0; background: var(--domatsuri-navy); z-index: 2; border-right: 2px solid rgba(255,255,255,0.2);">氏名</th>
-              <th colspan="2" style="padding: 8px; font-weight: 700; text-align: center; background: #1e3a8a; border-right: 1px solid rgba(255,255,255,0.2);">8/28（金）</th>
-              <th colspan="6" style="padding: 8px; font-weight: 700; text-align: center; background: #065f46; border-right: 1px solid rgba(255,255,255,0.2);">8/29（土）</th>
-              <th colspan="4" style="padding: 8px; font-weight: 700; text-align: center; background: #991b1b;">8/30（日）</th>
-            </tr>
-            <tr style="background: #1e293b; color: #f8fafc; font-size: 0.8rem;">
-              <!-- 8/28 -->
-              <th style="padding: 6px 8px; border-right: 1px solid #475569;">前夜祭</th>
-              <th style="padding: 6px 8px; border-right: 2px solid var(--domatsuri-gold);">キャンパス</th>
-              <!-- 8/29 -->
-              <th style="padding: 6px 8px; border-right: 1px solid #475569;">名古屋城</th>
-              <th style="padding: 6px 8px; border-right: 1px solid #475569;">テレビ塔1</th>
-              <th style="padding: 6px 8px; border-right: 1px solid #475569;">大須</th>
-              <th style="padding: 6px 8px; border-right: 1px solid #475569;">JRタワーズ</th>
-              <th style="padding: 6px 8px; border-right: 1px solid #475569;">テレビ塔2</th>
-              <th style="padding: 6px 8px; border-right: 2px solid var(--domatsuri-gold);">Fシード</th>
-              <!-- 8/30 -->
-              <th style="padding: 6px 8px; border-right: 1px solid #475569;">オアシス</th>
-              <th style="padding: 6px 8px; border-right: 1px solid #475569;">メイン</th>
-              <th style="padding: 6px 8px; border-right: 1px solid #475569;">どうとく</th>
-              <th style="padding: 6px 8px;">テレビ塔</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${filtered.map(name => {
-              const d1 = scheduleData.day1.shifts[name] || ['×', '×'];
-              const d2 = scheduleData.day2.shifts[name] || ['×', '×', '×', '×', '×', '×'];
-              const d3 = scheduleData.day3.shifts[name] || ['×', '×', '×', '×'];
-              return `
-                <tr style="border-bottom: 1px solid var(--border-color);" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                  <td style="padding: 8px 12px; font-weight: 700; color: var(--domatsuri-navy); position: sticky; left: 0; background: #ffffff; z-index: 1; border-right: 2px solid var(--border-color); cursor: pointer;" onclick="openMemberModal('${name}')">
-                    <span style="color: #0284c7; text-decoration: underline; text-underline-offset: 3px;">${name}</span>
-                  </td>
-                  <!-- Day 1 -->
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d1[0])}</td>
-                  <td style="padding: 6px; text-align: center; border-right: 2px solid var(--domatsuri-gold);">${renderMarkBadge(d1[1])}</td>
-                  <!-- Day 2 -->
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d2[0])}</td>
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d2[1])}</td>
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d2[2])}</td>
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d2[3])}</td>
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d2[4])}</td>
-                  <td style="padding: 6px; text-align: center; border-right: 2px solid var(--domatsuri-gold);">${renderMarkBadge(d2[5])}</td>
-                  <!-- Day 3 -->
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d3[0])}</td>
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d3[1])}</td>
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d3[2])}</td>
-                  <td style="padding: 6px; text-align: center;">${renderMarkBadge(d3[3])}</td>
-                </tr>
-              `;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>
+      ${renderDayTableContent('day1')}
+      ${renderDayTableContent('day2')}
+      ${renderDayTableContent('day3')}
     </div>
   `;
 }
@@ -395,6 +412,8 @@ function updateView() {
     } else {
       container.innerHTML = renderByVenueDayContent(currentTab);
     }
+  } else if (displayMode === 'by_staff') {
+    container.innerHTML = renderByStaffContent();
   } else {
     if (currentTab === 'all') {
       container.innerHTML = renderAllDaysTableContent();
