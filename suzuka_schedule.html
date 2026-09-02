@@ -40,9 +40,75 @@
     .team-badge-jr { background: #2563eb; color: #fff; }
     .team-badge-kids { background: #16a34a; color: #fff; }
     
+    .timeline-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .timeline-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
     .timeline-table th { background: #0f1b29; color: #d4af37; font-weight: 700; padding: 12px; border-bottom: 2px solid #d4af37; }
-    .timeline-table td { padding: 14px 10px; border-bottom: 1px solid #334155; vertical-align: middle; }
+    .timeline-table td { padding: 14px 10px; border-bottom: 1px solid #334155; vertical-align: middle; word-break: break-word; }
     .timeline-table tr:hover { background: #1e293b; }
+
+    @media (max-width: 640px) {
+      .timeline-table-wrapper {
+        overflow-x: visible !important;
+        padding: 10px 8px !important;
+      }
+      .timeline-table, .timeline-table tbody {
+        display: block !important;
+        width: 100% !important;
+      }
+      .timeline-table thead {
+        display: none !important;
+      }
+      .timeline-table tr {
+        display: grid !important;
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas: 
+          "time team type"
+          "venue venue venue";
+        gap: 6px 8px;
+        align-items: center;
+        background: #111e2e !important;
+        border: 1px solid #334155 !important;
+        border-radius: 8px !important;
+        margin-bottom: 10px !important;
+        padding: 12px 14px !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3) !important;
+        box-sizing: border-box !important;
+      }
+      .timeline-table tr:hover {
+        background: #192638 !important;
+      }
+      .timeline-table td {
+        display: block !important;
+        padding: 0 !important;
+        border: none !important;
+      }
+      .timeline-table td:nth-child(1) {
+        grid-area: time;
+        text-align: left !important;
+      }
+      .timeline-table td:nth-child(2) {
+        grid-area: team;
+        text-align: center !important;
+      }
+      .timeline-table td:nth-child(3) {
+        grid-area: venue;
+        text-align: left !important;
+        padding-top: 8px !important;
+        margin-top: 4px !important;
+        border-top: 1px dashed #334155 !important;
+        font-size: 0.98rem !important;
+      }
+      .timeline-table td:nth-child(4) {
+        grid-area: type;
+        text-align: right !important;
+      }
+    }
   </style>
 </head>
 <body style="background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif;">
@@ -113,8 +179,8 @@
         </div>
       </div>
 
-      <div style="overflow-x: auto;">
-        <table class="timeline-table" style="width: 100%; min-width: 600px; border-collapse: collapse;">
+      <div class="timeline-table-wrapper">
+        <table class="timeline-table">
           <thead>
             <tr>
               <th style="width: 80px; text-align: center;">時間</th>
@@ -157,8 +223,8 @@
         </div>
       </div>
 
-      <div style="overflow-x: auto;">
-        <table class="timeline-table" style="width: 100%; min-width: 600px; border-collapse: collapse;">
+      <div class="timeline-table-wrapper">
+        <table class="timeline-table">
           <thead>
             <tr>
               <th style="width: 80px; text-align: center;">時間</th>
