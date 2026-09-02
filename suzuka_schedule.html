@@ -262,17 +262,17 @@
 
     function getTypeBadgeStyle(type) {
       if (type === '審査') {
-        return { bg: '#991b1b', color: '#ffffff', rowBg: 'rgba(217, 56, 41, 0.15)' };
+        return { bg: '#991b1b', color: '#ffffff', rowBg: 'rgba(217, 56, 41, 0.08)' };
       } else if (type === '集合') {
-        return { bg: '#d97706', color: '#ffffff', rowBg: 'rgba(217, 119, 6, 0.15)' };
+        return { bg: '#d97706', color: '#ffffff', rowBg: 'rgba(217, 119, 6, 0.08)' };
       } else if (type === '出発') {
-        return { bg: '#2563eb', color: '#ffffff', rowBg: 'rgba(37, 99, 235, 0.15)' };
+        return { bg: '#2563eb', color: '#ffffff', rowBg: 'rgba(37, 99, 235, 0.08)' };
       } else if (type === '運営') {
-        return { bg: '#7c3aed', color: '#ffffff', rowBg: 'rgba(124, 58, 237, 0.15)' };
+        return { bg: '#7c3aed', color: '#ffffff', rowBg: 'rgba(124, 58, 237, 0.08)' };
       } else if (type === '発表') {
-        return { bg: '#0284c7', color: '#ffffff', rowBg: 'rgba(2, 132, 199, 0.15)' };
+        return { bg: '#0284c7', color: '#ffffff', rowBg: 'rgba(2, 132, 199, 0.08)' };
       } else if (type === '解散') {
-        return { bg: '#475569', color: '#ffffff', rowBg: 'rgba(71, 85, 105, 0.15)' };
+        return { bg: '#475569', color: '#ffffff', rowBg: 'rgba(71, 85, 105, 0.08)' };
       }
       return { bg: '#334155', color: '#ffffff', rowBg: '' };
     }
@@ -325,19 +325,19 @@
               : '';
 
             tr.innerHTML = `
-              <td style="text-align: center; font-weight: 700; font-size: 1.1rem; color: var(--gold-primary);">
+              <td style="text-align: center; font-weight: 700; font-size: 1.1rem; color: var(--gold-primary); white-space: nowrap;">
                 ${item.time}
                 ${receptionHtml}
               </td>
-              <td style="text-align: center;">
+              <td style="text-align: center; white-space: nowrap;">
                 <span class="badge ${getBadgeClass(item.id)}" style="font-size:0.75rem; border:none; padding: 4px 8px;">
                   ${item.name}
                 </span>
               </td>
-              <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: #ffffff;">
+              <td style="text-align: center; font-weight: 700; font-size: 1.08rem; color: #ffffff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); line-height: 1.4; padding: 12px 8px;">
                 ${item.venue}
               </td>
-              <td style="text-align: center;">
+              <td style="text-align: center; white-space: nowrap;">
                 <span class="badge" style="background:${style.bg}; color:${style.color}; border:none;">
                   ${item.type}
                 </span>
