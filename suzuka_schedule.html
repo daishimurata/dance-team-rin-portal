@@ -70,7 +70,7 @@
 
     <!-- チーム絞り込みUI -->
     <div class="filter-container">
-      <div style="width: 100%; text-align: center; font-size: 0.8rem; color: #94a3b8; margin-bottom: 4px;">表示するチームを選択（複数可）</div>
+      <div style="width: 100%; text-align: center; font-size: 0.85rem; color: #cbd5e1; font-weight: 600; margin-bottom: 4px;">表示するチームを選択（複数可）</div>
       <label class="filter-label">
         <input type="checkbox" class="filter-checkbox" value="rin" checked> ダンスチーム凛
       </label>
@@ -83,7 +83,7 @@
     </div>
 
     <!-- 受付時間案内 ＆ 注意事項バナー -->
-    <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; text-align: center; color: #fca5a5; font-size: 0.9rem; font-weight: 700; display: flex; flex-direction: column; gap: 6px;">
+    <div style="background: rgba(239, 68, 68, 0.18); border: 1px solid #ef4444; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; text-align: center; color: #fca5a5; font-size: 0.9rem; font-weight: 700; display: flex; flex-direction: column; gap: 6px;">
       <div>⚠️ 各演舞および審査演舞は【演舞開始時刻の15分前】が受付時間となります。時間に余裕を持って集合してください。</div>
       <div style="color: #ffffff; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">💧 演舞後は給水して次の行動予定の案内を聞いてから自由行動です。</div>
     </div>
@@ -97,17 +97,17 @@
       </div>
       
       <!-- 集合・出発 連絡案内サマリー -->
-      <div style="background: rgba(212, 175, 55, 0.08); padding: 14px 20px; border-bottom: 1px solid #334155; font-size: 0.9rem;">
-        <div style="font-weight: 700; color: #fbbf24; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+      <div style="background: rgba(15, 23, 42, 0.7); padding: 16px 20px; border-bottom: 1px solid #334155; font-size: 0.95rem;">
+        <div style="font-weight: 700; color: #fbbf24; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
           📍 9/5 (土) 集合・出発・運営案内
         </div>
-        <div style="display: flex; flex-direction: column; gap: 6px; color: #e2e8f0; margin-bottom: 10px;">
-          <div><strong style="color: #fca5a5;">【ダンスチーム凛】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発</div>
-          <div><strong style="color: #93c5fd;">【凛ジュニア】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #c084fc; font-weight:700;">15:55集合 ハンター（ホストチーム運営 16:25〜17:25 ※係に当たっている人のみ）</span></div>
-          <div><strong style="color: #86efac;">【凛きっず】</strong> 11:00 弁天山公園集合 ｜ 14:00 JA鈴鹿集合 ｜ 17:40 弁天山公園集合</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; color: #ffffff; font-weight: 500; margin-bottom: 12px;">
+          <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発</div>
+          <div><strong style="color: #60a5fa; font-weight: 700;">【凛ジュニア】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #f472b6; font-weight: 700;">15:55集合 ハンター（ホストチーム運営 16:25〜17:25 ※係に当たっている人のみ）</span></div>
+          <div><strong style="color: #4ade80; font-weight: 700;">【凛きっず】</strong> 11:00 弁天山公園集合 ｜ 14:00 JA鈴鹿集合 ｜ 17:40 弁天山公園集合</div>
         </div>
-        <div style="padding-top: 8px; border-top: 1px dashed #475569; color: #38bdf8;">
-          <strong>✨ 夜のエキシビション ＆ 解散（全チーム共通）:</strong><br>
+        <div style="padding-top: 10px; border-top: 1px dashed #475569; color: #ffffff; font-weight: 500;">
+          <strong style="color: #7dd3fc; font-size: 0.95rem;">✨ 夜のエキシビション ＆ 解散（全チーム共通）:</strong><br>
           ・19:00 エキシビションチーム発表 ｜ 19:35〜20:20 エキシビション演舞（選出された場合）<br>
           ・20:30 1日目終了・翌日予定連絡後解散（※エキシビションに選出されなかった場合は解散時間が早まる可能性あり）
         </div>
@@ -127,7 +127,7 @@
             <!-- JSで動的生成 -->
           </tbody>
         </table>
-        <div id="empty-msg-day1" style="display:none; text-align:center; padding: 24px; color: #94a3b8;">表示対象のスケジュールがありません。</div>
+        <div id="empty-msg-day1" style="display:none; text-align:center; padding: 24px; color: #cbd5e1;">表示対象のスケジュールがありません。</div>
       </div>
     </div>
 
@@ -140,17 +140,17 @@
       </div>
 
       <!-- 運営・案内サマリー -->
-      <div style="background: rgba(212, 175, 55, 0.08); padding: 14px 20px; border-bottom: 1px solid #334155; font-size: 0.9rem;">
-        <div style="font-weight: 700; color: #fbbf24; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+      <div style="background: rgba(15, 23, 42, 0.7); padding: 16px 20px; border-bottom: 1px solid #334155; font-size: 0.95rem;">
+        <div style="font-weight: 700; color: #fbbf24; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
           📍 9/6 (日) 集合・運営案内
         </div>
-        <div style="display: flex; flex-direction: column; gap: 6px; color: #e2e8f0; margin-bottom: 10px;">
-          <div><strong style="color: #fca5a5;">【ダンスチーム凛】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #c084fc; font-weight:700;">10:40集合 ハンター（ホストチーム運営 11:10〜12:00 ※係のみ）</span> ｜ 14:30 JA鈴鹿集合 ｜ 17:00 本陣集合</div>
-          <div><strong style="color: #93c5fd;">【凛ジュニア】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発 ｜ 12:10 JA鈴鹿集合 ｜ 14:30 本陣集合</div>
-          <div><strong style="color: #86efac;">【凛きっず】</strong> 9:30 弁天山公園集合 ｜ 11:55 本陣集合</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; color: #ffffff; font-weight: 500; margin-bottom: 12px;">
+          <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #f472b6; font-weight: 700;">10:40集合 ハンター（ホストチーム運営 11:10〜12:00 ※係のみ）</span> ｜ 14:30 JA鈴鹿集合 ｜ 17:00 本陣集合</div>
+          <div><strong style="color: #60a5fa; font-weight: 700;">【凛ジュニア】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発 ｜ 12:10 JA鈴鹿集合 ｜ 14:30 本陣集合</div>
+          <div><strong style="color: #4ade80; font-weight: 700;">【凛きっず】</strong> 9:30 弁天山公園集合 ｜ 11:55 本陣集合</div>
         </div>
-        <div style="padding-top: 8px; border-top: 1px dashed #475569; color: #38bdf8;">
-          <strong>🏆 夕方〜夜の審査発表 ＆ 解散案内:</strong><br>
+        <div style="padding-top: 10px; border-top: 1px dashed #475569; color: #ffffff; font-weight: 500;">
+          <strong style="color: #7dd3fc; font-size: 0.95rem;">🏆 夕方〜夜の審査発表 ＆ 解散案内:</strong><br>
           ・<strong>きっず・ジュニア:</strong> 17:50 踊り子待機場所集合（代表者1名） ｜ 18:20 Jr審査発表<br>
           ・<strong>ダンスチーム凛:</strong> 18:00 ファイナルチーム発表 ｜ 18:35〜19:20 ファイナルコンテスト（選出時） ｜ 19:00 踊り子待機場所集合（代表者1名） ｜ 19:40〜 各審査発表<br>
           ・<strong>20:30 2日目演舞全日程終了・解散（全チーム共通）</strong>
@@ -334,7 +334,7 @@
                   ${item.name}
                 </span>
               </td>
-              <td style="text-align: center; font-weight: 700; font-size: 1.05rem;">
+              <td style="text-align: center; font-weight: 700; font-size: 1.05rem; color: #ffffff;">
                 ${item.venue}
               </td>
               <td style="text-align: center;">
