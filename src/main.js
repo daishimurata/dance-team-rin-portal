@@ -40,9 +40,9 @@ function setupChecklist() {
 }
 
 function initMainCountdown() {
-  const targetRin = new Date('2026-09-05T08:30:00+09:00').getTime();
-  const targetJr = new Date('2026-09-05T09:00:00+09:00').getTime();
-  const targetKids = new Date('2026-09-05T11:00:00+09:00').getTime();
+  const targetRin = new Date('2026-09-05T10:20:00+09:00').getTime(); // 9/5 10:20 弁天山公園
+  const targetJr = new Date('2026-09-05T12:10:00+09:00').getTime();  // 9/5 12:10 弁天山公園
+  const targetKids = new Date('2026-09-05T11:35:00+09:00').getTime(); // 9/5 11:35 鈴鹿ハンター
 
   function updateTeam(targetTime, prefix) {
     const now = new Date().getTime();
