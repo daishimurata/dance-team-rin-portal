@@ -807,9 +807,10 @@
 
     function openOfficialScheduleModal(day, venueKey) {
       currentModalDay = day || 'day1';
-      currentModalVenue = venueKey || 'benten';
+      // デフォルトで全会場（全チーム表示）にする
+      currentModalVenue = venueKey || 'all';
       if (!['benten', 'hunter', 'ja', 'all'].includes(currentModalVenue)) {
-        currentModalVenue = 'benten';
+        currentModalVenue = 'all';
       }
 
       const modal = document.getElementById('schedule-modal');
@@ -874,13 +875,13 @@
         }
       });
 
-      let venueLabel = '全3会場';
+      let venueLabel = '全3会場（全チーム一覧）';
       if (currentModalVenue === 'benten') venueLabel = '弁天山公園';
       if (currentModalVenue === 'hunter') venueLabel = '鈴鹿ハンター';
       if (currentModalVenue === 'ja') venueLabel = 'JA鈴鹿';
 
       if (titleElem) {
-        titleElem.textContent = `${dayLabel} 【${venueLabel}】 会場公式タイムスケジュール`;
+        titleElem.textContent = `${dayLabel} 【${venueLabel}】 公式タイムスケジュール`;
       }
 
       const thBenten = document.getElementById('modal-th-benten');
@@ -894,9 +895,8 @@
       tbody.innerHTML = '';
 
       data.forEach(row => {
-        if (currentModalVenue !== 'all' && (!row[currentModalVenue] || row[currentModalVenue].trim() === '')) {
-          return;
-        }
+        // どの会場にも予定がない完全な空行のみスキップ
+        if (!row.benten && !row.hunter && !row.ja) return;
 
         const isRinBenten = row.benten.includes('凛');
         const isRinHunter = row.hunter.includes('凛');
@@ -973,9 +973,8 @@
       tbody.innerHTML = '';
 
       data.forEach(row => {
-        if (venueSelect !== 'all' && (!row[venueSelect] || row[venueSelect].trim() === '')) {
-          return;
-        }
+        // どの会場にも予定がない完全な空行のみスキップ
+        if (!row.benten && !row.hunter && !row.ja) return;
 
         const matchBenten = query && row.benten.toLowerCase().includes(query);
         const matchHunter = query && row.hunter.toLowerCase().includes(query);
