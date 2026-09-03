@@ -90,6 +90,41 @@
       font-weight: 700 !important;
     }
 
+    /* アクションボタン（MAP ＆ 当日会場スケジュール） */
+    .map-btn {
+      display: inline-block;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: rgba(15, 27, 41, 0.9);
+      color: #38bdf8;
+      border: 1px solid #0284c7;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .map-btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+    }
+    .sched-btn {
+      display: inline-block;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: rgba(212, 175, 55, 0.18);
+      color: #fef08a;
+      border: 1px solid #d4af37;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .sched-btn:hover {
+      background: #d4af37;
+      color: #0f1b29;
+    }
+
     @media (max-width: 640px) {
       .timeline-table-wrapper {
         overflow-x: visible !important;
@@ -107,7 +142,8 @@
         grid-template-columns: auto 1fr auto;
         grid-template-areas: 
           "time team type"
-          "venue venue venue";
+          "venue venue venue"
+          "action action action";
         gap: 6px 8px;
         align-items: center;
         background: #111e2e !important;
@@ -146,6 +182,13 @@
         grid-area: type;
         text-align: right !important;
       }
+      .timeline-table td:nth-child(5) {
+        grid-area: action;
+        text-align: center !important;
+        padding-top: 6px !important;
+        margin-top: 4px !important;
+        border-top: 1px dashed #334155 !important;
+      }
     }
   </style>
 </head>
@@ -180,7 +223,7 @@
         第28回 すずかフェスティバル 2026
       </h1>
       <div style="font-size: 0.85rem; color: #fbbf24; letter-spacing: 1px; font-weight: 700; margin-bottom: 14px;">
-        公式演舞スケジュール ＆ 全会場タイムテーブル
+        公式演舞スケジュール ＆ 各会場案内タイムライン
       </div>
 
       <!-- 公式サイト ＆ 公式情報リンクアクション -->
@@ -250,9 +293,10 @@
             <thead>
               <tr>
                 <th style="width: 80px; text-align: center;">時間</th>
-                <th style="width: 110px; text-align: center;">チーム</th>
+                <th style="width: 100px; text-align: center;">チーム</th>
                 <th style="text-align: center;">会場</th>
-                <th style="width: 80px; text-align: center;">種別</th>
+                <th style="width: 75px; text-align: center;">種別</th>
+                <th style="width: 180px; text-align: center;">MAP・当日案内</th>
               </tr>
             </thead>
             <tbody id="schedule-body-day1">
@@ -294,9 +338,10 @@
             <thead>
               <tr>
                 <th style="width: 80px; text-align: center;">時間</th>
-                <th style="width: 110px; text-align: center;">チーム</th>
+                <th style="width: 100px; text-align: center;">チーム</th>
                 <th style="text-align: center;">会場</th>
-                <th style="width: 80px; text-align: center;">種別</th>
+                <th style="width: 75px; text-align: center;">種別</th>
+                <th style="width: 180px; text-align: center;">MAP・当日案内</th>
               </tr>
             </thead>
             <tbody id="schedule-body-day2">
@@ -451,7 +496,7 @@
       { id: "kids", name: "凛きっず", date: "day2", time: "20:30", venue: "2日目全日程終了・解散", type: "解散" }
     ];
 
-    // 公式全体タイムスケジュールデータ (PDF資料より完全再現)
+    // 公式全体タイムスケジュールデータ
     const officialDataDay1 = [
       { time: '09:55', benten: '会場オープニング', hunter: '会場オープニング', ja: '' },
       { time: '10:00', benten: '', hunter: '16 スタジオX', ja: '' },
@@ -665,7 +710,7 @@
 
     let currentOfficialDay = 'day1';
 
-    function switchSuzukaView(viewType) {
+    function switchSuzukaView(viewType, targetVenue, targetDay) {
       const rinSec = document.getElementById('section-rin-view');
       const officialSec = document.getElementById('section-official-view');
       const btnRin = document.getElementById('view-btn-rin');
@@ -685,7 +730,16 @@
         btnOfficial.style.color = '#0f1b29';
         btnRin.style.background = 'transparent';
         btnRin.style.color = '#ffffff';
+
+        if (targetDay) {
+          switchOfficialDay(targetDay);
+        }
+        if (targetVenue) {
+          const venueSelect = document.getElementById('official-venue-select');
+          if (venueSelect) venueSelect.value = targetVenue;
+        }
         renderOfficialTable();
+        window.scrollTo({ top: officialSec.offsetTop - 60, behavior: 'smooth' });
       }
     }
 
@@ -790,6 +844,43 @@
       return `${recH}:${recM}`;
     }
 
+    // 会場名に応じた Map URL と 会場キーの取得
+    function getVenueActionInfo(venueStr) {
+      if (venueStr.includes('弁天山')) {
+        return {
+          mapUrl: 'https://www.google.com/maps/search/?api=1&query=弁天山公園+鈴鹿',
+          venueKey: 'benten',
+          label: '弁天山公園'
+        };
+      }
+      if (venueStr.includes('ハンター')) {
+        return {
+          mapUrl: 'https://www.google.com/maps/search/?api=1&query=鈴鹿ハンター',
+          venueKey: 'hunter',
+          label: '鈴鹿ハンター'
+        };
+      }
+      if (venueStr.includes('JA') || venueStr.includes('JA鈴鹿')) {
+        return {
+          mapUrl: 'https://www.google.com/maps/search/?api=1&query=JA鈴鹿本店',
+          venueKey: 'ja',
+          label: 'JA鈴鹿'
+        };
+      }
+      if (venueStr.includes('橘')) {
+        return {
+          mapUrl: 'https://www.google.com/maps/search/?api=1&query=橘公園+鈴鹿',
+          venueKey: '',
+          label: '橘公園'
+        };
+      }
+      return {
+        mapUrl: 'https://www.google.com/maps/search/?api=1&query=弁天山公園+鈴鹿',
+        venueKey: '',
+        label: venueStr
+      };
+    }
+
     function renderSchedule() {
       const checkboxes = document.querySelectorAll('.filter-checkbox');
       const selectedIds = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
@@ -818,6 +909,13 @@
               ? `<div style="font-size: 0.78rem; color: #fbbf24; font-weight: 700; margin-top: 2px;">(受付 ${getReceptionTime(item.time)})</div>`
               : '';
 
+            const actionInfo = getVenueActionInfo(item.venue);
+
+            const mapBtnHtml = `<a href="${actionInfo.mapUrl}" target="_blank" rel="noopener noreferrer" class="map-btn">MAP ↗</a>`;
+            const schedBtnHtml = actionInfo.venueKey 
+              ? `<button onclick="switchSuzukaView('official', '${actionInfo.venueKey}', '${day}')" class="sched-btn">当日会場スケジュール ↗</button>`
+              : `<a href="https://sites.google.com/site/suzukafestival/" target="_blank" rel="noopener noreferrer" class="sched-btn">当日会場スケジュール ↗</a>`;
+
             tr.innerHTML = `
               <td style="text-align: center; font-weight: 700; font-size: 1.1rem; color: var(--gold-primary); white-space: nowrap;">
                 ${item.time}
@@ -835,6 +933,12 @@
                 <span class="badge" style="background:${style.bg}; color:${style.color}; border:none;">
                   ${item.type}
                 </span>
+              </td>
+              <td style="text-align: center; white-space: nowrap;">
+                <div style="display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                  ${mapBtnHtml}
+                  ${schedBtnHtml}
+                </div>
               </td>
             `;
             tbody.appendChild(tr);
