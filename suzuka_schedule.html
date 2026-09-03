@@ -772,6 +772,18 @@
       const venueSelect = document.getElementById('official-venue-select')?.value || 'all';
 
       const data = (currentOfficialDay === 'day1') ? officialDataDay1 : officialDataDay2;
+      const dayLabel = (currentOfficialDay === 'day1') ? '9月5日(土)' : '9月6日(日)';
+
+      // 動的タイトル更新
+      const titleElem = document.getElementById('official-table-title');
+      let venueLabel = '全3会場';
+      if (venueSelect === 'benten') venueLabel = '弁天山公園';
+      if (venueSelect === 'hunter') venueLabel = '鈴鹿ハンター';
+      if (venueSelect === 'ja') venueLabel = 'JA鈴鹿';
+
+      if (titleElem) {
+        titleElem.textContent = `${dayLabel} 【${venueLabel}】 会場公式タイムスケジュール`;
+      }
 
       // カラム表示切り替え
       const thBenten = document.getElementById('th-benten');
@@ -785,6 +797,11 @@
       tbody.innerHTML = '';
 
       data.forEach(row => {
+        // 単独会場選択時、該当会場にスケジュールが無い時間帯は除外（コンパクト表示）
+        if (venueSelect !== 'all' && (!row[venueSelect] || row[venueSelect].trim() === '')) {
+          return;
+        }
+
         const matchBenten = query && row.benten.toLowerCase().includes(query);
         const matchHunter = query && row.hunter.toLowerCase().includes(query);
         const matchJa = query && row.ja.toLowerCase().includes(query);
