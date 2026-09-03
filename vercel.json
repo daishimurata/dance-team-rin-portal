@@ -7,6 +7,8 @@
     { "source": "/schedule", "destination": "/schedule.html" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/suzuka_schedule", "destination": "/suzuka_schedule.html" },
+    { "source": "/domatsuri", "destination": "/domatsuri.html" },
+    { "source": "/support", "destination": "/support.html" },
     { "source": "/baggage_duty", "destination": "/baggage_duty.html" }
   ]
 }

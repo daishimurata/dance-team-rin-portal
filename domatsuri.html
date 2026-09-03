@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>にっぽんど真ん中祭り2026 公式ポータル ｜ ダンスチーム凛</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+  <!-- どまつり公式風 ディープネイビー＆朱赤ヘッダーバー -->
+  <header class="domatsuri-theme-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <a href="/" class="btn btn-secondary" style="width: auto; padding: 6px 14px; font-size: 0.82rem; background: rgba(255,255,255,0.1); color: #ffffff; border-color: rgba(255,255,255,0.2);">
+        ← ポータルへ戻る
+      </a>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="brand-icon" style="width: 36px; height: 36px;">凛</div>
+        <div>
+          <div style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px;">ダンスチーム凛</div>
+          <div style="font-size: 0.72rem; color: #94a3b8; letter-spacing: 0.5px;">にっぽんど真ん中祭り2026 公式アーカイブ・ポータル</div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="badge" style="background: var(--domatsuri-red); color: #ffffff; font-weight: 700; border: none; padding: 6px 12px; font-size: 0.82rem;">
+        チームナンバー: No.1131
+      </span>
+    </div>
+  </header>
+
+  <!-- 上部切替タブナビゲーション -->
+  <div style="background: #0f1b29; border-bottom: 2px solid var(--domatsuri-gold); padding: 12px 16px; position: sticky; top: 0; z-index: 100;" class="btn-no-print">
+    <div class="container" style="max-width: 900px; padding: 0; display: flex; gap: 10px; justify-content: center;">
+      <button id="btn-toggle-sched" onclick="switchDomatsuriView('sched')" class="btn" style="flex: 1; max-width: 280px; padding: 10px 16px; font-weight: 700; font-size: 0.9rem; background: var(--domatsuri-gold); color: #0f1b29; border: 1px solid var(--domatsuri-gold);">
+        📅 演舞スケジュール
+      </button>
+      <button id="btn-toggle-support" onclick="switchDomatsuriView('support')" class="btn btn-secondary" style="flex: 1; max-width: 280px; padding: 10px 16px; font-weight: 700; font-size: 0.9rem; color: #ffffff; border-color: rgba(255,255,255,0.3);">
+        🤝 サポートスタッフ・補助凛
+      </button>
+    </div>
+  </div>
+
+  <main class="container" style="padding-top: 24px; padding-bottom: 60px;">
+
+    <!-- ==================== セクション1: 演舞スケジュール ==================== -->
+    <div id="domatsuri-sched-section">
+
+      <!-- カウントダウンタイマー パネル -->
+      <div id="domatsuri-countdown-panel" class="domatsuri-pattern-bg domatsuri-gold-border-box btn-no-print" style="padding: 28px 20px; margin-bottom: 24px; text-align: center; position: relative;">
+        <img src="/images/shugen_user_exact_logo_gold.png" alt="修験 SHUGEN" class="flame-bg-static">
+        <div class="countdown-content-relative">
+          <div style="font-family: var(--font-family-mincho); font-size: 1rem; color: #fef08a; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; text-shadow: 0 2px 6px rgba(0,0,0,0.9);">
+            にっぽんど真ん中祭り2026 前夜祭 初演舞まで
+          </div>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
+              <div id="cd-days" style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">00</div>
+              <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">DAYS</div>
+            </div>
+            <span style="font-size: 1.5rem; font-weight: 300; color: #94a3b8;">:</span>
+            <div style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
+              <div id="cd-hours" style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">00</div>
+              <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">HOURS</div>
+            </div>
+            <span style="font-size: 1.5rem; font-weight: 300; color: #94a3b8;">:</span>
+            <div style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
+              <div id="cd-mins" style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">00</div>
+              <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">MINUTES</div>
+            </div>
+            <span style="font-size: 1.5rem; font-weight: 300; color: #94a3b8;">:</span>
+            <div style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid var(--domatsuri-red); border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(217, 56, 41, 0.4);">
+              <div id="cd-secs" style="font-size: 2.3rem; font-weight: 700; color: #f87171; line-height: 1; font-family: 'Inter', sans-serif;">00</div>
+              <div style="font-size: 0.7rem; color: #fca5a5; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">SECONDS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- どまつり公式仕様 豪華ヘッダーカード -->
+      <div class="card header-schedule-card" style="margin-bottom: 20px; border-left: 6px solid var(--domatsuri-red); display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);">
+        <div style="flex: 1; min-width: 280px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
+            <span class="badge" style="background: linear-gradient(135deg, #d93829 0%, #991b1b 100%); color: #ffffff; font-weight: 700; font-size: 0.88rem; padding: 5px 12px;">
+              第28回 にっぽんど真ん中祭り 2026
+            </span>
+            <span class="badge" style="background: var(--domatsuri-navy); color: #fef08a; font-weight: 700; font-size: 0.88rem; padding: 5px 12px; border: 1px solid #d4af37;">
+              チームナンバー: No.1131
+            </span>
+          </div>
+
+          <h1 style="font-family: var(--font-family-mincho); font-size: clamp(1.5rem, 3.5vw, 2.1rem); font-weight: 700; color: var(--domatsuri-navy); margin: 0 0 10px 0;">
+            ど真ん中祭り2026 公式演舞スケジュール ＆ ナビ
+          </h1>
+          <p style="font-size: 0.9rem; color: #475569; margin: 0; line-height: 1.6;">
+            どまつり公式（domatsuri.com）に基づくダンスチーム凛（チームNo. 1131）の全3日間演舞スケジュール一覧です。各会場のMAPや審査情報をご確認いただけます。
+          </p>
+        </div>
+
+        <div class="btn-no-print" style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <a href="https://www.domatsuri.com/team/detail/1131" target="_blank" rel="noopener noreferrer" class="btn" style="background: var(--domatsuri-gold); color: #0f1b29; font-weight: 700; font-size: 0.85rem; padding: 8px 14px; text-decoration: none;">
+            どまつり公式 凛ページ ↗
+          </a>
+          <button onclick="downloadPdf('mobile')" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 14px;">
+            📱 スマホ用PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- 荷物チェックリスト -->
+      <div class="card btn-no-print" style="border-color: var(--domatsuri-gold); background: #ffffff; margin-bottom: 24px;">
+        <details>
+          <summary style="font-family: var(--font-family-mincho); font-size: 1.15rem; font-weight: 700; color: var(--domatsuri-navy); cursor: pointer; outline: none; list-style-position: inside;">
+            🎒 当日の荷物＆チェックリスト
+          </summary>
+          <div style="margin-top: 12px;">
+            <p style="font-size: 0.88rem; color: #334155; margin-bottom: 6px; line-height: 1.6;">
+              当日の荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」に入る物とチーム指定の水筒のみ</strong>でお願いします。
+            </p>
+            <p style="font-size: 0.84rem; color: #d93829; font-weight: 700; margin-bottom: 14px;">
+              ※ ポーチ外側に必ず「ダンスチーム凛」と「自分の名前または隊列表で使用するニックネーム」を明記してください。
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <label class="domatsuri-checklist-item"><input type="checkbox"><span>B6透明/半透明ポーチ（マチ無）</span></label>
+              <label class="domatsuri-checklist-item"><input type="checkbox"><span>お財布・現金</span></label>
+              <label class="domatsuri-checklist-item"><input type="checkbox"><span>ドニチエコ切符 / ICカード</span></label>
+              <label class="domatsuri-checklist-item"><input type="checkbox"><span>携帯電話(必要な人)</span></label>
+              <label class="domatsuri-checklist-item"><input type="checkbox"><span>常備薬・メイク直し・健康保険証の写し</span></label>
+              <label class="domatsuri-checklist-item"><input type="checkbox"><span>ポーチに入るサイズのタオル</span></label>
+              <label class="domatsuri-checklist-item"><input type="checkbox"><span>チーム指定水筒</span></label>
+              <label class="domatsuri-checklist-item"><input type="checkbox"><span>衣装・手甲脚絆・足袋・鳴子・ファンベール</span></label>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- スケジュールリンク参照ボタン (全3日分) -->
+      <div class="card" style="margin-bottom: 24px; text-align: center; border-color: var(--domatsuri-gold);">
+        <h3 style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: var(--domatsuri-navy); margin-bottom: 12px;">
+          📅 スケジュール詳細ページ
+        </h3>
+        <p style="font-size: 0.88rem; color: #475569; margin-bottom: 16px;">
+          全3日間の演舞開始時刻、電車の移動ルート、各会場のMAP・当日案内は専用演舞スケジュールページでもご確認いただけます。
+        </p>
+        <a href="/schedule.html" class="btn btn-gold" style="display: inline-block; width: auto; padding: 10px 24px; font-weight: 700; font-size: 0.95rem; text-decoration: none;">
+          全3日間 演舞スケジュール詳細を開く ↗
+        </a>
+      </div>
+
+    </div>
+
+    <!-- ==================== セクション2: サポートスタッフ・補助凛シフト表 ==================== -->
+    <div id="domatsuri-support-section" style="display: none;">
+
+      <!-- サポートタイトルカード -->
+      <div class="card header-schedule-card" style="margin-bottom: 20px; border-left: 6px solid var(--domatsuri-gold); background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%); padding: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
+              <span class="badge" style="background: var(--domatsuri-navy); color: #fef08a; font-weight: 700; font-size: 0.85rem; padding: 5px 12px; border: 1px solid #d4af37;">
+                チームナンバー: No.1131
+              </span>
+              <span class="badge" style="background: linear-gradient(135deg, #d4af37 0%, #b48a1d 100%); color: #ffffff; font-weight: 700; font-size: 0.85rem; padding: 5px 12px;">
+                補助凛シフト
+              </span>
+            </div>
+
+            <h2 style="font-family: var(--font-family-mincho); font-size: clamp(1.4rem, 3.2vw, 1.9rem); font-weight: 700; color: var(--domatsuri-navy); margin: 0 0 10px 0;">
+              どまつりサポートスタッフ・補助凛 シフト表
+            </h2>
+            <p style="font-size: 0.9rem; color: #475569; margin: 0; line-height: 1.6;">
+              演舞を影で支えるサポートスタッフの全3日間（8/28〜8/30）会場別シフト一覧です。<br>
+              スタッフ名をタップすると個人の全日程シフトを確認できます。
+            </p>
+          </div>
+
+          <div class="btn-no-print" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button onclick="window.print()" class="btn" style="background: var(--domatsuri-navy); color: #ffffff; font-size: 0.85rem; padding: 8px 16px; font-weight: 700;">
+              🖨️ A4/シフト印刷
+            </button>
+          </div>
+        </div>
+
+        <!-- 凡例カード -->
+        <div style="margin-top: 20px; padding: 14px; background: rgba(15, 27, 41, 0.04); border-radius: 8px; border: 1px dashed var(--border-color); display: flex; flex-direction: column; gap: 10px;">
+          <span style="font-size: 0.88rem; font-weight: 700; color: var(--domatsuri-navy);">【 記号凡例 】</span>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: flex-start; gap: 8px;">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #dcfce7; color: #166534; font-weight: 900; font-size: 1rem; flex-shrink: 0;">〇</span>
+              <span style="font-size: 0.85rem; color: #1e293b; font-weight: 600; line-height: 1.5;">
+                <strong>メインサポート</strong>(メンバーから回収した荷物を演舞中に預かってください)
+              </span>
+            </div>
+            <div style="display: flex; align-items: flex-start; gap: 8px;">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #fef9c3; color: #854d0e; font-weight: 900; font-size: 0.95rem; flex-shrink: 0;">△</span>
+              <span style="font-size: 0.85rem; color: #1e293b; font-weight: 600; line-height: 1.5;">
+                <strong>サブサポート</strong>（メインサポートの方が大変そうであればお手伝いをお願いします）
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 検索 ＆ 絞り込み ＆ 表示モード切替コントロール -->
+      <div class="card btn-no-print" style="margin-bottom: 20px; padding: 16px;">
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="flex: 1; min-width: 240px; position: relative;">
+            <input type="text" id="member-search" placeholder="🔍 スタッフ名で検索（例: みやっち、もりた、あや子...）" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; font-family: inherit;">
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <div style="display: flex; gap: 6px; align-items: center;">
+              <label style="font-size: 0.85rem; color: #475569; font-weight: 600;">表示形式:</label>
+              <select id="display-mode" style="padding: 8px 12px; border: 1px solid var(--domatsuri-gold); border-radius: 6px; font-size: 0.85rem; font-family: inherit; background: #fffde7; font-weight: 700; color: #0f1b29;">
+                <option value="by_venue">📍 会場別（カード表示・おすすめ）</option>
+                <option value="by_staff">👤 スタッフ別（個人カード表示）</option>
+                <option value="table">📊 日程別テーブル（マトリクス表示）</option>
+              </select>
+            </div>
+            <div style="display: flex; gap: 6px; align-items: center;">
+              <label style="font-size: 0.85rem; color: #475569; font-weight: 600;">表示絞り込み:</label>
+              <select id="role-filter" style="padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; font-family: inherit; background: #fff;">
+                <option value="all">全員表示 (16名)</option>
+                <option value="support_only">〇 メインサポート参加者</option>
+                <option value="aux_only">△ サブサポート参加者</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 日程選択タブ -->
+      <div class="domatsuri-tabs-container btn-no-print" style="margin-bottom: 20px;">
+        <button class="domatsuri-tab-btn active-day1" id="tab-btn-day1" onclick="switchSupportTab('day1')">
+          1日目 8/28（金）
+        </button>
+        <button class="domatsuri-tab-btn" id="tab-btn-day2" onclick="switchSupportTab('day2')">
+          2日目 8/29（土）
+        </button>
+        <button class="domatsuri-tab-btn" id="tab-btn-day3" onclick="switchSupportTab('day3')">
+          3日目 8/30（日）
+        </button>
+        <button class="domatsuri-tab-btn" id="tab-btn-all" onclick="switchSupportTab('all')">
+          全日程まとめ一覧
+        </button>
+      </div>
+
+      <!-- タブコンテンツエリア -->
+      <div id="support-tab-content">
+        <!-- JavaScriptにより動的にレンダリングされます -->
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- 個人シフト詳細モーダル -->
+  <div id="member-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,27,41,0.7); backdrop-filter: blur(4px); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
+    <div class="card" style="max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; background: #ffffff; border-radius: 12px; border: 2px solid var(--domatsuri-gold); padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); position: relative;">
+      <button onclick="closeMemberModal()" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #64748b;">✕</button>
+      <div id="modal-content">
+        <!-- JSで挿入 -->
+      </div>
+    </div>
+  </div>
+
+  <script style="display:none">
+    function switchDomatsuriView(viewType) {
+      const schedSec = document.getElementById('domatsuri-sched-section');
+      const supportSec = document.getElementById('domatsuri-support-section');
+      const btnSched = document.getElementById('btn-toggle-sched');
+      const btnSupport = document.getElementById('btn-toggle-support');
+
+      if (viewType === 'sched') {
+        schedSec.style.display = 'block';
+        supportSec.style.display = 'none';
+        btnSched.style.background = 'var(--domatsuri-gold)';
+        btnSched.style.color = '#0f1b29';
+        btnSupport.style.background = 'transparent';
+        btnSupport.style.color = '#ffffff';
+      } else {
+        schedSec.style.display = 'none';
+        supportSec.style.display = 'block';
+        btnSupport.style.background = 'var(--domatsuri-gold)';
+        btnSupport.style.color = '#0f1b29';
+        btnSched.style.background = 'transparent';
+        btnSched.style.color = '#ffffff';
+      }
+    }
+  </script>
+  <script type="module" src="/src/support.js"></script>
+</body>
+</html>

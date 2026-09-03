@@ -40,7 +40,7 @@ function setupChecklist() {
 }
 
 function initMainCountdown() {
-  const targetDate = new Date('2026-08-28T17:50:00+09:00').getTime();
+  const targetDate = new Date('2026-09-05T08:30:00+09:00').getTime();
 
   function update() {
     const now = new Date().getTime();
@@ -277,18 +277,24 @@ async function loadVenuesData() {
   container.innerHTML = (
     '<div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">' +
     '<div>' +
-    '<h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">にっぽんど真ん中祭り イベントタイムスケジュール ＆ 会場ナビ</h3>' +
-    '<p style="font-size:0.85rem; color:var(--text-muted);">どまつり公式（domatsuri.com/team/detail/1131）に基づくダンスチーム凛（チームNo. 1131）の全3日間演舞スケジュールです。</p>' +
+    '<div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">' +
+    '<span class="badge" style="background:#64748b; color:#ffffff; font-weight:700;">過去のイベント / アーカイブ</span>' +
+    '</div>' +
+    '<h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">にっぽんど真ん中祭り2026（過去のイベントアーカイブ）</h3>' +
+    '<p style="font-size:0.85rem; color:var(--text-muted);">どまつり公式に基づくダンスチーム凛（チームNo. 1131）の全3日間演舞スケジュール＆サポートスタッフシフト表記録です。</p>' +
     '</div>' +
     '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
-    '<a href="https://www.domatsuri.com/team/detail/1131" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
-    'どまつり公式 凛ページ ↗' +
+    '<a href="/domatsuri.html" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
+    'どまつりポータル (演舞 ＆ サポート) ↗' +
     '</a>' +
-    '<a href="https://www.youtube.com/user/DOMATSURIofficial" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width:auto; padding:8px 14px; font-size:0.85rem; background:#fef2f2; color:#dc2626; border-color:#fca5a5;">' +
-    'どまつり公式YouTube ↗' +
+    '<a href="/support.html" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem; background:#d97706; border-color:#b45309;">' +
+    'サポートスタッフシフト ↗' +
     '</a>' +
-    '<a href="/schedule.html" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
-    '専用スケジュール ↗' +
+    '<a href="/schedule.html" class="btn btn-secondary" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
+    '演舞スケジュール ↗' +
+    '</a>' +
+    '<a href="https://www.domatsuri.com/team/detail/1131" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
+    'どまつり公式 凛 ↗' +
     '</a>' +
     '</div>' +
     '</div>' +
