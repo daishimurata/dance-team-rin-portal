@@ -1493,6 +1493,279 @@ table.inv-paper-table .text-center {
     justify-content: center;
   }
 }
+/* ====================================================
+   ポップ 3チームカウントダウンカード & 過去イベントツリーUI
+   ==================================================== */
+.pop-cards-container {
+  margin-bottom: 28px;
+}
 
+.pop-cards-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
+.pop-cards-title {
+  font-family: var(--font-family-mincho);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pop-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.pop-card {
+  border-radius: 12px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  border: 1.5px solid transparent;
+}
+
+.pop-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* ダンスチーム凛 (朱赤＆ゴールド) */
+.pop-card-rin {
+  background: linear-gradient(145deg, #1e1215 0%, #0f1b29 100%);
+  border-color: #d93829;
+}
+.pop-card-rin:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 8px 24px rgba(217, 56, 41, 0.35);
+}
+
+/* 凛ジュニア (ブライトブルー＆シアン) */
+.pop-card-jr {
+  background: linear-gradient(145deg, #0e1e38 0%, #0f1b29 100%);
+  border-color: #2563eb;
+}
+.pop-card-jr:hover {
+  border-color: #38bdf8;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+}
+
+/* 凛きっず (エメラルド＆ライム) */
+.pop-card-kids {
+  background: linear-gradient(145deg, #0d261b 0%, #0f1b29 100%);
+  border-color: #16a34a;
+}
+.pop-card-kids:hover {
+  border-color: #4ade80;
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.35);
+}
+
+.pop-card-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+
+.pop-card-rin .pop-card-badge { background: #d93829; color: #ffffff; }
+.pop-card-jr .pop-card-badge { background: #2563eb; color: #ffffff; }
+.pop-card-kids .pop-card-badge { background: #16a34a; color: #ffffff; }
+
+.pop-card-team-title {
+  font-family: var(--font-family-mincho);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.pop-card-subinfo {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.pop-card-timer-box {
+  background: rgba(15, 23, 42, 0.85);
+  border-radius: 8px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: center;
+}
+
+.pop-card-timer-label {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.pop-card-timer-digits {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+.pop-card-rin .pop-card-timer-digits { color: #f59e0b; }
+.pop-card-jr .pop-card-timer-digits { color: #38bdf8; }
+.pop-card-kids .pop-card-timer-digits { color: #4ade80; }
+
+.pop-card-num {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.pop-card-unit {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  margin-right: 2px;
+}
+
+/* 過去イベント ツリービュー UI */
+.past-events-tree-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tree-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.tree-card-header {
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.tree-card-header:hover {
+  background: #e2e8f0;
+}
+
+.tree-card-title {
+  font-family: var(--font-family-mincho);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--domatsuri-navy);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tree-card-date {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.tree-toggle-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(15, 27, 41, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--domatsuri-navy);
+  transition: transform 0.25s ease;
+}
+
+.tree-card.open .tree-toggle-icon {
+  transform: rotate(180deg);
+  background: var(--domatsuri-gold);
+  color: #0f1b29;
+}
+
+.tree-card-body {
+  padding: 16px 20px;
+  display: none;
+  background: #fafafa;
+}
+
+.tree-card.open .tree-card-body {
+  display: block;
+}
+
+.tree-list {
+  list-style: none;
+  padding-left: 12px;
+  position: relative;
+  border-left: 2px dashed #cbd5e1;
+  margin-left: 10px;
+}
+
+.tree-item {
+  position: relative;
+  padding: 8px 0 8px 24px;
+}
+
+.tree-item::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 16px;
+  height: 2px;
+  background: #cbd5e1;
+}
+
+.tree-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  width: calc(100% - 10px);
+  max-width: 520px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.tree-link:hover {
+  border-color: var(--domatsuri-gold);
+  background: #fefce8;
+  color: var(--domatsuri-navy);
+  transform: translateX(4px);
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+}
 

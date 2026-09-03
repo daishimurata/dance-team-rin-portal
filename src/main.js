@@ -40,16 +40,18 @@ function setupChecklist() {
 }
 
 function initMainCountdown() {
-  const targetDate = new Date('2026-09-05T08:30:00+09:00').getTime();
+  const targetRin = new Date('2026-09-05T08:30:00+09:00').getTime();
+  const targetJr = new Date('2026-09-05T09:00:00+09:00').getTime();
+  const targetKids = new Date('2026-09-05T11:00:00+09:00').getTime();
 
-  function update() {
+  function updateTeam(targetTime, prefix) {
     const now = new Date().getTime();
-    const diff = targetDate - now;
+    const diff = targetTime - now;
 
-    const daysEl = document.getElementById('main-cd-days');
-    const hoursEl = document.getElementById('main-cd-hours');
-    const minsEl = document.getElementById('main-cd-mins');
-    const secsEl = document.getElementById('main-cd-secs');
+    const daysEl = document.getElementById(prefix + '-days');
+    const hoursEl = document.getElementById(prefix + '-hours');
+    const minsEl = document.getElementById(prefix + '-mins');
+    const secsEl = document.getElementById(prefix + '-secs');
 
     if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
@@ -72,8 +74,14 @@ function initMainCountdown() {
     secsEl.textContent = String(secs).padStart(2, '0');
   }
 
-  update();
-  setInterval(update, 1000);
+  function updateAll() {
+    updateTeam(targetRin, 'cd-rin');
+    updateTeam(targetJr, 'cd-jr');
+    updateTeam(targetKids, 'cd-kids');
+  }
+
+  updateAll();
+  setInterval(updateAll, 1000);
 }
 
 function setupNavigation() {
@@ -168,163 +176,92 @@ async function loadVenuesData() {
   const container = document.getElementById('venues-list');
   if (!container) return;
 
-  const domatsuriSchedule = [
+  const pastEvents = [
     {
-      dayTitle: '1日目：8月28日（金）前夜祭',
-      assembly: '集合 15:00 @ 白川公園',
-      items: [
-        { time: '15:00', type: '集合', name: '白川公園 集合', detail: '点呼・ブリーフィング・ストレッチ ｜ 15:15 隊列練習 ｜ 16:15 給水・トイレ休憩 ｜ 16:30 出発 ｜ 16:45 南噴水広場到着 ｜ 17:15 集合、点呼 ｜ 17:20 久屋大通公園会場メインステージに移動(受付 17:30)', mapQuery: '白川公園' },
-        { time: '17:50', type: '演舞', name: '[1] 久屋大通公園会場 メインステージ', detail: '18:10 演舞後、愛の広場に移動、休憩 ｜ 18:35 愛の広場集合、ぐるめぱーく会場に移動(受付 18:44)', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 2 },
-        { time: '18:59', type: '演舞', isShinsa: true, name: '[3] ぐるめぱーく会場（キャンパスバトル）', detail: 'ステージ演舞(観客の拍手の大きさでNO.1が決まります） ｜ 19:15 演舞後、愛の広場に移動', mapQuery: '久屋大通公園ぐるめぱーく', spaceId: 3, dateNo: 2 },
-        { time: '21:00', type: '解散', name: 'キャンパスバトル終了後 解散予定', detail: '（演舞後解散になる可能性もあり） 1日目終了' }
-      ]
-    },
-    {
-      dayTitle: '2日目：8月29日（土）本祭 1日目',
-      assembly: '集合 08:00 @ 白川公園',
-      items: [
-        { time: '08:00', type: '集合', name: '白川公園 集合', detail: '点呼・ブリーフィング・ストレッチ ｜ 8:15 隊列練習 ｜ 8:45 給水・トイレ休憩・メイク確認 ｜ 9:15 点呼・白川公園出発 ｜ 9:30 地下鉄矢場町駅到着', mapQuery: '白川公園+名古屋' },
-        { time: '09:48', type: '電車', name: '矢場町駅 → 名古屋城駅', detail: '【地下鉄名城線 右回り】矢場町09:48発→09:55名古屋城着（210円）/ 7番出口徒歩10分 ｜ 10:05 名古屋城会場到着(点呼後自由行動) ｜ 10:25 集合(点呼後、受付10:27)' },
-        { time: '10:42', type: '演舞', name: '[9] 名古屋城会場', detail: '名古屋城特設ステージ演舞 ｜ 10:50 演舞後会場出発', mapQuery: '名古屋城', spaceId: 9, dateNo: 3 },
-        { time: '11:08', type: '電車', name: '名古屋城駅 → 久屋大通駅', detail: '【地下鉄名城線 左回り】11:08発 → 11:11久屋大通駅着（運賃210円）徒歩3分 ｜ 11:15 テレビ塔パレード会場着、トイレ休憩 ｜ 11:25 集合(受付 11:27)' },
-        { time: '11:42', type: '演舞', name: '[4] テレビ塔パレード会場', detail: 'パレード演舞 ｜ 11:55 演舞後、栄駅に移動', mapQuery: '中部電力MIRAI+TOWER', spaceId: 4, dateNo: 3 },
-        { time: '12:04', type: '電車', name: '栄駅 → 大須観音駅', detail: '【地下鉄東山線＋鶴舞線（伏見乗換）】栄12:04発 → 12:12大須観音駅着（運賃210円）2番出口より徒歩3分 ｜ 12:15 大須観音会場到着、トイレ休憩 ｜ 12:25 集合(受付 12:27)' },
-        { time: '12:42', type: '演舞', name: '[10] 大須観音会場', detail: '大須観音境内ステージ演舞 ｜ 12:50 演舞終了後、自由行動（昼食休憩） ｜ 13:30 集合、点呼 ｜ 13:45 大須観音駅に移動', mapQuery: '大須観音', spaceId: 10, dateNo: 3 },
-        { time: '13:48', type: '電車', name: '大須観音駅 → 名古屋駅', detail: '【地下鉄鶴舞線＋東山線（伏見乗換）】13:48発 → 13:59名古屋駅着（運賃210円）/ 徒歩5分 ｜ 13:55 名古屋駅前JRタワーズガーデン会場到着、トイレ休憩 ｜ 14:20 集合(受付 14:27)' },
-        { time: '14:42', type: '演舞', name: '[8] 名古屋駅前JRタワーズガーデン会場', detail: 'ステージ演舞 ｜ 14:50 演舞終了後、休憩 ｜ 15:10 集合、点呼後、地下鉄へ移動', mapQuery: 'JRタワーズガーデン', spaceId: 8, dateNo: 3 },
-        { time: '15:25', type: '電車', name: '名古屋駅 → 栄駅', detail: '【地下鉄東山線】15:25発 → 15:30栄駅着（運賃210円） ｜ 審査演舞前 準備・集中時間（場所：愛の広場またはテレビ塔裏広場） ｜ 16:15 テレビ塔パレード会場へ移動(受付 16:27)' },
-        { time: '16:42', type: '審査演舞', isShinsa: true, name: '[4] テレビ塔パレード会場', detail: 'パレード1次審査演舞！ ｜ 16:55 演舞後、愛の広場に移動、ミーティング後解散、自由行動 ｜ 18:50 南噴水広場集合、点呼 ｜ 19:00 久屋大通公園メインステージに移動(受付 19:20)', mapQuery: '中部電力MIRAI+TOWER', spaceId: 4, dateNo: 3 },
-        { time: '19:30', type: '審査演舞', isShinsa: true, name: '[1] 久屋大通公園会場 メインステージ', detail: 'ファイナルシード決定戦！ ｜ 19:45 演舞後、南噴水広場へ移動 ｜ 連絡事項、解散。2日目終了', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 3 }
-      ]
-    },
-    {
-      dayTitle: '3日目：8月30日（日）本祭 2日目',
-      assembly: '集合 09:30 @ オアシス21',
-      items: [
-        { time: '09:30', type: '集合', name: 'オアシス21 集合', detail: '点呼・ブリーフィング・ストレッチ・メイク確認 ｜ 10:35 オアシス21会場へ移動(受付 10:39)', mapQuery: 'オアシス21' },
-        { time: '10:54', type: '演舞', name: '[6] オアシス21会場', detail: 'ステージ演舞 ｜ 11:10 演舞後、＠NAGOYAモニュメントへ移動、記念撮影 ｜ 11:30 解散、自由行動、各自で移動 ｜ 12:10 南噴水広場集合、点呼 ｜ 12:20 久屋大通公園会場メインステージへ移動（受付 12:30、レギュレーションチェック）', mapQuery: 'オアシス21', spaceId: 6, dateNo: 4 },
-        { time: '12:50', type: '演舞', name: '[1] 久屋大通公園会場 メインステージ', detail: 'ステージ演舞 ｜ 13:05 演舞後、南噴水広場に移動、おそらく記念撮影あり ｜ 13:10 愛の広場集合、点呼 ｜ 13:20 矢場町駅に移動', mapQuery: '久屋大通公園メインステージ', spaceId: 1, dateNo: 4 },
-        { time: '13:33', type: '電車', name: '矢場町駅 → 金山駅 → 道徳駅', detail: '【地下鉄名城線＋名鉄常滑線（金山乗換）】矢場町13:33発 → 金山13:47発(名鉄) → 13:53道徳駅着（地下鉄210円＋名鉄190円）/ 徒歩4分 ｜ 14:00 どえりゃ～どうとくパレード会場着、休憩 ｜ 14:20 集合(受付 14:33)' },
-        { time: '14:48', type: '演舞', name: '[11] どえりゃ〜どうとくパレード会場', detail: 'パレード2回演舞 ｜ 15:15 演舞後、道徳駅に移動', mapQuery: '道徳商店街', spaceId: 11, dateNo: 4 },
-        { time: '15:30', type: '電車', name: '道徳駅 → 金山駅 → 栄駅', detail: '【名鉄常滑線＋地下鉄名城線（金山乗換）】道徳15:30発(名鉄) → 金山15:43発(地下鉄) → 15:55栄駅着（名鉄190円＋地下鉄210円）/ 徒歩4分 ｜ 16:00 テレビ塔裏の広場に到着、休憩 ｜ 16:20 集合、点呼 ｜ 16:30 テレビ塔パレード会場へ移動(受付 16:39)' },
-        { time: '16:54', type: '演舞', isShinsa: true, name: '[4] テレビ塔パレード会場', detail: 'パレード演舞 ｜ 17:15 演舞後、愛の広場に移動、連絡事項後解散。セミファイナルコンテスト、ファイナルコンテストに進出の場合は、日曜日の15：00以降の演舞スケジュールが変更になる可能性があります。', mapQuery: '中部電力MIRAI+TOWER', spaceId: 4, dateNo: 4 }
+      id: 'domatsuri2026',
+      title: '第28回 にっぽんど真ん中祭り（どまつり）2026',
+      date: '📅 開催日: 2026年8月28日(金) 〜 8月30日(日)',
+      badge: '演舞 ＆ サポートアーカイブ',
+      open: true,
+      children: [
+        {
+          title: '📄 どまつり総合ポータル（演舞スケジュール ＆ サポートシフト統合）',
+          url: '/domatsuri.html',
+          desc: '演舞スケジュールとサポートシフト表をタブ切替で一括確認'
+        },
+        {
+          title: '📅 演舞スケジュール詳細・会場ナビ',
+          url: '/schedule.html',
+          desc: '全3日間の演舞時間、移動ルート、会場Google Mapリンク'
+        },
+        {
+          title: '🤝 サポートスタッフ・補助凛 シフト表',
+          url: '/support.html',
+          desc: '16名のサポートメンバー会場別シフト＆個人シフト照会'
+        },
+        {
+          title: '📱 スマホ持ち歩き用 演舞スケジュール (PDF)',
+          url: '/pdf_template_mobile.html',
+          desc: 'スマホ画面に最適化された軽量表示＆印刷テンプレート'
+        },
+        {
+          title: '🖨️ A4印刷用 演舞スケジュール一覧 (PDF)',
+          url: '/pdf_template_a4.html',
+          desc: 'A4用紙1枚で綺麗に印刷できるオフィシャルスケジュール'
+        }
       ]
     }
   ];
 
-  const scheduleTablesHtml = domatsuriSchedule.map(day => {
-    const rowsHtml = day.items.map(item => {
-      let badgeClass = 'badge-normal';
-      if (item.type === '総合審査演舞') badgeClass = 'badge-high';
-      else if (item.type === '集合') badgeClass = 'badge-medium';
-      else if (item.type === '電車') badgeClass = 'badge-normal';
-      else if (item.type === '演舞') badgeClass = 'badge-high';
+  const html = `
+    <div style="margin-bottom: 20px;">
+      <h3 style="font-size: 1.2rem; font-weight: 700; color: #ffffff; margin-bottom: 6px;">
+        📂 過去のイベント・演舞アーカイブ
+      </h3>
+      <p style="font-size: 0.85rem; color: #cbd5e1;">
+        過去に参加したお祭り・演舞イベントのスケジュールやサポートシフトの記録アーカイブです。イベント名をクリックしてツリーを展開できます。
+      </p>
+    </div>
+    <div class="past-events-tree-container">
+      ${pastEvents.map(event => `
+        <div class="tree-card ${event.open ? 'open' : ''}" id="tree-card-${event.id}">
+          <div class="tree-card-header" onclick="toggleTreeCard('${event.id}')">
+            <div>
+              <div class="tree-card-title">
+                <span class="badge" style="background: #0f1b29; color: #fef08a; border: 1px solid #d4af37;">${escapeHtml(event.badge)}</span>
+                ${escapeHtml(event.title)}
+              </div>
+              <div class="tree-card-date">${escapeHtml(event.date)}</div>
+            </div>
+            <div class="tree-toggle-icon">▼</div>
+          </div>
+          <div class="tree-card-body">
+            <div style="font-size: 0.85rem; color: #475569; font-weight: 700; margin-bottom: 10px;">
+              📁 関連ページ・コンテンツ（クリックして開く）:
+            </div>
+            <ul class="tree-list">
+              ${event.children.map(child => `
+                <li class="tree-item">
+                  <a href="${child.url}" class="tree-link">
+                    <span style="font-weight: 700;">${escapeHtml(child.title)}</span>
+                  </a>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
 
-      let actionBtns = '-';
-      if (item.mapQuery) {
-        const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(item.mapQuery);
-        let schedUrl = '';
-        if (item.spaceId && item.dateNo) {
-          schedUrl = 'https://www.domatsuri.com/schedule/index?date_no=' + item.dateNo + '&space_id=' + item.spaceId;
-        }
-        actionBtns = (
-          '<div style="display:flex; justify-content:center; gap:4px;">' +
-          '<a href="' + mapUrl + '" target="_blank" class="map-btn">MAP</a>' +
-          (schedUrl ? '<a href="' + schedUrl + '" target="_blank" class="sched-btn">当日会場スケジュール</a>' : '') +
-          '</div>'
-        );
-      }
+  container.innerHTML = html;
+}
 
-      return (
-        '<tr class="' + (item.isShinsa ? 'shinsa-row' : '') + '" style="' + (item.isShinsa ? 'background:#fefce8;' : '') + '">' +
-        '<td style="font-weight:700; white-space:nowrap;">' + escapeHtml(item.time) + '</td>' +
-        '<td style="text-align:center;"><span class="badge ' + badgeClass + '">' + escapeHtml(item.type) + '</span></td>' +
-        '<td style="font-weight:700;">' + escapeHtml(item.name) + '</td>' +
-        '<td style="font-size:0.84rem; color:var(--text-muted);">' + escapeHtml(item.detail) + '</td>' +
-        '<td style="text-align:center;">' + actionBtns + '</td>' +
-        '</tr>'
-      );
-    }).join('');
-
-    return (
-      '<div class="card" style="margin-bottom:20px; padding:0; overflow:hidden; border:1px solid #cbd5e1;">' +
-      '<div style="background:#f8fafc; padding:14px 18px; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">' +
-      '<div style="font-family:var(--font-family-mincho); font-size:1.05rem; font-weight:700; color:var(--text-main);">' +
-      escapeHtml(day.dayTitle) +
-      '</div>' +
-      '<span class="badge badge-medium">' + escapeHtml(day.assembly) + '</span>' +
-      '</div>' +
-      '<div class="table-responsive" style="margin:0;">' +
-      '<table class="data-table">' +
-      '<thead>' +
-      '<tr>' +
-      '<th style="width:90px;">演舞開始時間</th>' +
-      '<th style="width:85px; text-align:center;">区分</th>' +
-      '<th>演舞会場・内容</th>' +
-      '<th>移動・詳細備考</th>' +
-      '<th style="width:140px; text-align:center;">MAP・当日案内</th>' +
-      '</tr>' +
-      '</thead>' +
-      '<tbody>' +
-      rowsHtml +
-      '</tbody>' +
-      '</table>' +
-      '</div>' +
-      '</div>'
-    );
-  }).join('');
-
-  container.innerHTML = (
-    '<div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">' +
-    '<div>' +
-    '<div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">' +
-    '<span class="badge" style="background:#64748b; color:#ffffff; font-weight:700;">過去のイベント / アーカイブ</span>' +
-    '</div>' +
-    '<h3 style="font-size:1.15rem; font-weight:700; color:var(--text-main);">にっぽんど真ん中祭り2026（過去のイベントアーカイブ）</h3>' +
-    '<p style="font-size:0.85rem; color:var(--text-muted);">どまつり公式に基づくダンスチーム凛（チームNo. 1131）の全3日間演舞スケジュール＆サポートスタッフシフト表記録です。</p>' +
-    '</div>' +
-    '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
-    '<a href="/domatsuri.html" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
-    'どまつりポータル (演舞 ＆ サポート) ↗' +
-    '</a>' +
-    '<a href="/support.html" class="btn btn-gold" style="width:auto; padding:8px 14px; font-size:0.85rem; background:#d97706; border-color:#b45309;">' +
-    'サポートスタッフシフト ↗' +
-    '</a>' +
-    '<a href="/schedule.html" class="btn btn-secondary" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
-    '演舞スケジュール ↗' +
-    '</a>' +
-    '<a href="https://www.domatsuri.com/team/detail/1131" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width:auto; padding:8px 14px; font-size:0.85rem;">' +
-    'どまつり公式 凛 ↗' +
-    '</a>' +
-    '</div>' +
-    '</div>' +
-    scheduleTablesHtml +
-    '<div class="card" style="border-color: var(--gold-primary); background: #ffffff;">' +
-    '<h3 style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">' +
-    '🎒 当日の荷物＆チェックリスト' +
-    '</h3>' +
-    '<p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;">' +
-    '当日の荷物は<strong>「透明または半透明のB6ポーチ（マチ無し）」に入る物とチーム指定の水筒のみ</strong>でお願いします。' +
-    '</p>' +
-    '<p style="font-size: 0.82rem; color: #e11d48; font-weight: 700; margin-bottom: 12px;">' +
-    '※ ポーチ外側に必ず「ダンスチーム凛」と「自分の名前または隊列表で使用するニックネーム」を明記してください。' +
-    '</p>' +
-    '<div style="font-size:0.88rem; line-height:1.7; color:var(--text-main);">' +
-    '・B6透明/半透明ポーチ（マチ無）<br>' +
-    '・お財布・現金<br>' +
-    '・ドニチエコ切符 / ICカード<br>' +
-    '・携帯電話(必要な人)<br>' +
-    '・常備薬・メイク直し・健康保険証の写し<br>' +
-    '・ポーチに入るサイズのタオル<br>' +
-    '・チーム指定水筒<br>' +
-    '・衣装<br>' +
-    '・手甲脚絆<br>' +
-    '・足袋<br>' +
-    '・鳴子<br>' +
-    '・ファンベール' +
-    '</div>' +
-    '</div>'
-  );
+window.toggleTreeCard = function(id) {
+  const card = document.getElementById('tree-card-' + id);
+  if (card) {
+    card.classList.toggle('open');
+  }
 }
 
 async function loadFormsData() {

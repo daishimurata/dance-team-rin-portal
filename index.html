@@ -80,36 +80,68 @@
           </div>
         </section>
 
-        <!-- 第28回すずかフェスティバル2026 グラフィックバナー ＋ リアルタイムカウントダウン -->
-        <div class="homura-banner-card" style="padding: 22px 24px;">
-          <div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
-              <span class="badge" style="background: var(--gold-gradient); color: #ffffff; font-size: 0.85rem; padding: 4px 10px; font-weight: 700;">
-                2026年 演舞イベント
-              </span>
-              <span style="font-size: 0.8rem; color: #67e8f9; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">
-                第28回 すずかフェスティバル
-              </span>
+        <!-- 第28回すずかフェスティバル 3チームPopカード カウントダウンエリア -->
+        <div class="pop-cards-container">
+          <div class="pop-cards-header">
+            <div class="pop-cards-title">
+              <span>🎪</span> 第28回 すずかフェスティバル 2026 演舞カウントダウン
             </div>
-            <div class="homura-title-main" style="margin-bottom: 12px; font-size: 1.35rem;">
-              ダンスチーム凛 演舞作品 『修験』
-            </div>
+            <a href="/suzuka_schedule.html" class="btn btn-gold" style="font-size: 0.8rem; padding: 5px 12px; width: auto; text-decoration: none;">
+              全チーム演舞スケジュール ↗
+            </a>
+          </div>
 
-            <!-- すずかフェスティバル カウントダウン パネル -->
-            <a href="/suzuka_schedule.html" style="text-decoration: none; display: block; background: rgba(15, 23, 42, 0.88); border: 1px solid #0284c7; border-radius: 8px; padding: 14px 16px; margin-top: 14px; text-align: center; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 12px rgba(2,132,199,0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
-              
-              <!-- 背景ウォーターマークロゴ -->
-              <img src="/images/shugen_user_exact_logo_gold.png" alt="修験 SHUGEN" class="flame-bg-static" style="width: 240px; opacity: 0.38;">
-              
-              <div class="countdown-content-relative">
-                <div style="font-family: var(--font-family-mincho); font-size: 0.82rem; color: #67e8f9; font-weight: 600; letter-spacing: 2px; margin-bottom: 8px; text-shadow: 0 1px 3px rgba(0,0,0,0.8);">
-                  第28回すずかフェスティバル2026 1日目集合まで <span style="font-size:0.75rem; color:#cbd5e1;">(クリックでスケジュールを開く)</span>
+          <div class="pop-cards-grid">
+            <!-- 1. ダンスチーム凛 (大人チーム) -->
+            <a href="/suzuka_schedule.html" class="pop-card pop-card-rin">
+              <div>
+                <div class="pop-card-badge">演舞作品 『修験』</div>
+                <div class="pop-card-team-title">ダンスチーム凛</div>
+                <div class="pop-card-subinfo">📍 9/5(土) 08:30 橘公園集合</div>
+              </div>
+              <div class="pop-card-timer-box">
+                <div class="pop-card-timer-label">1日目集合まで</div>
+                <div class="pop-card-timer-digits">
+                  <span id="cd-rin-days" class="pop-card-num">00</span><span class="pop-card-unit">日</span>
+                  <span id="cd-rin-hours" class="pop-card-num">00</span><span class="pop-card-unit">時間</span>
+                  <span id="cd-rin-mins" class="pop-card-num">00</span><span class="pop-card-unit">分</span>
+                  <span id="cd-rin-secs" class="pop-card-num">00</span><span class="pop-card-unit">秒</span>
                 </div>
-                <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-                  <span id="main-cd-days" style="font-size: 1.4rem; font-weight: 700; color: #38bdf8; font-family: 'Inter', sans-serif;">00</span><span style="font-size:0.7rem; color:#94a3b8; margin-right:4px;">日</span>
-                  <span id="main-cd-hours" style="font-size: 1.4rem; font-weight: 700; color: #38bdf8; font-family: 'Inter', sans-serif;">00</span><span style="font-size:0.7rem; color:#94a3b8; margin-right:4px;">時間</span>
-                  <span id="main-cd-mins" style="font-size: 1.4rem; font-weight: 700; color: #38bdf8; font-family: 'Inter', sans-serif;">00</span><span style="font-size:0.7rem; color:#94a3b8; margin-right:4px;">分</span>
-                  <span id="main-cd-secs" style="font-size: 1.4rem; font-weight: 700; color: #7dd3fc; font-family: 'Inter', sans-serif;">00</span><span style="font-size:0.7rem; color:#38bdf8; font-weight:600;">秒</span>
+              </div>
+            </a>
+
+            <!-- 2. 凛ジュニア -->
+            <a href="/suzuka_schedule.html" class="pop-card pop-card-jr">
+              <div>
+                <div class="pop-card-badge">ジュニアチーム</div>
+                <div class="pop-card-team-title">凛ジュニア</div>
+                <div class="pop-card-subinfo">📍 9/5(土) 09:00 橘公園集合</div>
+              </div>
+              <div class="pop-card-timer-box">
+                <div class="pop-card-timer-label">1日目集合まで</div>
+                <div class="pop-card-timer-digits">
+                  <span id="cd-jr-days" class="pop-card-num">00</span><span class="pop-card-unit">日</span>
+                  <span id="cd-jr-hours" class="pop-card-num">00</span><span class="pop-card-unit">時間</span>
+                  <span id="cd-jr-mins" class="pop-card-num">00</span><span class="pop-card-unit">分</span>
+                  <span id="cd-jr-secs" class="pop-card-num">00</span><span class="pop-card-unit">秒</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- 3. 凛きっず -->
+            <a href="/suzuka_schedule.html" class="pop-card pop-card-kids">
+              <div>
+                <div class="pop-card-badge">きっずチーム</div>
+                <div class="pop-card-team-title">凛きっず</div>
+                <div class="pop-card-subinfo">📍 9/5(土) 11:00 弁天山公園集合</div>
+              </div>
+              <div class="pop-card-timer-box">
+                <div class="pop-card-timer-label">1日目集合まで</div>
+                <div class="pop-card-timer-digits">
+                  <span id="cd-kids-days" class="pop-card-num">00</span><span class="pop-card-unit">日</span>
+                  <span id="cd-kids-hours" class="pop-card-num">00</span><span class="pop-card-unit">時間</span>
+                  <span id="cd-kids-mins" class="pop-card-num">00</span><span class="pop-card-unit">分</span>
+                  <span id="cd-kids-secs" class="pop-card-num">00</span><span class="pop-card-unit">秒</span>
                 </div>
               </div>
             </a>
