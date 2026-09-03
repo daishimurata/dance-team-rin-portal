@@ -48,7 +48,7 @@
       border-collapse: collapse;
     }
     .timeline-table th { background: #0f1b29; color: #d4af37; font-weight: 700; padding: 12px; border-bottom: 2px solid #d4af37; }
-    .timeline-table td { padding: 14px 10px; border-bottom: 1px solid #334155; vertical-align: middle; word-break: break-word; }
+    .timeline-table td { padding: 14px 10px; border-bottom: 1px solid #334155; vertical-align: middle; word-break: break-word; color: #f8fafc; }
     .timeline-table tr:hover { background: #1e293b; }
 
     /* 全体タイムテーブル用スタイル */
@@ -56,9 +56,11 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 0.88rem;
+      color: #f8fafc;
+      background: #0f1b29;
     }
     .official-table th {
-      background: #0f1b29;
+      background: #1e293b;
       color: #fef08a;
       padding: 10px 8px;
       border: 1px solid #334155;
@@ -66,23 +68,27 @@
       position: sticky;
       top: 0;
       z-index: 10;
+      font-weight: 700;
     }
     .official-table td {
-      padding: 8px 10px;
+      padding: 10px 10px;
       border: 1px solid #334155;
       vertical-align: middle;
+      color: #f8fafc !important;
+      font-weight: 500;
     }
     .official-table tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(255, 255, 255, 0.05);
     }
     .official-table tr:hover {
-      background: rgba(212, 175, 55, 0.15);
+      background: rgba(212, 175, 55, 0.2) !important;
     }
     .cell-rin-team {
-      background: rgba(217, 56, 41, 0.25) !important;
-      color: #fef08a !important;
+      background: rgba(217, 56, 41, 0.4) !important;
+      color: #ffffff !important;
       font-weight: 700 !important;
-      border-left: 3px solid #d93829 !important;
+      border-left: 4px solid #fef08a !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
     }
     .highlight-search {
       background: #854d0e !important;
