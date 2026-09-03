@@ -314,7 +314,7 @@
             📍 9/6 (日) 集合・運営案内
           </div>
           <div style="display: flex; flex-direction: column; gap: 8px; color: #ffffff; font-weight: 500; margin-bottom: 12px;">
-            <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #f472b6; font-weight: 700;">10:40集合 ハンター（ホストチーム運営 11:10〜12:00 ※係のみ）</span> ｜ 14:30 JA鈴鹿集合 ｜ 17:00 本陣集合</div>
+            <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 8:00 庄野小学校体育館集合 ｜ 9:30 庄野小学校出発 ｜ <span style="color: #f472b6; font-weight: 700;">10:40集合 ハンター（ホストチーム運営 11:10〜12:00 ※係のみ）</span> ｜ 14:30 JA鈴鹿集合 ｜ 17:00 本陣集合</div>
             <div><strong style="color: #60a5fa; font-weight: 700;">【凛ジュニア】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発 ｜ 12:10 JA鈴鹿集合 ｜ 14:30 本陣集合</div>
             <div><strong style="color: #4ade80; font-weight: 700;">【凛きっず】</strong> 9:30 弁天山公園集合 ｜ 11:55 本陣集合</div>
           </div>
@@ -515,8 +515,8 @@
       { id: "kids", name: "凛きっず", date: "day1", time: "20:30", venue: "1日目終了・解散", type: "解散" },
 
       // 9/6 (Sun)
-      { id: "rin", name: "ダンスチーム凛", date: "day2", time: "09:00", venue: "橘公園", type: "集合" },
-      { id: "rin", name: "ダンスチーム凛", date: "day2", time: "10:00", venue: "橘公園 出発", type: "出発" },
+      { id: "rin", name: "ダンスチーム凛", date: "day2", time: "08:00", venue: "庄野小学校体育館", type: "集合" },
+      { id: "rin", name: "ダンスチーム凛", date: "day2", time: "09:30", venue: "庄野小学校 出発", type: "出発" },
       { id: "rin", name: "ダンスチーム凛", date: "day2", time: "10:40", venue: "ハンター 集合（ホスト運営※係のみ）", type: "集合" },
       { id: "rin", name: "ダンスチーム凛", date: "day2", time: "11:10", venue: "ハンター（ホスト運営 11:10〜12:00）", type: "運営" },
       { id: "rin", name: "ダンスチーム凛", date: "day2", time: "12:05", venue: "ハンター", type: "演舞" },
@@ -1054,6 +1054,13 @@
           mapUrl: 'https://www.google.com/maps/search/?api=1&query=橘公園+鈴鹿',
           venueKey: 'benten',
           label: '橘公園'
+        };
+      }
+      if (venueStr.includes('庄野')) {
+        return {
+          mapUrl: 'https://www.google.com/maps/search/?api=1&query=庄野小学校+鈴鹿',
+          venueKey: 'benten',
+          label: '庄野小学校'
         };
       }
       return {
