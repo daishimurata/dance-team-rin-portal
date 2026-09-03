@@ -93,8 +93,8 @@
     /* アクションボタン（MAP ＆ 当日会場スケジュール） */
     .map-btn {
       display: inline-block;
-      padding: 4px 8px;
-      font-size: 0.75rem;
+      padding: 5px 10px;
+      font-size: 0.78rem;
       font-weight: 700;
       background: rgba(15, 27, 41, 0.9);
       color: #38bdf8;
@@ -109,10 +109,10 @@
     }
     .sched-btn {
       display: inline-block;
-      padding: 4px 8px;
-      font-size: 0.75rem;
+      padding: 5px 10px;
+      font-size: 0.78rem;
       font-weight: 700;
-      background: rgba(212, 175, 55, 0.18);
+      background: rgba(212, 175, 55, 0.2);
       color: #fef08a;
       border: 1px solid #d4af37;
       border-radius: 4px;
@@ -420,7 +420,69 @@
 
   </main>
 
+  <!-- ==================== 公式タイムスケジュール インスタント・モーダル ==================== -->
+  <div id="schedule-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; padding: 16px; box-sizing: border-box; backdrop-filter: blur(4px);">
+    <div style="background: #0f1b29; border: 2px solid #d4af37; border-radius: 12px; max-width: 700px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+      
+      <!-- モーダルヘッダー -->
+      <div style="background: linear-gradient(90deg, #0f1b29 0%, #1e293b 100%); padding: 14px 18px; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center;">
+        <h3 id="modal-table-title" style="font-size: 1.1rem; color: #ffffff; margin: 0; font-family: var(--font-family-mincho);">
+          会場公式タイムスケジュール
+        </h3>
+        <button onclick="closeOfficialScheduleModal()" style="background: transparent; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; padding: 0 4px; line-height: 1;">✕</button>
+      </div>
+
+      <!-- モーダルコントロール (日程 ＆ 会場切替) -->
+      <div style="padding: 12px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid #334155; display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; gap: 8px; justify-content: center;">
+          <button id="modal-btn-day1" onclick="switchModalDay('day1')" class="btn" style="flex: 1; padding: 8px 10px; font-size: 0.85rem; font-weight: 700;">9/5(土) 第1日目</button>
+          <button id="modal-btn-day2" onclick="switchModalDay('day2')" class="btn btn-secondary" style="flex: 1; padding: 8px 10px; font-size: 0.85rem; font-weight: 700;">9/6(日) 第2日目</button>
+        </div>
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+          <button id="modal-btn-benten" onclick="switchModalVenue('benten')" class="btn btn-secondary" style="padding: 5px 12px; font-size: 0.8rem; font-weight: 700;">弁天山公園</button>
+          <button id="modal-btn-hunter" onclick="switchModalVenue('hunter')" class="btn btn-secondary" style="padding: 5px 12px; font-size: 0.8rem; font-weight: 700;">鈴鹿ハンター</button>
+          <button id="modal-btn-ja" onclick="switchModalVenue('ja')" class="btn btn-secondary" style="padding: 5px 12px; font-size: 0.8rem; font-weight: 700;">JA鈴鹿</button>
+          <button id="modal-btn-all" onclick="switchModalVenue('all')" class="btn btn-secondary" style="padding: 5px 12px; font-size: 0.8rem; font-weight: 700;">全会場一覧</button>
+        </div>
+      </div>
+
+      <!-- モーダル本文 (テーブル表示) -->
+      <div style="overflow-y: auto; padding: 12px 16px; flex: 1;">
+        <table class="official-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th style="width: 70px;">時間</th>
+              <th id="modal-th-benten">弁天山公園</th>
+              <th id="modal-th-hunter">鈴鹿ハンター</th>
+              <th id="modal-th-ja">JA鈴鹿</th>
+            </tr>
+          </thead>
+          <tbody id="modal-table-body">
+            <!-- 動的生成 -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- フッター -->
+      <div style="padding: 12px 16px; background: #0f1b29; border-top: 1px solid #334155; text-align: center;">
+        <button onclick="closeOfficialScheduleModal()" class="btn btn-gold" style="font-size: 0.9rem; padding: 8px 24px; font-weight: 700;">✕ 閉じる</button>
+      </div>
+
+    </div>
+  </div>
+
   <script>
+    // HTMLエスケープ関数
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     // 凛グループ専用スケジュールデータ
     const scheduleData = [
       // 9/5 (Sat)
@@ -709,6 +771,8 @@
     ];
 
     let currentOfficialDay = 'day1';
+    let currentModalDay = 'day1';
+    let currentModalVenue = 'benten';
 
     function switchSuzukaView(viewType, targetVenue, targetDay) {
       const rinSec = document.getElementById('section-rin-view');
@@ -731,9 +795,7 @@
         btnRin.style.background = 'transparent';
         btnRin.style.color = '#ffffff';
 
-        if (targetDay) {
-          switchOfficialDay(targetDay);
-        }
+        if (targetDay) switchOfficialDay(targetDay);
         if (targetVenue) {
           const venueSelect = document.getElementById('official-venue-select');
           if (venueSelect) venueSelect.value = targetVenue;
@@ -741,6 +803,122 @@
         renderOfficialTable();
         window.scrollTo({ top: officialSec.offsetTop - 60, behavior: 'smooth' });
       }
+    }
+
+    function openOfficialScheduleModal(day, venueKey) {
+      currentModalDay = day || 'day1';
+      currentModalVenue = venueKey || 'benten';
+      if (!['benten', 'hunter', 'ja', 'all'].includes(currentModalVenue)) {
+        currentModalVenue = 'benten';
+      }
+
+      const modal = document.getElementById('schedule-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        renderModalTable();
+      }
+    }
+
+    function closeOfficialScheduleModal() {
+      const modal = document.getElementById('schedule-modal');
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    }
+
+    function switchModalDay(day) {
+      currentModalDay = day;
+      renderModalTable();
+    }
+
+    function switchModalVenue(venueKey) {
+      currentModalVenue = venueKey;
+      renderModalTable();
+    }
+
+    function renderModalTable() {
+      const tbody = document.getElementById('modal-table-body');
+      const titleElem = document.getElementById('modal-table-title');
+      const day1Btn = document.getElementById('modal-btn-day1');
+      const day2Btn = document.getElementById('modal-btn-day2');
+
+      const data = (currentModalDay === 'day1') ? officialDataDay1 : officialDataDay2;
+      const dayLabel = (currentModalDay === 'day1') ? '9月5日(土)' : '9月6日(日)';
+
+      if (day1Btn && day2Btn) {
+        if (currentModalDay === 'day1') {
+          day1Btn.style.background = 'var(--domatsuri-gold)';
+          day1Btn.style.color = '#0f1b29';
+          day2Btn.style.background = 'transparent';
+          day2Btn.style.color = '#ffffff';
+        } else {
+          day2Btn.style.background = 'var(--domatsuri-gold)';
+          day2Btn.style.color = '#0f1b29';
+          day1Btn.style.background = 'transparent';
+          day1Btn.style.color = '#ffffff';
+        }
+      }
+
+      ['benten', 'hunter', 'ja', 'all'].forEach(vk => {
+        const btn = document.getElementById('modal-btn-' + vk);
+        if (btn) {
+          if (currentModalVenue === vk) {
+            btn.style.background = 'var(--domatsuri-gold)';
+            btn.style.color = '#0f1b29';
+          } else {
+            btn.style.background = 'transparent';
+            btn.style.color = '#ffffff';
+          }
+        }
+      });
+
+      let venueLabel = '全3会場';
+      if (currentModalVenue === 'benten') venueLabel = '弁天山公園';
+      if (currentModalVenue === 'hunter') venueLabel = '鈴鹿ハンター';
+      if (currentModalVenue === 'ja') venueLabel = 'JA鈴鹿';
+
+      if (titleElem) {
+        titleElem.textContent = `${dayLabel} 【${venueLabel}】 会場公式タイムスケジュール`;
+      }
+
+      const thBenten = document.getElementById('modal-th-benten');
+      const thHunter = document.getElementById('modal-th-hunter');
+      const thJa = document.getElementById('modal-th-ja');
+
+      if (thBenten) thBenten.style.display = (currentModalVenue === 'all' || currentModalVenue === 'benten') ? '' : 'none';
+      if (thHunter) thHunter.style.display = (currentModalVenue === 'all' || currentModalVenue === 'hunter') ? '' : 'none';
+      if (thJa) thJa.style.display = (currentModalVenue === 'all' || currentModalVenue === 'ja') ? '' : 'none';
+
+      tbody.innerHTML = '';
+
+      data.forEach(row => {
+        if (currentModalVenue !== 'all' && (!row[currentModalVenue] || row[currentModalVenue].trim() === '')) {
+          return;
+        }
+
+        const isRinBenten = row.benten.includes('凛');
+        const isRinHunter = row.hunter.includes('凛');
+        const isRinJa = row.ja.includes('凛');
+
+        const tr = document.createElement('tr');
+
+        let bentenTd = (currentModalVenue === 'all' || currentModalVenue === 'benten') ? 
+          `<td class="${isRinBenten ? 'cell-rin-team' : ''}">${escapeHtml(row.benten)}</td>` : '';
+        let hunterTd = (currentModalVenue === 'all' || currentModalVenue === 'hunter') ? 
+          `<td class="${isRinHunter ? 'cell-rin-team' : ''}">${escapeHtml(row.hunter)}</td>` : '';
+        let jaTd = (currentModalVenue === 'all' || currentModalVenue === 'ja') ? 
+          `<td class="${isRinJa ? 'cell-rin-team' : ''}">${escapeHtml(row.ja)}</td>` : '';
+
+        tr.innerHTML = `
+          <td style="text-align: center; font-weight: 700; color: #fef08a; white-space: nowrap;">${row.time}</td>
+          ${bentenTd}
+          ${hunterTd}
+          ${jaTd}
+        `;
+        tbody.appendChild(tr);
+      });
     }
 
     function switchOfficialDay(day) {
@@ -774,7 +952,6 @@
       const data = (currentOfficialDay === 'day1') ? officialDataDay1 : officialDataDay2;
       const dayLabel = (currentOfficialDay === 'day1') ? '9月5日(土)' : '9月6日(日)';
 
-      // 動的タイトル更新
       const titleElem = document.getElementById('official-table-title');
       let venueLabel = '全3会場';
       if (venueSelect === 'benten') venueLabel = '弁天山公園';
@@ -785,7 +962,6 @@
         titleElem.textContent = `${dayLabel} 【${venueLabel}】 会場公式タイムスケジュール`;
       }
 
-      // カラム表示切り替え
       const thBenten = document.getElementById('th-benten');
       const thHunter = document.getElementById('th-hunter');
       const thJa = document.getElementById('th-ja');
@@ -797,7 +973,6 @@
       tbody.innerHTML = '';
 
       data.forEach(row => {
-        // 単独会場選択時、該当会場にスケジュールが無い時間帯は除外（コンパクト表示）
         if (venueSelect !== 'all' && (!row[venueSelect] || row[venueSelect].trim() === '')) {
           return;
         }
@@ -807,7 +982,6 @@
         const matchJa = query && row.ja.toLowerCase().includes(query);
         const isQueryMatched = query && (matchBenten || matchHunter || matchJa);
 
-        // 検索クエリがあり、行内に一致がない場合は非表示
         if (query && !isQueryMatched) return;
 
         const isRinBenten = row.benten.includes('凛');
@@ -861,7 +1035,6 @@
       return `${recH}:${recM}`;
     }
 
-    // 会場名に応じた Map URL と 会場キーの取得
     function getVenueActionInfo(venueStr) {
       if (venueStr.includes('弁天山')) {
         return {
@@ -887,13 +1060,13 @@
       if (venueStr.includes('橘')) {
         return {
           mapUrl: 'https://www.google.com/maps/search/?api=1&query=橘公園+鈴鹿',
-          venueKey: '',
+          venueKey: 'benten',
           label: '橘公園'
         };
       }
       return {
         mapUrl: 'https://www.google.com/maps/search/?api=1&query=弁天山公園+鈴鹿',
-        venueKey: '',
+        venueKey: 'benten',
         label: venueStr
       };
     }
@@ -929,9 +1102,7 @@
             const actionInfo = getVenueActionInfo(item.venue);
 
             const mapBtnHtml = `<a href="${actionInfo.mapUrl}" target="_blank" rel="noopener noreferrer" class="map-btn">MAP ↗</a>`;
-            const schedBtnHtml = actionInfo.venueKey 
-              ? `<button onclick="switchSuzukaView('official', '${actionInfo.venueKey}', '${day}')" class="sched-btn">当日会場スケジュール ↗</button>`
-              : `<a href="https://sites.google.com/site/suzukafestival/" target="_blank" rel="noopener noreferrer" class="sched-btn">当日会場スケジュール ↗</a>`;
+            const schedBtnHtml = `<button onclick="openOfficialScheduleModal('${day}', '${actionInfo.venueKey}')" class="sched-btn">当日会場スケジュール ↗</button>`;
 
             tr.innerHTML = `
               <td style="text-align: center; font-weight: 700; font-size: 1.1rem; color: var(--gold-primary); white-space: nowrap;">
