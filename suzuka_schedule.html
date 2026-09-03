@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>すずかフェスティバル2026 公式演舞スケジュール ｜ ダンスチーム凛</title>
+  <title>第28回すずかフェスティバル2026 公式演舞スケジュール ｜ ダンスチーム凛</title>
   <link rel="stylesheet" href="/src/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
-  <!-- html2pdf for PDF export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     .filter-container {
@@ -51,6 +50,45 @@
     .timeline-table th { background: #0f1b29; color: #d4af37; font-weight: 700; padding: 12px; border-bottom: 2px solid #d4af37; }
     .timeline-table td { padding: 14px 10px; border-bottom: 1px solid #334155; vertical-align: middle; word-break: break-word; }
     .timeline-table tr:hover { background: #1e293b; }
+
+    /* 全体タイムテーブル用スタイル */
+    .official-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .official-table th {
+      background: #0f1b29;
+      color: #fef08a;
+      padding: 10px 8px;
+      border: 1px solid #334155;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .official-table td {
+      padding: 8px 10px;
+      border: 1px solid #334155;
+      vertical-align: middle;
+    }
+    .official-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .official-table tr:hover {
+      background: rgba(212, 175, 55, 0.15);
+    }
+    .cell-rin-team {
+      background: rgba(217, 56, 41, 0.25) !important;
+      color: #fef08a !important;
+      font-weight: 700 !important;
+      border-left: 3px solid #d93829 !important;
+    }
+    .highlight-search {
+      background: #854d0e !important;
+      color: #fef08a !important;
+      font-weight: 700 !important;
+    }
 
     @media (max-width: 640px) {
       .timeline-table-wrapper {
@@ -122,6 +160,18 @@
     </div>
   </header>
 
+  <!-- 表示モード切替バー -->
+  <div style="background: #0f1b29; border-bottom: 2px solid var(--domatsuri-gold); padding: 12px 16px; position: sticky; top: 0; z-index: 100;" class="btn-no-print">
+    <div class="container" style="max-width: 900px; padding: 0; display: flex; gap: 10px; justify-content: center;">
+      <button id="view-btn-rin" onclick="switchSuzukaView('rin')" class="btn" style="flex: 1; max-width: 280px; padding: 10px 14px; font-weight: 700; font-size: 0.88rem; background: var(--domatsuri-gold); color: #0f1b29; border: 1px solid var(--domatsuri-gold);">
+        🌟 凛グループ 専用スケジュール
+      </button>
+      <button id="view-btn-official" onclick="switchSuzukaView('official')" class="btn btn-secondary" style="flex: 1; max-width: 280px; padding: 10px 14px; font-weight: 700; font-size: 0.88rem; color: #ffffff; border-color: rgba(255,255,255,0.3);">
+        🏛️ 公式 全チーム タイムスケジュール
+      </button>
+    </div>
+  </div>
+
   <main class="container" style="max-width: 900px; padding-top: 24px; padding-bottom: 60px;">
     
     <!-- ヘッダーエリア -->
@@ -130,7 +180,7 @@
         第28回 すずかフェスティバル 2026
       </h1>
       <div style="font-size: 0.85rem; color: #fbbf24; letter-spacing: 1px; font-weight: 700; margin-bottom: 14px;">
-        凛グループ 演舞スケジュール ＆ 公式会場タイムライン
+        公式演舞スケジュール ＆ 全会場タイムテーブル
       </div>
 
       <!-- 公式サイト ＆ 公式情報リンクアクション -->
@@ -147,148 +197,186 @@
       </div>
     </div>
 
-    <!-- すずフェス公式会場タイムスケジュール ＆ 会場ガイドカード -->
-    <div class="card" style="margin-bottom: 24px; border-color: #d4af37; background: #0f1b29; color: #ffffff;">
-      <details>
-        <summary style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: #fbbf24; cursor: pointer; outline: none; list-style-position: inside;">
-          🏛️ 第28回すずかフェスティバル 公式会場ガイド ＆ 演舞エリア案内
-        </summary>
-        <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed #334155; font-size: 0.88rem; line-height: 1.7; color: #cbd5e1;">
-          <p style="margin-bottom: 10px;">
-            第28回すずかフェスティバル（2026年9月5日(土)・6日(日)）は、市内3つの会場特設ステージにて開催されます。
-          </p>
-          <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
-            <div style="background: rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 6px; border-left: 4px solid #d4af37;">
-              <strong style="color: #ffffff;">1. 弁天山公園会場（メイン会場）</strong><br>
-              ステージ演舞・審査演舞・エキシビション・ファイナルコンテスト会場。
+    <!-- ==================== ビュー1: 凛グループ特化スケジュール ==================== -->
+    <div id="section-rin-view">
+
+      <!-- チーム絞り込みUI -->
+      <div class="filter-container">
+        <div style="width: 100%; text-align: center; font-size: 0.85rem; color: #cbd5e1; font-weight: 600; margin-bottom: 4px;">表示するチームを選択（複数可）</div>
+        <label class="filter-label">
+          <input type="checkbox" class="filter-checkbox" value="rin" checked> ダンスチーム凛
+        </label>
+        <label class="filter-label">
+          <input type="checkbox" class="filter-checkbox" value="jr" checked> 凛ジュニア
+        </label>
+        <label class="filter-label">
+          <input type="checkbox" class="filter-checkbox" value="kids" checked> 凛きっず
+        </label>
+      </div>
+
+      <!-- 受付時間案内 ＆ 注意事項バナー -->
+      <div style="background: rgba(239, 68, 68, 0.18); border: 1px solid #ef4444; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; text-align: center; color: #fca5a5; font-size: 0.9rem; font-weight: 700; display: flex; flex-direction: column; gap: 6px;">
+        <div>⚠️ 各演舞および審査演舞は【演舞開始時刻の15分前】が受付時間となります。時間に余裕を持って集合してください。</div>
+        <div style="color: #ffffff; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">💧 演舞後は給水して次の行動予定の案内を聞いてから自由行動です。</div>
+      </div>
+
+      <!-- 9/5 (土) スケジュール -->
+      <div class="card" style="margin-bottom: 32px; padding: 0; overflow: hidden; border-color: #d4af37;">
+        <div style="background: linear-gradient(90deg, #0f1b29 0%, #1e293b 100%); padding: 16px 20px; border-bottom: 2px solid #d4af37;">
+          <h2 style="font-size: 1.3rem; color: #ffffff; margin: 0; font-family: var(--font-family-mincho);">
+            9月5日 (土) <span style="font-size: 0.9rem; color: #cbd5e1; font-family: 'Inter', sans-serif;">第1日目</span>
+          </h2>
+        </div>
+        
+        <!-- 集合・出発 連絡案内サマリー -->
+        <div style="background: rgba(15, 23, 42, 0.7); padding: 16px 20px; border-bottom: 1px solid #334155; font-size: 0.95rem;">
+          <div style="font-weight: 700; color: #fbbf24; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            📍 9/5 (土) 集合・出発・運営案内
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px; color: #ffffff; font-weight: 500; margin-bottom: 12px;">
+            <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発</div>
+            <div><strong style="color: #60a5fa; font-weight: 700;">【凛ジュニア】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #f472b6; font-weight: 700;">15:55集合 ハンター（ホストチーム運営 16:25〜17:25 ※係に当たっている人のみ）</span></div>
+            <div><strong style="color: #4ade80; font-weight: 700;">【凛きっず】</strong> 11:00 弁天山公園集合 ｜ 14:00 JA鈴鹿集合 ｜ 17:40 弁天山公園集合</div>
+          </div>
+          <div style="padding-top: 10px; border-top: 1px dashed #475569; color: #ffffff; font-weight: 500;">
+            <strong style="color: #7dd3fc; font-size: 0.95rem;">✨ 夜のエキシビション ＆ 解散（全チーム共通）:</strong><br>
+            ・19:00 エキシビションチーム発表 ｜ 19:35〜20:20 エキシビション演舞（選出された場合）<br>
+            ・20:30 1日目終了・翌日予定連絡後解散（※エキシビションに選出されなかった場合は解散時間が早まる可能性あり）
+          </div>
+        </div>
+
+        <div class="timeline-table-wrapper">
+          <table class="timeline-table">
+            <thead>
+              <tr>
+                <th style="width: 80px; text-align: center;">時間</th>
+                <th style="width: 110px; text-align: center;">チーム</th>
+                <th style="text-align: center;">会場</th>
+                <th style="width: 80px; text-align: center;">種別</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-body-day1">
+              <!-- JSで動的生成 -->
+            </tbody>
+          </table>
+          <div id="empty-msg-day1" style="display:none; text-align:center; padding: 24px; color: #cbd5e1;">表示対象のスケジュールがありません。</div>
+        </div>
+      </div>
+
+      <!-- 9/6 (日) スケジュール -->
+      <div class="card" style="margin-bottom: 32px; padding: 0; overflow: hidden; border-color: #d4af37;">
+        <div style="background: linear-gradient(90deg, #0f1b29 0%, #1e293b 100%); padding: 16px 20px; border-bottom: 2px solid #d4af37;">
+          <h2 style="font-size: 1.3rem; color: #ffffff; margin: 0; font-family: var(--font-family-mincho);">
+            9月6日 (日) <span style="font-size: 0.9rem; color: #cbd5e1; font-family: 'Inter', sans-serif;">第2日目</span>
+          </h2>
+        </div>
+
+        <!-- 運営・案内サマリー -->
+        <div style="background: rgba(15, 23, 42, 0.7); padding: 16px 20px; border-bottom: 1px solid #334155; font-size: 0.95rem;">
+          <div style="font-weight: 700; color: #fbbf24; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            📍 9/6 (日) 集合・運営案内
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px; color: #ffffff; font-weight: 500; margin-bottom: 12px;">
+            <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #f472b6; font-weight: 700;">10:40集合 ハンター（ホストチーム運営 11:10〜12:00 ※係のみ）</span> ｜ 14:30 JA鈴鹿集合 ｜ 17:00 本陣集合</div>
+            <div><strong style="color: #60a5fa; font-weight: 700;">【凛ジュニア】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発 ｜ 12:10 JA鈴鹿集合 ｜ 14:30 本陣集合</div>
+            <div><strong style="color: #4ade80; font-weight: 700;">【凛きっず】</strong> 9:30 弁天山公園集合 ｜ 11:55 本陣集合</div>
+          </div>
+          <div style="padding-top: 10px; border-top: 1px dashed #475569; color: #ffffff; font-weight: 500;">
+            <strong style="color: #7dd3fc; font-size: 0.95rem;">🏆 夕方〜夜の審査発表 ＆ 解散案内:</strong><br>
+            ・<strong>きっず・ジュニア:</strong> 17:50 踊り子待機場所集合（代表者1名） ｜ 18:20 Jr審査発表<br>
+            ・<strong>ダンスチーム凛:</strong> 18:00 ファイナルチーム発表 ｜ 18:35〜19:20 ファイナルコンテスト（選出時） ｜ 19:00 踊り子待機場所集合（代表者1名） ｜ 19:40〜 各審査発表<br>
+            ・<strong>20:30 2日目演舞全日程終了・解散（全チーム共通）</strong>
+          </div>
+        </div>
+
+        <div class="timeline-table-wrapper">
+          <table class="timeline-table">
+            <thead>
+              <tr>
+                <th style="width: 80px; text-align: center;">時間</th>
+                <th style="width: 110px; text-align: center;">チーム</th>
+                <th style="text-align: center;">会場</th>
+                <th style="width: 80px; text-align: center;">種別</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-body-day2">
+              <!-- JSで動的生成 -->
+            </tbody>
+          </table>
+          <div id="empty-msg-day2" style="display:none; text-align:center; padding: 24px; color: #94a3b8;">表示対象のスケジュールがありません。</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== ビュー2: 公式全チーム タイムスケジュール ==================== -->
+    <div id="section-official-view" style="display: none;">
+
+      <!-- コントロールバー (日程選択 ＆ チーム検索 ＆ 会場選択) -->
+      <div class="card" style="margin-bottom: 20px; padding: 16px; border-color: #d4af37;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          
+          <!-- 日程切り替えボタン -->
+          <div style="display: flex; gap: 10px; justify-content: center;">
+            <button id="btn-official-day1" onclick="switchOfficialDay('day1')" class="btn" style="flex: 1; max-width: 240px; padding: 10px; font-weight: 700; background: var(--domatsuri-gold); color: #0f1b29;">
+              9月5日(土) 第1日目
+            </button>
+            <button id="btn-official-day2" onclick="switchOfficialDay('day2')" class="btn btn-secondary" style="flex: 1; max-width: 240px; padding: 10px; font-weight: 700; color: #fff;">
+              9月6日(日) 第2日目
+            </button>
+          </div>
+
+          <!-- チーム検索 ＆ 会場フィルター -->
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+            <div style="flex: 1; min-width: 240px;">
+              <input type="text" id="official-search-input" placeholder="🔍 チーム名・番号でリアルタイム検索 (例: 45, 凛, 皇學館, 極津...)" oninput="filterOfficialSchedule()" style="width: 100%; padding: 10px 14px; border: 1px solid #d4af37; border-radius: 6px; font-size: 0.9rem; background: #0f1b29; color: #fff; font-family: inherit;">
             </div>
-            <div style="background: rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 6px; border-left: 4px solid #38bdf8;">
-              <strong style="color: #ffffff;">2. 鈴鹿ハンター会場</strong><br>
-              ショッピングセンター前の賑やかな特設ステージ演舞エリア。
-            </div>
-            <div style="background: rgba(255,255,255,0.06); padding: 10px 14px; border-radius: 6px; border-left: 4px solid #4ade80;">
-              <strong style="color: #ffffff;">3. JA鈴鹿本店 駐車場会場</strong><br>
-              開放的な野外特設演舞エリア。
+            <div style="display: flex; gap: 6px; align-items: center;">
+              <label style="font-size: 0.85rem; color: #cbd5e1; font-weight: 600;">表示会場:</label>
+              <select id="official-venue-select" onchange="filterOfficialSchedule()" style="padding: 8px 12px; border: 1px solid #d4af37; border-radius: 6px; font-size: 0.85rem; font-family: inherit; background: #0f1b29; color: #fef08a; font-weight: 700;">
+                <option value="all">全3会場表示（弁天山・ハンター・JA鈴鹿）</option>
+                <option value="benten">弁天山公園会場</option>
+                <option value="hunter">鈴鹿ハンター会場</option>
+                <option value="ja">JA鈴鹿本店 駐車場会場</option>
+              </select>
             </div>
           </div>
-          <p style="font-size: 0.82rem; color: #94a3b8; margin: 0;">
-            ※すずかフェスティバル実行委員会からの公式速報・全体タイムテーブル変更などは公式サイトおよび公式Instagramにて随時発信されます。
-          </p>
-        </div>
-      </details>
-    </div>
 
-    <!-- チーム絞り込みUI -->
-    <div class="filter-container">
-      <div style="width: 100%; text-align: center; font-size: 0.85rem; color: #cbd5e1; font-weight: 600; margin-bottom: 4px;">表示するチームを選択（複数可）</div>
-      <label class="filter-label">
-        <input type="checkbox" class="filter-checkbox" value="rin" checked> ダンスチーム凛
-      </label>
-      <label class="filter-label">
-        <input type="checkbox" class="filter-checkbox" value="jr" checked> 凛ジュニア
-      </label>
-      <label class="filter-label">
-        <input type="checkbox" class="filter-checkbox" value="kids" checked> 凛きっず
-      </label>
-    </div>
-
-    <!-- 受付時間案内 ＆ 注意事項バナー -->
-    <div style="background: rgba(239, 68, 68, 0.18); border: 1px solid #ef4444; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; text-align: center; color: #fca5a5; font-size: 0.9rem; font-weight: 700; display: flex; flex-direction: column; gap: 6px;">
-      <div>⚠️ 各演舞および審査演舞は【演舞開始時刻の15分前】が受付時間となります。時間に余裕を持って集合してください。</div>
-      <div style="color: #ffffff; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">💧 演舞後は給水して次の行動予定の案内を聞いてから自由行動です。</div>
-    </div>
-
-    <!-- 9/5 (土) スケジュール -->
-    <div class="card" style="margin-bottom: 32px; padding: 0; overflow: hidden; border-color: #d4af37;">
-      <div style="background: linear-gradient(90deg, #0f1b29 0%, #1e293b 100%); padding: 16px 20px; border-bottom: 2px solid #d4af37;">
-        <h2 style="font-size: 1.3rem; color: #ffffff; margin: 0; font-family: var(--font-family-mincho);">
-          9月5日 (土) <span style="font-size: 0.9rem; color: #cbd5e1; font-family: 'Inter', sans-serif;">第1日目</span>
-        </h2>
-      </div>
-      
-      <!-- 集合・出発 連絡案内サマリー -->
-      <div style="background: rgba(15, 23, 42, 0.7); padding: 16px 20px; border-bottom: 1px solid #334155; font-size: 0.95rem;">
-        <div style="font-weight: 700; color: #fbbf24; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
-          📍 9/5 (土) 集合・出発・運営案内
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 8px; color: #ffffff; font-weight: 500; margin-bottom: 12px;">
-          <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発</div>
-          <div><strong style="color: #60a5fa; font-weight: 700;">【凛ジュニア】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #f472b6; font-weight: 700;">15:55集合 ハンター（ホストチーム運営 16:25〜17:25 ※係に当たっている人のみ）</span></div>
-          <div><strong style="color: #4ade80; font-weight: 700;">【凛きっず】</strong> 11:00 弁天山公園集合 ｜ 14:00 JA鈴鹿集合 ｜ 17:40 弁天山公園集合</div>
-        </div>
-        <div style="padding-top: 10px; border-top: 1px dashed #475569; color: #ffffff; font-weight: 500;">
-          <strong style="color: #7dd3fc; font-size: 0.95rem;">✨ 夜のエキシビション ＆ 解散（全チーム共通）:</strong><br>
-          ・19:00 エキシビションチーム発表 ｜ 19:35〜20:20 エキシビション演舞（選出された場合）<br>
-          ・20:30 1日目終了・翌日予定連絡後解散（※エキシビションに選出されなかった場合は解散時間が早まる可能性あり）
         </div>
       </div>
 
-      <div class="timeline-table-wrapper">
-        <table class="timeline-table">
-          <thead>
-            <tr>
-              <th style="width: 80px; text-align: center;">時間</th>
-              <th style="width: 110px; text-align: center;">チーム</th>
-              <th style="text-align: center;">会場</th>
-              <th style="width: 80px; text-align: center;">種別</th>
-            </tr>
-          </thead>
-          <tbody id="schedule-body-day1">
-            <!-- JSで動的生成 -->
-          </tbody>
-        </table>
-        <div id="empty-msg-day1" style="display:none; text-align:center; padding: 24px; color: #cbd5e1;">表示対象のスケジュールがありません。</div>
-      </div>
-    </div>
-
-    <!-- 9/6 (日) スケジュール -->
-    <div class="card" style="margin-bottom: 32px; padding: 0; overflow: hidden; border-color: #d4af37;">
-      <div style="background: linear-gradient(90deg, #0f1b29 0%, #1e293b 100%); padding: 16px 20px; border-bottom: 2px solid #d4af37;">
-        <h2 style="font-size: 1.3rem; color: #ffffff; margin: 0; font-family: var(--font-family-mincho);">
-          9月6日 (日) <span style="font-size: 0.9rem; color: #cbd5e1; font-family: 'Inter', sans-serif;">第2日目</span>
-        </h2>
-      </div>
-
-      <!-- 運営・案内サマリー -->
-      <div style="background: rgba(15, 23, 42, 0.7); padding: 16px 20px; border-bottom: 1px solid #334155; font-size: 0.95rem;">
-        <div style="font-weight: 700; color: #fbbf24; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
-          📍 9/6 (日) 集合・運営案内
+      <!-- 公式タイムスケジュールテーブル表示エリア -->
+      <div class="card" style="padding: 0; overflow: hidden; border-color: #d4af37; background: #0f1b29;">
+        <div style="background: linear-gradient(90deg, #0f1b29 0%, #1e293b 100%); padding: 14px 18px; border-bottom: 2px solid #d4af37; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <h2 id="official-table-title" style="font-size: 1.15rem; color: #ffffff; margin: 0; font-family: var(--font-family-mincho);">
+            第28回すずかフェスティバル 公式タイムスケジュール
+          </h2>
+          <span class="badge" style="background: var(--domatsuri-gold); color: #0f1b29; font-weight: 700;">公式全体タイムテーブル</span>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 8px; color: #ffffff; font-weight: 500; margin-bottom: 12px;">
-          <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #f472b6; font-weight: 700;">10:40集合 ハンター（ホストチーム運営 11:10〜12:00 ※係のみ）</span> ｜ 14:30 JA鈴鹿集合 ｜ 17:00 本陣集合</div>
-          <div><strong style="color: #60a5fa; font-weight: 700;">【凛ジュニア】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発 ｜ 12:10 JA鈴鹿集合 ｜ 14:30 本陣集合</div>
-          <div><strong style="color: #4ade80; font-weight: 700;">【凛きっず】</strong> 9:30 弁天山公園集合 ｜ 11:55 本陣集合</div>
-        </div>
-        <div style="padding-top: 10px; border-top: 1px dashed #475569; color: #ffffff; font-weight: 500;">
-          <strong style="color: #7dd3fc; font-size: 0.95rem;">🏆 夕方〜夜の審査発表 ＆ 解散案内:</strong><br>
-          ・<strong>きっず・ジュニア:</strong> 17:50 踊り子待機場所集合（代表者1名） ｜ 18:20 Jr審査発表<br>
-          ・<strong>ダンスチーム凛:</strong> 18:00 ファイナルチーム発表 ｜ 18:35〜19:20 ファイナルコンテスト（選出時） ｜ 19:00 踊り子待機場所集合（代表者1名） ｜ 19:40〜 各審査発表<br>
-          ・<strong>20:30 2日目演舞全日程終了・解散（全チーム共通）</strong>
+
+        <div style="overflow-x: auto; max-height: 70vh;">
+          <table class="official-table">
+            <thead>
+              <tr>
+                <th style="width: 75px;">時間</th>
+                <th id="th-benten">弁天山公園</th>
+                <th id="th-hunter">鈴鹿ハンター</th>
+                <th id="th-ja">JA鈴鹿</th>
+              </tr>
+            </thead>
+            <tbody id="official-table-body">
+              <!-- JSで動的レンダリング -->
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <div class="timeline-table-wrapper">
-        <table class="timeline-table">
-          <thead>
-            <tr>
-              <th style="width: 80px; text-align: center;">時間</th>
-              <th style="width: 110px; text-align: center;">チーム</th>
-              <th style="text-align: center;">会場</th>
-              <th style="width: 80px; text-align: center;">種別</th>
-            </tr>
-          </thead>
-          <tbody id="schedule-body-day2">
-            <!-- JSで動的生成 -->
-          </tbody>
-        </table>
-        <div id="empty-msg-day2" style="display:none; text-align:center; padding: 24px; color: #94a3b8;">表示対象のスケジュールがありません。</div>
-      </div>
     </div>
 
   </main>
 
   <script>
-    // スケジュールデータ
+    // 凛グループ専用スケジュールデータ
     const scheduleData = [
       // 9/5 (Sat)
       { id: "rin", name: "ダンスチーム凛", date: "day1", time: "08:30", venue: "橘公園", type: "集合" },
@@ -300,7 +388,7 @@
       { id: "rin", name: "ダンスチーム凛", date: "day1", time: "15:30", venue: "ハンター", type: "演舞" },
       { id: "rin", name: "ダンスチーム凛", date: "day1", time: "19:00", venue: "エキシビションチーム発表", type: "発表" },
       { id: "rin", name: "ダンスチーム凛", date: "day1", time: "19:35", venue: "エキシビション（選出時 19:35〜20:20）", type: "演舞" },
-      { id: "rin", name: "ダンスチーム凛", date: "day1", time: "20:30", venue: "1日目終了・翌日予定連絡後解散（※不選出時は解散が早まる可能性あり）", type: "解散" },
+      { id: "rin", name: "ダンスチーム凛", date: "day1", time: "20:30", venue: "1日目終了・解散", type: "解散" },
       
       { id: "jr", name: "凛ジュニア", date: "day1", time: "09:00", venue: "橘公園", type: "集合" },
       { id: "jr", name: "凛ジュニア", date: "day1", time: "10:00", venue: "橘公園 出発", type: "出発" },
@@ -309,12 +397,12 @@
       { id: "jr", name: "凛ジュニア", date: "day1", time: "14:25", venue: "本陣 集合", type: "集合" },
       { id: "jr", name: "凛ジュニア", date: "day1", time: "14:55", venue: "弁天山審査", type: "審査" },
       { id: "jr", name: "凛ジュニア", date: "day1", time: "15:55", venue: "ハンター 集合（ホスト運営※係のみ）", type: "集合" },
-      { id: "jr", name: "凛ジュニア", date: "day1", time: "16:25", venue: "ハンター（ホスト運営 16:25〜17:25 ※係のみ）", type: "運営" },
+      { id: "jr", name: "凛ジュニア", date: "day1", time: "16:25", venue: "ハンター（ホスト運営 16:25〜17:25）", type: "運営" },
       { id: "jr", name: "凛ジュニア", date: "day1", time: "16:50", venue: "本陣 集合", type: "集合" },
       { id: "jr", name: "凛ジュニア", date: "day1", time: "17:20", venue: "ハンター", type: "演舞" },
       { id: "jr", name: "凛ジュニア", date: "day1", time: "19:00", venue: "エキシビションチーム発表", type: "発表" },
       { id: "jr", name: "凛ジュニア", date: "day1", time: "19:35", venue: "エキシビション（選出時 19:35〜20:20）", type: "演舞" },
-      { id: "jr", name: "凛ジュニア", date: "day1", time: "20:30", venue: "1日目終了・翌日予定連絡後解散（※不選出時は解散が早まる可能性あり）", type: "解散" },
+      { id: "jr", name: "凛ジュニア", date: "day1", time: "20:30", venue: "1日目終了・解散", type: "解散" },
       
       { id: "kids", name: "凛きっず", date: "day1", time: "11:00", venue: "弁天山公園", type: "集合" },
       { id: "kids", name: "凛きっず", date: "day1", time: "11:35", venue: "ハンター", type: "演舞" },
@@ -324,13 +412,13 @@
       { id: "kids", name: "凛きっず", date: "day1", time: "18:10", venue: "弁天山審査", type: "審査" },
       { id: "kids", name: "凛きっず", date: "day1", time: "19:00", venue: "エキシビションチーム発表", type: "発表" },
       { id: "kids", name: "凛きっず", date: "day1", time: "19:35", venue: "エキシビション（選出時 19:35〜20:20）", type: "演舞" },
-      { id: "kids", name: "凛きっず", date: "day1", time: "20:30", venue: "1日目終了・翌日予定連絡後解散（※不選出時は解散が早まる可能性あり）", type: "解散" },
+      { id: "kids", name: "凛きっず", date: "day1", time: "20:30", venue: "1日目終了・解散", type: "解散" },
 
       // 9/6 (Sun)
       { id: "rin", name: "ダンスチーム凛", date: "day2", time: "09:00", venue: "橘公園", type: "集合" },
       { id: "rin", name: "ダンスチーム凛", date: "day2", time: "10:00", venue: "橘公園 出発", type: "出発" },
       { id: "rin", name: "ダンスチーム凛", date: "day2", time: "10:40", venue: "ハンター 集合（ホスト運営※係のみ）", type: "集合" },
-      { id: "rin", name: "ダンスチーム凛", date: "day2", time: "11:10", venue: "ハンター（ホスト運営 11:10〜12:00 ※係のみ）", type: "運営" },
+      { id: "rin", name: "ダンスチーム凛", date: "day2", time: "11:10", venue: "ハンター（ホスト運営 11:10〜12:00）", type: "運営" },
       { id: "rin", name: "ダンスチーム凛", date: "day2", time: "12:05", venue: "ハンター", type: "演舞" },
       { id: "rin", name: "ダンスチーム凛", date: "day2", time: "14:30", venue: "JA鈴鹿 集合", type: "集合" },
       { id: "rin", name: "ダンスチーム凛", date: "day2", time: "15:05", venue: "JA鈴鹿", type: "演舞" },
@@ -360,8 +448,319 @@
       { id: "kids", name: "凛きっず", date: "day2", time: "14:50", venue: "ハンター", type: "演舞" },
       { id: "kids", name: "凛きっず", date: "day2", time: "17:50", venue: "踊り子待機場所 集合（※代表者1名）", type: "集合" },
       { id: "kids", name: "凛きっず", date: "day2", time: "18:20", venue: "Jr審査発表", type: "発表" },
-      { id: "kids", name: "凛きっず", date: "day2", time: "20:30", venue: "2日目全日程終了・解散", type: "解散" },
+      { id: "kids", name: "凛きっず", date: "day2", time: "20:30", venue: "2日目全日程終了・解散", type: "解散" }
     ];
+
+    // 公式全体タイムスケジュールデータ (PDF資料より完全再現)
+    const officialDataDay1 = [
+      { time: '09:55', benten: '会場オープニング', hunter: '会場オープニング', ja: '' },
+      { time: '10:00', benten: '', hunter: '16 スタジオX', ja: '' },
+      { time: '10:05', benten: '会場オープニング', hunter: '48 咲くやこの花', ja: '' },
+      { time: '10:10', benten: '42 スタジオX 3歳児クラス', hunter: '44 happiness', ja: '' },
+      { time: '10:15', benten: '17 皇學館大学 雅', hunter: '28 Sparkle Gem', ja: '' },
+      { time: '10:20', benten: '45 ダンスチーム凛', hunter: '34 スタジオXキッズチーム', ja: '' },
+      { time: '10:25', benten: '50 きらく 祭遊旗', hunter: '3 ACTY KIDS', ja: '' },
+      { time: '10:30', benten: '13 極津', hunter: '35 Viva la crew', ja: '' },
+      { time: '10:35', benten: '30 西ダン', hunter: '39 DANCESTUDIOBEAT', ja: '' },
+      { time: '10:40', benten: '10 津々うらら', hunter: '14 スタジオX ジュニアチーム', ja: '' },
+      { time: '10:45', benten: '6 嘉舞羅', hunter: '23 月影', ja: '' },
+      { time: '10:50', benten: '41 スタジオX IDOLチーム', hunter: '27 天狗ぅ', ja: '' },
+      { time: '10:55', benten: '2 ACTY DANCE CREW', hunter: '9 よさこい塾・ありがた屋', ja: '' },
+      { time: '11:00', benten: '7 P→SEN', hunter: '調整', ja: '' },
+      { time: '11:05', benten: '4 祠音-shinon-', hunter: '38 DANCESTUDIOACE', ja: '' },
+      { time: '11:10', benten: '調整', hunter: '22 桜花女', ja: '' },
+      { time: '11:15', benten: '33 皇學館大学ダンス部 ALLURE', hunter: '21 鳳牙', ja: '' },
+      { time: '11:20', benten: '20 わいわい踊ろう会', hunter: '15 スタジオX K-POPジュニアチーム', ja: '' },
+      { time: '11:25', benten: '36 夂迅', hunter: '18 勝山組', ja: '' },
+      { time: '11:30', benten: '1 志舞', hunter: '37 カモシカボーイズ', ja: '' },
+      { time: '11:35', benten: '24 津凪-tsunagi-', hunter: '47 凛きっず', ja: '' },
+      { time: '11:40', benten: '19 中部電力 灯守', hunter: '43 刃-BLADE-', ja: '' },
+      { time: '11:45', benten: '12 GAP', hunter: '40 DanceチームCoconattu', ja: '' },
+      { time: '11:50', benten: '5 掌栄組', hunter: '49 忍神', ja: '' },
+      { time: '11:55', benten: '25 SD Crew', hunter: '26 TYJD DANCE STUDIO', ja: '' },
+      { time: '12:00', benten: '31 飃～FREEDOM～', hunter: '51 三重ソーラン隊かもめ', ja: '' },
+      { time: '12:05', benten: '8 笑楽-eraku-', hunter: '11 めっちゃええやんず', ja: '' },
+      { time: '12:10', benten: '46 凛ジュニア', hunter: '', ja: '' },
+      { time: '12:15', benten: '和おどり', hunter: 'パフォーマンス① 「めっちゃ叩く隊」', ja: '' },
+      { time: '12:20', benten: '調整', hunter: '', ja: '' },
+      { time: '12:25', benten: '踊り大会オープニング', hunter: '', ja: '' },
+      { time: '12:35', benten: '42 スタジオX 3歳児クラス', hunter: '', ja: '' },
+      { time: '12:40', benten: '17 皇學館大学 雅', hunter: '', ja: '' },
+      { time: '12:45', benten: '45 ダンスチーム凛', hunter: '', ja: '' },
+      { time: '12:50', benten: '50 きらく 祭遊旗', hunter: '', ja: '' },
+      { time: '12:55', benten: '13 極津', hunter: '', ja: '' },
+      { time: '13:00', benten: '30 西ダン', hunter: '', ja: '' },
+      { time: '13:05', benten: '10 津々うらら', hunter: '', ja: '' },
+      { time: '13:10', benten: '6 嘉舞羅', hunter: '会場オープニング', ja: '会場オープニング' },
+      { time: '13:15', benten: '41 スタジオX IDOLチーム', hunter: '16 スタジオX', ja: '16 スタジオX' },
+      { time: '13:20', benten: '2 ACTY DANCE CREW', hunter: '48 咲くやこの花', ja: '48 咲くやこの花' },
+      { time: '13:25', benten: '7 P→SEN', hunter: '44 happiness', ja: '44 happiness' },
+      { time: '13:30', benten: '4 祠音-shinon-', hunter: '28 Sparkle Gem', ja: '28 Sparkle Gem' },
+      { time: '13:35', benten: '調整', hunter: '34 スタジオXキッズチーム', ja: '34 スタジオXキッズチーム' },
+      { time: '13:40', benten: 'パフォーマンス① 「めっちゃ叩く隊」', hunter: '3 ACTY KIDS', ja: '3 ACTY KIDS' },
+      { time: '13:45', benten: '', hunter: '35 Viva la crew', ja: '35 Viva la crew' },
+      { time: '13:50', benten: '', hunter: '39 DANCESTUDIOBEAT', ja: '39 DANCESTUDIOBEAT' },
+      { time: '13:55', benten: '調整', hunter: '14 スタジオX ジュニアチーム', ja: '14 スタジオX ジュニアチーム' },
+      { time: '14:00', benten: '33 皇學館大学ダンス部 ALLURE', hunter: '23 月影', ja: '23 月影' },
+      { time: '14:05', benten: '20 わいわい踊ろう会', hunter: '9 よさこい塾・ありがた屋', ja: '9 よさこい塾・ありがた屋' },
+      { time: '14:10', benten: '36 夂迅', hunter: '27 天狗ぅ', ja: '27 天狗ぅ' },
+      { time: '14:15', benten: '1 志舞', hunter: '調整', ja: '調整' },
+      { time: '14:20', benten: '24 津凪-tsunagi-', hunter: '38 DANCESTUDIOACE', ja: '38 DANCESTUDIOACE' },
+      { time: '14:25', benten: '19 中部電力 灯守', hunter: '15 スタジオX K-POPジュニアチーム', ja: '15 スタジオX K-POPジュニアチーム' },
+      { time: '14:30', benten: '12 GAP', hunter: '18 勝山組', ja: '18 勝山組' },
+      { time: '14:35', benten: '5 掌栄組', hunter: '37 カモシカボーイズ', ja: '37 カモシカボーイズ' },
+      { time: '14:40', benten: '25 SD Crew', hunter: '47 凛きっず', ja: '47 凛きっず' },
+      { time: '14:45', benten: '31 飃～FREEDOM～', hunter: '43 刃-BLADE-', ja: '43 刃-BLADE-' },
+      { time: '14:50', benten: '8 笑楽-eraku-', hunter: '40 DanceチームCoconattu', ja: '40 DanceチームCoconattu' },
+      { time: '14:55', benten: '46 凛ジュニア', hunter: '49 忍神', ja: '49 忍神' },
+      { time: '15:00', benten: '調整', hunter: '26 TYJD DANCE STUDIO', ja: '26 TYJD DANCE STUDIO' },
+      { time: '15:05', benten: '調整', hunter: '11 めっちゃええやんず', ja: '11 めっちゃええやんず' },
+      { time: '15:10', benten: '調整', hunter: '51 三重ソーラン隊かもめ', ja: '51 三重ソーラン隊かもめ' },
+      { time: '15:15', benten: '調整', hunter: '終了', ja: '終了' },
+      { time: '15:20', benten: '調整', hunter: '42 スタジオX 3歳児クラス', ja: '' },
+      { time: '15:25', benten: '調整', hunter: '17 皇學館大学 雅', ja: '' },
+      { time: '15:30', benten: '', hunter: '45 ダンスチーム凛', ja: '' },
+      { time: '15:35', benten: '', hunter: '50 きらく 祭遊旗', ja: '' },
+      { time: '15:40', benten: 'TV放送オープニング', hunter: '13 極津', ja: '' },
+      { time: '15:45', benten: '', hunter: '30 西ダン', ja: '' },
+      { time: '15:50', benten: '', hunter: '10 津々うらら', ja: '' },
+      { time: '15:55', benten: '16 スタジオX', hunter: '6 嘉舞羅', ja: '' },
+      { time: '16:00', benten: '48 咲くやこの花', hunter: '41 スタジオX IDOLチーム', ja: '' },
+      { time: '16:05', benten: '44 happiness', hunter: '2 ACTY DANCE CREW', ja: '' },
+      { time: '16:10', benten: '28 Sparkle Gem', hunter: '7 P→SEN', ja: '' },
+      { time: '16:15', benten: '34 スタジオXキッズチーム', hunter: '4 祠音-shinon-', ja: '' },
+      { time: '16:20', benten: '29 みそら☆ひばりぃず', hunter: '調整', ja: '' },
+      { time: '16:25', benten: '3 ACTY KIDS', hunter: '33 皇學館大学ダンス部 ALLURE', ja: '' },
+      { time: '16:30', benten: '35 Viva la crew', hunter: '20 わいわい踊ろう会', ja: '' },
+      { time: '16:35', benten: '39 DANCESTUDIOBEAT', hunter: '36 夂迅', ja: '' },
+      { time: '16:40', benten: '14 スタジオX ジュニアチーム', hunter: '1 志舞', ja: '' },
+      { time: '16:45', benten: '23 月影', hunter: '24 津凪-tsunagi-', ja: '' },
+      { time: '16:50', benten: '27 天狗ぅ', hunter: '19 中部電力 灯守', ja: '' },
+      { time: '16:55', benten: '9 よさこい塾・ありがた屋', hunter: '12 GAP', ja: '' },
+      { time: '17:00', benten: '調整 / パフォーマンス③ 神戸高校', hunter: '5 掌栄組', ja: '' },
+      { time: '17:05', benten: '', hunter: '25 SD Crew', ja: '' },
+      { time: '17:10', benten: '', hunter: '31 飃～FREEDOM～', ja: '' },
+      { time: '17:15', benten: '', hunter: '8 笑楽-eraku-', ja: '' },
+      { time: '17:20', benten: 'パフォーマンス④ 神戸高校', hunter: '46 凛ジュニア', ja: '' },
+      { time: '17:25', benten: '', hunter: '9 よさこい塾・ありがた屋', ja: '' },
+      { time: '17:30', benten: '', hunter: '23 月影 / すずフェス体験隊', ja: '' },
+      { time: '17:35', benten: '調整', hunter: 'すずフェス体験隊 / 終了', ja: '' },
+      { time: '17:40', benten: '38 DANCESTUDIOACE', hunter: '', ja: '' },
+      { time: '17:45', benten: '22 桜花女', hunter: '', ja: '' },
+      { time: '17:50', benten: '21 鳳牙', hunter: '', ja: '' },
+      { time: '17:55', benten: '15 スタジオX K-POPジュニアチーム', hunter: '', ja: '' },
+      { time: '18:00', benten: '18 勝山組', hunter: '', ja: '' },
+      { time: '18:05', benten: '37 カモシカボーイズ', hunter: '', ja: '' },
+      { time: '18:10', benten: '47 凛きっず', hunter: '', ja: '' },
+      { time: '18:15', benten: '43 刃-BLADE-', hunter: '', ja: '' },
+      { time: '18:20', benten: '40 DanceチームCoconattu', hunter: '', ja: '' },
+      { time: '18:25', benten: '49 忍神', hunter: '', ja: '' },
+      { time: '18:30', benten: '26 TYJD DANCE STUDIO', hunter: '', ja: '' },
+      { time: '18:35', benten: '51 三重ソーラン隊かもめ', hunter: '', ja: '' },
+      { time: '18:40', benten: '11 めっちゃええやんず', hunter: '', ja: '' },
+      { time: '18:45', benten: 'ひのわ / 23 月影 / 9 よさこい塾', hunter: '', ja: '' },
+      { time: '19:00', benten: 'エキシビションチーム発表', hunter: '', ja: '' },
+      { time: '19:35', benten: 'エキシビション演舞 (19:35〜20:20)', hunter: '', ja: '' },
+      { time: '20:20', benten: '和おどり', hunter: '', ja: '' },
+      { time: '20:30', benten: '終了', hunter: '', ja: '' }
+    ];
+
+    const officialDataDay2 = [
+      { time: '09:55', benten: '会場オープニング', hunter: '会場オープニング', ja: '' },
+      { time: '10:00', benten: '47 凛きっず', hunter: '46 凛ジュニア', ja: '' },
+      { time: '10:05', benten: '26 TYJD DANCE STUDIO', hunter: '52 よさこい炎舞連『神陽～Sin～』', ja: '' },
+      { time: '10:10', benten: '11 めっちゃええやんず', hunter: '8 笑楽-eraku-', ja: '' },
+      { time: '10:15', benten: '22 桜花女', hunter: '19 中部電力 灯守', ja: '' },
+      { time: '10:20', benten: '37 カモシカボーイズ', hunter: '1 志舞', ja: '' },
+      { time: '10:25', benten: '43 刃-BLADE-', hunter: '36 夂迅', ja: '' },
+      { time: '10:30', benten: '38 DANCESTUDIOACE', hunter: '25 SD Crew', ja: '' },
+      { time: '10:35', benten: '21 鳳牙', hunter: '20 わいわい踊ろう会', ja: '' },
+      { time: '10:40', benten: '40 DanceチームCoconattu', hunter: '33 皇學館大学ダンス部 ALLURE', ja: '' },
+      { time: '10:45', benten: '15 スタジオX K-POPジュニアチーム', hunter: '12 GAP', ja: '' },
+      { time: '10:50', benten: '51 三重ソーラン隊かもめ', hunter: '5 掌栄組', ja: '' },
+      { time: '10:55', benten: '49 忍神', hunter: '31 飃～FREEDOM～', ja: '' },
+      { time: '11:00', benten: '18 勝山組', hunter: '24 津凪-tsunagi-', ja: '' },
+      { time: '11:05', benten: '調整', hunter: '調整', ja: '' },
+      { time: '11:10', benten: '9 よさこい塾・ありがた屋', hunter: '50 きらく 祭遊旗', ja: '' },
+      { time: '11:15', benten: '3 ACTY KIDS', hunter: '7 P→SEN', ja: '' },
+      { time: '11:20', benten: '14 スタジオX ジュニアチーム', hunter: '4 祠音-shinon-', ja: '' },
+      { time: '11:25', benten: '27 天狗ぅ', hunter: '17 皇學館大学 雅', ja: '' },
+      { time: '11:30', benten: '44 happiness', hunter: '6 嘉舞羅', ja: '' },
+      { time: '11:35', benten: '39 DANCESTUDIOBEAT', hunter: '42 スタジオX 3歳児クラス', ja: '' },
+      { time: '11:40', benten: '34 スタジオXキッズチーム', hunter: '41 スタジオX IDOLチーム', ja: '' },
+      { time: '11:45', benten: '1日だけ参加', hunter: '10 津々うらら', ja: '' },
+      { time: '11:50', benten: '35 Viva la crew', hunter: '2 ACTY DANCE CREW', ja: '' },
+      { time: '11:55', benten: '28 Sparkle Gem', hunter: '13 極津', ja: '' },
+      { time: '12:00', benten: '16 スタジオX', hunter: '30 西ダン', ja: '' },
+      { time: '12:05', benten: '23 月影', hunter: '45 ダンスチーム凛', ja: '' },
+      { time: '12:10', benten: '和おどり', hunter: '', ja: '' },
+      { time: '12:15', benten: '和おどり / パフォーマンス⑥', hunter: 'パフォーマンス⑥\' Jellicle Girls', ja: '' },
+      { time: '12:25', benten: '47 凛きっず', hunter: '', ja: '' },
+      { time: '12:30', benten: '26 TYJD DANCE STUDIO', hunter: '', ja: '' },
+      { time: '12:35', benten: '11 めっちゃええやんず', hunter: '', ja: '' },
+      { time: '12:40', benten: '22 桜花女', hunter: '', ja: '' },
+      { time: '12:45', benten: '37 カモシカボーイズ', hunter: '', ja: '' },
+      { time: '12:50', benten: '43 刃-BLADE-', hunter: '', ja: '' },
+      { time: '12:55', benten: '38 DANCESTUDIOACE', hunter: '', ja: '会場オープニング' },
+      { time: '13:00', benten: '21 鳳牙', hunter: '', ja: '46 凛ジュニア' },
+      { time: '13:05', benten: '40 DanceチームCoconattu', hunter: '', ja: '52 よさこい炎舞連『神陽～Sin～』' },
+      { time: '13:10', benten: '15 スタジオX K-POPジュニアチーム', hunter: '', ja: '8 笑楽-eraku-' },
+      { time: '13:15', benten: '51 三重ソーラン隊かもめ', hunter: '', ja: '19 中部電力 灯守' },
+      { time: '13:20', benten: '49 忍神', hunter: '', ja: '1 志舞' },
+      { time: '13:25', benten: '18 勝山組', hunter: '', ja: '36 夂迅' },
+      { time: '13:30', benten: '調整', hunter: '', ja: '25 SD Crew' },
+      { time: '13:35', benten: '', hunter: '', ja: '20 わいわい踊ろう会' },
+      { time: '13:40', benten: '', hunter: '', ja: '33 皇學館大学ダンス部 ALLURE' },
+      { time: '13:45', benten: '', hunter: '', ja: '12 GAP' },
+      { time: '13:50', benten: '9 よさこい塾・ありがた屋', hunter: '', ja: '5 掌栄組' },
+      { time: '13:55', benten: '3 ACTY KIDS', hunter: '', ja: '24 津凪-tsunagi-' },
+      { time: '14:00', benten: '14 スタジオX ジュニアチーム', hunter: '', ja: '31 飃～FREEDOM～' },
+      { time: '14:05', benten: '29 みそら☆ひばりぃず', hunter: '', ja: '調整' },
+      { time: '14:10', benten: '27 天狗ぅ', hunter: '', ja: '50 きらく 祭遊旗' },
+      { time: '14:15', benten: '44 happiness', hunter: '', ja: '7 P→SEN' },
+      { time: '14:20', benten: '39 DANCESTUDIOBEAT', hunter: '', ja: '32 日本lilypan舞踊芸術団' },
+      { time: '14:25', benten: '34 スタジオXキッズチーム', hunter: '', ja: '4 祠音-shinon-' },
+      { time: '14:30', benten: '35 Viva la crew', hunter: '', ja: '17 皇學館大学 雅' },
+      { time: '14:35', benten: '28 Sparkle Gem', hunter: '', ja: '6 嘉舞羅' },
+      { time: '14:40', benten: '16 スタジオX', hunter: '', ja: '42 スタジオX 3歳児クラス' },
+      { time: '14:45', benten: '23 月影', hunter: '', ja: '41 スタジオX IDOLチーム' },
+      { time: '14:50', benten: '調整 / OP', hunter: '', ja: '47 凛きっず' },
+      { time: '14:55', benten: '', hunter: '', ja: '26 TYJD DANCE STUDIO / 2 ACTY DANCE CREW' },
+      { time: '15:00', benten: '', hunter: '', ja: '11 めっちゃええやんず / 13 極津' },
+      { time: '15:05', benten: '46 凛ジュニア', hunter: '', ja: '22 桜花女 / 45 ダンスチーム凛' },
+      { time: '15:10', benten: '52 よさこい炎舞連『神陽～Sin～』', hunter: '', ja: '37 カモシカボーイズ / 終了' },
+      { time: '15:15', benten: '8 笑楽-eraku-', hunter: '', ja: '' },
+      { time: '15:20', benten: '19 中部電力 灯守', hunter: '38 DANCESTUDIOACE', ja: '' },
+      { time: '15:25', benten: '1 志舞', hunter: '21 鳳牙', ja: '' },
+      { time: '15:30', benten: '36 夂迅', hunter: '40 DanceチームCoconattu', ja: '' },
+      { time: '15:35', benten: '25 SD Crew', hunter: '15 スタジオX K-POPジュニアチーム', ja: '' },
+      { time: '15:40', benten: '20 わいわい踊ろう会', hunter: '51 三重ソーラン隊かもめ', ja: '' },
+      { time: '15:45', benten: '33 皇學館大学ダンス部 ALLURE', hunter: '49 忍神', ja: '' },
+      { time: '15:50', benten: '12 GAP', hunter: '18 勝山組', ja: '' },
+      { time: '15:55', benten: '5 掌栄組', hunter: '', ja: '' },
+      { time: '16:00', benten: '31 飃～FREEDOM～', hunter: '', ja: '' },
+      { time: '16:05', benten: '24 津凪-tsunagi-', hunter: '', ja: '' },
+      { time: '16:10', benten: '調整 / パフォーマンス⑦ EMI music', hunter: 'パフォーマンス⑨\' ベリーダンスチームイシス', ja: '' },
+      { time: '16:35', benten: '50 きらく 祭遊旗', hunter: '9 よさこい塾・ありがた屋', ja: '' },
+      { time: '16:40', benten: '7 P→SEN', hunter: '', ja: '' },
+      { time: '16:45', benten: '32 日本lilypan舞踊芸術団', hunter: '3 ACTY KIDS', ja: '' },
+      { time: '16:50', benten: '4 祠音-shinon-', hunter: '14 スタジオX ジュニアチーム', ja: '' },
+      { time: '16:55', benten: '17 皇學館大学 雅', hunter: '27 天狗ぅ', ja: '' },
+      { time: '17:00', benten: '6 嘉舞羅', hunter: '44 happiness', ja: '' },
+      { time: '17:05', benten: '42 スタジオX 3歳児クラス', hunter: '39 DANCESTUDIOBEAT', ja: '' },
+      { time: '17:10', benten: '41 スタジオX IDOLチーム', hunter: '34 スタジオXキッズチーム', ja: '' },
+      { time: '17:15', benten: '10 津々うらら', hunter: '35 Viva la crew', ja: '' },
+      { time: '17:20', benten: '2 ACTY DANCE CREW', hunter: '28 Sparkle Gem', ja: '' },
+      { time: '17:25', benten: '13 極津', hunter: '16 スタジオX', ja: '' },
+      { time: '17:30', benten: '30 西ダン', hunter: '23 月影 / 終了', ja: '' },
+      { time: '17:35', benten: '45 ダンスチーム凛', hunter: '', ja: '' },
+      { time: '17:40', benten: '調整 / 24 津凪 / ベリーダンス', hunter: '', ja: '' },
+      { time: '18:00', benten: 'ファイナルチーム発表', hunter: '', ja: '' },
+      { time: '18:20', benten: 'Jrチーム審査発表 / Jr大賞演舞', hunter: '', ja: '' },
+      { time: '18:35', benten: 'ファイナルコンテスト', hunter: '', ja: '' },
+      { time: '19:20', benten: '参加チーム・サポーター紹介', hunter: '', ja: '' },
+      { time: '19:35', benten: '各審査発表・大賞演舞・総踊り', hunter: '', ja: '' },
+      { time: '20:30', benten: '終了', hunter: '', ja: '' }
+    ];
+
+    let currentOfficialDay = 'day1';
+
+    function switchSuzukaView(viewType) {
+      const rinSec = document.getElementById('section-rin-view');
+      const officialSec = document.getElementById('section-official-view');
+      const btnRin = document.getElementById('view-btn-rin');
+      const btnOfficial = document.getElementById('view-btn-official');
+
+      if (viewType === 'rin') {
+        rinSec.style.display = 'block';
+        officialSec.style.display = 'none';
+        btnRin.style.background = 'var(--domatsuri-gold)';
+        btnRin.style.color = '#0f1b29';
+        btnOfficial.style.background = 'transparent';
+        btnOfficial.style.color = '#ffffff';
+      } else {
+        rinSec.style.display = 'none';
+        officialSec.style.display = 'block';
+        btnOfficial.style.background = 'var(--domatsuri-gold)';
+        btnOfficial.style.color = '#0f1b29';
+        btnRin.style.background = 'transparent';
+        btnRin.style.color = '#ffffff';
+        renderOfficialTable();
+      }
+    }
+
+    function switchOfficialDay(day) {
+      currentOfficialDay = day;
+      const btn1 = document.getElementById('btn-official-day1');
+      const btn2 = document.getElementById('btn-official-day2');
+
+      if (day === 'day1') {
+        btn1.style.background = 'var(--domatsuri-gold)';
+        btn1.style.color = '#0f1b29';
+        btn2.style.background = 'transparent';
+        btn2.style.color = '#ffffff';
+      } else {
+        btn2.style.background = 'var(--domatsuri-gold)';
+        btn2.style.color = '#0f1b29';
+        btn1.style.background = 'transparent';
+        btn1.style.color = '#ffffff';
+      }
+      renderOfficialTable();
+    }
+
+    function filterOfficialSchedule() {
+      renderOfficialTable();
+    }
+
+    function renderOfficialTable() {
+      const tbody = document.getElementById('official-table-body');
+      const query = (document.getElementById('official-search-input')?.value || '').trim().toLowerCase();
+      const venueSelect = document.getElementById('official-venue-select')?.value || 'all';
+
+      const data = (currentOfficialDay === 'day1') ? officialDataDay1 : officialDataDay2;
+
+      // カラム表示切り替え
+      const thBenten = document.getElementById('th-benten');
+      const thHunter = document.getElementById('th-hunter');
+      const thJa = document.getElementById('th-ja');
+
+      if (thBenten) thBenten.style.display = (venueSelect === 'all' || venueSelect === 'benten') ? '' : 'none';
+      if (thHunter) thHunter.style.display = (venueSelect === 'all' || venueSelect === 'hunter') ? '' : 'none';
+      if (thJa) thJa.style.display = (venueSelect === 'all' || venueSelect === 'ja') ? '' : 'none';
+
+      tbody.innerHTML = '';
+
+      data.forEach(row => {
+        const matchBenten = query && row.benten.toLowerCase().includes(query);
+        const matchHunter = query && row.hunter.toLowerCase().includes(query);
+        const matchJa = query && row.ja.toLowerCase().includes(query);
+        const isQueryMatched = query && (matchBenten || matchHunter || matchJa);
+
+        // 検索クエリがあり、行内に一致がない場合は非表示
+        if (query && !isQueryMatched) return;
+
+        const isRinBenten = row.benten.includes('凛');
+        const isRinHunter = row.hunter.includes('凛');
+        const isRinJa = row.ja.includes('凛');
+
+        const tr = document.createElement('tr');
+        
+        let bentenTd = (venueSelect === 'all' || venueSelect === 'benten') ? 
+          `<td class="${isRinBenten ? 'cell-rin-team' : (matchBenten ? 'highlight-search' : '')}">${escapeHtml(row.benten)}</td>` : '';
+        let hunterTd = (venueSelect === 'all' || venueSelect === 'hunter') ? 
+          `<td class="${isRinHunter ? 'cell-rin-team' : (matchHunter ? 'highlight-search' : '')}">${escapeHtml(row.hunter)}</td>` : '';
+        let jaTd = (venueSelect === 'all' || venueSelect === 'ja') ? 
+          `<td class="${isRinJa ? 'cell-rin-team' : (matchJa ? 'highlight-search' : '')}">${escapeHtml(row.ja)}</td>` : '';
+
+        tr.innerHTML = `
+          <td style="text-align: center; font-weight: 700; color: #fef08a; white-space: nowrap;">${row.time}</td>
+          ${bentenTd}
+          ${hunterTd}
+          ${jaTd}
+        `;
+        tbody.appendChild(tr);
+      });
+    }
 
     function getBadgeClass(id) {
       if(id === 'rin') return 'team-badge-rin';
@@ -371,23 +770,15 @@
     }
 
     function getTypeBadgeStyle(type) {
-      if (type === '審査') {
-        return { bg: '#991b1b', color: '#ffffff', rowBg: 'rgba(217, 56, 41, 0.08)' };
-      } else if (type === '集合') {
-        return { bg: '#d97706', color: '#ffffff', rowBg: 'rgba(217, 119, 6, 0.08)' };
-      } else if (type === '出発') {
-        return { bg: '#2563eb', color: '#ffffff', rowBg: 'rgba(37, 99, 235, 0.08)' };
-      } else if (type === '運営') {
-        return { bg: '#7c3aed', color: '#ffffff', rowBg: 'rgba(124, 58, 237, 0.08)' };
-      } else if (type === '発表') {
-        return { bg: '#0284c7', color: '#ffffff', rowBg: 'rgba(2, 132, 199, 0.08)' };
-      } else if (type === '解散') {
-        return { bg: '#475569', color: '#ffffff', rowBg: 'rgba(71, 85, 105, 0.08)' };
-      }
+      if (type === '審査') return { bg: '#991b1b', color: '#ffffff', rowBg: 'rgba(217, 56, 41, 0.08)' };
+      if (type === '集合') return { bg: '#d97706', color: '#ffffff', rowBg: 'rgba(217, 119, 6, 0.08)' };
+      if (type === '出発') return { bg: '#2563eb', color: '#ffffff', rowBg: 'rgba(37, 99, 235, 0.08)' };
+      if (type === '運営') return { bg: '#7c3aed', color: '#ffffff', rowBg: 'rgba(124, 58, 237, 0.08)' };
+      if (type === '発表') return { bg: '#0284c7', color: '#ffffff', rowBg: 'rgba(2, 132, 199, 0.08)' };
+      if (type === '解散') return { bg: '#475569', color: '#ffffff', rowBg: 'rgba(71, 85, 105, 0.08)' };
       return { bg: '#334155', color: '#ffffff', rowBg: '' };
     }
 
-    // 15分前の受付時間を計算する関数
     function getReceptionTime(timeStr) {
       const parts = timeStr.split(':');
       const h = parseInt(parts[0], 10);
@@ -400,11 +791,8 @@
     }
 
     function renderSchedule() {
-      // 選択されているチームIDを取得
       const checkboxes = document.querySelectorAll('.filter-checkbox');
       const selectedIds = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-
-      // 時間順にソートする関数
       const sortFn = (a, b) => a.time.localeCompare(b.time);
 
       ['day1', 'day2'].forEach(day => {
@@ -412,7 +800,6 @@
         const emptyMsg = document.getElementById('empty-msg-' + day);
         tbody.innerHTML = '';
         
-        // フィルタリング ＆ ソート
         const items = scheduleData
           .filter(d => d.date === day && selectedIds.includes(d.id))
           .sort(sortFn);
@@ -424,10 +811,7 @@
           items.forEach(item => {
             const tr = document.createElement('tr');
             const style = getTypeBadgeStyle(item.type);
-            
-            if (style.rowBg) {
-              tr.style.background = style.rowBg;
-            }
+            if (style.rowBg) tr.style.background = style.rowBg;
 
             const isPerfOrShinsa = (item.type === '演舞' || item.type === '審査');
             const receptionHtml = isPerfOrShinsa 
@@ -459,13 +843,13 @@
       });
     }
 
-    // イベントリスナー設定
     document.querySelectorAll('.filter-checkbox').forEach(cb => {
       cb.addEventListener('change', renderSchedule);
     });
 
     // 初期描画
     renderSchedule();
+    renderOfficialTable();
   </script>
 </body>
 </html>
