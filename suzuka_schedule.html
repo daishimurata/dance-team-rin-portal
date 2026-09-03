@@ -1107,7 +1107,10 @@
             const actionInfo = getVenueActionInfo(item.venue);
 
             const mapBtnHtml = `<a href="${actionInfo.mapUrl}" target="_blank" rel="noopener noreferrer" class="map-btn">MAP ↗</a>`;
-            const schedBtnHtml = `<button onclick="openOfficialScheduleModal('${day}', '${actionInfo.venueKey}')" class="sched-btn">当日会場スケジュール ↗</button>`;
+            const showSchedBtn = (item.type === '演舞' || item.type === '審査' || item.type === '発表');
+            const schedBtnHtml = showSchedBtn 
+              ? `<button onclick="openOfficialScheduleModal('${day}', '${actionInfo.venueKey}')" class="sched-btn">当日会場スケジュール ↗</button>`
+              : '';
 
             tr.innerHTML = `
               <td style="text-align: center; font-weight: 700; font-size: 1.1rem; color: var(--gold-primary); white-space: nowrap;">
