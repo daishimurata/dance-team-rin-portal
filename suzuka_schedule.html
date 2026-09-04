@@ -10,6 +10,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
+    :root {
+      --bg-dark: #0b1320;
+      --bg-card: #131f30;
+      --bg-row-alt: #162438;
+      --border-color: #2a3a52;
+      --domatsuri-gold: #eab308;
+      --gold-primary: #facc15;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-family-mincho: 'Shippori Mincho', serif;
+    }
+
+    body {
+      background-color: #0b1320 !important;
+      color: #f8fafc !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
     .filter-container {
       background: #0f1b29;
       padding: 16px;
@@ -42,14 +62,21 @@
     .timeline-table-wrapper {
       width: 100%;
       overflow-x: auto;
+      background: #131f30;
+      border-radius: 8px;
+      border: 1px solid #2a3a52;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
     .timeline-table {
       width: 100%;
       border-collapse: collapse;
+      background: #131f30;
     }
-    .timeline-table th { background: #0f1b29; color: #d4af37; font-weight: 700; padding: 12px; border-bottom: 2px solid #d4af37; }
-    .timeline-table td { padding: 14px 10px; border-bottom: 1px solid #334155; vertical-align: middle; word-break: break-word; color: #f8fafc; }
-    .timeline-table tr:hover { background: #1e293b; }
+    .timeline-table th { background: #0f1b29; color: #facc15; font-weight: 700; padding: 14px 10px; border-bottom: 2px solid #eab308; }
+    .timeline-table tbody tr:nth-child(even) { background: #162438; }
+    .timeline-table tbody tr:nth-child(odd) { background: #101b2b; }
+    .timeline-table td { padding: 14px 10px; border-bottom: 1px solid #2a3a52; vertical-align: middle; word-break: break-word; color: #f8fafc; }
+    .timeline-table tr:hover { background: #1e3352 !important; }
 
     /* 全体タイムテーブル用スタイル */
     .official-table {
@@ -553,215 +580,1546 @@
 
     // 公式全体タイムスケジュールデータ
     const officialDataDay1 = [
-      { time: '09:55', benten: '会場オープニング', hunter: '会場オープニング', ja: '' },
-      { time: '10:00', benten: '', hunter: '16 スタジオX', ja: '' },
-      { time: '10:05', benten: '会場オープニング', hunter: '48 咲くやこの花', ja: '' },
-      { time: '10:10', benten: '42 スタジオX 3歳児クラス', hunter: '44 happiness', ja: '' },
-      { time: '10:15', benten: '17 皇學館大学 雅', hunter: '28 Sparkle Gem', ja: '' },
-      { time: '10:20', benten: '45 ダンスチーム凛', hunter: '34 スタジオXキッズチーム', ja: '' },
-      { time: '10:25', benten: '50 きらく 祭遊旗', hunter: '3 ACTY KIDS', ja: '' },
-      { time: '10:30', benten: '13 極津', hunter: '35 Viva la crew', ja: '' },
-      { time: '10:35', benten: '30 西ダン', hunter: '39 DANCESTUDIOBEAT', ja: '' },
-      { time: '10:40', benten: '10 津々うらら', hunter: '14 スタジオX ジュニアチーム', ja: '' },
-      { time: '10:45', benten: '6 嘉舞羅', hunter: '23 月影', ja: '' },
-      { time: '10:50', benten: '41 スタジオX IDOLチーム', hunter: '27 天狗ぅ', ja: '' },
-      { time: '10:55', benten: '2 ACTY DANCE CREW', hunter: '9 よさこい塾・ありがた屋', ja: '' },
-      { time: '11:00', benten: '7 P→SEN', hunter: '調整', ja: '' },
-      { time: '11:05', benten: '4 祠音-shinon-', hunter: '38 DANCESTUDIOACE', ja: '' },
-      { time: '11:10', benten: '調整', hunter: '22 桜花女', ja: '' },
-      { time: '11:15', benten: '33 皇學館大学ダンス部 ALLURE', hunter: '21 鳳牙', ja: '' },
-      { time: '11:20', benten: '20 わいわい踊ろう会', hunter: '15 スタジオX K-POPジュニアチーム', ja: '' },
-      { time: '11:25', benten: '36 夂迅', hunter: '18 勝山組', ja: '' },
-      { time: '11:30', benten: '1 志舞', hunter: '37 カモシカボーイズ', ja: '' },
-      { time: '11:35', benten: '24 津凪-tsunagi-', hunter: '47 凛きっず', ja: '' },
-      { time: '11:40', benten: '19 中部電力 灯守', hunter: '43 刃-BLADE-', ja: '' },
-      { time: '11:45', benten: '12 GAP', hunter: '40 DanceチームCoconattu', ja: '' },
-      { time: '11:50', benten: '5 掌栄組', hunter: '49 忍神', ja: '' },
-      { time: '11:55', benten: '25 SD Crew', hunter: '26 TYJD DANCE STUDIO', ja: '' },
-      { time: '12:00', benten: '31 飃～FREEDOM～', hunter: '51 三重ソーラン隊かもめ', ja: '' },
-      { time: '12:05', benten: '8 笑楽-eraku-', hunter: '11 めっちゃええやんず', ja: '' },
-      { time: '12:10', benten: '46 凛ジュニア', hunter: '', ja: '' },
-      { time: '12:15', benten: '和おどり', hunter: 'パフォーマンス① 「めっちゃ叩く隊」', ja: '' },
-      { time: '12:20', benten: '調整', hunter: '', ja: '' },
-      { time: '12:25', benten: '踊り大会オープニング', hunter: '', ja: '' },
-      { time: '12:35', benten: '42 スタジオX 3歳児クラス', hunter: '', ja: '' },
-      { time: '12:40', benten: '17 皇學館大学 雅', hunter: '', ja: '' },
-      { time: '12:45', benten: '45 ダンスチーム凛', hunter: '', ja: '' },
-      { time: '12:50', benten: '50 きらく 祭遊旗', hunter: '', ja: '' },
-      { time: '12:55', benten: '13 極津', hunter: '', ja: '' },
-      { time: '13:00', benten: '30 西ダン', hunter: '', ja: '' },
-      { time: '13:05', benten: '10 津々うらら', hunter: '', ja: '' },
-      { time: '13:10', benten: '6 嘉舞羅', hunter: '会場オープニング', ja: '会場オープニング' },
-      { time: '13:15', benten: '41 スタジオX IDOLチーム', hunter: '16 スタジオX', ja: '16 スタジオX' },
-      { time: '13:20', benten: '2 ACTY DANCE CREW', hunter: '48 咲くやこの花', ja: '48 咲くやこの花' },
-      { time: '13:25', benten: '7 P→SEN', hunter: '44 happiness', ja: '44 happiness' },
-      { time: '13:30', benten: '4 祠音-shinon-', hunter: '28 Sparkle Gem', ja: '28 Sparkle Gem' },
-      { time: '13:35', benten: '調整', hunter: '34 スタジオXキッズチーム', ja: '34 スタジオXキッズチーム' },
-      { time: '13:40', benten: 'パフォーマンス① 「めっちゃ叩く隊」', hunter: '3 ACTY KIDS', ja: '3 ACTY KIDS' },
-      { time: '13:45', benten: '', hunter: '35 Viva la crew', ja: '35 Viva la crew' },
-      { time: '13:50', benten: '', hunter: '39 DANCESTUDIOBEAT', ja: '39 DANCESTUDIOBEAT' },
-      { time: '13:55', benten: '調整', hunter: '14 スタジオX ジュニアチーム', ja: '14 スタジオX ジュニアチーム' },
-      { time: '14:00', benten: '33 皇學館大学ダンス部 ALLURE', hunter: '23 月影', ja: '23 月影' },
-      { time: '14:05', benten: '20 わいわい踊ろう会', hunter: '9 よさこい塾・ありがた屋', ja: '9 よさこい塾・ありがた屋' },
-      { time: '14:10', benten: '36 夂迅', hunter: '27 天狗ぅ', ja: '27 天狗ぅ' },
-      { time: '14:15', benten: '1 志舞', hunter: '調整', ja: '調整' },
-      { time: '14:20', benten: '24 津凪-tsunagi-', hunter: '38 DANCESTUDIOACE', ja: '38 DANCESTUDIOACE' },
-      { time: '14:25', benten: '19 中部電力 灯守', hunter: '15 スタジオX K-POPジュニアチーム', ja: '15 スタジオX K-POPジュニアチーム' },
-      { time: '14:30', benten: '12 GAP', hunter: '18 勝山組', ja: '18 勝山組' },
-      { time: '14:35', benten: '5 掌栄組', hunter: '37 カモシカボーイズ', ja: '37 カモシカボーイズ' },
-      { time: '14:40', benten: '25 SD Crew', hunter: '47 凛きっず', ja: '47 凛きっず' },
-      { time: '14:45', benten: '31 飃～FREEDOM～', hunter: '43 刃-BLADE-', ja: '43 刃-BLADE-' },
-      { time: '14:50', benten: '8 笑楽-eraku-', hunter: '40 DanceチームCoconattu', ja: '40 DanceチームCoconattu' },
-      { time: '14:55', benten: '46 凛ジュニア', hunter: '49 忍神', ja: '49 忍神' },
-      { time: '15:00', benten: '調整', hunter: '26 TYJD DANCE STUDIO', ja: '26 TYJD DANCE STUDIO' },
-      { time: '15:05', benten: '調整', hunter: '11 めっちゃええやんず', ja: '11 めっちゃええやんず' },
-      { time: '15:10', benten: '調整', hunter: '51 三重ソーラン隊かもめ', ja: '51 三重ソーラン隊かもめ' },
-      { time: '15:15', benten: '調整', hunter: '終了', ja: '終了' },
-      { time: '15:20', benten: '調整', hunter: '42 スタジオX 3歳児クラス', ja: '' },
-      { time: '15:25', benten: '調整', hunter: '17 皇學館大学 雅', ja: '' },
-      { time: '15:30', benten: '', hunter: '45 ダンスチーム凛', ja: '' },
-      { time: '15:35', benten: '', hunter: '50 きらく 祭遊旗', ja: '' },
-      { time: '15:40', benten: 'TV放送オープニング', hunter: '13 極津', ja: '' },
-      { time: '15:45', benten: '', hunter: '30 西ダン', ja: '' },
-      { time: '15:50', benten: '', hunter: '10 津々うらら', ja: '' },
-      { time: '15:55', benten: '16 スタジオX', hunter: '6 嘉舞羅', ja: '' },
-      { time: '16:00', benten: '48 咲くやこの花', hunter: '41 スタジオX IDOLチーム', ja: '' },
-      { time: '16:05', benten: '44 happiness', hunter: '2 ACTY DANCE CREW', ja: '' },
-      { time: '16:10', benten: '28 Sparkle Gem', hunter: '7 P→SEN', ja: '' },
-      { time: '16:15', benten: '34 スタジオXキッズチーム', hunter: '4 祠音-shinon-', ja: '' },
-      { time: '16:20', benten: '29 みそら☆ひばりぃず', hunter: '調整', ja: '' },
-      { time: '16:25', benten: '3 ACTY KIDS', hunter: '33 皇學館大学ダンス部 ALLURE', ja: '' },
-      { time: '16:30', benten: '35 Viva la crew', hunter: '20 わいわい踊ろう会', ja: '' },
-      { time: '16:35', benten: '39 DANCESTUDIOBEAT', hunter: '36 夂迅', ja: '' },
-      { time: '16:40', benten: '14 スタジオX ジュニアチーム', hunter: '1 志舞', ja: '' },
-      { time: '16:45', benten: '23 月影', hunter: '24 津凪-tsunagi-', ja: '' },
-      { time: '16:50', benten: '27 天狗ぅ', hunter: '19 中部電力 灯守', ja: '' },
-      { time: '16:55', benten: '9 よさこい塾・ありがた屋', hunter: '12 GAP', ja: '' },
-      { time: '17:00', benten: '調整 / パフォーマンス③ 神戸高校', hunter: '5 掌栄組', ja: '' },
-      { time: '17:05', benten: '', hunter: '25 SD Crew', ja: '' },
-      { time: '17:10', benten: '', hunter: '31 飃～FREEDOM～', ja: '' },
-      { time: '17:15', benten: '', hunter: '8 笑楽-eraku-', ja: '' },
-      { time: '17:20', benten: 'パフォーマンス④ 神戸高校', hunter: '46 凛ジュニア', ja: '' },
-      { time: '17:25', benten: '', hunter: '9 よさこい塾・ありがた屋', ja: '' },
-      { time: '17:30', benten: '', hunter: '23 月影 / すずフェス体験隊', ja: '' },
-      { time: '17:35', benten: '調整', hunter: 'すずフェス体験隊 / 終了', ja: '' },
-      { time: '17:40', benten: '38 DANCESTUDIOACE', hunter: '', ja: '' },
-      { time: '17:45', benten: '22 桜花女', hunter: '', ja: '' },
-      { time: '17:50', benten: '21 鳳牙', hunter: '', ja: '' },
-      { time: '17:55', benten: '15 スタジオX K-POPジュニアチーム', hunter: '', ja: '' },
-      { time: '18:00', benten: '18 勝山組', hunter: '', ja: '' },
-      { time: '18:05', benten: '37 カモシカボーイズ', hunter: '', ja: '' },
-      { time: '18:10', benten: '47 凛きっず', hunter: '', ja: '' },
-      { time: '18:15', benten: '43 刃-BLADE-', hunter: '', ja: '' },
-      { time: '18:20', benten: '40 DanceチームCoconattu', hunter: '', ja: '' },
-      { time: '18:25', benten: '49 忍神', hunter: '', ja: '' },
-      { time: '18:30', benten: '26 TYJD DANCE STUDIO', hunter: '', ja: '' },
-      { time: '18:35', benten: '51 三重ソーラン隊かもめ', hunter: '', ja: '' },
-      { time: '18:40', benten: '11 めっちゃええやんず', hunter: '', ja: '' },
-      { time: '18:45', benten: 'ひのわ / 23 月影 / 9 よさこい塾', hunter: '', ja: '' },
-      { time: '19:00', benten: 'エキシビションチーム発表', hunter: '', ja: '' },
-      { time: '19:35', benten: 'エキシビション演舞 (19:35〜20:20)', hunter: '', ja: '' },
-      { time: '20:20', benten: '和おどり', hunter: '', ja: '' },
-      { time: '20:30', benten: '終了', hunter: '', ja: '' }
-    ];
+      {
+            "time": "09:55",
+            "benten": "",
+            "hunter": "会場オープニング",
+            "ja": ""
+      },
+      {
+            "time": "10:00",
+            "benten": "",
+            "hunter": "16 スタジオX",
+            "ja": ""
+      },
+      {
+            "time": "10:05",
+            "benten": "会場オープニング",
+            "hunter": "48 咲くやこの花",
+            "ja": ""
+      },
+      {
+            "time": "10:10",
+            "benten": "42 スタジオX 3歳児クラス",
+            "hunter": "44 happiness",
+            "ja": ""
+      },
+      {
+            "time": "10:15",
+            "benten": "17 皇學館大学〝雅”",
+            "hunter": "28 Sparkle Gem",
+            "ja": ""
+      },
+      {
+            "time": "10:20",
+            "benten": "45 ダンスチーム凛",
+            "hunter": "34 スタジオXキッズチーム",
+            "ja": ""
+      },
+      {
+            "time": "10:25",
+            "benten": "50 きらく 祭遊旗",
+            "hunter": "3 ACTY KIDS",
+            "ja": ""
+      },
+      {
+            "time": "10:30",
+            "benten": "13 極津",
+            "hunter": "35 Viva la crew",
+            "ja": ""
+      },
+      {
+            "time": "10:35",
+            "benten": "30 西ダン",
+            "hunter": "39 DANCESTUDIOBEAT",
+            "ja": ""
+      },
+      {
+            "time": "10:40",
+            "benten": "10 津々うらら",
+            "hunter": "14 スタジオX ジュニアチーム",
+            "ja": ""
+      },
+      {
+            "time": "10:45",
+            "benten": "6 嘉舞羅",
+            "hunter": "23 月影",
+            "ja": ""
+      },
+      {
+            "time": "10:50",
+            "benten": "41 スタジオX IDOLチーム",
+            "hunter": "27 天狗ぅ",
+            "ja": ""
+      },
+      {
+            "time": "10:55",
+            "benten": "2 ACTY DANCE CREW",
+            "hunter": "9 よさこい塾・ありがた屋",
+            "ja": ""
+      },
+      {
+            "time": "11:00",
+            "benten": "7 P→SEN",
+            "hunter": "調整",
+            "ja": ""
+      },
+      {
+            "time": "11:05",
+            "benten": "4 祠音-shinon-",
+            "hunter": "38 DANCESTUDIOACE",
+            "ja": ""
+      },
+      {
+            "time": "11:10",
+            "benten": "調整",
+            "hunter": "22 桜花女",
+            "ja": ""
+      },
+      {
+            "time": "11:15",
+            "benten": "33 皇學館大学ダンス部＂ALLURE＂",
+            "hunter": "21 鳳牙",
+            "ja": ""
+      },
+      {
+            "time": "11:20",
+            "benten": "20 わいわい踊ろう会",
+            "hunter": "15 スタジオX K-POPジュニアチーム",
+            "ja": ""
+      },
+      {
+            "time": "11:25",
+            "benten": "36 夂迅",
+            "hunter": "18 勝山組",
+            "ja": ""
+      },
+      {
+            "time": "11:30",
+            "benten": "1 志舞",
+            "hunter": "37 カモシカボーイズ",
+            "ja": ""
+      },
+      {
+            "time": "11:35",
+            "benten": "24 津凪ｰtsunagiｰ",
+            "hunter": "47 凛きっず",
+            "ja": ""
+      },
+      {
+            "time": "11:40",
+            "benten": "19 中部電力 灯守",
+            "hunter": "43 刃-BLADE-",
+            "ja": ""
+      },
+      {
+            "time": "11:45",
+            "benten": "12 GAP",
+            "hunter": "40 DanceチームCoconattu",
+            "ja": ""
+      },
+      {
+            "time": "11:50",
+            "benten": "5 掌栄組",
+            "hunter": "49 忍神",
+            "ja": ""
+      },
+      {
+            "time": "11:55",
+            "benten": "25 SD Crew",
+            "hunter": "26 TYJD DANCE STUDIO",
+            "ja": ""
+      },
+      {
+            "time": "12:00",
+            "benten": "31 飃～FREEDOM～",
+            "hunter": "51 三重ソーラン隊かもめ",
+            "ja": ""
+      },
+      {
+            "time": "12:05",
+            "benten": "8 笑楽-eraku-",
+            "hunter": "11 めっちゃええやんず",
+            "ja": ""
+      },
+      {
+            "time": "12:10",
+            "benten": "46 凛ジュニア",
+            "hunter": "パフォーマンス①’ / 「めっちゃ叩く隊」",
+            "ja": ""
+      },
+      {
+            "time": "12:15",
+            "benten": "和おどり",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:20",
+            "benten": "調整",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:25",
+            "benten": "踊り大会オープニング",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:30",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:35",
+            "benten": "42 スタジオX 3歳児クラス / 17 皇學館大学〝雅”",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:40",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:45",
+            "benten": "45 ダンスチーム凛",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:50",
+            "benten": "50 きらく 祭遊旗",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:55",
+            "benten": "13 極津",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "13:00",
+            "benten": "30 西ダン",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "13:05",
+            "benten": "10 津々うらら",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "13:10",
+            "benten": "6 嘉舞羅",
+            "hunter": "",
+            "ja": "会場オープニング"
+      },
+      {
+            "time": "13:15",
+            "benten": "41 スタジオX IDOLチーム",
+            "hunter": "",
+            "ja": "16 スタジオX"
+      },
+      {
+            "time": "13:20",
+            "benten": "2 ACTY DANCE CREW",
+            "hunter": "",
+            "ja": "48 咲くやこの花"
+      },
+      {
+            "time": "13:25",
+            "benten": "7 P→SEN",
+            "hunter": "",
+            "ja": "44 happiness"
+      },
+      {
+            "time": "13:30",
+            "benten": "4 祠音-shinon-",
+            "hunter": "",
+            "ja": "28 Sparkle Gem"
+      },
+      {
+            "time": "13:35",
+            "benten": "調整",
+            "hunter": "",
+            "ja": "34 スタジオXキッズチーム"
+      },
+      {
+            "time": "13:40",
+            "benten": "パフォーマンス① / 「めっちゃ叩く隊」",
+            "hunter": "",
+            "ja": "3 ACTY KIDS"
+      },
+      {
+            "time": "13:45",
+            "benten": "",
+            "hunter": "",
+            "ja": "35 Viva la crew"
+      },
+      {
+            "time": "13:50",
+            "benten": "",
+            "hunter": "",
+            "ja": "39 DANCESTUDIOBEAT"
+      },
+      {
+            "time": "13:55",
+            "benten": "調整",
+            "hunter": "",
+            "ja": "14 スタジオX ジュニアチーム"
+      },
+      {
+            "time": "14:00",
+            "benten": "33 皇學館大学ダンス部＂ALLURE＂",
+            "hunter": "",
+            "ja": "23 月影"
+      },
+      {
+            "time": "14:05",
+            "benten": "20 わいわい踊ろう会",
+            "hunter": "",
+            "ja": "9 よさこい塾・ありがた屋"
+      },
+      {
+            "time": "14:10",
+            "benten": "36 夂迅",
+            "hunter": "",
+            "ja": "27 天狗ぅ"
+      },
+      {
+            "time": "14:15",
+            "benten": "1 志舞",
+            "hunter": "",
+            "ja": "調整"
+      },
+      {
+            "time": "14:20",
+            "benten": "24 津凪ｰtsunagiｰ",
+            "hunter": "",
+            "ja": "38 DANCESTUDIOACE"
+      },
+      {
+            "time": "14:25",
+            "benten": "19 中部電力 灯守",
+            "hunter": "",
+            "ja": "15 スタジオX K-POPジュニアチーム"
+      },
+      {
+            "time": "14:30",
+            "benten": "12 GAP",
+            "hunter": "",
+            "ja": "18 勝山組"
+      },
+      {
+            "time": "14:35",
+            "benten": "5 掌栄組",
+            "hunter": "",
+            "ja": "37 カモシカボーイズ"
+      },
+      {
+            "time": "14:40",
+            "benten": "25 SD Crew",
+            "hunter": "",
+            "ja": "47 凛きっず"
+      },
+      {
+            "time": "14:45",
+            "benten": "31 飃～FREEDOM～",
+            "hunter": "",
+            "ja": "43 刃-BLADE-"
+      },
+      {
+            "time": "14:50",
+            "benten": "8 笑楽-eraku-",
+            "hunter": "パフォーマンス③’ / 地域協働枠「神戸高等学校」",
+            "ja": "40 DanceチームCoconattu"
+      },
+      {
+            "time": "14:55",
+            "benten": "46 凛ジュニア",
+            "hunter": "",
+            "ja": "49 忍神"
+      },
+      {
+            "time": "15:00",
+            "benten": "調整",
+            "hunter": "",
+            "ja": "26 TYJD DANCE STUDIO"
+      },
+      {
+            "time": "15:05",
+            "benten": "調整",
+            "hunter": "パフォーマンス④’",
+            "ja": "11 めっちゃええやんず"
+      },
+      {
+            "time": "15:10",
+            "benten": "調整",
+            "hunter": "",
+            "ja": "51 三重ソーラン隊かもめ"
+      },
+      {
+            "time": "15:15",
+            "benten": "調整",
+            "hunter": "地域協働枠「神戸高等学校」",
+            "ja": "終了"
+      },
+      {
+            "time": "15:20",
+            "benten": "調整",
+            "hunter": "42 スタジオX 3歳児クラス",
+            "ja": ""
+      },
+      {
+            "time": "15:25",
+            "benten": "調整",
+            "hunter": "17 皇學館大学〝雅”",
+            "ja": ""
+      },
+      {
+            "time": "15:30",
+            "benten": "TV放送オープニング",
+            "hunter": "45 ダンスチーム凛",
+            "ja": ""
+      },
+      {
+            "time": "15:35",
+            "benten": "",
+            "hunter": "50 きらく 祭遊旗",
+            "ja": ""
+      },
+      {
+            "time": "15:40",
+            "benten": "",
+            "hunter": "13 極津",
+            "ja": ""
+      },
+      {
+            "time": "15:45",
+            "benten": "",
+            "hunter": "30 西ダン",
+            "ja": ""
+      },
+      {
+            "time": "15:50",
+            "benten": "",
+            "hunter": "10 津々うらら",
+            "ja": ""
+      },
+      {
+            "time": "15:55",
+            "benten": "16 スタジオX",
+            "hunter": "6 嘉舞羅",
+            "ja": ""
+      },
+      {
+            "time": "16:00",
+            "benten": "48 咲くやこの花",
+            "hunter": "41 スタジオX IDOLチーム",
+            "ja": ""
+      },
+      {
+            "time": "16:05",
+            "benten": "44 happiness",
+            "hunter": "2 ACTY DANCE CREW",
+            "ja": ""
+      },
+      {
+            "time": "16:10",
+            "benten": "28 Sparkle Gem",
+            "hunter": "7 P→SEN",
+            "ja": ""
+      },
+      {
+            "time": "16:15",
+            "benten": "34 スタジオXキッズチーム",
+            "hunter": "4 祠音-shinon-",
+            "ja": ""
+      },
+      {
+            "time": "16:20",
+            "benten": "29 みそら☆ひばりぃず",
+            "hunter": "調整",
+            "ja": ""
+      },
+      {
+            "time": "16:25",
+            "benten": "3 ACTY KIDS",
+            "hunter": "33 皇學館大学ダンス部＂ALLURE",
+            "ja": "＂"
+      },
+      {
+            "time": "16:30",
+            "benten": "35 Viva la crew",
+            "hunter": "20 わいわい踊ろう会",
+            "ja": ""
+      },
+      {
+            "time": "16:35",
+            "benten": "39 DANCESTUDIOBEAT",
+            "hunter": "36 夂迅",
+            "ja": ""
+      },
+      {
+            "time": "16:40",
+            "benten": "14 スタジオX ジュニアチーム",
+            "hunter": "1 志舞",
+            "ja": ""
+      },
+      {
+            "time": "16:45",
+            "benten": "23 月影",
+            "hunter": "24 津凪ｰtsunagiｰ",
+            "ja": ""
+      },
+      {
+            "time": "16:50",
+            "benten": "27 天狗ぅ",
+            "hunter": "19 中部電力 灯守",
+            "ja": ""
+      },
+      {
+            "time": "16:55",
+            "benten": "9 よさこい塾・ありがた屋",
+            "hunter": "12 GAP",
+            "ja": ""
+      },
+      {
+            "time": "17:00",
+            "benten": "調整",
+            "hunter": "5 掌栄組",
+            "ja": ""
+      },
+      {
+            "time": "17:05",
+            "benten": "パフォーマンス③ / 地域協働枠「神戸高等学校」",
+            "hunter": "25 SD Crew",
+            "ja": ""
+      },
+      {
+            "time": "17:10",
+            "benten": "",
+            "hunter": "31 飃～FREEDOM～",
+            "ja": ""
+      },
+      {
+            "time": "17:15",
+            "benten": "",
+            "hunter": "8 笑楽-eraku-",
+            "ja": ""
+      },
+      {
+            "time": "17:20",
+            "benten": "パフォーマンス④ / 地域協働枠「神戸高等学校」",
+            "hunter": "46 凛ジュニア",
+            "ja": ""
+      },
+      {
+            "time": "17:25",
+            "benten": "",
+            "hunter": "9 よさこい塾・ありがた屋",
+            "ja": ""
+      },
+      {
+            "time": "17:30",
+            "benten": "",
+            "hunter": "23 月影",
+            "ja": ""
+      },
+      {
+            "time": "17:35",
+            "benten": "調整",
+            "hunter": "すずフェス体験隊",
+            "ja": ""
+      },
+      {
+            "time": "17:40",
+            "benten": "38 DANCESTUDIOACE",
+            "hunter": "終了",
+            "ja": ""
+      },
+      {
+            "time": "17:45",
+            "benten": "22 桜花女",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "17:50",
+            "benten": "21 鳳牙",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "17:55",
+            "benten": "15 スタジオX K-POPジュニアチーム",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:00",
+            "benten": "18 勝山組",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:05",
+            "benten": "37 カモシカボーイズ",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:10",
+            "benten": "47 凛きっず",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:15",
+            "benten": "43 刃-BLADE-",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:20",
+            "benten": "40 DanceチームCoconattu",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:25",
+            "benten": "49 忍神",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:30",
+            "benten": "26 TYJD DANCE STUDIO",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:35",
+            "benten": "51 三重ソーラン隊かもめ",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:40",
+            "benten": "11 めっちゃええやんず",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:45",
+            "benten": "ひのわ",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:50",
+            "benten": "23 月影",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:55",
+            "benten": "9 よさこい塾・ありがた屋",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:00",
+            "benten": "エキシビションチーム発表",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:05",
+            "benten": "調整",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:10",
+            "benten": "すずフェス体験隊",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:15",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:20",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:25",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:30",
+            "benten": "調整",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:35",
+            "benten": "エキシビション-1",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:40",
+            "benten": "エキシビション-2",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:45",
+            "benten": "エキシビション-3",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:50",
+            "benten": "エキシビション-4",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:55",
+            "benten": "エキシビション-5",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:00",
+            "benten": "エキシビション-6",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:05",
+            "benten": "エキシビション-7",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:10",
+            "benten": "エキシビション-8",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:15",
+            "benten": "エキシビション-9",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:20",
+            "benten": "和おどり",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:25",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:30",
+            "benten": "終了",
+            "hunter": "",
+            "ja": ""
+      }
+];
 
     const officialDataDay2 = [
-      { time: '09:55', benten: '会場オープニング', hunter: '会場オープニング', ja: '' },
-      { time: '10:00', benten: '47 凛きっず', hunter: '46 凛ジュニア', ja: '' },
-      { time: '10:05', benten: '26 TYJD DANCE STUDIO', hunter: '52 よさこい炎舞連『神陽～Sin～』', ja: '' },
-      { time: '10:10', benten: '11 めっちゃええやんず', hunter: '8 笑楽-eraku-', ja: '' },
-      { time: '10:15', benten: '22 桜花女', hunter: '19 中部電力 灯守', ja: '' },
-      { time: '10:20', benten: '37 カモシカボーイズ', hunter: '1 志舞', ja: '' },
-      { time: '10:25', benten: '43 刃-BLADE-', hunter: '36 夂迅', ja: '' },
-      { time: '10:30', benten: '38 DANCESTUDIOACE', hunter: '25 SD Crew', ja: '' },
-      { time: '10:35', benten: '21 鳳牙', hunter: '20 わいわい踊ろう会', ja: '' },
-      { time: '10:40', benten: '40 DanceチームCoconattu', hunter: '33 皇學館大学ダンス部 ALLURE', ja: '' },
-      { time: '10:45', benten: '15 スタジオX K-POPジュニアチーム', hunter: '12 GAP', ja: '' },
-      { time: '10:50', benten: '51 三重ソーラン隊かもめ', hunter: '5 掌栄組', ja: '' },
-      { time: '10:55', benten: '49 忍神', hunter: '31 飃～FREEDOM～', ja: '' },
-      { time: '11:00', benten: '18 勝山組', hunter: '24 津凪-tsunagi-', ja: '' },
-      { time: '11:05', benten: '調整', hunter: '調整', ja: '' },
-      { time: '11:10', benten: '9 よさこい塾・ありがた屋', hunter: '50 きらく 祭遊旗', ja: '' },
-      { time: '11:15', benten: '3 ACTY KIDS', hunter: '7 P→SEN', ja: '' },
-      { time: '11:20', benten: '14 スタジオX ジュニアチーム', hunter: '4 祠音-shinon-', ja: '' },
-      { time: '11:25', benten: '27 天狗ぅ', hunter: '17 皇學館大学 雅', ja: '' },
-      { time: '11:30', benten: '44 happiness', hunter: '6 嘉舞羅', ja: '' },
-      { time: '11:35', benten: '39 DANCESTUDIOBEAT', hunter: '42 スタジオX 3歳児クラス', ja: '' },
-      { time: '11:40', benten: '34 スタジオXキッズチーム', hunter: '41 スタジオX IDOLチーム', ja: '' },
-      { time: '11:45', benten: '1日だけ参加', hunter: '10 津々うらら', ja: '' },
-      { time: '11:50', benten: '35 Viva la crew', hunter: '2 ACTY DANCE CREW', ja: '' },
-      { time: '11:55', benten: '28 Sparkle Gem', hunter: '13 極津', ja: '' },
-      { time: '12:00', benten: '16 スタジオX', hunter: '30 西ダン', ja: '' },
-      { time: '12:05', benten: '23 月影', hunter: '45 ダンスチーム凛', ja: '' },
-      { time: '12:10', benten: '和おどり', hunter: '', ja: '' },
-      { time: '12:15', benten: '和おどり / パフォーマンス⑥', hunter: 'パフォーマンス⑥\' Jellicle Girls', ja: '' },
-      { time: '12:25', benten: '47 凛きっず', hunter: '', ja: '' },
-      { time: '12:30', benten: '26 TYJD DANCE STUDIO', hunter: '', ja: '' },
-      { time: '12:35', benten: '11 めっちゃええやんず', hunter: '', ja: '' },
-      { time: '12:40', benten: '22 桜花女', hunter: '', ja: '' },
-      { time: '12:45', benten: '37 カモシカボーイズ', hunter: '', ja: '' },
-      { time: '12:50', benten: '43 刃-BLADE-', hunter: '', ja: '' },
-      { time: '12:55', benten: '38 DANCESTUDIOACE', hunter: '', ja: '会場オープニング' },
-      { time: '13:00', benten: '21 鳳牙', hunter: '', ja: '46 凛ジュニア' },
-      { time: '13:05', benten: '40 DanceチームCoconattu', hunter: '', ja: '52 よさこい炎舞連『神陽～Sin～』' },
-      { time: '13:10', benten: '15 スタジオX K-POPジュニアチーム', hunter: '', ja: '8 笑楽-eraku-' },
-      { time: '13:15', benten: '51 三重ソーラン隊かもめ', hunter: '', ja: '19 中部電力 灯守' },
-      { time: '13:20', benten: '49 忍神', hunter: '', ja: '1 志舞' },
-      { time: '13:25', benten: '18 勝山組', hunter: '', ja: '36 夂迅' },
-      { time: '13:30', benten: '調整', hunter: '', ja: '25 SD Crew' },
-      { time: '13:35', benten: '', hunter: '', ja: '20 わいわい踊ろう会' },
-      { time: '13:40', benten: '', hunter: '', ja: '33 皇學館大学ダンス部 ALLURE' },
-      { time: '13:45', benten: '', hunter: '', ja: '12 GAP' },
-      { time: '13:50', benten: '9 よさこい塾・ありがた屋', hunter: '', ja: '5 掌栄組' },
-      { time: '13:55', benten: '3 ACTY KIDS', hunter: '', ja: '24 津凪-tsunagi-' },
-      { time: '14:00', benten: '14 スタジオX ジュニアチーム', hunter: '', ja: '31 飃～FREEDOM～' },
-      { time: '14:05', benten: '29 みそら☆ひばりぃず', hunter: '', ja: '調整' },
-      { time: '14:10', benten: '27 天狗ぅ', hunter: '', ja: '50 きらく 祭遊旗' },
-      { time: '14:15', benten: '44 happiness', hunter: '', ja: '7 P→SEN' },
-      { time: '14:20', benten: '39 DANCESTUDIOBEAT', hunter: '', ja: '32 日本lilypan舞踊芸術団' },
-      { time: '14:25', benten: '34 スタジオXキッズチーム', hunter: '', ja: '4 祠音-shinon-' },
-      { time: '14:30', benten: '35 Viva la crew', hunter: '', ja: '17 皇學館大学 雅' },
-      { time: '14:35', benten: '28 Sparkle Gem', hunter: '', ja: '6 嘉舞羅' },
-      { time: '14:40', benten: '16 スタジオX', hunter: '', ja: '42 スタジオX 3歳児クラス' },
-      { time: '14:45', benten: '23 月影', hunter: '', ja: '41 スタジオX IDOLチーム' },
-      { time: '14:50', benten: '調整 / OP', hunter: '', ja: '47 凛きっず' },
-      { time: '14:55', benten: '', hunter: '', ja: '26 TYJD DANCE STUDIO / 2 ACTY DANCE CREW' },
-      { time: '15:00', benten: '', hunter: '', ja: '11 めっちゃええやんず / 13 極津' },
-      { time: '15:05', benten: '46 凛ジュニア', hunter: '', ja: '22 桜花女 / 45 ダンスチーム凛' },
-      { time: '15:10', benten: '52 よさこい炎舞連『神陽～Sin～』', hunter: '', ja: '37 カモシカボーイズ / 終了' },
-      { time: '15:15', benten: '8 笑楽-eraku-', hunter: '', ja: '' },
-      { time: '15:20', benten: '19 中部電力 灯守', hunter: '38 DANCESTUDIOACE', ja: '' },
-      { time: '15:25', benten: '1 志舞', hunter: '21 鳳牙', ja: '' },
-      { time: '15:30', benten: '36 夂迅', hunter: '40 DanceチームCoconattu', ja: '' },
-      { time: '15:35', benten: '25 SD Crew', hunter: '15 スタジオX K-POPジュニアチーム', ja: '' },
-      { time: '15:40', benten: '20 わいわい踊ろう会', hunter: '51 三重ソーラン隊かもめ', ja: '' },
-      { time: '15:45', benten: '33 皇學館大学ダンス部 ALLURE', hunter: '49 忍神', ja: '' },
-      { time: '15:50', benten: '12 GAP', hunter: '18 勝山組', ja: '' },
-      { time: '15:55', benten: '5 掌栄組', hunter: '', ja: '' },
-      { time: '16:00', benten: '31 飃～FREEDOM～', hunter: '', ja: '' },
-      { time: '16:05', benten: '24 津凪-tsunagi-', hunter: '', ja: '' },
-      { time: '16:10', benten: '調整 / パフォーマンス⑦ EMI music', hunter: 'パフォーマンス⑨\' ベリーダンスチームイシス', ja: '' },
-      { time: '16:35', benten: '50 きらく 祭遊旗', hunter: '9 よさこい塾・ありがた屋', ja: '' },
-      { time: '16:40', benten: '7 P→SEN', hunter: '', ja: '' },
-      { time: '16:45', benten: '32 日本lilypan舞踊芸術団', hunter: '3 ACTY KIDS', ja: '' },
-      { time: '16:50', benten: '4 祠音-shinon-', hunter: '14 スタジオX ジュニアチーム', ja: '' },
-      { time: '16:55', benten: '17 皇學館大学 雅', hunter: '27 天狗ぅ', ja: '' },
-      { time: '17:00', benten: '6 嘉舞羅', hunter: '44 happiness', ja: '' },
-      { time: '17:05', benten: '42 スタジオX 3歳児クラス', hunter: '39 DANCESTUDIOBEAT', ja: '' },
-      { time: '17:10', benten: '41 スタジオX IDOLチーム', hunter: '34 スタジオXキッズチーム', ja: '' },
-      { time: '17:15', benten: '10 津々うらら', hunter: '35 Viva la crew', ja: '' },
-      { time: '17:20', benten: '2 ACTY DANCE CREW', hunter: '28 Sparkle Gem', ja: '' },
-      { time: '17:25', benten: '13 極津', hunter: '16 スタジオX', ja: '' },
-      { time: '17:30', benten: '30 西ダン', hunter: '23 月影 / 終了', ja: '' },
-      { time: '17:35', benten: '45 ダンスチーム凛', hunter: '', ja: '' },
-      { time: '17:40', benten: '調整 / 24 津凪 / ベリーダンス', hunter: '', ja: '' },
-      { time: '18:00', benten: 'ファイナルチーム発表', hunter: '', ja: '' },
-      { time: '18:20', benten: 'Jrチーム審査発表 / Jr大賞演舞', hunter: '', ja: '' },
-      { time: '18:35', benten: 'ファイナルコンテスト', hunter: '', ja: '' },
-      { time: '19:20', benten: '参加チーム・サポーター紹介', hunter: '', ja: '' },
-      { time: '19:35', benten: '各審査発表・大賞演舞・総踊り', hunter: '', ja: '' },
-      { time: '20:30', benten: '終了', hunter: '', ja: '' }
-    ];
+      {
+            "time": "09:55",
+            "benten": "会場オープニング",
+            "hunter": "会場オープニング",
+            "ja": ""
+      },
+      {
+            "time": "10:00",
+            "benten": "47 凛きっず",
+            "hunter": "46 凛ジュニア",
+            "ja": ""
+      },
+      {
+            "time": "10:05",
+            "benten": "26 TYJD DANCE STUDIO",
+            "hunter": "52 よさこい炎舞連『神陽～Sin～』",
+            "ja": ""
+      },
+      {
+            "time": "10:10",
+            "benten": "11 めっちゃええやんず",
+            "hunter": "8 笑楽-eraku-",
+            "ja": ""
+      },
+      {
+            "time": "10:15",
+            "benten": "22 桜花女",
+            "hunter": "19 中部電力 灯守",
+            "ja": ""
+      },
+      {
+            "time": "10:20",
+            "benten": "37 カモシカボーイズ",
+            "hunter": "1 志舞",
+            "ja": ""
+      },
+      {
+            "time": "10:25",
+            "benten": "43 刃-BLADE-",
+            "hunter": "36 夂迅",
+            "ja": ""
+      },
+      {
+            "time": "10:30",
+            "benten": "38 DANCESTUDIOACE",
+            "hunter": "25 SD Crew",
+            "ja": ""
+      },
+      {
+            "time": "10:35",
+            "benten": "21 鳳牙",
+            "hunter": "20 わいわい踊ろう会",
+            "ja": ""
+      },
+      {
+            "time": "10:40",
+            "benten": "40 DanceチームCoconattu",
+            "hunter": "33 皇學館大学ダンス部＂ALLURE＂",
+            "ja": ""
+      },
+      {
+            "time": "10:45",
+            "benten": "15 スタジオX K-POPジュニアチーム",
+            "hunter": "12 GAP",
+            "ja": ""
+      },
+      {
+            "time": "10:50",
+            "benten": "51 三重ソーラン隊かもめ",
+            "hunter": "5 掌栄組",
+            "ja": ""
+      },
+      {
+            "time": "10:55",
+            "benten": "49 忍神",
+            "hunter": "31 飃～FREEDOM～",
+            "ja": ""
+      },
+      {
+            "time": "11:00",
+            "benten": "18 勝山組",
+            "hunter": "24 津凪ｰtsunagiｰ",
+            "ja": ""
+      },
+      {
+            "time": "11:05",
+            "benten": "調整",
+            "hunter": "調整",
+            "ja": ""
+      },
+      {
+            "time": "11:10",
+            "benten": "9 よさこい塾・ありがた屋",
+            "hunter": "50 きらく 祭遊旗",
+            "ja": ""
+      },
+      {
+            "time": "11:15",
+            "benten": "3 ACTY KIDS",
+            "hunter": "7 P→SEN",
+            "ja": ""
+      },
+      {
+            "time": "11:20",
+            "benten": "14 スタジオX ジュニアチーム",
+            "hunter": "4 祠音-shinon-",
+            "ja": ""
+      },
+      {
+            "time": "11:25",
+            "benten": "27 天狗ぅ",
+            "hunter": "17 皇學館大学〝雅”",
+            "ja": ""
+      },
+      {
+            "time": "11:30",
+            "benten": "44 happiness",
+            "hunter": "6 嘉舞羅",
+            "ja": ""
+      },
+      {
+            "time": "11:35",
+            "benten": "39 DANCESTUDIOBEAT",
+            "hunter": "42 スタジオX 3歳児クラス",
+            "ja": ""
+      },
+      {
+            "time": "11:40",
+            "benten": "34 スタジオXキッズチーム",
+            "hunter": "41 スタジオX IDOLチーム",
+            "ja": ""
+      },
+      {
+            "time": "11:45",
+            "benten": "１日だけ参加",
+            "hunter": "10 津々うらら",
+            "ja": ""
+      },
+      {
+            "time": "11:50",
+            "benten": "35 Viva la crew",
+            "hunter": "2 ACTY DANCE CREW",
+            "ja": ""
+      },
+      {
+            "time": "11:55",
+            "benten": "28 Sparkle Gem",
+            "hunter": "13 極津",
+            "ja": ""
+      },
+      {
+            "time": "12:00",
+            "benten": "16 スタジオX",
+            "hunter": "30 西ダン",
+            "ja": ""
+      },
+      {
+            "time": "12:05",
+            "benten": "23 月影",
+            "hunter": "45 ダンスチーム凛",
+            "ja": ""
+      },
+      {
+            "time": "12:10",
+            "benten": "和おどり",
+            "hunter": "パフォーマンス⑥’",
+            "ja": ""
+      },
+      {
+            "time": "12:15",
+            "benten": "和おどり",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:20",
+            "benten": "調整",
+            "hunter": "「Jellicle Girls」",
+            "ja": ""
+      },
+      {
+            "time": "12:25",
+            "benten": "47 凛きっず",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:30",
+            "benten": "26 TYJD DANCE STUDIO",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:35",
+            "benten": "11 めっちゃええやんず",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:40",
+            "benten": "22 桜花女",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:45",
+            "benten": "37 カモシカボーイズ",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:50",
+            "benten": "43 刃-BLADE-",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "12:55",
+            "benten": "38 DANCESTUDIOACE",
+            "hunter": "",
+            "ja": "会場オープニング"
+      },
+      {
+            "time": "13:00",
+            "benten": "21 鳳牙",
+            "hunter": "",
+            "ja": "46 凛ジュニア"
+      },
+      {
+            "time": "13:05",
+            "benten": "40 DanceチームCoconattu",
+            "hunter": "",
+            "ja": "52 よさこい炎舞連『神陽～Sin～』"
+      },
+      {
+            "time": "13:10",
+            "benten": "15 スタジオX K-POPジュニアチーム",
+            "hunter": "",
+            "ja": "8 笑楽-eraku-"
+      },
+      {
+            "time": "13:15",
+            "benten": "51 三重ソーラン隊かもめ",
+            "hunter": "",
+            "ja": "19 中部電力 灯守"
+      },
+      {
+            "time": "13:20",
+            "benten": "49 忍神",
+            "hunter": "",
+            "ja": "1 志舞"
+      },
+      {
+            "time": "13:25",
+            "benten": "18 勝山組",
+            "hunter": "",
+            "ja": "36 夂迅"
+      },
+      {
+            "time": "13:30",
+            "benten": "調整",
+            "hunter": "",
+            "ja": "25 SD Crew"
+      },
+      {
+            "time": "13:35",
+            "benten": "パフォーマンス⑥ / 「Jellicle Girls」",
+            "hunter": "",
+            "ja": "20 わいわい踊ろう会"
+      },
+      {
+            "time": "13:40",
+            "benten": "",
+            "hunter": "",
+            "ja": "33 皇學館大学ダンス部＂ALLURE＂"
+      },
+      {
+            "time": "13:45",
+            "benten": "",
+            "hunter": "",
+            "ja": "12 GAP"
+      },
+      {
+            "time": "13:50",
+            "benten": "9 よさこい塾・ありがた屋",
+            "hunter": "",
+            "ja": "5 掌栄組"
+      },
+      {
+            "time": "13:55",
+            "benten": "3 ACTY KIDS",
+            "hunter": "",
+            "ja": "24 津凪ｰtsunagiｰ"
+      },
+      {
+            "time": "14:00",
+            "benten": "14 スタジオX ジュニアチーム",
+            "hunter": "",
+            "ja": "31 飃～FREEDOM～"
+      },
+      {
+            "time": "14:05",
+            "benten": "29 みそら☆ひばりぃず",
+            "hunter": "",
+            "ja": "調整"
+      },
+      {
+            "time": "14:10",
+            "benten": "27 天狗ぅ",
+            "hunter": "",
+            "ja": "50 きらく 祭遊旗"
+      },
+      {
+            "time": "14:15",
+            "benten": "44 happiness",
+            "hunter": "",
+            "ja": "7 P→SEN"
+      },
+      {
+            "time": "14:20",
+            "benten": "39 DANCESTUDIOBEAT",
+            "hunter": "",
+            "ja": "32 日本lilypan舞踊芸術団"
+      },
+      {
+            "time": "14:25",
+            "benten": "34 スタジオXキッズチーム",
+            "hunter": "",
+            "ja": "4 祠音-shinon-"
+      },
+      {
+            "time": "14:30",
+            "benten": "35 Viva la crew",
+            "hunter": "",
+            "ja": "17 皇學館大学〝雅”"
+      },
+      {
+            "time": "14:35",
+            "benten": "28 Sparkle Gem",
+            "hunter": "パフォーマンス⑦’",
+            "ja": "6 嘉舞羅"
+      },
+      {
+            "time": "14:40",
+            "benten": "16 スタジオX",
+            "hunter": "",
+            "ja": "42 スタジオX 3歳児クラス"
+      },
+      {
+            "time": "14:45",
+            "benten": "23 月影",
+            "hunter": "「EMI music」",
+            "ja": "41 スタジオX IDOLチーム"
+      },
+      {
+            "time": "14:50",
+            "benten": "調整",
+            "hunter": "47 凛きっず",
+            "ja": "10 津々うらら"
+      },
+      {
+            "time": "14:55",
+            "benten": "調整",
+            "hunter": "26 TYJD DANCE STUDIO",
+            "ja": "2 ACTY DANCE CREW"
+      },
+      {
+            "time": "15:00",
+            "benten": "OP",
+            "hunter": "11 めっちゃええやんず",
+            "ja": "13 極津"
+      },
+      {
+            "time": "15:05",
+            "benten": "46 凛ジュニア",
+            "hunter": "22 桜花女",
+            "ja": "45 ダンスチーム凛"
+      },
+      {
+            "time": "15:10",
+            "benten": "52 よさこい炎舞連『神陽～Sin～』",
+            "hunter": "37 カモシカボーイズ",
+            "ja": "終了"
+      },
+      {
+            "time": "15:15",
+            "benten": "8 笑楽-eraku-",
+            "hunter": "43 刃-BLADE-",
+            "ja": ""
+      },
+      {
+            "time": "15:20",
+            "benten": "19 中部電力 灯守",
+            "hunter": "38 DANCESTUDIOACE",
+            "ja": ""
+      },
+      {
+            "time": "15:25",
+            "benten": "1 志舞",
+            "hunter": "21 鳳牙",
+            "ja": ""
+      },
+      {
+            "time": "15:30",
+            "benten": "36 夂迅",
+            "hunter": "40 DanceチームCoconattu",
+            "ja": ""
+      },
+      {
+            "time": "15:35",
+            "benten": "25 SD Crew",
+            "hunter": "15 スタジオX K-POPジュニアチーム",
+            "ja": ""
+      },
+      {
+            "time": "15:40",
+            "benten": "20 わいわい踊ろう会",
+            "hunter": "51 三重ソーラン隊かもめ",
+            "ja": ""
+      },
+      {
+            "time": "15:45",
+            "benten": "33 皇學館大学ダンス部＂ALLURE＂",
+            "hunter": "49 忍神",
+            "ja": ""
+      },
+      {
+            "time": "15:50",
+            "benten": "12 GAP",
+            "hunter": "18 勝山組",
+            "ja": ""
+      },
+      {
+            "time": "15:55",
+            "benten": "5 掌栄組",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "16:00",
+            "benten": "31 飃～FREEDOM～",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "16:05",
+            "benten": "24 津凪ｰtsunagiｰ",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "16:10",
+            "benten": "調整",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "16:15",
+            "benten": "パフォーマンス⑦ / 「EMI music」",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "16:20",
+            "benten": "",
+            "hunter": "パフォーマンス⑨’",
+            "ja": ""
+      },
+      {
+            "time": "16:25",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "16:30",
+            "benten": "調整",
+            "hunter": "「ベリーダンスチームイシス」",
+            "ja": ""
+      },
+      {
+            "time": "16:35",
+            "benten": "50 きらく 祭遊旗",
+            "hunter": "調整",
+            "ja": ""
+      },
+      {
+            "time": "16:40",
+            "benten": "7 P→SEN",
+            "hunter": "9 よさこい塾・ありがた屋",
+            "ja": ""
+      },
+      {
+            "time": "16:45",
+            "benten": "32 日本lilypan舞踊芸術団",
+            "hunter": "3 ACTY KIDS",
+            "ja": ""
+      },
+      {
+            "time": "16:50",
+            "benten": "4 祠音-shinon-",
+            "hunter": "14 スタジオX ジュニアチーム",
+            "ja": ""
+      },
+      {
+            "time": "16:55",
+            "benten": "17 皇學館大学〝雅”",
+            "hunter": "27 天狗ぅ",
+            "ja": ""
+      },
+      {
+            "time": "17:00",
+            "benten": "6 嘉舞羅",
+            "hunter": "44 happiness",
+            "ja": ""
+      },
+      {
+            "time": "17:05",
+            "benten": "42 スタジオX 3歳児クラス",
+            "hunter": "39 DANCESTUDIOBEAT",
+            "ja": ""
+      },
+      {
+            "time": "17:10",
+            "benten": "41 スタジオX IDOLチーム",
+            "hunter": "34 スタジオXキッズチーム",
+            "ja": ""
+      },
+      {
+            "time": "17:15",
+            "benten": "10 津々うらら",
+            "hunter": "35 Viva la crew",
+            "ja": ""
+      },
+      {
+            "time": "17:20",
+            "benten": "2 ACTY DANCE CREW",
+            "hunter": "28 Sparkle Gem",
+            "ja": ""
+      },
+      {
+            "time": "17:25",
+            "benten": "13 極津",
+            "hunter": "16 スタジオX",
+            "ja": ""
+      },
+      {
+            "time": "17:30",
+            "benten": "30 西ダン",
+            "hunter": "23 月影",
+            "ja": ""
+      },
+      {
+            "time": "17:35",
+            "benten": "45 ダンスチーム凛",
+            "hunter": "終了",
+            "ja": ""
+      },
+      {
+            "time": "17:40",
+            "benten": "調整",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "17:45",
+            "benten": "パフォーマンス⑧ / 24 「津凪-tsunagi-」",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "17:50",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "17:55",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:00",
+            "benten": "ファイナルチーム発表",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:05",
+            "benten": "パフォーマンス⑨ / 「ベリーダンスチームイシス」",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:10",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:15",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:20",
+            "benten": "Jrチーム審査発表",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:25",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:30",
+            "benten": "Jr 大賞演舞",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:35",
+            "benten": "ファイナルコンテスト",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:40",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:45",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:50",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "18:55",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:00",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:05",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:10",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:15",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:20",
+            "benten": "参加チーム / ホストチーム・ / スタッフ・サポーター紹介",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:25",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:30",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:35",
+            "benten": "10/20回参加チーム表彰",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:40",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:45",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:50",
+            "benten": "各審査発表",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "19:55",
+            "benten": "",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:00",
+            "benten": "大賞演舞",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:05",
+            "benten": "実行委員⾧挨拶",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:10",
+            "benten": "総踊り 楽天",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:15",
+            "benten": "記念撮影",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:20",
+            "benten": "総踊り 真骨頂",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:25",
+            "benten": "さぁ踊ろう 合唱",
+            "hunter": "",
+            "ja": ""
+      },
+      {
+            "time": "20:30",
+            "benten": "終了",
+            "hunter": "",
+            "ja": ""
+      }
+];
 
     let currentOfficialDay = 'day1';
     let currentModalDay = 'day1';
@@ -1070,6 +2428,23 @@
       };
     }
 
+    function getVenueStyle(venueStr) {
+      if (!venueStr) return { color: '#f8fafc', bg: 'rgba(255, 255, 255, 0.08)', border: '#475569' };
+      if (venueStr.includes('弁天山')) {
+        return { color: '#fef08a', bg: 'rgba(234, 179, 8, 0.2)', border: '#eab308' };
+      }
+      if (venueStr.includes('ハンター')) {
+        return { color: '#38bdf8', bg: 'rgba(56, 189, 248, 0.2)', border: '#0284c7' };
+      }
+      if (venueStr.includes('JA鈴鹿') || venueStr.includes('JA')) {
+        return { color: '#4ade80', bg: 'rgba(74, 222, 128, 0.2)', border: '#16a34a' };
+      }
+      if (venueStr.includes('橘公園') || venueStr.includes('庄野')) {
+        return { color: '#e879f9', bg: 'rgba(232, 121, 249, 0.2)', border: '#c026d3' };
+      }
+      return { color: '#f1f5f9', bg: 'rgba(255, 255, 255, 0.1)', border: '#64748b' };
+    }
+
     function renderSchedule() {
       const checkboxes = document.querySelectorAll('.filter-checkbox');
       const selectedIds = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
@@ -1099,6 +2474,7 @@
               : '';
 
             const actionInfo = getVenueActionInfo(item.venue);
+            const vStyle = getVenueStyle(item.venue);
 
             const mapBtnHtml = `<a href="${actionInfo.mapUrl}" target="_blank" rel="noopener noreferrer" class="map-btn">MAP ↗</a>`;
             const showSchedBtn = (item.type === '演舞' || item.type === '審査' || item.type === '発表');
@@ -1116,8 +2492,10 @@
                   ${item.name}
                 </span>
               </td>
-              <td style="text-align: center; font-weight: 700; font-size: 1.08rem; color: #ffffff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); line-height: 1.4; padding: 12px 8px;">
-                ${item.venue}
+              <td style="text-align: center; padding: 12px 8px;">
+                <span style="display: inline-block; font-weight: 700; font-size: 1.05rem; color: ${vStyle.color}; background: ${vStyle.bg}; border: 1px solid ${vStyle.border}; padding: 4px 12px; border-radius: 6px; letter-spacing: 0.5px; line-height: 1.4; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">
+                  ${item.venue}
+                </span>
               </td>
               <td style="text-align: center; white-space: nowrap;">
                 <span class="badge" style="background:${style.bg}; color:${style.color}; border:none;">
