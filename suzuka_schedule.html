@@ -9,43 +9,66 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <style>
-    :root {
-      --bg-dark: #0b1320;
-      --bg-card: #131f30;
-      --bg-row-alt: #162438;
-      --border-color: #2a3a52;
-      --domatsuri-gold: #eab308;
-      --gold-primary: #facc15;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --font-family-mincho: 'Shippori Mincho', serif;
+  <style>:root {
+      /* 絵本サイト（storybook.gosaiji-kenshin.com）完全準拠のカラーパレット */
+      --storybook-bg: #ef9f43;
+      --storybook-bg-gradient: linear-gradient(135deg, #f5a64b 0%, #ea9638 100%);
+      --storybook-card-bg: #faf2e7;
+      --storybook-card-sub: #ffffff;
+      --storybook-card-border: #eddcc8;
+      --storybook-orange: #ed9432;
+      --storybook-orange-hover: #d97818;
+      --storybook-orange-light: #fff7ed;
+      --storybook-text-dark: #2e2e2d;
+      --storybook-text-main: #383837;
+      --storybook-text-muted: #785b46;
+      --storybook-font-family: 'Noto Sans JP', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     body {
-      background-color: #0b1320 !important;
-      color: #f8fafc !important;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--storybook-bg) !important;
+      background: var(--storybook-bg-gradient) !important;
+      color: var(--storybook-text-main) !important;
+      font-family: var(--storybook-font-family);
       margin: 0;
       padding: 0;
+      min-height: 100vh;
     }
 
+    /* トップバー */
+    .saas-topbar {
+      background: rgba(250, 242, 231, 0.96) !important;
+      border-bottom: 1px solid #eddcc8 !important;
+      box-shadow: 0 2px 10px rgba(180, 90, 10, 0.08) !important;
+    }
+    .brand-icon {
+      background: #ed9432 !important;
+      color: #ffffff !important;
+      font-weight: 700;
+    }
+    .brand-title {
+      color: #2e2e2d !important;
+      font-weight: 700;
+    }
+
+    /* フィルターコンテナ */
     .filter-container {
-      background: #0f1b29;
-      padding: 16px;
-      border-radius: 8px;
-      border: 1px solid #d4af37;
+      background: #faf2e7;
+      padding: 16px 20px;
+      border-radius: 14px;
+      border: 1px solid #eddcc8;
       margin-bottom: 24px;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 14px;
       justify-content: center;
+      box-shadow: 0 4px 16px rgba(180, 90, 10, 0.06);
     }
     .filter-label {
-      color: #fff;
+      color: #383837;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
@@ -53,44 +76,70 @@
     .filter-checkbox {
       width: 18px;
       height: 18px;
-      accent-color: #d4af37;
+      accent-color: #ed9432;
     }
-    .team-badge-rin { background: #d93829; color: #fff; }
+    .team-badge-rin { background: #e11d48; color: #fff; }
     .team-badge-jr { background: #2563eb; color: #fff; }
     .team-badge-kids { background: #16a34a; color: #fff; }
+
+    /* カードデザイン */
+    .card {
+      background: #faf2e7 !important;
+      border: 1px solid #eddcc8 !important;
+      border-radius: 16px !important;
+      box-shadow: 0 8px 24px rgba(160, 80, 10, 0.1) !important;
+      overflow: hidden;
+    }
     
     .timeline-table-wrapper {
       width: 100%;
       overflow-x: auto;
-      background: #131f30;
-      border-radius: 8px;
-      border: 1px solid #2a3a52;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      background: #ffffff;
+      border-radius: 0 0 16px 16px;
+      border-top: 1px solid #eddcc8;
     }
     .timeline-table {
       width: 100%;
       border-collapse: collapse;
-      background: #131f30;
+      background: #ffffff;
     }
-    .timeline-table th { background: #0f1b29; color: #facc15; font-weight: 700; padding: 14px 10px; border-bottom: 2px solid #eab308; }
-    .timeline-table tbody tr:nth-child(even) { background: #162438; }
-    .timeline-table tbody tr:nth-child(odd) { background: #101b2b; }
-    .timeline-table td { padding: 14px 10px; border-bottom: 1px solid #2a3a52; vertical-align: middle; word-break: break-word; color: #f8fafc; }
-    .timeline-table tr:hover { background: #1e3352 !important; }
+    .timeline-table th {
+      background: #fdf8f0;
+      color: #785b46;
+      font-weight: 700;
+      padding: 14px 10px;
+      border-bottom: 2px solid #ed9432;
+    }
+    .timeline-table tbody tr:nth-child(even) {
+      background: #fdfaf5;
+    }
+    .timeline-table tbody tr:nth-child(odd) {
+      background: #ffffff;
+    }
+    .timeline-table td {
+      padding: 14px 10px;
+      border-bottom: 1px solid #f0e3d2;
+      vertical-align: middle;
+      word-break: break-word;
+      color: #383837;
+    }
+    .timeline-table tr:hover {
+      background: #fff3e0 !important;
+    }
 
     /* 全体タイムテーブル用スタイル */
     .official-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.88rem;
-      color: #f8fafc;
-      background: #0f1b29;
+      color: #383837;
+      background: #ffffff;
     }
     .official-table th {
-      background: #1e293b;
-      color: #fef08a;
-      padding: 10px 8px;
-      border: 1px solid #334155;
+      background: #fdf8f0;
+      color: #785b46;
+      padding: 12px 8px;
+      border: 1px solid #eddcc8;
       text-align: center;
       position: sticky;
       top: 0;
@@ -99,69 +148,70 @@
     }
     .official-table td {
       padding: 10px 10px;
-      border: 1px solid #334155;
+      border: 1px solid #f0e3d2;
       vertical-align: middle;
-      color: #f8fafc !important;
+      color: #383837 !important;
       font-weight: 500;
     }
     .official-table tr:nth-child(even) {
-      background: rgba(255, 255, 255, 0.05);
+      background: #fdfaf5;
     }
     .official-table tr:hover {
-      background: rgba(212, 175, 55, 0.2) !important;
+      background: #fff3e0 !important;
     }
     .cell-rin-team {
-      background: rgba(217, 56, 41, 0.4) !important;
-      color: #ffffff !important;
+      background: rgba(237, 148, 50, 0.16) !important;
+      color: #b45309 !important;
       font-weight: 700 !important;
-      border-left: 4px solid #fef08a !important;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      border-left: 4px solid #ed9432 !important;
     }
     .highlight-search {
-      background: #854d0e !important;
-      color: #fef08a !important;
+      background: #fed7aa !important;
+      color: #9a3412 !important;
       font-weight: 700 !important;
     }
 
     /* アクションボタン（MAP ＆ 当日会場スケジュール） */
     .map-btn {
       display: inline-block;
-      padding: 5px 10px;
-      font-size: 0.78rem;
+      padding: 6px 12px;
+      font-size: 0.8rem;
       font-weight: 700;
-      background: rgba(15, 27, 41, 0.9);
-      color: #38bdf8;
-      border: 1px solid #0284c7;
-      border-radius: 4px;
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #86efac;
+      border-radius: 6px;
       text-decoration: none;
       transition: all 0.2s ease;
     }
     .map-btn:hover {
-      background: #0284c7;
+      background: #16a34a;
       color: #ffffff;
     }
     .sched-btn {
       display: inline-block;
-      padding: 5px 10px;
-      font-size: 0.78rem;
+      padding: 6px 12px;
+      font-size: 0.8rem;
       font-weight: 700;
-      background: rgba(212, 175, 55, 0.2);
-      color: #fef08a;
-      border: 1px solid #d4af37;
-      border-radius: 4px;
+      background: #ed9432;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
       text-decoration: none;
+      box-shadow: 0 2px 6px rgba(237, 148, 50, 0.3);
       transition: all 0.2s ease;
       cursor: pointer;
     }
     .sched-btn:hover {
-      background: #d4af37;
-      color: #0f1b29;
+      background: #d97818;
+      color: #ffffff;
     }
 
     @media (max-width: 640px) {
       .timeline-table-wrapper {
         overflow-x: visible !important;
         padding: 10px 8px !important;
+        background: transparent !important;
       }
       .timeline-table, .timeline-table tbody {
         display: block !important;
@@ -179,16 +229,16 @@
           "action action action";
         gap: 6px 8px;
         align-items: center;
-        background: #111e2e !important;
-        border: 1px solid #334155 !important;
-        border-radius: 8px !important;
+        background: #ffffff !important;
+        border: 1px solid #eddcc8 !important;
+        border-radius: 12px !important;
         margin-bottom: 10px !important;
         padding: 12px 14px !important;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3) !important;
+        box-shadow: 0 4px 12px rgba(180, 90, 10, 0.06) !important;
         box-sizing: border-box !important;
       }
       .timeline-table tr:hover {
-        background: #192638 !important;
+        background: #fff3e0 !important;
       }
       .timeline-table td {
         display: block !important;
@@ -208,7 +258,7 @@
         text-align: left !important;
         padding-top: 8px !important;
         margin-top: 4px !important;
-        border-top: 1px dashed #334155 !important;
+        border-top: 1px dashed #eddcc8 !important;
         font-size: 0.98rem !important;
       }
       .timeline-table td:nth-child(4) {
@@ -220,7 +270,7 @@
         text-align: center !important;
         padding-top: 6px !important;
         margin-top: 4px !important;
-        border-top: 1px dashed #334155 !important;
+        border-top: 1px dashed #eddcc8 !important;
       }
     }
   </style>
@@ -232,17 +282,17 @@
       <div class="brand-title" style="font-size: 1rem;">ダンスチーム凛</div>
     </div>
     <div>
-      <a href="/index.html" class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 12px; text-decoration: none;">← ポータルへ戻る</a>
+      <a href="/index.html" class="btn btn-secondary" style="font-size: 0.78rem; padding: 6px 14px; text-decoration: none; background: #ffffff; color: #ed9432; border: 1px solid #ed9432; border-radius: 9999px; font-weight: 700;">← ポータルへ戻る</a>
     </div>
   </header>
 
   <!-- 表示モード切替バー -->
-  <div style="background: #0f1b29; border-bottom: 2px solid var(--domatsuri-gold); padding: 12px 16px; position: sticky; top: 0; z-index: 100;" class="btn-no-print">
-    <div class="container" style="max-width: 900px; padding: 0; display: flex; gap: 10px; justify-content: center;">
-      <button id="view-btn-rin" onclick="switchSuzukaView('rin')" class="btn" style="flex: 1; max-width: 280px; padding: 10px 14px; font-weight: 700; font-size: 0.88rem; background: var(--domatsuri-gold); color: #0f1b29; border: 1px solid var(--domatsuri-gold);">
+  <div style="background: rgba(244, 231, 213, 0.96); border-bottom: 2px solid #ed9432; padding: 12px 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(180, 90, 10, 0.08);" class="btn-no-print">
+    <div class="container" style="max-width: 900px; padding: 0; display: flex; gap: 12px; justify-content: center;">
+      <button id="view-btn-rin" onclick="switchSuzukaView('rin')" class="btn" style="flex: 1; max-width: 280px; padding: 10px 16px; font-weight: 700; font-size: 0.9rem; background: #ed9432; color: #ffffff; border: none; border-radius: 9999px; box-shadow: 0 3px 8px rgba(237, 148, 50, 0.35);">
         🌟 凛グループ 専用スケジュール
       </button>
-      <button id="view-btn-official" onclick="switchSuzukaView('official')" class="btn btn-secondary" style="flex: 1; max-width: 280px; padding: 10px 14px; font-weight: 700; font-size: 0.88rem; color: #ffffff; border-color: rgba(255,255,255,0.3);">
+      <button id="view-btn-official" onclick="switchSuzukaView('official')" class="btn btn-secondary" style="flex: 1; max-width: 280px; padding: 10px 16px; font-weight: 700; font-size: 0.9rem; background: #ffffff; color: #5c4a3d; border: 1px solid #eddcc8; border-radius: 9999px;">
         🏛️ 公式 全チーム タイムスケジュール
       </button>
     </div>
@@ -252,10 +302,10 @@
     
     <!-- ヘッダーエリア -->
     <div style="text-align: center; margin-bottom: 24px;">
-      <h1 style="font-family: var(--font-family-mincho); font-size: 1.8rem; font-weight: 700; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); margin-bottom: 8px;">
+      <h1 style="font-family: var(--font-family-mincho); font-size: 1.8rem; font-weight: 700; color: #ffffff; text-shadow: 0 2px 8px rgba(180, 80, 10, 0.4); margin-bottom: 8px;">
         第28回 すずかフェスティバル 2026
       </h1>
-      <div style="font-size: 0.85rem; color: #fbbf24; letter-spacing: 1px; font-weight: 700;">
+      <div style="font-size: 0.88rem; color: #fffbeb; background: rgba(0,0,0,0.14); padding: 4px 18px; border-radius: 9999px; display: inline-block; letter-spacing: 1px; font-weight: 700;">
         公式演舞スケジュール ＆ 各会場案内タイムライン
       </div>
     </div>
@@ -265,7 +315,7 @@
 
       <!-- チーム絞り込みUI -->
       <div class="filter-container">
-        <div style="width: 100%; text-align: center; font-size: 0.85rem; color: #cbd5e1; font-weight: 600; margin-bottom: 4px;">表示するチームを選択（複数可）</div>
+        <div style="width: 100%; text-align: center; font-size: 0.85rem; color: #fff7ed; font-weight: 600; margin-bottom: 4px;">表示するチームを選択（複数可）</div>
         <label class="filter-label">
           <input type="checkbox" class="filter-checkbox" value="rin" checked> ダンスチーム凛
         </label>
@@ -278,31 +328,31 @@
       </div>
 
       <!-- 受付時間案内 ＆ 注意事項バナー -->
-      <div style="background: rgba(239, 68, 68, 0.18); border: 1px solid #ef4444; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; text-align: center; color: #fca5a5; font-size: 0.9rem; font-weight: 700; display: flex; flex-direction: column; gap: 6px;">
+      <div style="background: #fff7ed; border: 1px solid #fb923c; border-radius: 14px; padding: 14px 18px; margin-bottom: 24px; text-align: center; color: #9a3412; font-size: 0.9rem; font-weight: 700; display: flex; flex-direction: column; gap: 6px;">
         <div>⚠️ 各演舞および審査演舞は【演舞開始時刻の15分前】が受付時間となります。時間に余裕を持って集合してください。</div>
-        <div style="color: #ffffff; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">💧 演舞後は給水して次の行動予定の案内を聞いてから自由行動です。</div>
+        <div style="color: #c2410c; font-weight: 700;">💧 演舞後は給水して次の行動予定の案内を聞いてから自由行動です。</div>
       </div>
 
       <!-- 9/5 (土) スケジュール -->
       <div class="card" style="margin-bottom: 32px; padding: 0; overflow: hidden; border-color: #d4af37;">
-        <div style="background: linear-gradient(90deg, #0f1b29 0%, #1e293b 100%); padding: 16px 20px; border-bottom: 2px solid #d4af37;">
+        <div style="background: linear-gradient(90deg, #ed9432 0%, #f5a64b 100%); padding: 16px 22px; border-bottom: none;">
           <h2 style="font-size: 1.3rem; color: #ffffff; margin: 0; font-family: var(--font-family-mincho);">
-            9月5日 (土) <span style="font-size: 0.9rem; color: #cbd5e1; font-family: 'Inter', sans-serif;">第1日目</span>
+            9月5日 (土) <span style="font-size: 0.9rem; color: #fff7ed; font-family: 'Inter', sans-serif;">第1日目</span>
           </h2>
         </div>
         
         <!-- 集合・出発 連絡案内サマリー -->
-        <div style="background: rgba(15, 23, 42, 0.7); padding: 16px 20px; border-bottom: 1px solid #334155; font-size: 0.95rem;">
-          <div style="font-weight: 700; color: #fbbf24; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+        <div style="background: #ffffff; padding: 18px 22px; border-bottom: 1px solid #eddcc8; font-size: 0.95rem;">
+          <div style="font-weight: 700; color: #c2410c; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
             📍 9/5 (土) 集合・出発・運営案内
           </div>
-          <div style="display: flex; flex-direction: column; gap: 8px; color: #ffffff; font-weight: 500; margin-bottom: 12px;">
-            <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発</div>
-            <div><strong style="color: #60a5fa; font-weight: 700;">【凛ジュニア】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #f472b6; font-weight: 700;">15:55集合 ハンター（ホストチーム運営 16:25〜17:25 ※係に当たっている人のみ）</span></div>
+          <div style="display: flex; flex-direction: column; gap: 8px; color: #383837; font-weight: 500; margin-bottom: 12px;">
+            <div><strong style="color: #dc2626; font-weight: 700;">【ダンスチーム凛】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発</div>
+            <div><strong style="color: #2563eb; font-weight: 700;">【凛ジュニア】</strong> 9:00 橘公園集合 ｜ 10:00 橘公園出発 ｜ <span style="color: #db2777; font-weight: 700;">15:55集合 ハンター（ホストチーム運営 16:25〜17:25 ※係に当たっている人のみ）</span></div>
             <div><strong style="color: #4ade80; font-weight: 700;">【凛きっず】</strong> 11:00 弁天山公園集合 ｜ 14:00 JA鈴鹿集合 ｜ 17:40 弁天山公園集合</div>
           </div>
-          <div style="padding-top: 10px; border-top: 1px dashed #475569; color: #ffffff; font-weight: 500;">
-            <strong style="color: #7dd3fc; font-size: 0.95rem;">✨ 夜のエキシビション ＆ 解散（全チーム共通）:</strong><br>
+          <div style="padding-top: 10px; border-top: 1px dashed #eddcc8; color: #475569; font-weight: 500;">
+            <strong style="color: #d97706; font-size: 0.95rem;">✨ 夜のエキシビション ＆ 解散（全チーム共通）:</strong><br>
             ・19:00 エキシビションチーム発表 ｜ 19:35〜20:20 エキシビション演舞（選出された場合）<br>
             ・20:30 1日目終了・翌日予定連絡後解散（※エキシビションに選出されなかった場合は解散時間が早まる可能性あり）
           </div>
@@ -323,30 +373,30 @@
               <!-- JSで動的生成 -->
             </tbody>
           </table>
-          <div id="empty-msg-day1" style="display:none; text-align:center; padding: 24px; color: #cbd5e1;">表示対象のスケジュールがありません。</div>
+          <div id="empty-msg-day1" style="display:none; text-align:center; padding: 24px; color: #fff7ed;">表示対象のスケジュールがありません。</div>
         </div>
       </div>
 
       <!-- 9/6 (日) スケジュール -->
       <div class="card" style="margin-bottom: 32px; padding: 0; overflow: hidden; border-color: #d4af37;">
-        <div style="background: linear-gradient(90deg, #0f1b29 0%, #1e293b 100%); padding: 16px 20px; border-bottom: 2px solid #d4af37;">
+        <div style="background: linear-gradient(90deg, #ed9432 0%, #f5a64b 100%); padding: 16px 22px; border-bottom: none;">
           <h2 style="font-size: 1.3rem; color: #ffffff; margin: 0; font-family: var(--font-family-mincho);">
-            9月6日 (日) <span style="font-size: 0.9rem; color: #cbd5e1; font-family: 'Inter', sans-serif;">第2日目</span>
+            9月6日 (日) <span style="font-size: 0.9rem; color: #fff7ed; font-family: 'Inter', sans-serif;">第2日目</span>
           </h2>
         </div>
 
         <!-- 運営・案内サマリー -->
-        <div style="background: rgba(15, 23, 42, 0.7); padding: 16px 20px; border-bottom: 1px solid #334155; font-size: 0.95rem;">
-          <div style="font-weight: 700; color: #fbbf24; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+        <div style="background: #ffffff; padding: 18px 22px; border-bottom: 1px solid #eddcc8; font-size: 0.95rem;">
+          <div style="font-weight: 700; color: #c2410c; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
             📍 9/6 (日) 集合・運営案内
           </div>
-          <div style="display: flex; flex-direction: column; gap: 8px; color: #ffffff; font-weight: 500; margin-bottom: 12px;">
-            <div><strong style="color: #ff8a8a; font-weight: 700;">【ダンスチーム凛】</strong> 8:00 庄野小学校体育館集合 ｜ 9:30 庄野小学校出発 ｜ <span style="color: #f472b6; font-weight: 700;">10:40集合 ハンター（ホストチーム運営 11:10〜12:00 ※係のみ）</span> ｜ 14:30 JA鈴鹿集合 ｜ 17:00 本陣集合</div>
-            <div><strong style="color: #60a5fa; font-weight: 700;">【凛ジュニア】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発 ｜ 12:10 JA鈴鹿集合 ｜ 14:30 本陣集合</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; color: #383837; font-weight: 500; margin-bottom: 12px;">
+            <div><strong style="color: #dc2626; font-weight: 700;">【ダンスチーム凛】</strong> 8:00 庄野小学校体育館集合 ｜ 9:30 庄野小学校出発 ｜ <span style="color: #db2777; font-weight: 700;">10:40集合 ハンター（ホストチーム運営 11:10〜12:00 ※係のみ）</span> ｜ 14:30 JA鈴鹿集合 ｜ 17:00 本陣集合</div>
+            <div><strong style="color: #2563eb; font-weight: 700;">【凛ジュニア】</strong> 8:30 橘公園集合 ｜ 9:30 橘公園出発 ｜ 12:10 JA鈴鹿集合 ｜ 14:30 本陣集合</div>
             <div><strong style="color: #4ade80; font-weight: 700;">【凛きっず】</strong> 9:30 弁天山公園集合 ｜ 11:55 本陣集合</div>
           </div>
-          <div style="padding-top: 10px; border-top: 1px dashed #475569; color: #ffffff; font-weight: 500;">
-            <strong style="color: #7dd3fc; font-size: 0.95rem;">🏆 夕方〜夜の審査発表 ＆ 解散案内:</strong><br>
+          <div style="padding-top: 10px; border-top: 1px dashed #eddcc8; color: #475569; font-weight: 500;">
+            <strong style="color: #d97706; font-size: 0.95rem;">🏆 夕方〜夜の審査発表 ＆ 解散案内:</strong><br>
             ・<strong>きっず・ジュニア:</strong> 17:50 踊り子待機場所集合（代表者1名） ｜ 18:20 Jr審査発表<br>
             ・<strong>ダンスチーム凛:</strong> 18:00 ファイナルチーム発表 ｜ 18:35〜19:20 ファイナルコンテスト（選出時） ｜ 19:00 踊り子待機場所集合（代表者1名） ｜ 19:40〜 各審査発表<br>
             ・<strong>20:30 2日目演舞全日程終了・解散（全チーム共通）</strong>
@@ -397,7 +447,7 @@
               <input type="text" id="official-search-input" placeholder="🔍 チーム名・番号でリアルタイム検索 (例: 45, 凛, 皇學館, 極津...)" oninput="filterOfficialSchedule()" style="width: 100%; padding: 10px 14px; border: 1px solid #d4af37; border-radius: 6px; font-size: 0.9rem; background: #0f1b29; color: #fff; font-family: inherit;">
             </div>
             <div style="display: flex; gap: 6px; align-items: center;">
-              <label style="font-size: 0.85rem; color: #cbd5e1; font-weight: 600;">表示会場:</label>
+              <label style="font-size: 0.85rem; color: #fff7ed; font-weight: 600;">表示会場:</label>
               <select id="official-venue-select" onchange="filterOfficialSchedule()" style="padding: 8px 12px; border: 1px solid #d4af37; border-radius: 6px; font-size: 0.85rem; font-family: inherit; background: #0f1b29; color: #fef08a; font-weight: 700;">
                 <option value="all">全3会場表示（弁天山・ハンター・JA鈴鹿）</option>
                 <option value="benten">弁天山公園会場</option>
@@ -484,8 +534,8 @@
       </div>
 
       <!-- フッター -->
-      <div style="padding: 12px 16px; background: #0f1b29; border-top: 1px solid #334155; text-align: center;">
-        <button onclick="closeOfficialScheduleModal()" class="btn btn-gold" style="font-size: 0.9rem; padding: 8px 24px; font-weight: 700;">✕ 閉じる</button>
+      <div style="padding: 12px 16px; background: #f4e7d5; border-top: 1px solid #eddcc8; text-align: center;">
+        <button onclick="closeOfficialScheduleModal()" class="btn" style="font-size: 0.9rem; padding: 8px 30px; font-weight: 700; background: #ed9432; color: #ffffff; border: none; border-radius: 9999px; box-shadow: 0 3px 8px rgba(237, 148, 50, 0.35); cursor: pointer;">✕ 閉じる</button>
       </div>
 
     </div>
@@ -2134,17 +2184,21 @@
       if (viewType === 'rin') {
         rinSec.style.display = 'block';
         officialSec.style.display = 'none';
-        btnRin.style.background = 'var(--domatsuri-gold)';
-        btnRin.style.color = '#0f1b29';
-        btnOfficial.style.background = 'transparent';
-        btnOfficial.style.color = '#ffffff';
+        btnRin.style.background = '#ed9432';
+        btnRin.style.color = '#ffffff';
+        btnRin.style.boxShadow = '0 3px 8px rgba(237, 148, 50, 0.35)';
+        btnOfficial.style.background = '#ffffff';
+        btnOfficial.style.color = '#5c4a3d';
+        btnOfficial.style.boxShadow = 'none';
       } else {
         rinSec.style.display = 'none';
         officialSec.style.display = 'block';
-        btnOfficial.style.background = 'var(--domatsuri-gold)';
-        btnOfficial.style.color = '#0f1b29';
-        btnRin.style.background = 'transparent';
-        btnRin.style.color = '#ffffff';
+        btnOfficial.style.background = '#ed9432';
+        btnOfficial.style.color = '#ffffff';
+        btnOfficial.style.boxShadow = '0 3px 8px rgba(237, 148, 50, 0.35)';
+        btnRin.style.background = '#ffffff';
+        btnRin.style.color = '#5c4a3d';
+        btnRin.style.boxShadow = 'none';
 
         if (targetDay) switchOfficialDay(targetDay);
         if (targetVenue) {
@@ -2201,15 +2255,15 @@
 
       if (day1Btn && day2Btn) {
         if (currentModalDay === 'day1') {
-          day1Btn.style.background = 'var(--domatsuri-gold)';
-          day1Btn.style.color = '#0f1b29';
-          day2Btn.style.background = 'transparent';
-          day2Btn.style.color = '#ffffff';
-        } else {
-          day2Btn.style.background = 'var(--domatsuri-gold)';
-          day2Btn.style.color = '#0f1b29';
-          day1Btn.style.background = 'transparent';
+          day1Btn.style.background = '#ed9432';
           day1Btn.style.color = '#ffffff';
+          day2Btn.style.background = '#ffffff';
+          day2Btn.style.color = '#5c4a3d';
+        } else {
+          day2Btn.style.background = '#ed9432';
+          day2Btn.style.color = '#ffffff';
+          day1Btn.style.background = '#ffffff';
+          day1Btn.style.color = '#5c4a3d';
         }
       }
 
@@ -2217,11 +2271,13 @@
         const btn = document.getElementById('modal-btn-' + vk);
         if (btn) {
           if (currentModalVenue === vk) {
-            btn.style.background = 'var(--domatsuri-gold)';
-            btn.style.color = '#0f1b29';
-          } else {
-            btn.style.background = 'transparent';
+            btn.style.background = '#ed9432';
             btn.style.color = '#ffffff';
+            btn.style.borderColor = '#ed9432';
+          } else {
+            btn.style.background = '#ffffff';
+            btn.style.color = '#5c4a3d';
+            btn.style.borderColor = '#eddcc8';
           }
         }
       });
@@ -2263,7 +2319,7 @@
           `<td class="${isRinJa ? 'cell-rin-team' : ''}">${escapeHtml(row.ja)}</td>` : '';
 
         tr.innerHTML = `
-          <td style="text-align: center; font-weight: 700; color: #fef08a; white-space: nowrap;">${row.time}</td>
+          <td style="text-align: center; font-weight: 700; color: #d97706; white-space: nowrap;">${row.time}</td>
           ${bentenTd}
           ${hunterTd}
           ${jaTd}
@@ -2278,15 +2334,15 @@
       const btn2 = document.getElementById('btn-official-day2');
 
       if (day === 'day1') {
-        btn1.style.background = 'var(--domatsuri-gold)';
-        btn1.style.color = '#0f1b29';
-        btn2.style.background = 'transparent';
-        btn2.style.color = '#ffffff';
-      } else {
-        btn2.style.background = 'var(--domatsuri-gold)';
-        btn2.style.color = '#0f1b29';
-        btn1.style.background = 'transparent';
+        btn1.style.background = '#ed9432';
         btn1.style.color = '#ffffff';
+        btn2.style.background = '#ffffff';
+        btn2.style.color = '#5c4a3d';
+      } else {
+        btn2.style.background = '#ed9432';
+        btn2.style.color = '#ffffff';
+        btn1.style.background = '#ffffff';
+        btn1.style.color = '#5c4a3d';
       }
       renderOfficialTable();
     }
@@ -2348,7 +2404,7 @@
           `<td class="${isRinJa ? 'cell-rin-team' : (matchJa ? 'highlight-search' : '')}">${escapeHtml(row.ja)}</td>` : '';
 
         tr.innerHTML = `
-          <td style="text-align: center; font-weight: 700; color: #fef08a; white-space: nowrap;">${row.time}</td>
+          <td style="text-align: center; font-weight: 700; color: #d97706; white-space: nowrap;">${row.time}</td>
           ${bentenTd}
           ${hunterTd}
           ${jaTd}
@@ -2429,7 +2485,21 @@
     }
 
     function getVenueStyle(venueStr) {
-      if (!venueStr) return { color: '#f8fafc', bg: 'rgba(255, 255, 255, 0.08)', border: '#475569' };
+      if (!venueStr) return { color: '#475569', bg: '#f1f5f9', border: '#cbd5e1' };
+      if (venueStr.includes('弁天山')) {
+        return { color: '#b45309', bg: '#fef3c7', border: '#f59e0b' };
+      }
+      if (venueStr.includes('ハンター')) {
+        return { color: '#0369a1', bg: '#e0f2fe', border: '#38bdf8' };
+      }
+      if (venueStr.includes('JA鈴鹿') || venueStr.includes('JA')) {
+        return { color: '#15803d', bg: '#dcfce7', border: '#4ade80' };
+      }
+      if (venueStr.includes('橘公園') || venueStr.includes('庄野')) {
+        return { color: '#9333ea', bg: '#fae8ff', border: '#c084fc' };
+      }
+      return { color: '#475569', bg: '#f8fafc', border: '#e2e8f0' };
+    };
       if (venueStr.includes('弁天山')) {
         return { color: '#fef08a', bg: 'rgba(234, 179, 8, 0.2)', border: '#eab308' };
       }
@@ -2470,7 +2540,7 @@
 
             const isPerfOrShinsa = (item.type === '演舞' || item.type === '審査');
             const receptionHtml = isPerfOrShinsa 
-              ? `<div style="font-size: 0.78rem; color: #fbbf24; font-weight: 700; margin-top: 2px;">(受付 ${getReceptionTime(item.time)})</div>`
+              ? `<div style="font-size: 0.78rem; color: #ea580c; font-weight: 700; margin-top: 2px;">(受付 ${getReceptionTime(item.time)})</div>`
               : '';
 
             const actionInfo = getVenueActionInfo(item.venue);
@@ -2483,7 +2553,7 @@
               : '';
 
             tr.innerHTML = `
-              <td style="text-align: center; font-weight: 700; font-size: 1.1rem; color: var(--gold-primary); white-space: nowrap;">
+              <td style="text-align: center; font-weight: 700; font-size: 1.1rem; color: #d97706; white-space: nowrap;">
                 ${item.time}
                 ${receptionHtml}
               </td>
