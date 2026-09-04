@@ -16,3 +16,4 @@ dist/
 # GAS
 .clasp.json
 .vercel
+*.pdf
