@@ -1,0 +1,2741 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>安濃津よさこい2026 公式演舞スケジュール ｜ ダンスチーム凛 ＆ 凛ジュニア</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=Shippori+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    :root {
+      --anotsu-red: #d93829;
+      --anotsu-gold: #d4af37;
+      --anotsu-navy: #0f1b29;
+      --anotsu-navy-card: #162436;
+      --anotsu-blue: #2563eb;
+      --anotsu-purple: #7e22ce;
+    }
+
+    /* 会場バッジスタイル */
+    .venue-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .venue-badge:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+    .venue-code {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+      text-align: center;
+      line-height: 22px;
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    /* 2チーム横並び比較グリッド */
+    .teams-comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .teams-comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .team-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(248, 250, 252, 0.6);
+      border-radius: 12px;
+      padding: 12px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.2s;
+    }
+
+    .team-col-header {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .team-col-header.rin-header {
+      background: linear-gradient(135deg, #d93829 0%, #991b1b 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(217, 56, 41, 0.25);
+    }
+    .team-col-header.jr-header {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    /* チームバッジ */
+    .team-badge-rin {
+      background: linear-gradient(135deg, #d93829 0%, #991b1b 100%);
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .team-badge-jr {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* 審査演舞カード */
+    .judging-card {
+      border: 2px solid var(--anotsu-gold) !important;
+      background: linear-gradient(135deg, #fffdf0 0%, #fff9db 100%) !important;
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.25) !important;
+      position: relative;
+      overflow: hidden;
+    }
+    .judging-ribbon {
+      position: absolute;
+      top: 10px;
+      right: -32px;
+      background: linear-gradient(135deg, #d93829 0%, #991b1b 100%);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 3px 34px;
+      transform: rotate(45deg);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      letter-spacing: 1px;
+    }
+
+    /* スケジュール項目 */
+    .sched-item {
+      transition: all 0.2s ease;
+    }
+    .sched-item.completed {
+      opacity: 0.6;
+      background: #f1f5f9 !important;
+    }
+    .sched-item.completed .sched-time,
+    .sched-item.completed .sched-title {
+      text-decoration: line-through;
+      color: #64748b !important;
+    }
+
+    /* タブ・フィルターボタン */
+    .filter-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .tab-btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--anotsu-navy);
+      color: #ffffff;
+      border-color: var(--anotsu-gold);
+      box-shadow: 0 4px 12px rgba(15, 27, 41, 0.2);
+    }
+    .tab-btn-rin.active {
+      background: #d93829;
+      border-color: #991b1b;
+      color: #ffffff;
+    }
+    .tab-btn-jr.active {
+      background: #2563eb;
+      border-color: #1e40af;
+      color: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 安濃津よさこい ヘッダーバー -->
+  <header class="domatsuri-theme-header"
+    style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <a href="/" class="btn btn-secondary"
+        style="width: auto; padding: 6px 14px; font-size: 0.82rem; background: rgba(255,255,255,0.1); color: #ffffff; border-color: rgba(255,255,255,0.2); text-decoration: none;">
+        ← ポータルへ戻る
+      </a>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="brand-icon" style="width: 36px; height: 36px;"></div>
+        <div>
+          <div style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: #ffffff; letter-spacing: 1px;">
+            ダンスチーム凛 ＆ 凛ジュニア
+          </div>
+          <div style="font-size: 0.72rem; color: #94a3b8; letter-spacing: 0.5px;">安濃津よさこい 2026（津まつり）公式ポータル</div>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="badge"
+        style="background: linear-gradient(135deg, #d4af37 0%, #b48a1d 100%); color: #0f1b29; font-weight: 800; border: none; padding: 6px 12px; font-size: 0.82rem;">
+        津まつり2026 安濃津よさこい
+      </span>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 24px; padding-bottom: 60px;">
+
+    <!-- カウントダウンタイマー パネル -->
+    <div id="anotsu-countdown-panel" class="domatsuri-pattern-bg domatsuri-gold-border-box btn-no-print"
+      style="padding: 24px 20px; margin-bottom: 24px; text-align: center; position: relative;">
+
+      <div class="countdown-content-relative">
+        <div id="countdown-title"
+          style="font-family: var(--font-family-mincho); font-size: 1rem; color: #fef08a; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; text-shadow: 0 2px 6px rgba(0,0,0,0.9);">
+          安濃津よさこい2026 前夜祭（10/9 20:00）まで
+        </div>
+
+        <div style="display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <div
+            style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
+            <div id="cd-days"
+              style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">
+              00</div>
+            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">DAYS</div>
+          </div>
+          <span style="font-size: 1.5rem; font-weight: 300; color: #94a3b8;">:</span>
+          <div
+            style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
+            <div id="cd-hours"
+              style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">
+              00</div>
+            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">HOURS</div>
+          </div>
+          <span style="font-size: 1.5rem; font-weight: 300; color: #94a3b8;">:</span>
+          <div
+            style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid #475569; border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(0,0,0,0.6);">
+            <div id="cd-mins"
+              style="font-size: 2.3rem; font-weight: 700; color: #f59e0b; line-height: 1; font-family: 'Inter', sans-serif;">
+              00</div>
+            <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">MINUTES</div>
+          </div>
+          <span style="font-size: 1.5rem; font-weight: 300; color: #94a3b8;">:</span>
+          <div
+            style="background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(4px); border: 1px solid var(--domatsuri-red); border-radius: 8px; padding: 10px 18px; min-width: 84px; box-shadow: 0 4px 14px rgba(217, 56, 41, 0.4);">
+            <div id="cd-secs"
+              style="font-size: 2.3rem; font-weight: 700; color: #f87171; line-height: 1; font-family: 'Inter', sans-serif;">
+              00</div>
+            <div style="font-size: 0.7rem; color: #fca5a5; margin-top: 6px; font-weight: 600; letter-spacing: 1px;">SECONDS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 豪華ヘッダーカード -->
+    <div class="card header-schedule-card" style="margin-bottom: 24px; border-left: 6px solid var(--anotsu-gold); background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%); padding: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+        <div style="flex: 1; min-width: 280px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
+            <span class="badge" style="background: linear-gradient(135deg, #d93829 0%, #991b1b 100%); color: #ffffff; font-weight: 700; font-size: 0.88rem; padding: 5px 12px;">
+              安濃津よさこい 2026
+            </span>
+            <span class="badge team-badge-rin" style="font-size: 0.85rem; padding: 5px 10px;">
+              凛: 10/9 前夜祭 20:20 / 審査 10/10 15:18
+            </span>
+            <span class="badge team-badge-jr" style="font-size: 0.85rem; padding: 5px 10px;">
+              ジュニア: 審査 10/10 14:59
+            </span>
+          </div>
+
+          <h1 style="font-family: var(--font-family-mincho); font-size: clamp(1.4rem, 3.2vw, 2rem); font-weight: 700; color: var(--anotsu-navy); margin: 0 0 10px 0;">
+            安濃津よさこい 2026 演舞スケジュール ＆ 会場ナビ
+          </h1>
+          <p style="font-size: 0.88rem; color: #475569; margin: 0; line-height: 1.6;">
+            10/9(金)前夜祭から10/11(日)本祭フィナーレまでの「ダンスチーム凛」および「凛ジュニア」の演舞一覧を2列横並び比較でご覧いただけます。
+          </p>
+        </div>
+
+        <div class="btn-no-print" style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <a href="https://anotsu-yosakoi.com/" target="_blank" rel="noopener noreferrer" class="btn" style="background: var(--anotsu-gold); color: #0f1b29; font-weight: 700; font-size: 0.85rem; padding: 8px 14px; text-decoration: none;">
+            安濃津よさこい公式サイト ↗
+          </a>
+          <button onclick="copyScheduleToClipboard()" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 14px;">
+            📋 スケジュールコピー
+          </button>
+          <button onclick="window.print()" class="btn btn-secondary" style="font-size: 0.85rem; padding: 8px 14px;">
+            🖨️ 印刷 / PDF保存
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- チーム切替フィルター -->
+    <div class="filter-btn-group btn-no-print" style="margin-bottom: 12px;">
+      <button class="tab-btn active" id="btn-team-all" onclick="filterTeam('all', this)">✨ 2チーム横並び比較表示</button>
+      <button class="tab-btn tab-btn-rin" id="btn-team-rin" onclick="filterTeam('rin', this)">🔴 ダンスチーム凛のみ (全11演舞)</button>
+      <button class="tab-btn tab-btn-jr" id="btn-team-jr" onclick="filterTeam('jr', this)">🔵 凛ジュニアのみ (全11演舞)</button>
+    </div>
+
+    <!-- 日付切替フィルター -->
+    <div class="filter-btn-group btn-no-print" style="margin-bottom: 24px;">
+      <button class="tab-btn active" id="btn-day-all" onclick="filterDay('all', this)">📅 全日程表示</button>
+      <button class="tab-btn" id="btn-day-day0" onclick="filterDay('day0', this)">🌙 10月9日（金）前夜祭</button>
+      <button class="tab-btn" id="btn-day-day1" onclick="filterDay('day1', this)">10月10日（土）本祭1日目</button>
+      <button class="tab-btn" id="btn-day-day2" onclick="filterDay('day2', this)">10月11日（日）本祭2日目</button>
+    </div>
+
+    <!-- 会場クイックアクセスインデックス -->
+    <div class="card" style="margin-bottom: 24px; padding: 18px; background: #ffffff; border-color: #e2e8f0;">
+      <h3 style="font-family: var(--font-family-mincho); font-size: 1rem; font-weight: 700; color: var(--anotsu-navy); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+        📍 会場別マップガイド（タップで公式マップが開きます）
+      </h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="venue-badge" style="background: #1e293b; color: #ffffff;">
+          <span class="venue-code" style="background: #2563eb;">A</span> お城西公園会場 ↗
+        </a>
+        <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="venue-badge" style="background: #1e293b; color: #ffffff;">
+          <span class="venue-code" style="background: var(--anotsu-red);">D</span> 裁判所前会場(パレード) ↗
+        </a>
+        <a href="https://anotsu-yosakoi.com/venue/g/" target="_blank" rel="noopener noreferrer" class="venue-badge" style="background: #1e293b; color: #ffffff;">
+          <span class="venue-code" style="background: #16a34a;">G</span> フェニックス会場 ↗
+        </a>
+        <a href="https://anotsu-yosakoi.com/venue/e/" target="_blank" rel="noopener noreferrer" class="venue-badge" style="background: #1e293b; color: #ffffff;">
+          <span class="venue-code" style="background: #d97706;">E</span> 津中央郵便局前会場 ↗
+        </a>
+        <a href="https://anotsu-yosakoi.com/venue/k/" target="_blank" rel="noopener noreferrer" class="venue-badge" style="background: #1e293b; color: #ffffff;">
+          <span class="venue-code" style="background: #0891b2;">K</span> 津駅前会場 ↗
+        </a>
+        <a href="https://anotsu-yosakoi.com/venue/j/" target="_blank" rel="noopener noreferrer" class="venue-badge" style="background: #1e293b; color: #ffffff;">
+          <span class="venue-code" style="background: #9333ea;">J</span> 津新町通り会場(パレード) ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- 集合場所・集合時間インデックスカード -->
+    <div class="card" style="margin-bottom: 24px; padding: 18px; background: #ffffff; border-left: 5px solid var(--anotsu-gold);">
+      <h3 style="font-family: var(--font-family-mincho); font-size: 1.05rem; font-weight: 700; color: var(--anotsu-navy); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        📍 各日程の集合時間 ＆ 集合場所マップガイド
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; font-size: 0.88rem;">
+        
+        <!-- 10/9(金) -->
+        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 12px 14px;">
+          <div style="font-weight: 800; color: #7e22ce; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <span class="badge" style="background: #7e22ce; color: #fff; font-size: 0.75rem;">🌙 10月9日（金）</span>
+            <span>前夜祭 集合</span>
+          </div>
+          <div style="color: #4c1d95; font-weight: 700; line-height: 1.6;">
+            ⏰ <strong>19:00 集合</strong><br>
+            📍 センターパレス オープンステージ
+            <a href="https://www.google.com/maps/search/?api=1&query=津センターパレス" target="_blank" rel="noopener noreferrer" class="btn" style="background: #7e22ce; color: #fff; font-size: 0.72rem; padding: 2px 8px; margin-left: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;">📍 MAP ↗</a>
+          </div>
+        </div>
+
+        <!-- 10/10(土) -->
+        <div style="background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 12px 14px;">
+          <div style="font-weight: 800; color: #c53030; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <span class="badge" style="background: #d93829; color: #fff; font-size: 0.75rem;">10月10日（土）</span>
+            <span>本祭1日目 集合</span>
+          </div>
+          <div style="color: #9b2c2c; font-weight: 700; line-height: 1.6; margin-bottom: 6px;">
+            ⏰ <strong>両チーム: 7:30 集合</strong><br>
+            📍 津市立養成小学校グラウンド
+            <a href="https://www.google.com/maps/search/?api=1&query=津市立養成小学校" target="_blank" rel="noopener noreferrer" class="btn" style="background: #d93829; color: #fff; font-size: 0.72rem; padding: 2px 8px; margin-left: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;">📍 MAP ↗</a>
+          </div>
+          <div style="color: #742a2a; font-size: 0.8rem; border-top: 1px dashed #feb2b2; padding-top: 6px; line-height: 1.5;">
+            🚧 設営係(一部メンバー):<br>
+            <strong>6:45 集合 / 7:00 開始</strong><br>
+            📍 お城西公園外時計台付近（バリケード設営）
+            <a href="https://www.google.com/maps/search/?api=1&query=お城西公園+津市" target="_blank" rel="noopener noreferrer" class="btn" style="background: #78350f; color: #fff; font-size: 0.72rem; padding: 2px 8px; margin-left: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;">📍 MAP ↗</a>
+          </div>
+        </div>
+
+        <!-- 10/11(日) -->
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px;">
+          <div style="font-weight: 800; color: #1e40af; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <span class="badge" style="background: var(--anotsu-navy); color: #fff; font-size: 0.75rem;">10月11日（日）</span>
+            <span>本祭2日目 集合</span>
+          </div>
+          <div style="color: #991b1b; font-weight: 700; line-height: 1.6; margin-bottom: 6px;">
+            🔴 <strong>ダンスチーム凛: 10:30 集合</strong><br>
+            📍 津市役所裏 本陣
+            <a href="https://www.google.com/maps/search/?api=1&query=津市役所" target="_blank" rel="noopener noreferrer" class="btn" style="background: #d93829; color: #fff; font-size: 0.72rem; padding: 2px 8px; margin-left: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;">📍 MAP ↗</a>
+          </div>
+          <div style="color: #1e40af; font-weight: 700; line-height: 1.6; border-top: 1px dashed #bfdbfe; padding-top: 6px;">
+            🔵 <strong>凛ジュニア: 10:00 集合</strong><br>
+            📍 栄町公園
+            <a href="https://www.google.com/maps/search/?api=1&query=栄町公園+津市" target="_blank" rel="noopener noreferrer" class="btn" style="background: #2563eb; color: #fff; font-size: 0.72rem; padding: 2px 8px; margin-left: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;">📍 MAP ↗</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- スケジュールエリア -->
+    <div id="schedule-content">
+
+      <!-- ==================== Day 0: 10月9日 (金) 前夜祭 ==================== -->
+      <div class="sched-day-group" data-day="day0" style="margin-bottom: 36px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; border-bottom: 3px solid #7e22ce; padding-bottom: 8px;">
+          <span class="badge" style="background: #7e22ce; color: #fff; font-size: 1.05rem; font-weight: 700; padding: 6px 16px;">
+            🌙 10月9日（金）前夜祭
+          </span>
+          <span style="font-size: 0.9rem; color: #475569; font-weight: 600;">安濃津よさこい 前夜祭オープニング</span>
+        </div>
+
+        <!-- 前夜祭 集合場所・時間・詳細 -->
+        <div style="background: #faf5ff; border: 1px solid #d8b4fe; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; font-size: 0.88rem; color: #581c87;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-weight: 800; background: #7e22ce; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.78rem; white-space: nowrap;">⏰ 前夜祭タイムスケジュール</span>
+              <strong>19:00 集合（衣装着用）</strong> 📍 センターパレス オープンステージ
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=津センターパレス" target="_blank" rel="noopener noreferrer" class="btn" style="background: #7e22ce; color: #fff; font-size: 0.75rem; padding: 3px 8px; text-decoration: none;">📍 MAP ↗</a>
+          </div>
+          <div style="font-size: 0.8rem; color: #6b21a8; border-top: 1px dashed #d8b4fe; padding-top: 6px; line-height: 1.5;">
+            19:00 集合(衣装着用/ストレッチ/メイク確認) → 19:30 出発(荷物残さない/道中会場確認) → 20:00 本陣集合・メイン会場待機 → <strong>20:20 前夜祭演舞</strong> → 20:30 本陣待機 → 20:50 うなぎサンバ → 21:00 総括・解散(すぐ帰る！)
+          </div>
+        </div>
+
+        <div class="teams-comparison-grid">
+
+          <!-- 列 1: ダンスチーム凛 (前夜祭あり) -->
+          <div class="team-col team-col-rin" data-team="rin">
+            <div class="team-col-header rin-header" style="background: linear-gradient(135deg, #7e22ce 0%, #581c87 100%);">
+              <span>🔴 ダンスチーム凛 (前夜祭演舞)</span>
+              <span style="font-size: 0.78rem; opacity: 0.9;">19:00 集合 〜 21:00 解散</span>
+            </div>
+
+            <!-- 凛 10/9 1. 19:00 集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #faf5ff; border-color: #d8b4fe; border-left: 5px solid #7e22ce;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #7e22ce;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.2rem; font-weight: 900; color: #6b21a8;">19:00</span>
+                    <span class="badge" style="background: #7e22ce; color: #fff; font-size: 0.75rem;">⏰ 集合</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 1rem; font-weight: 800; color: #581c87; margin-top: 4px;">
+                    📍 センターパレス オープンステージ
+                  </div>
+                  <div style="font-size: 0.8rem; color: #6b21a8; font-weight: 600; margin-top: 2px;">
+                    ※衣装着用で集合。ストレッチ、合わせ、メイク確認。
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=津センターパレス" target="_blank" rel="noopener noreferrer" class="btn" style="background: #7e22ce; color: #fff; font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- 凛 10/9 2. 19:30 出発・会場確認 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #9333ea;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #9333ea;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #7e22ce;">19:30</span>
+                    <span class="badge" style="background: #9333ea; color: #fff; font-size: 0.72rem;">🚶‍♂️ 出発・下見</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    お城西公園へ出発（⚠️ 荷物残さない）
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    道中、郵便局前会場と裁判所前パレード会場を全員で確認
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/9 3. 20:00 本陣集合・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #9333ea;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #9333ea;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #7e22ce;">20:00</span>
+                    <span class="badge" style="background: #6b21a8; color: #fff; font-size: 0.72rem;">📍 本陣集合</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    市役所裏本陣集合
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    点呼後メイン会場待機
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=津市役所" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- 凛 前夜祭演舞 20:20 -->
+            <div class="card sched-item" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #faf5ff; border-color: #d8b4fe; border-left: 5px solid #7e22ce;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #7e22ce;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.25rem; font-weight: 900; color: #6b21a8;">20:20</span>
+                    <span class="badge" style="background: #7e22ce; color: #fff; font-size: 0.75rem;">🌙 前夜祭ステージ</span>
+                  </div>
+                  <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1.05rem; font-weight: 800; color: #581c87; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 4px;">
+                    <span class="venue-code" style="background: #2563eb;">A</span> お城西公園会場 ↗
+                  </a>
+                  <div style="font-size: 0.8rem; color: #6b21a8; font-weight: 600; margin-top: 2px;">ダンスチーム凛 前夜祭演舞！</div>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="btn" style="background: #7e22ce; color: #fff; font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/9 5. 20:30 本陣待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #9333ea;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #9333ea;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #7e22ce;">20:30</span>
+                    <span class="badge" style="background: #6b21a8; color: #fff; font-size: 0.72rem;">📍 本陣集合</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    本陣集合・点呼後待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/9 6. 20:50 うなぎサンバ -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fffbeeb3; border-color: #fde68a; border-left: 4px solid #d97706;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d97706;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #b45309;">20:50</span>
+                    <span class="badge" style="background: #d97706; color: #fff; font-size: 0.72rem;">💃 うなぎサンバ</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.98rem; font-weight: 800; color: #78350f; margin-top: 2px;">
+                    メイン会場で総踊り（うなぎサンバ）
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/9 7. 21:00 総括・解散 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f1f5f9; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">21:00</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🏁 本陣集合・解散</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    本陣集合・点呼後、総括
+                  </div>
+                  <div style="font-size: 0.8rem; color: #dc2626; font-weight: 700; margin-top: 2px;">
+                    ※翌日のスケジュールを確認し、解散。すぐ帰る！
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 列 2: 凛ジュニア (前夜祭なし) -->
+          <div class="team-col team-col-jr" data-team="jr">
+            <div class="team-col-header jr-header" style="background: #64748b;">
+              <span>🔵 凛ジュニア</span>
+              <span style="font-size: 0.78rem; opacity: 0.9;">前夜祭演舞なし</span>
+            </div>
+
+            <div class="card" style="padding: 20px; text-align: center; color: #64748b; font-size: 0.88rem; background: #f8fafc; border-style: dashed;">
+              ※ 凛ジュニアの前夜祭演舞はありません。<br>10/10(土) 10:26 裁判所前会場(パレード)よりスタートします！
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==================== Day 1: 10月10日 (土) ==================== -->
+      <div class="sched-day-group" data-day="day1" style="margin-bottom: 36px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; border-bottom: 3px solid var(--anotsu-red); padding-bottom: 8px;">
+          <span class="badge" style="background: var(--anotsu-red); color: #fff; font-size: 1.05rem; font-weight: 700; padding: 6px 16px;">
+            10月10日（土）本祭1日目
+          </span>
+          <span style="font-size: 0.9rem; color: #475569; font-weight: 600;">本祭初日（両チーム審査演舞枠あり）</span>
+        </div>
+
+        <!-- 10/10 集合場所・時間 -->
+        <div style="background: #fff5f5; border: 1px solid #fca5a5; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; font-size: 0.88rem; color: #991b1b;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-weight: 800; background: #d93829; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.78rem; white-space: nowrap;">⏰ 両チーム全メンバー</span>
+              <strong>7:30 集合</strong> 📍 津市立養成小学校グラウンド
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=津市立養成小学校" target="_blank" rel="noopener noreferrer" class="btn" style="background: #d93829; color: #fff; font-size: 0.75rem; padding: 3px 8px; text-decoration: none;">📍 MAP ↗</a>
+          </div>
+          <div style="font-size: 0.8rem; color: #991b1b; border-top: 1px dashed #fca5a5; padding-top: 6px; line-height: 1.5;">
+            6:45 集合/7:00 開始 (設営係:お城西公園外時計台) → <strong>7:30 集合 (ストレッチ/合わせ)</strong> → 8:30 合わせ終了(トイレ/メイク直し) → <strong>9:00 本陣へ出発</strong>
+          </div>
+        </div>
+
+        <div class="teams-comparison-grid">
+
+          <!-- 列 1: ダンスチーム凛 (大人) -->
+          <div class="team-col team-col-rin" data-team="rin">
+            <div class="team-col-header rin-header">
+              <span>🔴 ダンスチーム凛 (全5演舞)</span>
+              <span style="font-size: 0.78rem; opacity: 0.9;">審査 15:18</span>
+            </div>
+
+            <!-- 凛 10/10 1. 設営 6:45 -->
+            <div class="card sched-item" style="padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fff7ed; border-color: #ffedd5; border-left: 4px solid #ea580c;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #ea580c;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.1rem; font-weight: 900; color: #c2410c;">6:45 集合 / 7:00 開始</span>
+                    <span class="badge" style="background: #78350f; color: #fff; font-size: 0.72rem;">🚧 設営係（一部）</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.92rem; font-weight: 800; color: #9a3412; margin-top: 2px;">
+                    お城西公園外時計台付近（バリケード設営）
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=お城西公園+津市" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- 凛 10/10 2. 全員集合 7:30 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fff5f5; border-color: #fca5a5; border-left: 5px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.25rem; font-weight: 900; color: #991b1b;">7:30 集合</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.75rem;">📍 全員集合</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 1rem; font-weight: 800; color: #7f1d1d; margin-top: 4px;">
+                    津市立養成小学校グラウンド
+                  </div>
+                  <div style="font-size: 0.8rem; color: #991b1b; font-weight: 600; margin-top: 2px;">
+                    ※ストレッチ、合わせ練習
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=津市立養成小学校" target="_blank" rel="noopener noreferrer" class="btn" style="background: #d93829; color: #fff; font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- 凛 10/10 3. 8:30 練習終了・準備 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">8:30</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">🧘‍♂️ 練習終了</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    合わせ練習終了
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    トイレ、メイク直し
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 4. 9:00 本陣へ出発 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">9:00</span>
+                    <span class="badge" style="background: #991b1b; color: #fff; font-size: 0.72rem;">🚶‍♂️ 出発</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    本陣へ出発
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=津市役所" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- 凛 10/10 5. 10:10 本陣集合・移動・ジュニア応援 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">10:10</span>
+                    <span class="badge" style="background: #991b1b; color: #fff; font-size: 0.72rem;">📍 本陣集合・応援</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    本陣集合・点呼後、裁判所前会場(パレード)へ移動
+                  </div>
+                  <div style="font-size: 0.8rem; color: #2563eb; font-weight: 700; margin-top: 2px;">
+                    👏 ジュニアのパレードスタート(10:26)を全員で応援！
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 6. 10:30 待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">10:30</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">⏱️ 演舞待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    裁判所前会場(パレード)待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 7. 10:45 演舞 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">10:45</div>
+                  <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: var(--anotsu-red);">D</span> 裁判所前会場(パレード) ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/10 8. 11:00 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">11:00</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動・点呼後、自由行動
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    ※11:55本陣集合まで自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 9. 11:55 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">11:55</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    本陣集合、点呼後、お城西公園会場へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 10. 12:05 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">12:05</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    お城西公園会場受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 2. 12:22 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">12:22</div>
+                  <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #2563eb;">A</span> お城西公園会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/10 11. 12:30 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">12:30</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動、点呼後、自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 12. 13:10 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">13:10</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    本陣集合、点呼後、フェニックス会場へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 13. 13:40 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">13:40</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    フェニックス会場到着、受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 3. 13:54 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">13:54</div>
+                  <a href="https://anotsu-yosakoi.com/venue/g/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #16a34a;">G</span> フェニックス会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/g/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/10 14. 14:10 自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">14:10</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、次の集合を確認して自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 15. 14:40 本陣集合・ジュニア応援 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">14:40</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">👏 ジュニア審査応援</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    本陣集合、点呼後、裁判所前会場(パレード)へ移動。ジュニアの審査パレード(14:59)スタートを応援！
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 16. 15:03 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">15:03</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    裁判所前会場(パレード)、受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 4. 15:18 (審査演舞) -->
+            <div class="card sched-item judging-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div class="judging-ribbon">⭐ 審査</div>
+              <div style="display: flex; align-items: center; gap: 12px; z-index: 1;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.25rem; font-weight: 900; color: #991b1b;">15:18</div>
+                  <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1.05rem; font-weight: 800; color: #7f1d1d; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: var(--anotsu-red);">D</span> 裁判所前会場(パレード) ↗
+                  </a>
+                  <div style="font-size: 0.75rem; color: #78350f; font-weight: 700; margin-top: 2px;">🏆 凛審査演舞</div>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="btn" style="background: #d93829; color: #fff; font-size: 0.75rem; padding: 4px 8px; z-index: 1; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/10 17. 15:35 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">15:35</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動、点呼後、自由行動
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    ※16:35本陣集合まで自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 18. 16:35 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">16:35</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    本陣集合、点呼後、津中央郵便局前会場へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 19. 16:55 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">16:55</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    津中央郵便局前会場受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 5. 17:12 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">17:12</div>
+                  <a href="https://anotsu-yosakoi.com/venue/e/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #d97706;">E</span> 津中央郵便局前会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/e/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/10 20. 17:20 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">17:20</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動、自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 19:50 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">19:50</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    本陣集合、裁判所前会場(パレード)へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 20:00 うなぎサンバdeナイト -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fdf4ff; border-color: #f0abfc; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #86198f;">20:00</div>
+                  <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #701a75; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: var(--anotsu-red);">D</span> 裁判所前会場 ↗
+                  </a>
+                  <div style="font-size: 0.88rem; font-weight: 800; color: #a21caf; margin-top: 2px;">
+                    🎉 うなぎサンバdeナイト
+                  </div>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/10 20:40 終了・本陣へ移動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">20:40</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">🚶 本陣へ移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    20:40終了、本陣へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/10 21:00 本陣集合・総括・解散 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #1e293b; color: #fff; border-left: 5px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.2rem; font-weight: 800; color: #fca5a5;">21:00</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">🎌 本陣集合・総括・解散</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #f8fafc; margin-top: 2px;">
+                    本陣集合、点呼、総括。翌日のスケジュールを確認し、解散。
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 列 2: 凛ジュニア -->
+          <div class="team-col team-col-jr" data-team="jr">
+            <div class="team-col-header jr-header">
+              <span>🔵 凛ジュニア (全6演舞)</span>
+              <span style="font-size: 0.78rem; opacity: 0.9;">審査 14:59</span>
+            </div>
+
+            <!-- ジュニア 10/10 設営 6:45 -->
+            <div class="card sched-item" style="padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fff7ed; border-color: #ffedd5; border-left: 4px solid #ea580c;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #ea580c;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.1rem; font-weight: 900; color: #c2410c;">6:45 集合 / 7:00 開始</span>
+                    <span class="badge" style="background: #78350f; color: #fff; font-size: 0.72rem;">🚧 設営係（一部）</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.92rem; font-weight: 800; color: #9a3412; margin-top: 2px;">
+                    お城西公園外時計台付近（バリケード設営）
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=お城西公園+津市" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- ジュニア 10/10 2. 全員集合 7:30 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 5px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.25rem; font-weight: 900; color: #1e40af;">7:30 集合</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.75rem;">📍 全員集合</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 1rem; font-weight: 800; color: #1e3a8a; margin-top: 4px;">
+                    津市立養成小学校グラウンド
+                  </div>
+                  <div style="font-size: 0.8rem; color: #1e40af; font-weight: 600; margin-top: 2px;">
+                    ※ストレッチ、合わせ練習
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=津市立養成小学校" target="_blank" rel="noopener noreferrer" class="btn" style="background: #2563eb; color: #fff; font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- ジュニア 10/10 3. 8:30 練習終了・準備 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">8:30</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">🧘‍♂️ 練習終了</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    合わせ練習終了
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    トイレ、メイク直し
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 4. 9:00 本陣へ出発 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">9:00</span>
+                    <span class="badge" style="background: #1e40af; color: #fff; font-size: 0.72rem;">🚶‍♂️ 出発</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    本陣へ出発
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=津市役所" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- ジュニア 10/10 5. 10:00 本陣集合・移動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">10:00</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    本陣集合・点呼後、裁判所前会場(パレード)へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 6. 10:10 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">10:10</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    裁判所前会場(パレード)受付、演舞待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 7. 10:26 演舞 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">10:26</div>
+                  <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: var(--anotsu-red);">D</span> 裁判所前会場(パレード) ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/10 8. 10:40 演舞後・凛応援 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fff5f5; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">10:40</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">👏 凛パレード応援</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    演舞後、ダンスチーム凛のパレード(10:45)を全員で応援！
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 9. 11:00 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">11:00</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    凛演舞後、本陣へ移動・点呼後、自由行動
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    ※11:40本陣集合まで自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 10. 11:40 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">11:40</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 2px;">
+                    本陣集合、点呼後、お城西公園会場へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 11. 11:50 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">11:50</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    お城西公園会場受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 2. 12:04 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">12:04</div>
+                  <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #2563eb;">A</span> お城西公園会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/10 12. 12:15 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">12:15</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動。点呼後、自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 13. 12:45 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">12:45</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 2px;">
+                    本陣集合、点呼後、フェニックス会場へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 14. 13:15 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">13:15</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    フェニックス会場到着、受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 3. 13:36 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">13:36</div>
+                  <a href="https://anotsu-yosakoi.com/venue/g/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #16a34a;">G</span> フェニックス会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/g/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/10 15. 13:45 移動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">13:45</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🚶 本陣へ移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 16. 14:15 自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">14:15</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    本陣到着、点呼後、自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 17. 14:30 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">14:30</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 2px;">
+                    本陣集合、点呼後、裁判所前会場(パレード)へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 18. 14:45 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">14:45</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    裁判所前会場(パレード)受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 4. 14:59 (審査演舞) -->
+            <div class="card sched-item judging-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div class="judging-ribbon">⭐ 審査</div>
+              <div style="display: flex; align-items: center; gap: 12px; z-index: 1;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.25rem; font-weight: 900; color: #1e40af;">14:59</div>
+                  <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1.05rem; font-weight: 800; color: #1e3a8a; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: var(--anotsu-red);">D</span> 裁判所前会場(パレード) ↗
+                  </a>
+                  <div style="font-size: 0.75rem; color: #1e3a8a; font-weight: 700; margin-top: 2px;">🏆 ジュニア審査演舞</div>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="btn" style="background: #2563eb; color: #fff; font-size: 0.75rem; padding: 4px 8px; z-index: 1; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/10 19. 15:15 演舞後・凛応援 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fff5f5; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">15:15</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">👏 凛審査演舞応援</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    演舞後、ダンスチーム凛の審査パレード(15:18)を全員で応援！
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 20. 15:35 移動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">15:35</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🚶 本陣へ移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    凛の演舞終了後、本陣へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 21. 15:50 自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">15:50</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    本陣到着、点呼後、自由行動
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    ※16:15本陣集合まで自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 22. 16:15 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">16:15</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 2px;">
+                    本陣集合、点呼後、津中央郵便局前会場へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 23. 16:40 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">16:40</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    津中央郵便局前会場受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 5. 16:54 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">16:54</div>
+                  <a href="https://anotsu-yosakoi.com/venue/e/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #d97706;">E</span> 津中央郵便局前会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/e/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/10 24. 17:05 移動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">17:05</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🚶 本陣へ移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 25. 17:20 自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">17:20</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    本陣到着、点呼後、自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 26. 17:35 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">17:35</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 2px;">
+                    本陣集合、点呼後、お城西公園会場へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 27. 17:45 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">17:45</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    お城西公園会場受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 6. 18:00 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">18:00</div>
+                  <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #2563eb;">A</span> お城西公園会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/10 18:10 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">18:10</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動、点呼後、自由行動。
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 19:50 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">19:50</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 2px;">
+                    本陣集合、裁判所前会場(パレード)へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 20:00 うなぎサンバdeナイト -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fdf4ff; border-color: #f0abfc; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #86198f;">20:00</div>
+                  <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #701a75; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: var(--anotsu-red);">D</span> 裁判所前会場 ↗
+                  </a>
+                  <div style="font-size: 0.88rem; font-weight: 800; color: #a21caf; margin-top: 2px;">
+                    🎉 うなぎサンバdeナイト
+                  </div>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/10 20:40 終了・本陣へ移動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">20:40</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">🚶 本陣へ移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    20:40終了、本陣へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/10 21:00 本陣集合・総括・解散 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #1e293b; color: #fff; border-left: 5px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.2rem; font-weight: 800; color: #93c5fd;">21:00</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">🎌 本陣集合・総括・解散</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #f8fafc; margin-top: 2px;">
+                    本陣集合、点呼、総括。翌日のスケジュールを確認し、解散。
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==================== Day 2: 10月11日 (日) ==================== -->
+      <div class="sched-day-group" data-day="day2" style="margin-bottom: 36px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; border-bottom: 3px solid var(--anotsu-gold); padding-bottom: 8px;">
+          <span class="badge" style="background: var(--anotsu-navy); color: #fef08a; font-size: 1.05rem; font-weight: 700; padding: 6px 16px; border: 1px solid var(--anotsu-gold);">
+            10月11日（日）本祭2日目
+          </span>
+        </div>
+
+        <!-- 10/11 集合場所・時間 -->
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #991b1b; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-weight: 800; background: #d93829; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.78rem; white-space: nowrap;">⏰ 🔴 ダンスチーム凛</span>
+              <strong>10:30 集合</strong> 📍 津市役所裏 本陣
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=津市役所" target="_blank" rel="noopener noreferrer" class="btn" style="background: #d93829; color: #fff; font-size: 0.75rem; padding: 3px 8px; text-decoration: none;">📍 MAP ↗</a>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #1e40af; flex-wrap: wrap; border-top: 1px dashed #cbd5e1; padding-top: 6px;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-weight: 800; background: #2563eb; color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 0.78rem; white-space: nowrap;">⏰ 🔵 凛ジュニア</span>
+              <strong>10:00 集合</strong> 📍 栄町公園
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=栄町公園+津市" target="_blank" rel="noopener noreferrer" class="btn" style="background: #2563eb; color: #fff; font-size: 0.75rem; padding: 3px 8px; text-decoration: none;">📍 MAP ↗</a>
+          </div>
+        </div>
+
+        <div class="teams-comparison-grid">
+
+          <!-- 列 1: ダンスチーム凛 (大人) -->
+          <div class="team-col team-col-rin" data-team="rin">
+            <div class="team-col-header rin-header">
+              <span>🔴 ダンスチーム凛 (全5演舞)</span>
+              <span style="font-size: 0.78rem; opacity: 0.9;">最終演舞 20:06</span>
+            </div>
+
+            <!-- 凛 10/11 集合 10:30 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fff5f5; border-color: #fca5a5; border-left: 5px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.25rem; font-weight: 900; color: #991b1b;">10:30 集合</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.75rem;">📍 凛 集合・準備</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 1rem; font-weight: 800; color: #7f1d1d; margin-top: 4px;">
+                    津市役所裏 本陣集合、ストレッチ、メイク確認
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=津市役所" target="_blank" rel="noopener noreferrer" class="btn" style="background: #d93829; color: #fff; font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- 凛 10/11 11:00 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">11:00</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    本陣集合、津新町通り会場(パレード)へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 11:15 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">11:15</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    津新町通り会場受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 1. 11:30 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">11:30</div>
+                  <a href="https://anotsu-yosakoi.com/venue/j/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #9333ea;">J</span> 津新町通り会場(パレード) ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/j/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/11 11:40 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">11:40</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動、次の集合を確認してから自由行動
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    ※13:00栄町公園集合まで自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 13:00 栄町公園集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">13:00</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">📍 集合・点呼</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    栄町公園集合 (各自で移動)、点呼
+                  </div>
+                  <div style="font-size: 0.82rem; color: #b91c1c; font-weight: 700; margin-top: 3px;">
+                    📢 会場スタッフさんが呼びに来たら、津駅前会場へ移動、待機。
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=栄町公園+津市" target="_blank" rel="noopener noreferrer" class="btn" style="background: #d93829; color: #fff; font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- 凛 10/11 2. 13:30 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">13:30</div>
+                  <a href="https://anotsu-yosakoi.com/venue/k/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #0891b2;">K</span> 津駅前会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/k/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/11 13:45 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">13:45</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、栄町公園へ移動、次の集合を確認してから自由行動、各自で本陣へ移動
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    ※14:40本陣集合まで自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 14:40 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">14:40</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    本陣集合、点呼後、お城西公園会場へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 14:50 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">14:50</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    お城西公園会場受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 3. 15:04 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">15:04</div>
+                  <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #2563eb;">A</span> お城西公園会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/11 15:15 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">15:15</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動、次の集合を確認してから自由行動
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">
+                    ※19:00本陣集合まで自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 19:00 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">19:00</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #7f1d1d; margin-top: 2px;">
+                    本陣集合、裁判所前会場(パレード)へ移動
+                  </div>
+                  <div style="font-size: 0.82rem; color: #b91c1c; font-weight: 700; margin-top: 3px;">
+                    ⚠️ スタート位置は昨日と逆
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 19:20 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">19:20</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    裁判所前会場(パレード)受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 4. 19:37 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #faf5ff; border-color: #d8b4fe; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #6b21a8;">19:37</div>
+                  <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #581c87; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: var(--anotsu-red);">D</span> 裁判所前会場(パレード) ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/11 19:55 移動・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">19:55</span>
+                    <span class="badge" style="background: #b91c1c; color: #fff; font-size: 0.72rem;">🏃 移動・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、急いで郵便局前会場へ移動、到着次第待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 5. 20:06 (最終演舞) -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fef2f2; border-color: #fca5a5; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">20:06</div>
+                  <a href="https://anotsu-yosakoi.com/venue/e/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #7f1d1d; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #d97706;">E</span> 津中央郵便局前会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/e/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- 凛 10/11 20:15 移動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #991b1b;">20:15</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">🚶 移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 凛 10/11 20:40 本陣集合・総括・片付け・解散 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #1e293b; color: #fff; border-left: 5px solid #d93829;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #d93829;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.2rem; font-weight: 800; color: #fca5a5;">20:40</span>
+                    <span class="badge" style="background: #d93829; color: #fff; font-size: 0.72rem;">🏁 本陣集合・総括・解散</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #f8fafc; margin-top: 2px;">
+                    本陣集合、総括、片付け、解散
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 列 2: 凛ジュニア -->
+          <div class="team-col team-col-jr" data-team="jr">
+            <div class="team-col-header jr-header">
+              <span>🔵 凛ジュニア (全5演舞)</span>
+              <span style="font-size: 0.78rem; opacity: 0.9;">最終演舞 18:06</span>
+            </div>
+
+            <!-- ジュニア 10/11 集合 10:00 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 5px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.25rem; font-weight: 900; color: #1e40af;">10:00</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.75rem;">📍 ジュニア集合・ストレッチ</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 4px;">
+                    栄町公園集合、点呼、ストレッチ
+                  </div>
+                  <div style="font-size: 0.82rem; color: #1d4ed8; font-weight: 700; margin-top: 3px;">
+                    📢 会場スタッフさんが呼びに来たら、津駅前会場へ移動、待機
+                  </div>
+                </div>
+              </div>
+              <a href="https://www.google.com/maps/search/?api=1&query=栄町公園+津市" target="_blank" rel="noopener noreferrer" class="btn" style="background: #2563eb; color: #fff; font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP ↗</a>
+            </div>
+
+            <!-- ジュニア 10/11 1. 11:06 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">11:06</div>
+                  <a href="https://anotsu-yosakoi.com/venue/k/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #0891b2;">K</span> 津駅前会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/k/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/11 11:15 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">11:15</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、栄町公園へ移動、次の集合を確認してから自由行動、各自で本陣へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 12:05 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">12:05</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 2px;">
+                    本陣集合、点呼後、お城西公園会場へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 12:15 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">12:15</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    お城西公園会場、受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 2. 12:32 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">12:32</div>
+                  <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #2563eb;">A</span> お城西公園会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/a/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/11 12:40 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">12:40</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動、次の集合を確認して自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 13:30 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">13:30 (14:30)</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 2px;">
+                    本陣集合、点呼後、津新町通り会場(パレード)へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 13:50 受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">13:50 (14:50)</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">📝 受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    津新町通り会場(パレード)受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 3. 14:06 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">14:06</div>
+                  <a href="https://anotsu-yosakoi.com/venue/j/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e293b; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #9333ea;">J</span> 津新町通り会場(パレード) ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/j/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/11 14:15 移動・自由行動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #f8fafc; border-left: 4px solid #475569;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #475569;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #334155;">14:15</span>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.72rem;">🍱 自由行動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動、次の集合を確認してから自由行動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 16:40 本陣集合 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">16:40</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">📍 本陣集合・移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e3a8a; margin-top: 2px;">
+                    本陣集合、点呼後、裁判所前会場(パレード)へ移動
+                  </div>
+                  <div style="font-size: 0.82rem; color: #1d4ed8; font-weight: 700; margin-top: 3px;">
+                    ⚠️ スタート位置は昨日と逆
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 4. 17:17 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #bfdbfe; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">17:17</div>
+                  <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e3a8a; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: var(--anotsu-red);">D</span> 裁判所前会場(パレード) ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/d/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/11 17:30 移動・受付・待機 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">17:30</span>
+                    <span class="badge" style="background: #1d4ed8; color: #fff; font-size: 0.72rem;">📝 移動・受付・待機</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、郵便局前会場へ移動、到着次第、受付、待機
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 5. 18:06 (最終演舞) -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #eff6ff; border-color: #93c5fd; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1d4ed8;">18:06</div>
+                  <a href="https://anotsu-yosakoi.com/venue/e/" target="_blank" rel="noopener noreferrer" class="sched-title" style="font-size: 1rem; font-weight: 700; color: #1e3a8a; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 2px;">
+                    <span class="venue-code" style="background: #d97706;">E</span> 津中央郵便局前会場 ↗
+                  </a>
+                </div>
+              </div>
+              <a href="https://anotsu-yosakoi.com/venue/e/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="font-size: 0.75rem; padding: 4px 8px; white-space: nowrap;">MAP</a>
+            </div>
+
+            <!-- ジュニア 10/11 18:15 本陣移動 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-left: 4px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.15rem; font-weight: 800; color: #1e40af;">18:15</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">🚶 本陣移動</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #1e293b; margin-top: 2px;">
+                    演舞後、本陣へ移動
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ジュニア 10/11 19:00 本陣集合・総括・片付け・解散 -->
+            <div class="card sched-item" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #1e293b; color: #fff; border-left: 5px solid #2563eb;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="cursor: pointer; display: flex; align-items: center;">
+                  <input type="checkbox" onchange="toggleItemComplete(this)" style="width: 18px; height: 18px; accent-color: #2563eb;">
+                </label>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="sched-time" style="font-size: 1.2rem; font-weight: 800; color: #93c5fd;">19:00</span>
+                    <span class="badge" style="background: #2563eb; color: #fff; font-size: 0.72rem;">🏁 本陣集合・総括・解散</span>
+                  </div>
+                  <div class="sched-title" style="font-size: 0.95rem; font-weight: 800; color: #f8fafc; margin-top: 2px;">
+                    本陣集合、総括、片付け、解散
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- 10/11 注意書き -->
+        <div style="margin-top: 20px; padding: 12px 16px; background-color: #fff7ed; border: 1px solid #fed7aa; border-left: 5px solid #f97316; border-radius: 8px; color: #9a3412; font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.1rem;">⚠️</span>
+          <span>セミファイナル、ファイナル進出の場合は16：00以降のスケジュールが大幅に変更になります。</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 注意事項 -->
+    <div class="card btn-no-print" style="border-color: var(--anotsu-gold); background: #ffffff; margin-top: 30px;">
+      <details open>
+        <summary style="font-family: var(--font-family-mincho); font-size: 1.1rem; font-weight: 700; color: var(--anotsu-navy); cursor: pointer; outline: none; list-style-position: inside;">
+          🎒 当日注意事項
+        </summary>
+        <div style="margin-top: 14px;">
+          <p style="font-size: 0.88rem; color: #334155; margin: 0; line-height: 1.6;">
+            演舞間の移動および待機場所では他チーム様・一般来場者様へのご配慮をお願いいたします。<br>
+            荷物は個人責任で管理をお願いします。
+          </p>
+        </div>
+      </details>
+    </div>
+
+  </main>
+
+  <script>
+    let currentTeamFilter = 'all';
+    let currentDayFilter = 'all';
+
+    // クエリパラメータ (?team=rin または ?team=jr) から初期チーム設定
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const teamParam = urlParams.get('team');
+      if (teamParam === 'rin') {
+        filterTeam('rin', document.getElementById('btn-team-rin'));
+      } else if (teamParam === 'jr') {
+        filterTeam('jr', document.getElementById('btn-team-jr'));
+      }
+    });
+
+    // カウントダウンタイマー
+    function updateCountdown() {
+      let targetDate = new Date('2026-10-09T20:00:00+09:00').getTime(); // ダンスチーム凛 前夜祭 (10/9 20:00)
+      let titleText = '安濃津よさこい2026 前夜祭（10/9 20:00）まで';
+
+      if (currentTeamFilter === 'rin') {
+        targetDate = new Date('2026-10-09T20:00:00+09:00').getTime(); // ダンスチーム凛前夜祭 (20:00)
+        titleText = 'ダンスチーム凛 前夜祭（10/9 20:00）まで';
+      } else if (currentTeamFilter === 'jr') {
+        targetDate = new Date('2026-10-10T10:26:00+09:00').getTime(); // 凛ジュニア初演舞 (10:26)
+        titleText = '凛ジュニア 初演舞 (10/10 10:26 裁判所前(パレード)) まで';
+      }
+
+      const titleEl = document.getElementById('countdown-title');
+      if (titleEl) titleEl.textContent = titleText;
+
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      const daysEl = document.getElementById('cd-days');
+      const hoursEl = document.getElementById('cd-hours');
+      const minsEl = document.getElementById('cd-mins');
+      const secsEl = document.getElementById('cd-secs');
+
+      if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+      if (diff <= 0) {
+        daysEl.textContent = '00';
+        hoursEl.textContent = '00';
+        minsEl.textContent = '00';
+        secsEl.textContent = '00';
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      daysEl.textContent = String(days).padStart(2, '0');
+      hoursEl.textContent = String(hours).padStart(2, '0');
+      minsEl.textContent = String(mins).padStart(2, '0');
+      secsEl.textContent = String(secs).padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // チームフィルター切替
+    function filterTeam(team, btn) {
+      currentTeamFilter = team;
+      document.querySelectorAll('.filter-btn-group button[id^="btn-team-"]').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      applyCombinedFilters();
+      updateCountdown();
+    }
+
+    // 日付フィルター切替
+    function filterDay(day, btn) {
+      currentDayFilter = day;
+      document.querySelectorAll('.filter-btn-group button[id^="btn-day-"]').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      applyCombinedFilters();
+    }
+
+    // 複合フィルターの適用
+    function applyCombinedFilters() {
+      // 1. 日付グループの制御
+      const dayGroups = document.querySelectorAll('.sched-day-group');
+      dayGroups.forEach(group => {
+        const groupDay = group.getAttribute('data-day');
+        if (currentDayFilter === 'all' || currentDayFilter === groupDay) {
+          group.style.display = 'block';
+        } else {
+          group.style.display = 'none';
+        }
+      });
+
+      // 2. 各チーム列の制御
+      const cols = document.querySelectorAll('.team-col');
+      cols.forEach(col => {
+        const colTeam = col.getAttribute('data-team');
+        if (currentTeamFilter === 'all' || currentTeamFilter === colTeam) {
+          col.style.display = 'flex';
+        } else {
+          col.style.display = 'none';
+        }
+      });
+    }
+
+    // 演舞完了チェック toggler
+    function toggleItemComplete(checkbox) {
+      const card = checkbox.closest('.sched-item');
+      if (checkbox.checked) {
+        card.classList.add('completed');
+      } else {
+        card.classList.remove('completed');
+      }
+    }
+
+    // スケジュールをクリップボードにコピー
+    function copyScheduleToClipboard() {
+      let text = '';
+      if (currentTeamFilter === 'rin') {
+        text = `【ダンスチーム凛 安濃津よさこい2026 演舞スケジュール ＆ 集合案内】\n\n` +
+          `■ 10月9日（金）前夜祭 [タイムスケジュール]\n` +
+          `・19:00 集合 (衣装着用/ストレッチ/メイク確認) @ センターパレス オープンステージ\n` +
+          `・19:30 出発 (荷物残さない/道中 郵便局前・裁判所前パレード会場全員で確認)\n` +
+          `・20:00 市役所裏本陣集合 (点呼後メイン会場待機)\n` +
+          `・20:20 前夜祭演舞 @ お城西公園会場\n` +
+          `・20:30 本陣集合 (点呼後待機)\n` +
+          `・20:50 うなぎサンバ @ メイン会場\n` +
+          `・21:00 本陣集合・点呼後総括 (翌日スケジュール確認・解散 すぐ帰る！)\n\n` +
+          `■ 10月10日（土）本祭1日目 [全5回]\n` +
+          `【集合】7:30 津市立養成小学校グラウンド (設営係: 6:45集合/7:00開始 お城西公園外時計台付近)\n` +
+          `・10:45 裁判所前会場(パレード)\n` +
+          `・12:22 お城西公園会場\n` +
+          `・13:54 フェニックス会場\n` +
+          `・15:18 裁判所前会場(パレード)（⭐凛審査演舞）\n` +
+          `・17:12 津中央郵便局前会場\n\n` +
+          `■ 10月11日（日）本祭2日目 [全5回]\n` +
+          `【集合】10:30 津市役所裏 本陣\n` +
+          `・11:30 津新町通り会場(パレード)\n` +
+          `・13:30 津駅前会場\n` +
+          `・15:04 お城西公園会場\n` +
+          `・19:37 裁判所前会場(パレード)\n` +
+          `・20:06 津中央郵便局前会場\n\n` +
+          `詳細: https://anotsu-yosakoi.com/`;
+      } else if (currentTeamFilter === 'jr') {
+        text = `【凛ジュニア 安濃津よさこい2026 演舞スケジュール ＆ 集合案内】\n\n` +
+          `■ 10月10日（土）本祭1日目 [全6回]\n` +
+          `【集合】7:30 津市立養成小学校グラウンド (設営係: 6:45集合/7:00開始 お城西公園外時計台付近)\n` +
+          `・10:26 裁判所前会場(パレード)\n` +
+          `・12:04 お城西公園会場\n` +
+          `・13:36 フェニックス会場\n` +
+          `・14:59 裁判所前会場(パレード)（⭐ジュニア審査演舞）\n` +
+          `・16:54 津中央郵便局前会場\n` +
+          `・18:00 お城西公園会場\n\n` +
+          `■ 10月11日（日）本祭2日目 [全5回]\n` +
+          `【集合】10:00 栄町公園\n` +
+          `・11:06 津駅前会場\n` +
+          `・12:32 お城西公園会場\n` +
+          `・14:06 津新町通り会場(パレード)\n` +
+          `・17:17 裁判所前会場(パレード)\n` +
+          `・18:06 津中央郵便局前会場\n\n` +
+          `詳細: https://anotsu-yosakoi.com/`;
+      } else {
+        text = `【安濃津よさこい2026 集合案内 ＆ 2チーム演舞スケジュール一覧】\n\n` +
+          `📍【各日程 集合案内】\n` +
+          `・10/9(金) 前夜祭: 19:00 センターパレス オープンステージ\n` +
+          `・10/10(土) 両チーム: 7:30 津市立養成小学校グラウンド (設営係: 6:45集合/7:00開始 お城西公園外時計台付近)\n` +
+          `・10/11(日) 凛: 10:30 津市役所裏 本陣 / ジュニア: 10:00 栄町公園\n\n` +
+          `■ 🔴 ダンスチーム凛\n` +
+          `・10/9(金)前夜祭: 20:20 お城西公園\n` +
+          `・10/10(土)本祭1日目: 10:45 裁判所前(パレード) / 12:22 お城西公園 / 13:54 フェニックス / 15:18 裁判所前(パレード)(⭐凛審査演舞) / 17:12 津中央郵便局前\n` +
+          `・10/11(日)本祭2日目: 11:30 津新町通り(パレード) / 13:30 津駅前 / 15:04 お城西公園 / 19:37 裁判所前(パレード) / 20:06 津中央郵便局前\n\n` +
+          `■ 🔵 凛ジュニア\n` +
+          `・10/10(土)本祭1日目: 10:26 裁判所前(パレード) / 12:04 お城西公園 / 13:36 フェニックス / 14:59 裁判所前(パレード)(⭐ジュニア審査演舞) / 16:54 津中央郵便局前 / 18:00 お城西公園\n` +
+          `・10/11(日)本祭2日目: 11:06 津駅前 / 12:32 お城西公園 / 14:06 津新町通り(パレード) / 17:17 裁判所前(パレード) / 18:06 津中央郵便局前\n\n` +
+          `詳細: https://anotsu-yosakoi.com/`;
+      }
+
+      navigator.clipboard.writeText(text).then(() => {
+        alert('演舞スケジュールをクリップボードにコピーしました！LINE等で共有できます。');
+      }).catch(err => {
+        alert('コピーに失敗しました。');
+      });
+    }
+  </script>
+</body>
+</html>

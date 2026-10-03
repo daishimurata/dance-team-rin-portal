@@ -43,6 +43,8 @@ function initMainCountdown() {
   const targetRin = new Date('2026-09-05T10:20:00+09:00').getTime(); // 9/5 10:20 弁天山公園
   const targetJr = new Date('2026-09-05T12:10:00+09:00').getTime();  // 9/5 12:10 弁天山公園
   const targetKids = new Date('2026-09-05T11:35:00+09:00').getTime(); // 9/5 11:35 鈴鹿ハンター
+  const targetAnotsuRin = new Date('2026-10-09T20:00:00+09:00').getTime(); // 10/9 20:00 前夜祭 (大人)
+  const targetAnotsuJr = new Date('2026-10-10T10:26:00+09:00').getTime();  // 10/10 10:26 裁判所前 (ジュニア)
 
   function updateTeam(targetTime, prefix) {
     const now = new Date().getTime();
@@ -78,6 +80,9 @@ function initMainCountdown() {
     updateTeam(targetRin, 'cd-rin');
     updateTeam(targetJr, 'cd-jr');
     updateTeam(targetKids, 'cd-kids');
+    updateTeam(targetAnotsuRin, 'cd-anotsu-rin');
+    updateTeam(targetAnotsuJr, 'cd-anotsu-jr');
+    updateTeam(targetAnotsuJr, 'cd-anotsu');
   }
 
   updateAll();
