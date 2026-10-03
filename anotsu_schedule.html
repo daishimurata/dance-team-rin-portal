@@ -54,13 +54,46 @@
     /* 2チーム横並び比較グリッド */
     .teams-comparison-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
       align-items: start;
     }
     @media (max-width: 768px) {
       .teams-comparison-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .team-col {
+        padding: 6px 4px !important;
+        min-width: 0;
+      }
+      .team-col-header {
+        padding: 6px 8px !important;
+        font-size: 0.78rem !important;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+      .sched-item {
+        padding: 8px 6px !important;
+        gap: 4px !important;
+        min-width: 0;
+      }
+      .sched-time {
+        font-size: 0.95rem !important;
+      }
+      .sched-title {
+        font-size: 0.8rem !important;
+        line-height: 1.35 !important;
+        word-break: break-word;
+      }
+      .sched-item .btn {
+        padding: 2px 4px !important;
+        font-size: 0.65rem !important;
+      }
+      .badge {
+        font-size: 0.65rem !important;
+        padding: 2px 4px !important;
       }
     }
 
@@ -2654,6 +2687,16 @@
           col.style.display = 'flex';
         } else {
           col.style.display = 'none';
+        }
+      });
+
+      // 3. グリッドの列数制御 (1チーム表示時は全幅1列、2チーム表示時は横並び2列)
+      const grids = document.querySelectorAll('.teams-comparison-grid');
+      grids.forEach(grid => {
+        if (currentTeamFilter === 'all') {
+          grid.style.gridTemplateColumns = '1fr 1fr';
+        } else {
+          grid.style.gridTemplateColumns = '1fr';
         }
       });
     }
